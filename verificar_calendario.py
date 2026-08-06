@@ -29,12 +29,17 @@ def data_da(ws, w, d):
 
 def main():
     problemas = []
+    comuns_por_par = {(a, b): G.classificar_par(a, b) for a, b in G.PARES_IRMAS}
+    irma = {a: b for a, b in G.PARES_IRMAS}
+    irma.update({b: a for a, b in G.PARES_IRMAS})
+
     for prop in (1, 2):
         caminho = os.path.join(OUT, f"Proposta_{prop}_Calendario_Provas_2026_2SEM.xlsx")
         wb = openpyxl.load_workbook(caminho, data_only=True)
+        provas_por_turma = {}
         for turma in G.GRADES:
             ws = wb[turma]
-            provas = []          # (data, w, d, disc, texto)
+            provas = []          # (data, w, d, disc, texto, tempo_ini, n_tempos, destacada)
             for w in range(1, 21):
                 r = G.week_row(w)
                 for col, d in COLS.items():
@@ -46,14 +51,26 @@ def main():
                        "Matéria |" in txt or txt.startswith(("2CH", "CC")):
                         continue
                     disc = txt.split("\n")[0].split(" - ")[0].strip()
-                    provas.append((data_da(ws, w, d), w, d, disc, txt))
+                    ult = txt.split("\n")[-1]
+                    nums = [int(x) for x in re.findall(r"(\d+)º", ult)]
+                    t_ini = nums[0] if nums else None
+                    n_t = (max(nums) - min(nums) + 1) if len(nums) >= 2 else \
+                        (1 if nums else None)
+                    cell = ws[f"{col}{r}"]
+                    cor = getattr(cell.fill.start_color, "rgb", None)
+                    destacada = cor not in (None, "00000000")
+                    provas.append((data_da(ws, w, d), w, d, disc, txt,
+                                  t_ini, n_t, destacada))
+            provas_por_turma[turma] = provas
 
+        for turma in G.GRADES:
+            provas = provas_por_turma[turma]
             pre = f"P{prop}/{turma}"
             grupo = G.grupo_turma(turma)
 
             # 1. max 3 avaliacoes por semana (simulado de 2 dias conta 1x)
             por_sem = collections.defaultdict(set)
-            for (dt, w, d, disc, _) in provas:
+            for (dt, w, d, disc, _tx, _ti, _nt, _ds) in provas:
                 cod = SIM_COD.match(disc)
                 por_sem[w].add(cod.group(1) if cod else disc)
             for w, s in por_sem.items():
@@ -68,13 +85,13 @@ def main():
                     problemas.append(f"{pre}: semana {w} com grupo 1 repetido {g1}")
 
             # 3. um exame por dia
-            dias = collections.Counter((w, d) for (_, w, d, _, _) in provas)
+            dias = collections.Counter((w, d) for (_, w, d, _tx, _x, _ti, _nt, _ds) in provas)
             for k, c in dias.items():
                 if c > 1:
                     problemas.append(f"{pre}: {c} provas no mesmo dia {k}")
 
             # 4. datas: dentro do periodo, sem feriado, sem a semana vetada
-            for (dt, w, d, disc, _) in provas:
+            for (dt, w, d, disc, _tx, _ti, _nt, _ds) in provas:
                 if dt < INICIO_P1:
                     problemas.append(f"{pre}: {disc} em {dt} antes de 17/08")
                 if dt > LIMITE[grupo]:
@@ -87,7 +104,7 @@ def main():
 
             # 5. numero de provas por disciplina
             cont = collections.Counter(
-                disc for (_, _, _, disc, _) in provas if not SIM_COD.match(disc))
+                disc for (_, _, _, disc, _tx, _ti, _nt, _ds) in provas if not SIM_COD.match(disc))
             for disc, c in cont.items():
                 esperado = 1 if disc in ("Fil", "Soc") or \
                     (turma.startswith("9") and disc in ("Bio", "Fis", "Qui")) else 2
@@ -97,32 +114,32 @@ def main():
                     problemas.append(f"{pre}: {disc} tem {c} provas (esperado {esperado})")
 
             # 5b. LP/LIT/RED usa 3 tempos nas turmas 10/11/12
-            for (_, _, _, disc, txt) in provas:
+            for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 if disc == "LP/LIT/RED":
                     ult = txt.split("\n")[-1]
                     if "ao" not in ult:
                         problemas.append(f"{pre}: LP/LIT/RED sem 3 tempos ({ult})")
 
             # 5c. simulados do 2o ao 7o tempo
-            for (_, _, _, disc, txt) in provas:
+            for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 if SIM_COD.match(disc) and "2º ao 7º" not in txt:
                     problemas.append(f"{pre}: simulado {disc} fora do 2o-7o tempo")
 
             # 6. disciplinas de 1 tempo usam 1 tempo
-            for (_, _, _, disc, txt) in provas:
+            for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 um_tempo = disc in ("Fil", "Soc") or \
                     (turma.startswith("9") and disc in ("Bio", "Fis", "Qui"))
                 if um_tempo and " e " in txt.split("\n")[-1]:
                     problemas.append(f"{pre}: {disc} com 2 tempos ({txt.split(chr(10))[-1]})")
 
             # 7. Ed. Fisica e afins nao tem prova
-            for (_, _, _, disc, _) in provas:
+            for (_, _, _, disc, _tx, _ti, _nt, _ds) in provas:
                 if disc.lower() in ("esp", "art", "tec", "finan", "socem", "proj"):
                     problemas.append(f"{pre}: prova indevida de {disc}")
 
             # 7b. provas nos tempos 7-11 so quando forem inevitaveis:
             #     a disciplina precisa nao ter NENHUM slot pela manha
-            for (_, _, _, disc, txt) in provas:
+            for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 if SIM_COD.match(disc):
                     continue
                 ult = txt.split("\n")[-1]
@@ -138,15 +155,27 @@ def main():
                     n = 3
                 elif len(nums) == 2:
                     n = 2
-                cedo = [1 for (_dd, tt, _x) in G.slots_da_disciplina(turma, d0, n)
-                        if not G._tarde(tt, n)]
+                # opcao de manha valida = nao e tarde E nao cruza o intervalo
+                # do recreio (essa restricao tem prioridade sobre a da tarde)
+                cedo = {(dd, tt) for (dd, tt, _x) in
+                        G.slots_da_disciplina(turma, d0, n)
+                        if not G._tarde(tt, n) and not G.cruza_intervalo(tt, n)}
+                # prova de professor comum e aplicada nas duas turmas irmas ao
+                # mesmo tempo: so vale como "opcao de manha" o slot que existe
+                # nas DUAS grades
+                par = comuns_por_par.get(tuple(sorted((turma, irma.get(turma, turma)))), {})
+                if d0 in par:
+                    outra = irma[turma]
+                    cedo &= {(dd, tt) for (dd, tt, _x) in
+                             G.slots_da_disciplina(outra, d0, n)
+                             if not G._tarde(tt, n) and not G.cruza_intervalo(tt, n)}
                 if cedo:
                     problemas.append(f"{pre}: {disc} nos tempos 7-11 ({ult}) "
                                      f"tendo {len(cedo)} opcao(oes) de manha")
 
             # 7c. disciplina de 1 tempo semanal nao pode ter cedido tempo
             veto = G.nao_doadoras(turma)
-            for (_, _, d_prova, disc, txt) in provas:
+            for (_, _, d_prova, disc, txt, _ti, _nt, _ds) in provas:
                 if SIM_COD.match(disc):
                     continue
                 chave = [k for k, v in G.NOME.items() if v == disc]
@@ -167,10 +196,48 @@ def main():
 
             # 8. simulados nas datas oficiais
             oficiais = {(w, d) for (w, d, c, l) in G.SIMULADOS[turma]}
-            achados = {(w, d) for (_, w, d, disc, _) in provas if SIM_COD.match(disc)}
+            achados = {(w, d) for (_, w, d, disc, _tx, _ti, _nt, _ds) in provas if SIM_COD.match(disc)}
             if oficiais != achados:
                 problemas.append(f"{pre}: simulados {sorted(achados)} != "
                                  f"oficiais {sorted(oficiais)}")
+
+            # 9. nenhuma prova cruza o intervalo do recreio, salvo as
+            #    sinalizadas com destaque de cor na celula
+            for (_, w, d, disc, txt, t_ini, n_t, destacada) in provas:
+                if SIM_COD.match(disc) or t_ini is None or n_t is None:
+                    continue
+                if G.cruza_intervalo(t_ini, n_t) and not destacada:
+                    problemas.append(
+                        f"{pre}: {disc} cruza o intervalo do recreio "
+                        f"({txt.split(chr(10))[-1]}) sem destaque na célula")
+
+            # 10. datas exigidas pela coordenacao (FORCAR_DATA)
+            for (turma2, disc2, _per2), (w_f, d_f) in G.FORCAR_DATA.items():
+                if turma2 != turma:
+                    continue
+                nome2 = G.NOME.get(disc2, disc2)
+                bate = [1 for (_, w, d, disc, *_r) in provas
+                        if disc == nome2 and (w, d) == (w_f, d_f)]
+                if not bate:
+                    problemas.append(
+                        f"{pre}: {nome2} não está na data exigida "
+                        f"(semana {w_f}, dia {d_f})")
+
+        # 11. provas de professor comum entre turmas irmas: mesmo dia/tempo
+        for (a, b), comuns in comuns_por_par.items():
+            pa = {}
+            for (_, w, d, disc, txt, t_ini, n_t, _ds) in provas_por_turma[a]:
+                pa.setdefault(disc, []).append((w, d, t_ini, n_t))
+            pb = {}
+            for (_, w, d, disc, txt, t_ini, n_t, _ds) in provas_por_turma[b]:
+                pb.setdefault(disc, []).append((w, d, t_ini, n_t))
+            for disc, (_tipo, _profs) in comuns.items():
+                nome = G.NOME.get(disc, disc)
+                if sorted(pa.get(nome, [])) != sorted(pb.get(nome, [])):
+                    problemas.append(
+                        f"P{prop}/{a}-{b}: {nome} tem professor comum mas as "
+                        f"provas não coincidem: {sorted(pa.get(nome, []))} vs "
+                        f"{sorted(pb.get(nome, []))}")
 
     if problemas:
         print(f"{len(problemas)} PROBLEMA(S):")
