@@ -1,6 +1,6 @@
 ---
 name: "calendario-provas"
-description: "Monta calendário de provas para turmas da escola, respeitando regras de distribuição entre disciplinas, limite semanal de avaliações, períodos de provas por turma/grupo de turmas (que podem variar entre grupos, ex.: turmas que viajam ao exterior terminam o ano mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas de várias disciplinas no mesmo dia (ex.: Português+Redação+Gramática em 3 tempos), disciplinas que têm só 1 prova no semestre dependendo da série/turma, grupos paralelos aplicando prova simultaneamente, e o uso de tempos de aula de outros professores quando uma prova precisa de tempos seguidos. Lê o horário-base das turmas (planilha, PDF ou imagem) e preenche planilha(s) de saída com as propostas de calendário, além de um relatório de trocas de tempo entre professores. Usar sempre que o usuário pedir para montar, gerar, revisar ou ajustar um calendário/plano de provas."
+description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Lê o horário-base (planilha, PDF ou imagem) e gera as propostas de calendário, o relatório de trocas de tempo entre professores e a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas."
 ---
 
 # Calendário de Provas
@@ -16,9 +16,11 @@ Montar um calendário de provas a partir de:
    semestre anterior, como referência do que costuma ter prova, quantos
    tempos cada disciplina usa, e quais exceções existem por turma/série.
 4. (Se houver) A tabela oficial de simulados / avaliações globais.
+5. A planilha de siglas de professores (sigla → nome completo).
 
 O resultado final são as **propostas de calendário** (quantidade combinada
-com o usuário) mais um **relatório de trocas de tempo entre professores**.
+com o usuário), um **relatório de trocas de tempo entre professores** e uma
+**tabela-resumo por turma**.
 
 ## Passo 0 — Perguntas obrigatórias antes de começar
 
@@ -183,6 +185,28 @@ LP/LIT/RED - BPad/MFo/SMo
 
    Claro o suficiente para ser usado direto na comunicação com os
    professores.
+3. **Tabela-resumo por turma** (uma aba por turma, um arquivo por proposta),
+   em formato de lista ordenada por data — é a visão que a coordenação usa
+   para conferir e divulgar. Colunas:
+
+   | Disciplina | Professor(es) | Dia e tempos da prova | Nº de tempos |
+   |---|---|---|---|
+
+   - **Professor(es)**: sigla **e** nome completo, buscados na planilha de
+     siglas (ex.: "BPad (Beatriz de Matos Ferreira Padrão)"). Quando a prova
+     tem vários professores (grupos paralelos, prova combinada), listar
+     todos separados por vírgula. As siglas na planilha de saída vêm
+     separadas por `/` ou `-` — quebrar por ambos.
+   - **Dia e tempos**: dia da semana por extenso + data + tempos
+     (ex.: "Quinta, 27/08/2026 — 1º ao 3º tempos").
+   - **Nº de tempos**: contar a faixa inteira (do primeiro ao último tempo),
+     não a quantidade de números escritos no rótulo.
+   - Simulados de 2 dias devem aparecer em **uma linha só**, com as duas
+     datas.
+   - Incluir os simulados/AG na tabela: eles são avaliações.
+   - Gerar essa tabela a partir das planilhas de calendário já gravadas,
+     em script separado — assim ela reflete o que foi realmente escrito, e
+     não o que o gerador acha que escreveu.
 
 ## Verificação obrigatória antes de entregar
 
@@ -209,5 +233,7 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Nenhuma prova em feriado, na semana vetada, antes do início do
       período ou depois da data-limite do grupo daquela turma
 - [ ] Todo tempo emprestado de outro professor está no relatório de trocas
+- [ ] A tabela-resumo tem o mesmo número de linhas que o calendário tem de
+      avaliações, e todas as siglas foram traduzidas em nomes
 - [ ] A estrutura de saída está conforme combinado
 

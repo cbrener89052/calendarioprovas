@@ -25,13 +25,26 @@ a cada semestre.
   memória do gerador) e confere o checklist: limite de 3 avaliações por
   semana, disciplinas do grupo 1 sem coincidir, feriados, semana vetada,
   datas-limite por grupo de turma, simulados nas datas oficiais, número de
-  provas por disciplina.
+  provas por disciplina, provas à tarde só quando inevitáveis, e nenhum
+  tempo cedido por disciplina de uma aula semanal.
+- **`exportar_tabelas_turma.py`** — gera a tabela-resumo por turma a partir
+  das propostas já gravadas: disciplina, professores (sigla + nome completo),
+  dia e tempos da prova, e número de tempos. Uma aba por turma.
+
+## Como rodar (em qualquer máquina)
 
 ```bash
+git clone https://github.com/cbrener89052/calendarioprovas.git
+cd calendarioprovas
 pip install openpyxl
-python gerar_calendario.py
-python verificar_calendario.py
+
+python gerar_calendario.py        # gera as 2 propostas + relatório de trocas
+python verificar_calendario.py    # confere tudo; deve terminar com "OK"
+python exportar_tabelas_turma.py  # gera as tabelas-resumo por turma
 ```
+
+A skill fica em `.claude/skills/calendario-provas/` e é carregada
+automaticamente pelo Claude Code ao abrir esta pasta.
 
 ## Regras aplicadas (2º semestre de 2026)
 
