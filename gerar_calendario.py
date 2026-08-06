@@ -11,8 +11,13 @@ As grades das turmas foram extraidas do PDF turmas9a12_2osemestre2026.pdf
 por leitura visual e conferidas contra siglas_profs_aux_etc.xlsx.
 """
 import openpyxl, shutil, os, random, copy
-from openpyxl.styles import Alignment
+from openpyxl.styles import Alignment, PatternFill
 from openpyxl.utils import get_column_letter
+
+# destaque visual para provas que precisaram cruzar o intervalo do recreio
+# por falta de qualquer outra alternativa (ver regra na skill)
+DESTAQUE_INTERVALO = PatternFill(start_color="FFC000", end_color="FFC000",
+                                  fill_type="solid")
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(BASE, "Klausurplan_2026_2SEM.xlsx")
@@ -453,6 +458,17 @@ def _tarde(t, n):
     return (t + n - 1) >= PRIMEIRO_TEMPO_TARDE
 
 
+INTERVALOS = (3, 5)   # recreio depois do 3o tempo e depois do 5o tempo
+
+
+def cruza_intervalo(t, n):
+    """True se o bloco [t, t+n-1] atravessar o recreio (depois do 3o ou do
+    5o tempo). Restricao de maior prioridade: so aceita como ultimo
+    recurso (ver 'Regras de distribuicao das provas' na skill)."""
+    fim = t + n - 1
+    return any(t <= b and fim >= b + 1 for b in INTERVALOS)
+
+
 def slots_da_disciplina(turma, disc, n_tempos):
     """(dia, tempo_inicial, doador) onde cabe a prova.
 
@@ -478,9 +494,10 @@ def slots_da_disciplina(turma, disc, n_tempos):
             doadores = [x for x in trio if x[0] not in COMBINA_PORT]
             if any(x[0] in veto for x in doadores):
                 continue                      # disciplina de 1 tempo nao doa
-            cand.append((_tarde(t, 3), -proprios, d, t, tuple(doadores)))
+            cand.append((cruza_intervalo(t, 3), _tarde(t, 3), -proprios, d, t,
+                         tuple(doadores)))
         cand.sort()
-        return [(d, t, doad or None) for (_, _, d, t, doad) in cand]
+        return [(d, t, doad or None) for (_, _, _, d, t, doad) in cand]
 
     for (d, t), (dd, _) in sorted(grade.items()):
         if dd != disc:
@@ -494,9 +511,11 @@ def slots_da_disciplina(turma, disc, n_tempos):
         ant = grade.get((d, t - 1))
         if ant is not None and ant[0] != disc and ant[0] not in veto:
             out.append((d, t - 1, ant))
-    # remove duplicatas e poe os horarios da manha na frente
+    # remove duplicatas e poe os horarios sem cruzar intervalo e da manha
+    # na frente
     vistos, unicos = set(), []
-    for s in sorted(out, key=lambda s: (_tarde(s[1], n_tempos), s[0], s[1])):
+    for s in sorted(out, key=lambda s: (cruza_intervalo(s[1], n_tempos),
+                                        _tarde(s[1], n_tempos), s[0], s[1])):
         k = (s[0], s[1])
         if k not in vistos:
             vistos.add(k)
@@ -506,31 +525,81 @@ def slots_da_disciplina(turma, disc, n_tempos):
 
 MAX_NOS = 60000
 
+# Provas com dia/tempo forcados por exigencia externa (turma, disc, periodo)
+# -> (semana, dia). Ex.: 1a prova de Ingles da 10C2 tem que cair em
+# 01/09/2026 (terca, semana 5) -- pedido da coordenacao.
+FORCAR_DATA = {
+    ("10C2", "ing", 1): (5, 2),
+}
 
-def _tentar(turma, seed, max_g1, max_tarde):
-    """Backtracking sob duas folgas controladas.
 
-    max_g1    : quantas disciplinas do grupo 1 podem cair na mesma semana
-    max_tarde : quantas provas da turma podem usar os tempos 7 a 11
+def par_g1_permitido(atuais, disc):
+    """Excecao confirmada pela escola: duas provas do grupo 1 na mesma
+    semana so sao aceitaveis quando uma delas for Ingles."""
+    g1 = [a for a in atuais if eh_grupo1(a)] + [disc]
+    return any(x == "ing" or x == "__forcado_ing__" for x in g1)
+
+
+def eh_grupo1(nome):
+    """True para disciplina do grupo 1 ou para o marcador de reserva de uma
+    prova do grupo 1 com data forcada (ver FORCAR_DATA)."""
+    if nome in GRUPO1:
+        return True
+    if nome.startswith("__forcado_") and nome.endswith("__"):
+        return nome[len("__forcado_"):-2] in GRUPO1
+    return False
+
+
+def doador_discs(doador):
+    """Nomes de disciplina dos tempos doados (0, 1 ou varios)."""
+    if not doador:
+        return set()
+    if isinstance(doador[0], tuple):
+        return {dd for (dd, _dp) in doador}
+    return {doador[0]}
+
+
+def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
+            preocupado_dia=None, pre_por_semana=None, excluir=None):
+    """Backtracking sob tres folgas controladas, da de maior para a de
+    menor prioridade (quem chama itera max_intervalo por fora de
+    max_tarde, que fica por fora de max_g1):
+
+    max_intervalo : quantas provas podem cruzar o intervalo do recreio
+                    (3o/4o ou 5o/6o tempos) -- maior prioridade de todas
+    max_g1        : quantas disciplinas do grupo 1 podem cair na mesma semana
+    max_tarde     : quantas provas da turma podem usar os tempos 7 a 11
+    preocupado_dia, pre_por_semana : (w,d) e disciplinas ja comprometidas
+        por provas conjuntas com a turma irma (ver resolver_par) -- contam
+        para os limites desta turma mas nao sao realocadas aqui.
+    excluir : nomes de disciplina ja resolvidos por resolver_par (nao
+        entram nesta busca, so contam via preocupado_dia/pre_por_semana).
     """
     rnd = random.Random(seed)
-    exames = montar_exames(turma)
+    exames = [e for e in montar_exames(turma) if e[0] not in (excluir or ())]
     rnd.shuffle(exames)
     exames.sort(key=lambda e: len(slots_da_disciplina(turma, e[0], e[2])))
 
-    ocupado_dia = set()      # (w, d)
-    por_semana = {}          # w -> [disc, ...]  (simulado de 2 dias conta 1 vez)
+    ocupado_dia = set(preocupado_dia or ())        # (w, d)
+    por_semana = {w: list(v) for w, v in (pre_por_semana or {}).items()}
     for (w, d, cod, _lab) in SIMULADOS[turma]:
         ocupado_dia.add((w, d))
         atuais = por_semana.setdefault(w, [])
         if cod not in atuais:
             atuais.append(cod)
+    # dias reservados so para segurar o lugar de uma prova com data forcada
+    # (ver resolver_par) -- aqui e onde essa prova de fato vai ser alocada,
+    # entao o dia precisa ficar livre para ela.
+    for (turma2, _disc2, _per2), (w, d) in FORCAR_DATA.items():
+        if turma2 == turma:
+            ocupado_dia.discard((w, d))
 
     resultado = []
     nos = [0]
     tarde = [0]
+    intervalo_cnt = [0]
 
-    def cabe(w, d, disc):
+    def cabe(w, d, disc, marcador=None):
         if not dia_permitido(turma, w, d):
             return False
         if (w, d) in OCUPADAS.get(turma, ()):
@@ -538,12 +607,18 @@ def _tentar(turma, seed, max_g1, max_tarde):
         if (w, d) in ocupado_dia:
             return False
         atuais = por_semana.get(w, [])
-        if len(atuais) >= 3:
+        # o marcador de reserva (ver FORCAR_DATA) representa esta mesma
+        # prova -- nao conta como uma avaliacao extra na semana
+        n_atuais = len(atuais) - (1 if marcador and marcador in atuais else 0)
+        if n_atuais >= 3:
             return False
         if disc in atuais:
             return False
         if disc in GRUPO1:
-            if sum(1 for a in atuais if a in GRUPO1) >= max_g1:
+            if sum(1 for a in atuais if eh_grupo1(a)) >= max_g1:
+                return False
+            if sum(1 for a in atuais if eh_grupo1(a)) >= 1 and \
+               not par_g1_permitido(atuais, disc):
                 return False
         return True
 
@@ -561,14 +636,27 @@ def _tentar(turma, seed, max_g1, max_tarde):
 
     def opcoes(ex):
         disc, prof, n, per = ex
+        forc = FORCAR_DATA.get((turma, disc, per))
+        marcador = f"__forcado_{disc}__" if forc else None
         out = []
-        for w in semanas_do(per):
+        semanas = [forc[0]] if forc else semanas_do(per)
+        for w in semanas:
             for (d, t, doador) in SLOTS[(disc, n)]:
+                if forc and d != forc[1]:
+                    continue
+                if cruza_intervalo(t, n) and intervalo_cnt[0] >= max_intervalo:
+                    continue
                 if _tarde(t, n) and tarde[0] >= max_tarde:
                     continue
-                if cabe(w, d, disc):
+                if cabe(w, d, disc, marcador):
                     out.append((w, d, t, doador))
         return out
+
+    def donor_hist():
+        hist = {}
+        for (_w, _d, _t, _n, dc, _p, doad) in resultado:
+            hist.setdefault(dc, set()).update(doador_discs(doad))
+        return hist
 
     def bt(restantes):
         nos[0] += 1
@@ -588,29 +676,55 @@ def _tentar(turma, seed, max_g1, max_tarde):
                     break
         disc, prof, n, per = melhor
         rnd.shuffle(melhor_ops)
-        # 1o espalha (semanas menos cheias); 2o prefere o slot melhor ranqueado
-        # em SLOTS (para LP/LIT/RED = menos tempo emprestado)
+        # Ordem de preferencia (da maior para a menor prioridade):
+        # 1) nunca cruzar o intervalo do recreio
+        # 2) evitar os tempos 7-11
+        # 3) espalhar (semanas menos cheias)
+        # 4) alternar de qual lado vem o tempo emprestado, quando a mesma
+        #    disciplina ja tomou tempo do mesmo doador numa prova anterior
+        #    do semestre (desempate, nunca piora os criterios acima)
+        # 5) slot melhor ranqueado em SLOTS (LP/LIT/RED = menos tempo
+        #    emprestado)
+        hist = donor_hist().get(disc, set())
         ordem = {(d, t): i for i, (d, t, _) in enumerate(SLOTS[(disc, n)])}
-        melhor_ops.sort(key=lambda o: (_tarde(o[2], n),
-                                       len(por_semana.get(o[0], [])),
-                                       ordem.get((o[1], o[2]), 99)))
+        melhor_ops.sort(key=lambda o: (
+            cruza_intervalo(o[2], n),
+            _tarde(o[2], n),
+            len(por_semana.get(o[0], [])),
+            1 if doador_discs(o[3]) & hist else 0,
+            ordem.get((o[1], o[2]), 99),
+        ))
         resto = [e for e in restantes if e is not melhor]
         for (w, d, t, doador) in melhor_ops:
+            cruza = cruza_intervalo(t, n)
+            if cruza and intervalo_cnt[0] >= max_intervalo:
+                continue
             eh_tarde = _tarde(t, n)
             if eh_tarde and tarde[0] >= max_tarde:
                 continue
+            if cruza:
+                intervalo_cnt[0] += 1
             if eh_tarde:
                 tarde[0] += 1
             ocupado_dia.add((w, d))
-            por_semana.setdefault(w, []).append(disc)
+            marcador = f"__forcado_{disc}__" if FORCAR_DATA.get((turma, disc, per)) else None
+            semana_atual = por_semana.setdefault(w, [])
+            tinha_marcador = marcador is not None and marcador in semana_atual
+            if tinha_marcador:
+                semana_atual.remove(marcador)
+            semana_atual.append(disc)
             resultado.append((w, d, t, n, disc, prof, doador))
             if bt(resto):
                 return True
             resultado.pop()
             por_semana[w].remove(disc)
+            if tinha_marcador:
+                por_semana[w].append(marcador)
             ocupado_dia.discard((w, d))
             if eh_tarde:
                 tarde[0] -= 1
+            if cruza:
+                intervalo_cnt[0] -= 1
         return False
 
     try:
@@ -619,19 +733,267 @@ def _tentar(turma, seed, max_g1, max_tarde):
         return False, []
 
 
-def resolver(turma, seed):
-    """Procura a melhor solucao: primeiro tenta zero provas nos tempos 7-11
-    e sem sobreposicao do grupo 1, e so vai afrouxando quando nao houver
-    saida. O numero de provas na parte da tarde e minimizado antes de
-    aceitar sobreposicao do grupo 1."""
-    n_exames = len(montar_exames(turma))
-    for max_tarde in range(0, n_exames + 1):
-        for max_g1 in (1, 2, 3):
-            ok, res = _tentar(turma, seed + 17 * max_tarde, max_g1, max_tarde)
-            if ok:
-                usadas = sum(1 for (_w, _d, t, n, *_r) in res if _tarde(t, n))
-                return ok, res, max_g1, usadas
-    return False, [], 3, 0
+def resolver(turma, seed, preocupado_dia=None, pre_por_semana=None, excluir=None):
+    """Procura a melhor solucao, afrouxando as folgas na ordem de
+    prioridade: primeiro tenta nunca cruzar o intervalo do recreio; so
+    depois de esgotar isso passa a tentar reduzir provas nos tempos 7-11;
+    e so por ultimo aceita sobreposicao do grupo 1."""
+    n_exames = len([e for e in montar_exames(turma) if e[0] not in (excluir or ())])
+    for max_intervalo in range(0, n_exames + 1):
+        for max_tarde in range(0, n_exames + 1):
+            for max_g1 in (1, 2, 3):
+                ok, res = _tentar(turma, seed + 17 * max_tarde + 131 * max_intervalo,
+                                  max_g1, max_tarde, max_intervalo,
+                                  preocupado_dia, pre_por_semana, excluir)
+                if ok:
+                    usadas = sum(1 for (_w, _d, t, n, *_r) in res if _tarde(t, n))
+                    cruzadas = sum(1 for (_w, _d, t, n, *_r) in res
+                                   if cruza_intervalo(t, n))
+                    return ok, res, max_g1, usadas, cruzadas
+    return False, [], 3, 0, 0
+
+
+# ------------------------------------------------- PROVAS ENTRE TURMAS IRMAS
+# Quando a mesma pessoa leciona uma disciplina nas duas turmas de uma serie
+# (ex.: 10C1/10C2), a prova tem que ser aplicada simultaneamente -- o
+# professor nao pode estar em dois lugares ao mesmo tempo. Isso vale mesmo
+# quando a disciplina ja e "grupo paralelo" que abrange as duas turmas
+# (Alemao/DaF, GL, Ingles em algumas series): mesmo la, a SEMANA da prova
+# ainda e uma escolha unica que tem que ser igual nas duas abas. Ver a
+# regra "Disciplina com professor comum entre turmas irmas" na skill.
+PARES_IRMAS = [("9C1", "9C2"), ("10C1", "10C2"), ("11C1", "11C2"), ("12C1", "12C2")]
+
+
+def _discs_de(disc):
+    return COMBINA_PORT if disc == "LPLITRED" else {disc}
+
+
+def profs_do_disc(turma, disc):
+    alvo = _discs_de(disc)
+    return {p for (dd, p) in GRADES[turma].values() if dd in alvo}
+
+
+def posicoes_do_disc(turma, disc):
+    alvo = _discs_de(disc)
+    return {(d, t) for (d, t), (dd, _p) in GRADES[turma].items() if dd in alvo}
+
+
+def classificar_par(a, b):
+    """disc -> ('combinada'|'coordenar', profs) para as disciplinas com
+    professor comum entre as turmas irmas a/b. 'combinada': mesmo
+    dia/tempo hoje na grade (ja e grupo paralelo entre as duas turmas,
+    so falta escolher a semana). 'coordenar': mesmo professor, tempos
+    diferentes em cada turma (precisa achar um dia/tempo em comum)."""
+    exa = {d: p for (d, p, _n, _per) in montar_exames(a)}
+    exb = {d: p for (d, p, _n, _per) in montar_exames(b)}
+    out = {}
+    for disc in sorted(set(exa) & set(exb)):
+        if exa[disc] != exb[disc]:
+            continue                       # professores diferentes -> independente
+        pa, pb = posicoes_do_disc(a, disc), posicoes_do_disc(b, disc)
+        tipo = "combinada" if pa == pb else "coordenar"
+        out[disc] = (tipo, exa[disc])
+    return out
+
+
+def bloco(turma, e_propria, d, t, n, veto):
+    """Tempos [t, t+n-1] do dia d na turma: lista de n itens, cada um None
+    (tempo proprio da disciplina) ou (disc, prof) de quem doa aquele
+    tempo. None (o retorno inteiro) se algum tempo nao existir na grade
+    (dia sem aula ou almoco) ou for de disciplina que nao pode doar."""
+    out = []
+    for k in range(n):
+        cell = GRADES[turma].get((d, t + k))
+        if cell is None:
+            return None
+        dd, dp = cell
+        if e_propria(dd):
+            out.append(None)
+        else:
+            if dd in veto:
+                return None
+            out.append((dd, dp))
+    return out
+
+
+def doador_de_bloco(bl):
+    doados = [x for x in bl if x is not None]
+    if not doados:
+        return None
+    if len(doados) == 1:
+        return doados[0]
+    return tuple(doados)
+
+
+def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
+    """Como _tentar(), mas decide de uma vez as provas de professor comum
+    entre as turmas irmas a/b, no mesmo dia e tempo nas duas."""
+    comuns = classificar_par(a, b)
+    exames = []
+    for (d, p, n, per) in montar_exames(a):
+        if d in comuns:
+            exames.append((d, p, n, per))
+    if not exames:
+        return True, [], [], set(), {}, set(), {}
+
+    rnd = random.Random(seed)
+    rnd.shuffle(exames)
+
+    veto_a, veto_b = nao_doadoras(a), nao_doadoras(b)
+
+    ocupado_a, ocupado_b = set(), set()
+    por_semana_a, por_semana_b = {}, {}
+    for (turma, ocup, psem) in ((a, ocupado_a, por_semana_a), (b, ocupado_b, por_semana_b)):
+        for (w, d, cod, _lab) in SIMULADOS[turma]:
+            ocup.add((w, d))
+            atuais = psem.setdefault(w, [])
+            if cod not in atuais:
+                atuais.append(cod)
+        # reserva os dias de provas com data forcada (ex.: Ingles 10C2 em
+        # 01/09) para que as provas conjuntas desta secao nao os ocupem.
+        # Usa um marcador (nao o nome real da disciplina) para nao colidir
+        # com a checagem "disciplina ja nessa semana" quando a prova real
+        # for alocada depois, no resolver() da propria turma.
+        for (turma2, disc2, _per2), (w, d) in FORCAR_DATA.items():
+            if turma2 != turma:
+                continue
+            ocup.add((w, d))
+            marcador = f"__forcado_{disc2}__"
+            atuais = psem.setdefault(w, [])
+            if marcador not in atuais:
+                atuais.append(marcador)
+
+    resultado_a, resultado_b = [], []
+    nos = [0]
+    tarde = [0]
+    intervalo_cnt = [0]
+
+    def cabe(turma, ocup, psem, w, d, disc):
+        if not dia_permitido(turma, w, d):
+            return False
+        if (w, d) in OCUPADAS.get(turma, ()):
+            return False
+        if (w, d) in ocup:
+            return False
+        atuais = psem.get(w, [])
+        if len(atuais) >= 3:
+            return False
+        if disc in atuais:
+            return False
+        if disc in GRUPO1:
+            if sum(1 for x in atuais if eh_grupo1(x)) >= max_g1:
+                return False
+            if sum(1 for x in atuais if eh_grupo1(x)) >= 1 and \
+               not par_g1_permitido(atuais, disc):
+                return False
+        return True
+
+    def semanas_do(per):
+        if per == 1:
+            return P1_SEMANAS
+        if per == 2:
+            return semanas_p2(a)           # a e b sao do mesmo grupo de turma
+        return list(semanas_p2(a)) + list(P1_SEMANAS)
+
+    def opcoes(ex):
+        disc, prof, n, per = ex
+        e_propria = (lambda dd: dd in COMBINA_PORT) if disc == "LPLITRED" \
+            else (lambda dd: dd == disc)
+        out = []
+        for w in semanas_do(per):
+            for d in range(1, 6):
+                for t in range(1, 12):
+                    if cruza_intervalo(t, n) and intervalo_cnt[0] >= max_intervalo:
+                        continue
+                    if _tarde(t, n) and tarde[0] >= max_tarde:
+                        continue
+                    bl_a = bloco(a, e_propria, d, t, n, veto_a)
+                    if bl_a is None:
+                        continue
+                    bl_b = bloco(b, e_propria, d, t, n, veto_b)
+                    if bl_b is None:
+                        continue
+                    if all(x is not None for x in bl_a) and all(x is not None for x in bl_b):
+                        continue    # nenhuma das duas turmas tem tempo proprio ali
+                    if not cabe(a, ocupado_a, por_semana_a, w, d, disc):
+                        continue
+                    if not cabe(b, ocupado_b, por_semana_b, w, d, disc):
+                        continue
+                    custo = sum(x is not None for x in bl_a) + sum(x is not None for x in bl_b)
+                    out.append((w, d, t, bl_a, bl_b, custo))
+        return out
+
+    def bt(restantes):
+        nos[0] += 1
+        if nos[0] > MAX_NOS:
+            raise TimeoutError
+        if not restantes:
+            return True
+        melhor, melhor_ops = None, None
+        for ex in restantes:
+            ops = opcoes(ex)
+            if not ops:
+                return False
+            if melhor_ops is None or len(ops) < len(melhor_ops):
+                melhor, melhor_ops = ex, ops
+                if len(ops) == 1:
+                    break
+        disc, prof, n, per = melhor
+        rnd.shuffle(melhor_ops)
+        melhor_ops.sort(key=lambda o: (
+            cruza_intervalo(o[2], n),
+            _tarde(o[2], n),
+            len(por_semana_a.get(o[0], [])) + len(por_semana_b.get(o[0], [])),
+            o[5],
+        ))
+        resto = [e for e in restantes if e is not melhor]
+        for (w, d, t, bl_a, bl_b, _custo) in melhor_ops:
+            cruza = cruza_intervalo(t, n)
+            eh_tarde = _tarde(t, n)
+            if cruza:
+                intervalo_cnt[0] += 1
+            if eh_tarde:
+                tarde[0] += 1
+            ocupado_a.add((w, d)); ocupado_b.add((w, d))
+            por_semana_a.setdefault(w, []).append(disc)
+            por_semana_b.setdefault(w, []).append(disc)
+            resultado_a.append((w, d, t, n, disc, prof, doador_de_bloco(bl_a)))
+            resultado_b.append((w, d, t, n, disc, prof, doador_de_bloco(bl_b)))
+            if bt(resto):
+                return True
+            resultado_a.pop(); resultado_b.pop()
+            por_semana_a[w].remove(disc); por_semana_b[w].remove(disc)
+            ocupado_a.discard((w, d)); ocupado_b.discard((w, d))
+            if eh_tarde:
+                tarde[0] -= 1
+            if cruza:
+                intervalo_cnt[0] -= 1
+        return False
+
+    try:
+        ok = bt(list(exames))
+    except TimeoutError:
+        ok = False
+    return ok, resultado_a, resultado_b, ocupado_a, por_semana_a, ocupado_b, por_semana_b
+
+
+def resolver_par(a, b, seed):
+    """Resolve, na ordem de prioridade (intervalo > tarde > grupo1), todas
+    as provas de professor comum entre as turmas irmas a/b, aplicadas
+    simultaneamente. Retorna as alocacoes conjuntas mais o que cada turma
+    ja tem ocupado, para o resolver() de cada turma completar o resto."""
+    comuns = classificar_par(a, b)
+    n_exames = len(comuns)
+    for max_intervalo in range(0, n_exames + 1):
+        for max_tarde in range(0, n_exames + 1):
+            for max_g1 in (1, 2, 3):
+                (ok, res_a, res_b, ocup_a, psem_a, ocup_b, psem_b) = _tentar_par(
+                    a, b, seed + 17 * max_tarde + 131 * max_intervalo,
+                    max_g1, max_tarde, max_intervalo)
+                if ok:
+                    return res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns
+    print(f"  !! {a}/{b}: NAO foi possivel coordenar as provas de professor comum")
+    return [], [], set(), {}, set(), {}, comuns
 
 
 # ---------------------------------------------------------------- ESCRITA
@@ -686,6 +1048,8 @@ def escrever(proposta, alocacoes):
             cell.value = f"{NOME[disc]} - {prof}\n\n{rotulo_tempo(t, n)}"
             cell.alignment = Alignment(wrap_text=True, vertical="center",
                                        horizontal="center")
+            if cruza_intervalo(t, n):
+                cell.fill = DESTAQUE_INTERVALO
         for (w, d, cod, lab) in SIMULADOS[turma]:
             r = week_row(w)
             c = COL[d]
@@ -701,20 +1065,54 @@ def escrever(proposta, alocacoes):
     return dst
 
 
-def relatorio(alocacoes_por_proposta):
+def relatorio(alocacoes_por_proposta, comuns_por_par):
+    irma = {a: b for a, b in PARES_IRMAS}
+    irma.update({b: a for a, b in PARES_IRMAS})
+
     linhas = ["# Relatório de trocas de tempo entre professores",
               "",
-              "Provas de 2 tempos em que o 2º tempo pertence a outra disciplina.",
-              "O professor doador precisa ceder o tempo naquele dia.",
+              "Provas de tempos seguidos em que algum tempo pertence a outra",
+              "disciplina. O professor doador precisa ceder o tempo naquele dia.",
               ""]
+
+    linhas += ["## Provas coordenadas entre turmas irmãs", "",
+               "Disciplinas com o mesmo professor nas duas turmas de uma série",
+               "(ver regra na skill). \"Já combinada\" é grupo paralelo que já",
+               "abrange as duas turmas hoje (Alemão/DaF, GL...); \"coordenada\"",
+               "precisou de um dia/tempo em comum novo, porque o professor dá",
+               "aula em horários diferentes em cada turma.", "",
+               "| Turmas | Disciplina | Situação |",
+               "|---|---|---|"]
+    for (a, b), comuns in comuns_por_par.items():
+        for disc, (tipo, _profs) in sorted(comuns.items()):
+            situ = "Já combinada (grupo paralelo)" if tipo == "combinada" \
+                else "Coordenada (professor comum, tempos diferentes)"
+            linhas.append(f"| {a}/{b} | {NOME.get(disc, disc)} | {situ} |")
+    linhas.append("")
+
     for prop, alocacoes in alocacoes_por_proposta.items():
         linhas += [f"## Proposta {prop}", "",
                    "| Turma | Disciplina/Prof. solicitante | Tempo necessário | "
-                   "Prof. doador | Disciplina do tempo doado | Ação |",
-                   "|---|---|---|---|---|---|"]
+                   "Prof. doador | Disciplina do tempo doado | Ação | Observação |",
+                   "|---|---|---|---|---|---|---|"]
         for turma, itens in alocacoes.items():
+            comuns = comuns_por_par.get(tuple(sorted((turma, irma.get(turma, turma)))), {})
             for (w, d, t, n, disc, prof, doador) in sorted(itens):
+                obs = []
+                if cruza_intervalo(t, n):
+                    obs.append("⚠ Cruza o intervalo do recreio — nenhuma "
+                                "outra combinação coube")
+                if disc in comuns:
+                    tipo, _ = comuns[disc]
+                    if tipo == "coordenar":
+                        obs.append(f"Prova conjunta com {irma[turma]} "
+                                   "(professor comum, tempos coordenados)")
+                    else:
+                        obs.append(f"Grupo paralelo já combinado com {irma[turma]}")
+                obs_txt = "; ".join(obs)
                 if not doador:
+                    if obs_txt:
+                        linhas.append(f"| {turma} | {NOME[disc]} / {prof} | — | — | — | — | {obs_txt} |")
                     continue
                 doadores = doador if isinstance(doador[0], tuple) else (doador,)
                 for (dd, dp) in doadores:
@@ -725,7 +1123,7 @@ def relatorio(alocacoes_por_proposta):
                         f"| {turma} | {NOME[disc]} / {prof} | {tl} tempo(s) "
                         f"({DIAS[d]}, semana {w}) | {dp} | {NOME.get(dd, dd)} | "
                         f"Solicitar ao prof. {dp} a cessão do(s) tempo(s) {tl} de "
-                        f"{NOME.get(dd, dd)} para a prova de {NOME[disc]} |")
+                        f"{NOME.get(dd, dd)} para a prova de {NOME[disc]} | {obs_txt} |")
         linhas.append("")
     p = os.path.join(OUT, "Relatorio_trocas_de_tempo.md")
     with open(p, "w", encoding="utf-8") as f:
@@ -736,11 +1134,38 @@ def relatorio(alocacoes_por_proposta):
 def main():
     os.makedirs(OUT, exist_ok=True)
     carregar_ocupadas()
+
+    comuns_por_par = {(a, b): classificar_par(a, b) for a, b in PARES_IRMAS}
+
     todas = {}
     for prop, seed in [(1, 20260806), (2, 99887766)]:
         aloc = {}
+        preocup_dia, pre_psem, excluir_por_turma = {}, {}, {}
+
+        # 1) provas de professor comum entre turmas irmas, coordenadas ou
+        #    ja combinadas -- decididas antes, para as duas turmas de vez.
+        for (a, b) in PARES_IRMAS:
+            res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns = resolver_par(
+                a, b, seed + sum(map(ord, a + b)))
+            aloc[a] = list(res_a)
+            aloc[b] = list(res_b)
+            preocup_dia[a], pre_psem[a] = ocup_a, psem_a
+            preocup_dia[b], pre_psem[b] = ocup_b, psem_b
+            excluir_por_turma[a] = set(comuns)
+            excluir_por_turma[b] = set(comuns)
+            if len(res_a) < len(comuns):
+                print(f"  !! {a}/{b}: só {len(res_a)} de {len(comuns)} provas "
+                      "comuns foram coordenadas")
+
+        # 2) o resto de cada turma (disciplinas independentes, ex. Ingles
+        #    nas turmas 10/11/12), preenchendo ao redor do que ja foi
+        #    decidido acima.
         for turma in GRADES:
-            ok, res, g1, tarde = resolver(turma, seed + sum(map(ord, turma)))
+            ok, res, g1, tarde, cruzadas = resolver(
+                turma, seed + sum(map(ord, turma)),
+                preocupado_dia=preocup_dia.get(turma),
+                pre_por_semana=pre_psem.get(turma),
+                excluir=excluir_por_turma.get(turma))
             if not ok:
                 print(f"  !! {turma}: NAO foi possivel alocar tudo")
             else:
@@ -752,13 +1177,15 @@ def main():
                         f"{NOME[dc]} ({rotulo_tempo(t, n)})"
                         for (_w, _d, t, n, dc, *_r) in sorted(res) if _tarde(t, n))
                     avisos.append(f"{tarde} prova(s) nos tempos 7-11: {tardias}")
+                if cruzadas:
+                    avisos.append(f"{cruzadas} prova(s) cruzando o intervalo do recreio")
                 if avisos:
                     print(f"  ~  {turma}: " + "; ".join(avisos))
-            aloc[turma] = res
+            aloc[turma].extend(res)
         caminho = escrever(prop, aloc)
         todas[prop] = aloc
         print(f"Proposta {prop} -> {caminho}")
-    print("Relatorio ->", relatorio(todas))
+    print("Relatorio ->", relatorio(todas, comuns_por_par))
 
 
 if __name__ == "__main__":

@@ -79,8 +79,45 @@ Nunca comece a montar o calendário sem antes:
     professor com o seu grupo; conta como 1 avaliação da turma.
 12. **Perguntar se há sala padrão de provas.** Nesta escola **não há** —
     o campo de sala fica em branco.
+13. **Checar se há professor comum entre turmas irmãs** (ex.: 10C1 e 10C2
+    da mesma série) para cada disciplina, comparando as siglas do professor
+    no horário-base — não perguntar ao usuário, isso se verifica direto nos
+    dados. Ver regra de aplicação simultânea abaixo.
 
 ## Regras de distribuição das provas
+
+- **Disciplina com professor comum entre turmas irmãs**: antes de alocar,
+  confira nas siglas **e nas posições (dia/tempo)** do horário-base se a
+  mesma pessoa leciona aquela disciplina nas duas turmas, e distinga dois
+  casos:
+  - **Já é aula combinada** (mesmo professor(es) **no mesmo dia e tempo**
+    nas duas turmas, hoje, na grade normal — ex.: Alemão/DaF, GL, e o
+    Inglês de algumas séries, onde a turma toda se junta e se divide em
+    grupos por professor): isso **já é o caso de "grupos paralelos"**, só
+    que abrangendo as duas turmas em vez de uma só. Não precisa de nenhuma
+    coordenação nova — a prova sai no mesmo slot naturalmente, porque as
+    duas turmas só têm essa disciplina nesse único horário. Trate como
+    grupos paralelos: 1 prova só, cada professor aplica pro seu grupo,
+    conta como 1 avaliação em cada turma.
+  - **Mesmo professor, mas em tempos DIFERENTES em cada turma** (ex.:
+    Biologia, Física, Geografia, História, Matemática, Português, Redação,
+    Química, Sociologia, Filosofia — o professor dá aula de fato em dois
+    horários separados, um por turma): é o caso real que precisa de
+    coordenação — o professor não pode estar em dois lugares ao mesmo
+    tempo, então **priorize aplicar a prova simultaneamente nas duas
+    turmas** (mesmo dia, mesmo(s) tempo(s)), escolhido a partir de um
+    tempo **próprio da disciplina em pelo menos uma das duas turmas**
+    (nunca um horário que não seja tempo próprio em nenhuma das duas). Na
+    turma onde esse horário **não** é tempo próprio da disciplina, o(s)
+    tempo(s) são cedidos pela disciplina que normalmente ocupa aquele
+    horário nela — é uma troca de tempo entre turmas, e entra no
+    relatório de trocas do mesmo jeito que uma troca entre disciplinas.
+  - **Se forem professores diferentes**: as provas das duas turmas são
+    **independentes**. Isso não é uma obrigação de ocorrerem em dias
+    diferentes — apenas não há necessidade de coincidirem. Cada uma
+    aloca normalmente pelo tempo próprio daquela turma (a prioridade de
+    "tempo de aplicação preferencialmente no tempo da própria disciplina",
+    já definida abaixo, vale igual aqui).
 
 - **Nunca cruzar o intervalo do recreio**: uma prova de tempos seguidos não
   pode usar o par 3º+4º tempos nem o par 5º+6º tempos, pois isso obrigaria a
@@ -100,6 +137,14 @@ Nunca comece a montar o calendário sem antes:
   permitir sobreposição se não houver nenhuma outra forma de fechar o
   calendário — e avisar o usuário quando isso acontecer.
   **GL não pertence ao grupo 1** (é disciplina própria, com prova).
+  - **Exceção confirmada nesta escola**: quando não houver saída, é
+    aceitável **duas** provas do grupo 1 na mesma semana **desde que uma
+    delas seja Inglês**. Isso acontece naturalmente quando as demais
+    disciplinas do grupo 1 têm professor comum entre as turmas irmãs (e
+    portanto semanas fixadas pela aplicação simultânea) enquanto Inglês
+    tem professores diferentes e é alocado por turma. Continua valendo:
+    nunca três do grupo 1 na mesma semana, e o par sem Inglês
+    (ex.: Mat + LP/LIT/RED) segue proibido.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -251,13 +296,18 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Nenhuma turma ultrapassa 3 avaliações na mesma semana (simulado de 2
       dias conta 1)
 - [ ] Nenhum dia com mais de uma prova
+- [ ] Disciplinas com professor comum entre turmas irmãs foram aplicadas
+      simultaneamente (mesmo dia/tempo); as de professores diferentes
+      puderam ficar em dias/tempos distintos
 - [ ] Nenhuma prova cruza o intervalo (3º/4º ou 5º/6º tempos), salvo os
       casos sinalizados como último recurso (célula destacada + registrado
       no relatório)
 - [ ] Quando a mesma disciplina/professor tem mais de uma prova de tempos
       duplos no semestre, o tempo emprestado alterna de lado sempre que as
       outras regras permitirem
-- [ ] Disciplinas do grupo 1 não coincidem na mesma semana
+- [ ] Disciplinas do grupo 1 não coincidem na mesma semana — salvo o par
+      permitido de duas em que uma delas é Inglês (nunca três, nunca um par
+      sem Inglês)
 - [ ] Cada disciplina tem exatamente o número de provas esperado (2, ou 1
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
       prova foi descartada silenciosamente na escrita
