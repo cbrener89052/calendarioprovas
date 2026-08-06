@@ -1,0 +1,9 @@
+# Arquivos temporários do Excel (lock de arquivo aberto)
+~$*
+
+# Cache do Python
+__pycache__/
+*.pyc
+
+# Todo o resto é versionado: scripts, skill, planilhas e PDFs de entrada,
+# propostas geradas e relatórios.
