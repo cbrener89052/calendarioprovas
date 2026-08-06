@@ -79,8 +79,30 @@ Nunca comece a montar o calendário sem antes:
     professor com o seu grupo; conta como 1 avaliação da turma.
 12. **Perguntar se há sala padrão de provas.** Nesta escola **não há** —
     o campo de sala fica em branco.
+13. **Checar se há professor comum entre turmas irmãs** (ex.: 10C1 e 10C2
+    da mesma série) para cada disciplina, comparando as siglas do professor
+    no horário-base — não perguntar ao usuário, isso se verifica direto nos
+    dados. Ver regra de aplicação simultânea abaixo.
 
 ## Regras de distribuição das provas
+
+- **Disciplina com professor comum entre turmas irmãs**: antes de alocar,
+  confira nas siglas do horário-base se a mesma pessoa leciona aquela
+  disciplina nas duas turmas.
+  - **Se for o mesmo professor**: priorize aplicar a prova
+    **simultaneamente** nas duas turmas (mesmo dia, mesmo(s) tempo(s)) —
+    mesmo que uma das turmas não tenha aula própria da disciplina
+    naquele tempo/dia. Nesse caso, o tempo da turma "sem aula própria"
+    é cedido pelo professor da disciplina que normalmente ocupa aquele
+    horário nela — é uma troca de tempo entre turmas, e entra no
+    relatório de trocas do mesmo jeito que uma troca entre disciplinas.
+  - **Se forem professores diferentes**: as provas das duas turmas são
+    **independentes** — podem ocorrer em dias e/ou tempos diferentes,
+    cada uma seguindo normalmente o tempo próprio daquela turma.
+  - Isso é distinto de "grupos paralelos" (turma única dividida em grupos,
+    vários professores no mesmo tempo — ex. Alemão/DaF): aqui são duas
+    turmas diferentes, um só professor, decidindo se a aplicação é
+    simultânea ou não.
 
 - **Nunca cruzar o intervalo do recreio**: uma prova de tempos seguidos não
   pode usar o par 3º+4º tempos nem o par 5º+6º tempos, pois isso obrigaria a
@@ -251,6 +273,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Nenhuma turma ultrapassa 3 avaliações na mesma semana (simulado de 2
       dias conta 1)
 - [ ] Nenhum dia com mais de uma prova
+- [ ] Disciplinas com professor comum entre turmas irmãs foram aplicadas
+      simultaneamente (mesmo dia/tempo); as de professores diferentes
+      puderam ficar em dias/tempos distintos
 - [ ] Nenhuma prova cruza o intervalo (3º/4º ou 5º/6º tempos), salvo os
       casos sinalizados como último recurso (célula destacada + registrado
       no relatório)
