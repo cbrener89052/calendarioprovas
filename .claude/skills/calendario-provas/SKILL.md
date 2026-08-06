@@ -82,6 +82,16 @@ Nunca comece a montar o calendário sem antes:
 
 ## Regras de distribuição das provas
 
+- **Nunca cruzar o intervalo do recreio**: uma prova de tempos seguidos não
+  pode usar o par 3º+4º tempos nem o par 5º+6º tempos, pois isso obrigaria a
+  aplicação a avançar para o horário do recreio. É a restrição de **maior
+  prioridade** de todas — esgote qualquer outra combinação (inclusive
+  aceitar tempos 7 a 11 ou sobreposição do grupo 1) antes de aceitar cruzar
+  o intervalo. Se, mesmo assim, não houver nenhuma alternativa: use o par
+  que cruza o intervalo, mas (a) destaque a célula da prova na planilha de
+  saída com uma cor de preenchimento diferente das demais, e (b) registre o
+  caso explicitamente no relatório de trocas de tempo (turma, disciplina,
+  par de tempos, motivo).
 - **Máximo de 3 avaliações por semana** por turma. Simulados/AG contam para
   esse limite; um simulado de 2 dias conta como **1** avaliação.
 - **Uma prova por dia** por turma (a célula do modelo comporta uma só).
@@ -119,6 +129,19 @@ Nunca comece a montar o calendário sem antes:
   - Preferir os arranjos que emprestam menos tempos de terceiros.
   - Evitar tomar um tempo que também seja parte do tempo duplo da
     disciplina doadora.
+  - **Quando a mesma disciplina/professor tiver mais de uma prova de
+    tempos duplos no semestre** (ex.: 1 por período) e o tempo próprio dela
+    na grade daquela turma for sempre o mesmo tempo fixo, **prefira
+    alternar de qual lado vem o tempo emprestado** entre as ocorrências, em
+    vez de tomar sempre do mesmo colega — assim nenhum colega perde mais de
+    1 aula no semestre por causa da mesma disciplina. É critério de
+    desempate: só se aplica entre opções já equivalentes nas outras regras
+    (intervalo, tarde, grupo 1, doador válido); nunca piorar essas regras
+    só para alternar.
+    - Exemplo: Biologia nas turmas 10C1/10C2, professora com aula fixa no
+      6º tempo numa turma e no 7º na outra — 1ª prova do semestre usa 5º+6º
+      (empresta do 5º), 2ª prova usa 6º+7º (empresta do 7º, ou é tempo
+      próprio), em vez de usar o mesmo par nas duas provas.
 - **Não preencher**: células de dia sem aula; células já preenchidas com
   qualquer outra informação.
 
@@ -134,6 +157,12 @@ Nunca comece a montar o calendário sem antes:
   (Educação Física, artes, eletivas, apoio). Elas não geram avaliação, mas
   seus tempos podem ser emprestados. Omiti-las faz disciplinas legítimas
   ficarem sem nenhum slot possível.
+- **Células em branco na grade podem indicar horário de almoço** daquela
+  turma (o almoço ocorre entre 11h35 e 14h15, variando por turma). Tratar
+  como qualquer outra célula sem aula: nunca usar para prova, e nunca
+  considerar um par de tempos "duplo" válido se houver uma célula em branco
+  entre eles — isso já quebra o requisito de tempos consecutivos, sem
+  necessidade de regra à parte para almoço.
 - Grupos paralelos numa mesma célula não são erro de leitura — é a
   estrutura real da grade.
 - Em caso de dúvida sobre uma abreviação, **pare e pergunte**. Valide as
@@ -180,8 +209,12 @@ LP/LIT/RED - BPad/MFo/SMo
 2. **Relatório de trocas de tempo entre professores**, em tabela, uma linha
    por troca:
 
-   | Turma | Disciplina/Prof. solicitante | Tempo necessário | Prof. doador | Disciplina do tempo doado | Ação |
-   |---|---|---|---|---|---|
+   | Turma | Disciplina/Prof. solicitante | Tempo necessário | Prof. doador | Disciplina do tempo doado | Ação | Observação |
+   |---|---|---|---|---|---|---|
+
+   A coluna **Observação** registra casos especiais, como uma prova que
+   precisou cruzar o intervalo do recreio por falta de alternativa (ver
+   regra em "Regras de distribuição das provas").
 
    Claro o suficiente para ser usado direto na comunicação com os
    professores.
@@ -218,6 +251,12 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Nenhuma turma ultrapassa 3 avaliações na mesma semana (simulado de 2
       dias conta 1)
 - [ ] Nenhum dia com mais de uma prova
+- [ ] Nenhuma prova cruza o intervalo (3º/4º ou 5º/6º tempos), salvo os
+      casos sinalizados como último recurso (célula destacada + registrado
+      no relatório)
+- [ ] Quando a mesma disciplina/professor tem mais de uma prova de tempos
+      duplos no semestre, o tempo emprestado alterna de lado sempre que as
+      outras regras permitirem
 - [ ] Disciplinas do grupo 1 não coincidem na mesma semana
 - [ ] Cada disciplina tem exatamente o número de provas esperado (2, ou 1
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
