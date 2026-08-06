@@ -302,7 +302,11 @@ COMBINA_PORT = {"port", "pred", "gram"}
 
 # Grupo 1 = Matematica, Alemao (DaF), Portugues e Ingles.
 # GL nao entra: e disciplina propria, com prova, mas fora do grupo 1.
-GRUPO1 = {"mat", "DaF", "port", "LPLITRED", "ing"}         # nao podem coincidir na mesma semana
+GRUPO1 = {"mat", "DaF", "port", "LPLITRED", "ing"}
+
+# Evitar ao maximo provas nos tempos 7 a 11 (o 7o tempo comeca 12h45).
+# Nao e proibicao: algumas disciplinas so tem aula nesses horarios.
+PRIMEIRO_TEMPO_TARDE = 7         # nao podem coincidir na mesma semana
 DOIS_TEMPOS = {"mat", "DaF", "GL", "port", "ing", "pred", "his", "geo", "bio", "fis", "qui"}
 UM_TEMPO = {"fil", "soc"}                       # 1 tempo, 1 prova no semestre
 NOVE_UM_TEMPO = {"bio", "fis", "qui"}           # nas turmas 9C: 1 tempo, 1 prova no semestre
@@ -432,6 +436,23 @@ def montar_exames(turma):
     return e
 
 
+def nao_doadoras(turma):
+    """Disciplinas que NAO podem ceder tempo para prova de outra.
+
+    Regra da escola: quem tem um unico tempo de aula na semana (Filosofia,
+    Sociologia e afins) nao pode perder esse tempo — seria a aula inteira
+    da semana.
+    """
+    import collections as _c
+    cont = _c.Counter(d for (d, _p) in GRADES[turma].values())
+    return {d for d, c in cont.items() if c == 1} | UM_TEMPO
+
+
+def _tarde(t, n):
+    """True se a prova encostar nos tempos 7 a 11 (a partir das 12h45)."""
+    return (t + n - 1) >= PRIMEIRO_TEMPO_TARDE
+
+
 def slots_da_disciplina(turma, disc, n_tempos):
     """(dia, tempo_inicial, doador) onde cabe a prova.
 
@@ -440,6 +461,8 @@ def slots_da_disciplina(turma, disc, n_tempos):
     """
     grade = GRADES[turma]
     out = []
+
+    veto = nao_doadoras(turma)
 
     if disc == "LPLITRED":
         # trio de tempos consecutivos; quanto mais tempos ja forem de
@@ -453,9 +476,11 @@ def slots_da_disciplina(turma, disc, n_tempos):
             if proprios == 0:
                 continue
             doadores = [x for x in trio if x[0] not in COMBINA_PORT]
-            cand.append((-proprios, d, t, tuple(doadores)))
+            if any(x[0] in veto for x in doadores):
+                continue                      # disciplina de 1 tempo nao doa
+            cand.append((_tarde(t, 3), -proprios, d, t, tuple(doadores)))
         cand.sort()
-        return [(d, t, doad or None) for (_, d, t, doad) in cand]
+        return [(d, t, doad or None) for (_, _, d, t, doad) in cand]
 
     for (d, t), (dd, _) in sorted(grade.items()):
         if dd != disc:
@@ -464,14 +489,14 @@ def slots_da_disciplina(turma, disc, n_tempos):
             out.append((d, t, None))
             continue
         prox = grade.get((d, t + 1))
-        if prox is not None:
+        if prox is not None and (prox[0] == disc or prox[0] not in veto):
             out.append((d, t, None if prox[0] == disc else prox))
         ant = grade.get((d, t - 1))
-        if ant is not None and ant[0] != disc:
+        if ant is not None and ant[0] != disc and ant[0] not in veto:
             out.append((d, t - 1, ant))
-    # remove duplicatas mantendo a ordem
+    # remove duplicatas e poe os horarios da manha na frente
     vistos, unicos = set(), []
-    for s in out:
+    for s in sorted(out, key=lambda s: (_tarde(s[1], n_tempos), s[0], s[1])):
         k = (s[0], s[1])
         if k not in vistos:
             vistos.add(k)
@@ -482,8 +507,12 @@ def slots_da_disciplina(turma, disc, n_tempos):
 MAX_NOS = 60000
 
 
-def _tentar(turma, seed, max_g1):
-    """Backtracking com no maximo `max_g1` disciplinas do grupo 1 por semana."""
+def _tentar(turma, seed, max_g1, max_tarde):
+    """Backtracking sob duas folgas controladas.
+
+    max_g1    : quantas disciplinas do grupo 1 podem cair na mesma semana
+    max_tarde : quantas provas da turma podem usar os tempos 7 a 11
+    """
     rnd = random.Random(seed)
     exames = montar_exames(turma)
     rnd.shuffle(exames)
@@ -499,6 +528,7 @@ def _tentar(turma, seed, max_g1):
 
     resultado = []
     nos = [0]
+    tarde = [0]
 
     def cabe(w, d, disc):
         if not dia_permitido(turma, w, d):
@@ -534,6 +564,8 @@ def _tentar(turma, seed, max_g1):
         out = []
         for w in semanas_do(per):
             for (d, t, doador) in SLOTS[(disc, n)]:
+                if _tarde(t, n) and tarde[0] >= max_tarde:
+                    continue
                 if cabe(w, d, disc):
                     out.append((w, d, t, doador))
         return out
@@ -559,10 +591,16 @@ def _tentar(turma, seed, max_g1):
         # 1o espalha (semanas menos cheias); 2o prefere o slot melhor ranqueado
         # em SLOTS (para LP/LIT/RED = menos tempo emprestado)
         ordem = {(d, t): i for i, (d, t, _) in enumerate(SLOTS[(disc, n)])}
-        melhor_ops.sort(key=lambda o: (len(por_semana.get(o[0], [])),
+        melhor_ops.sort(key=lambda o: (_tarde(o[2], n),
+                                       len(por_semana.get(o[0], [])),
                                        ordem.get((o[1], o[2]), 99)))
         resto = [e for e in restantes if e is not melhor]
         for (w, d, t, doador) in melhor_ops:
+            eh_tarde = _tarde(t, n)
+            if eh_tarde and tarde[0] >= max_tarde:
+                continue
+            if eh_tarde:
+                tarde[0] += 1
             ocupado_dia.add((w, d))
             por_semana.setdefault(w, []).append(disc)
             resultado.append((w, d, t, n, disc, prof, doador))
@@ -571,6 +609,8 @@ def _tentar(turma, seed, max_g1):
             resultado.pop()
             por_semana[w].remove(disc)
             ocupado_dia.discard((w, d))
+            if eh_tarde:
+                tarde[0] -= 1
         return False
 
     try:
@@ -580,12 +620,18 @@ def _tentar(turma, seed, max_g1):
 
 
 def resolver(turma, seed):
-    """Tenta primeiro sem sobreposicao do grupo 1; so relaxa se for impossivel."""
-    for max_g1 in (1, 2, 3):
-        ok, res = _tentar(turma, seed, max_g1)
-        if ok:
-            return ok, res, max_g1
-    return False, [], 3
+    """Procura a melhor solucao: primeiro tenta zero provas nos tempos 7-11
+    e sem sobreposicao do grupo 1, e so vai afrouxando quando nao houver
+    saida. O numero de provas na parte da tarde e minimizado antes de
+    aceitar sobreposicao do grupo 1."""
+    n_exames = len(montar_exames(turma))
+    for max_tarde in range(0, n_exames + 1):
+        for max_g1 in (1, 2, 3):
+            ok, res = _tentar(turma, seed + 17 * max_tarde, max_g1, max_tarde)
+            if ok:
+                usadas = sum(1 for (_w, _d, t, n, *_r) in res if _tarde(t, n))
+                return ok, res, max_g1, usadas
+    return False, [], 3, 0
 
 
 # ---------------------------------------------------------------- ESCRITA
@@ -694,12 +740,20 @@ def main():
     for prop, seed in [(1, 20260806), (2, 99887766)]:
         aloc = {}
         for turma in GRADES:
-            ok, res, g1 = resolver(turma, seed + sum(map(ord, turma)))
+            ok, res, g1, tarde = resolver(turma, seed + sum(map(ord, turma)))
             if not ok:
                 print(f"  !! {turma}: NAO foi possivel alocar tudo")
-            elif g1 > 1:
-                print(f"  ~  {turma}: precisou permitir {g1} disciplinas do "
-                      f"grupo 1 na mesma semana")
+            else:
+                avisos = []
+                if g1 > 1:
+                    avisos.append(f"{g1} disciplinas do grupo 1 na mesma semana")
+                if tarde:
+                    tardias = ", ".join(
+                        f"{NOME[dc]} ({rotulo_tempo(t, n)})"
+                        for (_w, _d, t, n, dc, *_r) in sorted(res) if _tarde(t, n))
+                    avisos.append(f"{tarde} prova(s) nos tempos 7-11: {tardias}")
+                if avisos:
+                    print(f"  ~  {turma}: " + "; ".join(avisos))
             aloc[turma] = res
         caminho = escrever(prop, aloc)
         todas[prop] = aloc

@@ -120,6 +120,51 @@ def main():
                 if disc.lower() in ("esp", "art", "tec", "finan", "socem", "proj"):
                     problemas.append(f"{pre}: prova indevida de {disc}")
 
+            # 7b. provas nos tempos 7-11 so quando forem inevitaveis:
+            #     a disciplina precisa nao ter NENHUM slot pela manha
+            for (_, _, _, disc, txt) in provas:
+                if SIM_COD.match(disc):
+                    continue
+                ult = txt.split("\n")[-1]
+                nums = [int(x) for x in re.findall(r"(\d+)º", ult)]
+                if not nums or max(nums) < G.PRIMEIRO_TEMPO_TARDE:
+                    continue
+                chave = [k for k, v in G.NOME.items() if v == disc]
+                if not chave:
+                    continue
+                d0 = chave[0]
+                n = len(nums) if len(nums) > 1 else 1
+                if d0 == "LPLITRED":
+                    n = 3
+                elif len(nums) == 2:
+                    n = 2
+                cedo = [1 for (_dd, tt, _x) in G.slots_da_disciplina(turma, d0, n)
+                        if not G._tarde(tt, n)]
+                if cedo:
+                    problemas.append(f"{pre}: {disc} nos tempos 7-11 ({ult}) "
+                                     f"tendo {len(cedo)} opcao(oes) de manha")
+
+            # 7c. disciplina de 1 tempo semanal nao pode ter cedido tempo
+            veto = G.nao_doadoras(turma)
+            for (_, _, d_prova, disc, txt) in provas:
+                if SIM_COD.match(disc):
+                    continue
+                chave = [k for k, v in G.NOME.items() if v == disc]
+                if not chave:
+                    continue
+                d0 = chave[0]
+                ult = txt.split("\n")[-1]
+                nums = [int(x) for x in re.findall(r"(\d+)º", ult)]
+                if len(nums) < 2:
+                    continue
+                faixa = range(min(nums), max(nums) + 1)
+                for t in faixa:
+                    dono = G.GRADES[turma].get((d_prova, t))
+                    if dono and dono[0] != d0 and dono[0] in veto:
+                        problemas.append(
+                            f"{pre}: {disc} usa o {t}º tempo de {dono[0]}, "
+                            f"que so tem 1 aula na semana")
+
             # 8. simulados nas datas oficiais
             oficiais = {(w, d) for (w, d, c, l) in G.SIMULADOS[turma]}
             achados = {(w, d) for (_, w, d, disc, _) in provas if SIM_COD.match(disc)}

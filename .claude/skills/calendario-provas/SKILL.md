@@ -1,6 +1,6 @@
 ---
 name: "calendario-provas"
-description: "Monta calendário de provas para turmas da escola, respeitando regras de distribuição entre disciplinas, limite semanal de avaliações, períodos de provas por turma/grupo de turmas (que podem variar entre grupos, ex.: turmas que viajam ao exterior terminam o ano mais cedo), feriados e semanas vetadas, datas de simulados por série, provas combinadas de várias disciplinas no mesmo dia (ex.: Português+Redação+Gramática em 3 tempos), disciplinas que têm só 1 prova no semestre dependendo da série/turma, grupos paralelos aplicando prova simultaneamente, e o uso de tempos de aula de outros professores quando uma prova precisa de tempos seguidos. Lê o horário-base das turmas (planilha, PDF ou imagem) e preenche planilha(s) de saída com as propostas de calendário, além de um relatório de trocas de tempo entre professores. Usar sempre que o usuário pedir para montar, gerar, revisar ou ajustar um calendário/plano de provas."
+description: "Monta calendário de provas para turmas da escola, respeitando regras de distribuição entre disciplinas, limite semanal de avaliações, períodos de provas por turma/grupo de turmas (que podem variar entre grupos, ex.: turmas que viajam ao exterior terminam o ano mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas de várias disciplinas no mesmo dia (ex.: Português+Redação+Gramática em 3 tempos), disciplinas que têm só 1 prova no semestre dependendo da série/turma, grupos paralelos aplicando prova simultaneamente, e o uso de tempos de aula de outros professores quando uma prova precisa de tempos seguidos. Lê o horário-base das turmas (planilha, PDF ou imagem) e preenche planilha(s) de saída com as propostas de calendário, além de um relatório de trocas de tempo entre professores. Usar sempre que o usuário pedir para montar, gerar, revisar ou ajustar um calendário/plano de provas."
 ---
 
 # Calendário de Provas
@@ -30,12 +30,15 @@ Nunca comece a montar o calendário sem antes:
    ao exterior terminam o ano letivo mais cedo). Perguntar explicitamente
    quais turmas pertencem a cada grupo e a data-limite de cada um.
 2. **Perguntar os dias que NÃO podem ser usados**: feriados nacionais,
-   semanas inteiras vetadas (ex.: semana de conselho de classe, semana de
-   provas de outra série), dias letivos especiais. Depois de receber a
-   lista, **conferir também o calendário civil**: o usuário pode esquecer
-   algum feriado nacional. Listar para ele os feriados que você encontrou no
-   período antes de gerar.
-3. **Perguntar as datas dos simulados por série**, pois contam como prova.
+   semanas inteiras vetadas (ex.: semana de conselho de classe), dias
+   letivos especiais. Depois de receber a lista, **conferir também o
+   calendário civil**: o usuário pode esquecer algum feriado nacional.
+   Listar para ele os feriados que você encontrou no período antes de gerar.
+3. **Perguntar até que tempo do dia as provas podem ser aplicadas.** Nesta
+   escola a preferência é evitar ao máximo os **tempos 7 a 11** (o 7º tempo
+   começa 12h45). Não é proibição: algumas disciplinas só têm aula nesses
+   horários. Ver a regra completa abaixo.
+4. **Perguntar as datas dos simulados por série**, pois contam como prova.
    O usuário pode preferir subir um arquivo (PDF/planilha) com a tabela.
    Perguntar também **em quais tempos o simulado ocupa o dia** (ex.: do 2º
    ao 7º tempo). Códigos usados nesta escola: **AG9** (9º ano), **AG10**
@@ -43,36 +46,36 @@ Nunca comece a montar o calendário sem antes:
    extras no formato **EX-TURMA-NÚMERO** (ex.: "EX11-1").
    Ao receber a tabela, confirmar com o usuário eventuais correções
    (datas remarcadas) e erros de digitação (ex.: ano errado numa célula).
-4. **Perguntar quais disciplinas fazem prova combinada no mesmo dia.**
+5. **Perguntar quais disciplinas fazem prova combinada no mesmo dia.**
    Nesta escola, nas turmas 10, 11 e 12, Português (plit), Redação (pred)
    e Gramática (p) fazem **uma única prova de 3 tempos consecutivos**, no
    mesmo dia, com os três professores. Nas turmas 9, Redação e Português
    são **provas separadas de 2 tempos cada**. Sempre confirmar esse tipo de
    agrupamento — ele muda a contagem de avaliações da semana.
-5. **Perguntar quantos tempos cada prova usa** e quais usam apenas 1 tempo.
+6. **Perguntar quantos tempos cada prova usa** e quais usam apenas 1 tempo.
    Não inferir da carga horária semanal. Se houver calendário do semestre
    anterior, use-o como ponto de partida, mas confirme quando os dados
    forem inconsistentes entre turmas.
-6. **Perguntar sobre exceções de "1 prova só no semestre" por série**:
+7. **Perguntar sobre exceções de "1 prova só no semestre" por série**:
    ex.: nesta escola, Biologia, Química e Física têm apenas 1 prova no
    semestre inteiro (1 tempo cada) nas turmas do 9º ano, mas 1 prova por
    período nas demais séries. Filosofia e Sociologia têm 1 tempo semanal na
    grade e por isso 1 prova no semestre, de 1 tempo.
-7. **Confirmar quais disciplinas NÃO têm prova.** Nesta escola: Educação
+8. **Confirmar quais disciplinas NÃO têm prova.** Nesta escola: Educação
    Física ("esp"/"Spo"), Artes/Música/Teatro, Técnicas, Finanças,
    Socioemocional, aulas de apoio/aprofundamento ("ap...", "apr..."),
    eletivas e Projeto Vestibular. Confirmar sempre.
-8. **Confirmar a estrutura de saída** (quantos arquivos/abas, layout de
+9. **Confirmar a estrutura de saída** (quantos arquivos/abas, layout de
    célula) olhando o arquivo-modelo mais recente. Perguntar quantas
    propostas o usuário quer.
-9. **Confirmar a leitura do horário-base** em caso de ambiguidade. Cuidado
-   com siglas parecidas entre escolas: aqui "esp"/"Spo" = Esportes/Educação
-   Física, NÃO Espanhol.
-10. **Perguntar como tratar grupos paralelos** (turma se divide, cada
+10. **Confirmar a leitura do horário-base** em caso de ambiguidade. Cuidado
+    com siglas parecidas entre escolas: aqui "esp"/"Spo" = Esportes/Educação
+    Física, NÃO Espanhol.
+11. **Perguntar como tratar grupos paralelos** (turma se divide, cada
     professor com seu grupo no mesmo tempo — ex.: Alemão/DaF). Regra
     confirmada nesta escola: **1 prova só, aplicada simultaneamente**, cada
     professor com o seu grupo; conta como 1 avaliação da turma.
-11. **Perguntar se há sala padrão de provas.** Nesta escola **não há** —
+12. **Perguntar se há sala padrão de provas.** Nesta escola **não há** —
     o campo de sala fica em branco.
 
 ## Regras de distribuição das provas
@@ -85,6 +88,14 @@ Nunca comece a montar o calendário sem antes:
   permitir sobreposição se não houver nenhuma outra forma de fechar o
   calendário — e avisar o usuário quando isso acontecer.
   **GL não pertence ao grupo 1** (é disciplina própria, com prova).
+- **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
+  forte, não proibição: há disciplinas cujo único horário na grade é à
+  tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
+  Filosofia no 9º tempo). O algoritmo deve **minimizar** o número de provas
+  nesses tempos — buscar primeiro uma solução com zero, depois com uma, e
+  assim por diante — e priorizar a redução dessas provas **antes** de
+  aceitar sobreposição do grupo 1. Ao final, listar para o usuário quais
+  provas ficaram à tarde e por quê.
 - **Disciplinas com 1 prova no semestre** (1 tempo semanal na grade, ou
   exceção de série confirmada): alocar em apenas um dos períodos.
 - **Simulados/AG**: entram nas datas informadas, são fixos, não podem ser
@@ -94,13 +105,18 @@ Nunca comece a montar o calendário sem antes:
 - **Tempos emprestados**: os professores raramente têm dois tempos seguidos
   da própria disciplina. Quando a prova precisa de 2 ou 3 tempos seguidos,
   o(s) tempo(s) extra(s) vêm de outra disciplina da grade naquele dia.
-  **O tempo emprestado pode vir tanto DEPOIS quanto ANTES** do tempo da
-  disciplina — considerar as duas direções. Isso é essencial: uma
-  disciplina que só tem aula no último tempo do dia não teria nenhuma opção
-  se apenas o tempo seguinte fosse considerado.
-  Preferir os arranjos que emprestam menos tempos de terceiros.
-  Evitar tomar um tempo que também seja parte do tempo duplo da disciplina
-  doadora.
+  - **O tempo emprestado pode vir tanto DEPOIS quanto ANTES** do tempo da
+    disciplina — considerar as duas direções. Isso é essencial: uma
+    disciplina que só tem aula no último tempo do dia não teria nenhuma
+    opção se apenas o tempo seguinte fosse considerado.
+  - **Disciplinas com apenas 1 tempo de aula por semana NÃO podem doar**
+    (Filosofia, Sociologia e qualquer outra com uma única aula semanal na
+    grade daquela turma). Ceder esse tempo significaria perder a aula
+    inteira da semana. Calcule essa lista por turma, contando as ocorrências
+    de cada disciplina na grade — não use uma lista fixa de nomes.
+  - Preferir os arranjos que emprestam menos tempos de terceiros.
+  - Evitar tomar um tempo que também seja parte do tempo duplo da
+    disciplina doadora.
 - **Não preencher**: células de dia sem aula; células já preenchidas com
   qualquer outra informação.
 
@@ -186,6 +202,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       aparecem como disciplinas separadas
 - [ ] Disciplinas de prova única usam apenas 1 tempo
 - [ ] Nenhuma prova para disciplinas sem avaliação
+- [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
+      nenhum slot possível pela manhã
+- [ ] Nenhuma prova usa tempo de disciplina que tem só 1 aula na semana
 - [ ] Todos os simulados nas datas oficiais e nos tempos corretos
 - [ ] Nenhuma prova em feriado, na semana vetada, antes do início do
       período ou depois da data-limite do grupo daquela turma

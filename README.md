@@ -53,10 +53,15 @@ python verificar_calendario.py
   Socioemocional, apoio/aprofundamento, eletivas e Projeto Vestibular.
 - **Simulados**: do 2º ao 7º tempo, nas datas oficiais (AG9 02/10; AG10
   11/09; S3-11 25 e 26/08; S4-11 26 e 27/10; S4-12 16 e 17/09).
+- **Horário do dia**: evita ao máximo os tempos 7 a 11 (a partir das
+  12h45). As poucas provas que sobram nesses tempos são inevitáveis — a
+  disciplina não tem nenhuma aula pela manhã na grade da turma.
 - **Tempos emprestados**: quando a prova precisa de mais de um tempo
   seguido, o tempo extra vem de outra disciplina daquele dia — antes ou
-  depois do tempo da própria disciplina. Todas as trocas ficam registradas
-  em `Horario desenvolvido/Relatorio_trocas_de_tempo.md`.
+  depois do tempo da própria disciplina. **Disciplinas com uma única aula
+  na semana (Filosofia, Sociologia e afins) não podem ceder tempo**, pois
+  perderiam a aula inteira. Todas as trocas ficam registradas em
+  `Horario desenvolvido/Relatorio_trocas_de_tempo.md`.
 
 ## Enviar para o GitHub
 
