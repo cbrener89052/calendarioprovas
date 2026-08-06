@@ -87,22 +87,37 @@ Nunca comece a montar o calendário sem antes:
 ## Regras de distribuição das provas
 
 - **Disciplina com professor comum entre turmas irmãs**: antes de alocar,
-  confira nas siglas do horário-base se a mesma pessoa leciona aquela
-  disciplina nas duas turmas.
-  - **Se for o mesmo professor**: priorize aplicar a prova
-    **simultaneamente** nas duas turmas (mesmo dia, mesmo(s) tempo(s)) —
-    mesmo que uma das turmas não tenha aula própria da disciplina
-    naquele tempo/dia. Nesse caso, o tempo da turma "sem aula própria"
-    é cedido pelo professor da disciplina que normalmente ocupa aquele
+  confira nas siglas **e nas posições (dia/tempo)** do horário-base se a
+  mesma pessoa leciona aquela disciplina nas duas turmas, e distinga dois
+  casos:
+  - **Já é aula combinada** (mesmo professor(es) **no mesmo dia e tempo**
+    nas duas turmas, hoje, na grade normal — ex.: Alemão/DaF, GL, e o
+    Inglês de algumas séries, onde a turma toda se junta e se divide em
+    grupos por professor): isso **já é o caso de "grupos paralelos"**, só
+    que abrangendo as duas turmas em vez de uma só. Não precisa de nenhuma
+    coordenação nova — a prova sai no mesmo slot naturalmente, porque as
+    duas turmas só têm essa disciplina nesse único horário. Trate como
+    grupos paralelos: 1 prova só, cada professor aplica pro seu grupo,
+    conta como 1 avaliação em cada turma.
+  - **Mesmo professor, mas em tempos DIFERENTES em cada turma** (ex.:
+    Biologia, Física, Geografia, História, Matemática, Português, Redação,
+    Química, Sociologia, Filosofia — o professor dá aula de fato em dois
+    horários separados, um por turma): é o caso real que precisa de
+    coordenação — o professor não pode estar em dois lugares ao mesmo
+    tempo, então **priorize aplicar a prova simultaneamente nas duas
+    turmas** (mesmo dia, mesmo(s) tempo(s)), escolhido a partir de um
+    tempo **próprio da disciplina em pelo menos uma das duas turmas**
+    (nunca um horário que não seja tempo próprio em nenhuma das duas). Na
+    turma onde esse horário **não** é tempo próprio da disciplina, o(s)
+    tempo(s) são cedidos pela disciplina que normalmente ocupa aquele
     horário nela — é uma troca de tempo entre turmas, e entra no
     relatório de trocas do mesmo jeito que uma troca entre disciplinas.
   - **Se forem professores diferentes**: as provas das duas turmas são
-    **independentes** — podem ocorrer em dias e/ou tempos diferentes,
-    cada uma seguindo normalmente o tempo próprio daquela turma.
-  - Isso é distinto de "grupos paralelos" (turma única dividida em grupos,
-    vários professores no mesmo tempo — ex. Alemão/DaF): aqui são duas
-    turmas diferentes, um só professor, decidindo se a aplicação é
-    simultânea ou não.
+    **independentes**. Isso não é uma obrigação de ocorrerem em dias
+    diferentes — apenas não há necessidade de coincidirem. Cada uma
+    aloca normalmente pelo tempo próprio daquela turma (a prioridade de
+    "tempo de aplicação preferencialmente no tempo da própria disciplina",
+    já definida abaixo, vale igual aqui).
 
 - **Nunca cruzar o intervalo do recreio**: uma prova de tempos seguidos não
   pode usar o par 3º+4º tempos nem o par 5º+6º tempos, pois isso obrigaria a
