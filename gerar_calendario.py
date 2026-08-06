@@ -533,6 +533,13 @@ FORCAR_DATA = {
 }
 
 
+def par_g1_permitido(atuais, disc):
+    """Excecao confirmada pela escola: duas provas do grupo 1 na mesma
+    semana so sao aceitaveis quando uma delas for Ingles."""
+    g1 = [a for a in atuais if eh_grupo1(a)] + [disc]
+    return any(x == "ing" or x == "__forcado_ing__" for x in g1)
+
+
 def eh_grupo1(nome):
     """True para disciplina do grupo 1 ou para o marcador de reserva de uma
     prova do grupo 1 com data forcada (ver FORCAR_DATA)."""
@@ -609,6 +616,9 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
             return False
         if disc in GRUPO1:
             if sum(1 for a in atuais if eh_grupo1(a)) >= max_g1:
+                return False
+            if sum(1 for a in atuais if eh_grupo1(a)) >= 1 and \
+               not par_g1_permitido(atuais, disc):
                 return False
         return True
 
@@ -870,8 +880,12 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
             return False
         if disc in atuais:
             return False
-        if disc in GRUPO1 and sum(1 for x in atuais if eh_grupo1(x)) >= max_g1:
-            return False
+        if disc in GRUPO1:
+            if sum(1 for x in atuais if eh_grupo1(x)) >= max_g1:
+                return False
+            if sum(1 for x in atuais if eh_grupo1(x)) >= 1 and \
+               not par_g1_permitido(atuais, disc):
+                return False
         return True
 
     def semanas_do(per):

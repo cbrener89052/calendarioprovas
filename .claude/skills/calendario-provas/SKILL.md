@@ -137,6 +137,14 @@ Nunca comece a montar o calendário sem antes:
   permitir sobreposição se não houver nenhuma outra forma de fechar o
   calendário — e avisar o usuário quando isso acontecer.
   **GL não pertence ao grupo 1** (é disciplina própria, com prova).
+  - **Exceção confirmada nesta escola**: quando não houver saída, é
+    aceitável **duas** provas do grupo 1 na mesma semana **desde que uma
+    delas seja Inglês**. Isso acontece naturalmente quando as demais
+    disciplinas do grupo 1 têm professor comum entre as turmas irmãs (e
+    portanto semanas fixadas pela aplicação simultânea) enquanto Inglês
+    tem professores diferentes e é alocado por turma. Continua valendo:
+    nunca três do grupo 1 na mesma semana, e o par sem Inglês
+    (ex.: Mat + LP/LIT/RED) segue proibido.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -297,7 +305,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Quando a mesma disciplina/professor tem mais de uma prova de tempos
       duplos no semestre, o tempo emprestado alterna de lado sempre que as
       outras regras permitirem
-- [ ] Disciplinas do grupo 1 não coincidem na mesma semana
+- [ ] Disciplinas do grupo 1 não coincidem na mesma semana — salvo o par
+      permitido de duas em que uma delas é Inglês (nunca três, nunca um par
+      sem Inglês)
 - [ ] Cada disciplina tem exatamente o número de provas esperado (2, ou 1
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
       prova foi descartada silenciosamente na escrita

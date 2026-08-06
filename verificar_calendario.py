@@ -77,11 +77,14 @@ def main():
                 if len(s) > 3:
                     problemas.append(f"{pre}: semana {w} com {len(s)} avaliações {sorted(s)}")
 
-            # 2. grupo 1 nao coincide
+            # 2. grupo 1 nao coincide. Excecao confirmada pela escola: duas
+            #    do grupo 1 na mesma semana sao aceitas quando uma delas e
+            #    Ingles (nunca tres; nunca um par sem Ingles).
             for w, s in por_sem.items():
                 g1 = [x for x in s if x.lower() in
                       {"mat", "daf", "port", "lp/lit/red", "ing"}]
-                if len(g1) > 1:
+                if len(g1) > 2 or (len(g1) == 2 and
+                                   not any(x.lower() == "ing" for x in g1)):
                     problemas.append(f"{pre}: semana {w} com grupo 1 repetido {g1}")
 
             # 3. um exame por dia
