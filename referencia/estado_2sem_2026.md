@@ -52,9 +52,8 @@ semestre (ver skill, item "Relatório de tempos cedidos"):
 - **9C1, 9C2, 11C1, 11C2**: até **27/11/2026** (sexta da semana 17).
 
 A semana vetada (12 a 16/10, conselho de classe) foi tratada como **zero
-aula normal** — é o padrão da skill; o usuário não confirmou nem contestou
-esse ponto explicitamente, então fica como suposição a validar se o
-resultado parecer estranho.
+aula normal** — **confirmado pelo usuário**: não tem aula nenhuma nessa
+semana.
 
 ## Datas de simulados/AG (fixas, contam como avaliação, não podem ser movidas)
 
