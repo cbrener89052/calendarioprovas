@@ -1,6 +1,6 @@
 ---
 name: "calendario-provas"
-description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Lê o horário-base (planilha, PDF ou imagem) e gera as propostas de calendário, o relatório de trocas de tempo entre professores e a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas."
+description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Lê o horário-base (planilha, PDF ou imagem) e gera as propostas de calendário, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos) e o relatório de tempos cedidos por disciplina/professor (aulas semanais x aulas cedidas para provas de outras disciplinas). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas."
 ---
 
 # Calendário de Provas
@@ -285,6 +285,34 @@ LP/LIT/RED - BPad/MFo/SMo
    - Gerar essa tabela a partir das planilhas de calendário já gravadas,
      em script separado — assim ela reflete o que foi realmente escrito, e
      não o que o gerador acha que escreveu.
+4. **Relatório de tempos cedidos** (uma aba por turma, um arquivo por
+   proposta), para a coordenação enxergar de uma vez quanto cada
+   disciplina/professor perdeu de aula própria ao longo do semestre por
+   causa de provas de outras disciplinas. Colunas:
+
+   | Disciplina | Professor | Nº de aulas semanais | Nº de aulas cedidas para provas de outras disciplinas |
+   |---|---|---|---|
+
+   - Uma linha por combinação (disciplina, professor) que aparece na grade
+     da turma — inclusive disciplinas sem prova (Educação Física, Artes,
+     eletivas etc.), porque o tempo delas também pode ser tomado como
+     doador. Se a mesma disciplina tiver professores diferentes em tempos
+     diferentes (ex.: duas turmas de Matemática na mesma turma-C), são
+     linhas separadas.
+   - **Nº de aulas semanais**: quantas vezes aquela combinação aparece na
+     grade-base da turma (contagem simples, não multiplicar por período).
+   - **Nº de aulas cedidas**: some, ao longo do semestre inteiro (P1 + P2),
+     cada tempo em que essa disciplina/professor apareceu como doador em
+     alguma prova de outra disciplina. Um mesmo par (dia/tempo) doado duas
+     vezes no semestre (uma por período) conta 2.
+   - Gerar a partir das planilhas de calendário já gravadas cruzadas com a
+     grade-base, em script separado — mesmo princípio da tabela-resumo:
+     não confiar na memória do gerador.
+   - Ordenar por número de cedências decrescente, para destacar primeiro
+     quem mais perdeu aula — é o uso principal do relatório: apontar
+     professores que vêm sendo repetidamente prejudicados pela mesma
+     disciplina (ver o caso de referência da Profa. Luiza/Biologia, que deu
+     origem à regra de alternância de doador, abaixo).
 
 ## Verificação obrigatória antes de entregar
 
@@ -324,5 +352,7 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Todo tempo emprestado de outro professor está no relatório de trocas
 - [ ] A tabela-resumo tem o mesmo número de linhas que o calendário tem de
       avaliações, e todas as siglas foram traduzidas em nomes
+- [ ] O relatório de tempos cedidos bate com o relatório de trocas de
+      tempo: toda cedência de um está refletida no outro
 - [ ] A estrutura de saída está conforme combinado
 
