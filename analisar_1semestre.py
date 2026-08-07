@@ -181,7 +181,109 @@ def ler_provas(caminho=SRC):
                     ilegiveis.append((turma, w, d, junto, "+".join(falta)))
                     continue
                 provas.append((turma, w, d, junto, tempos, disc))
+    provas, ilegiveis = inferir_pela_irma(provas, ilegiveis)
     return provas, ilegiveis
+
+
+IRMA = {"9C1": "9C2", "9C2": "9C1", "10C1": "10C2", "10C2": "10C1",
+        "11C1": "11C2", "11C2": "11C1", "12C1": "12C2", "12C2": "12C1"}
+
+
+def inferir_pela_irma(provas, ilegiveis):
+    """Recupera a disciplina de celulas em que so o tempo foi preenchido.
+
+    Vale so quando a turma irma tem prova no MESMO dia e nos MESMOS
+    tempos: nesse caso e a mesma prova aplicada nas duas turmas (professor
+    comum), e a disciplina e a mesma. Fora disso nao infere -- o caso fica
+    na lista de pendencias.
+    """
+    porpar = {}
+    for (t, w, d, _txt, tempos, disc) in provas:
+        porpar[(t, w, d)] = (tuple(tempos), disc)
+
+    resolvidas, restantes = [], []
+    for item in ilegiveis:
+        turma, w, d, txt, motivo = item
+        if motivo != "disciplina":
+            restantes.append(item)
+            continue
+        tempos = tempos_do_texto(txt)
+        par = porpar.get((IRMA[turma], w, d))
+        if par and par[0] == tuple(tempos):
+            resolvidas.append((turma, w, d, txt + " [disciplina inferida da "
+                               "turma irmã]", tempos, par[1]))
+        else:
+            restantes.append(item)
+    return provas + resolvidas, restantes
+
+
+# Disciplina da PROVA -> como ela aparece na grade de aulas. O tempo so
+# conta como cessao quando o dono dele nao pertence a esta familia.
+FAMILIA = {
+    "port": {"p", "plit"},
+    "LPLITRED": {"p", "plit", "pred", "gram"},
+    "pred": {"pred"},
+    "ing": {"ing", "ingT"},          # nas turmas 9 o ingles aparece como ingT
+}
+
+ULTIMA_SEMANA = 23                   # 06 a 10/07/2026, fim do 1o semestre
+
+
+def dias_sem_aula(caminho=SRC):
+    """{turma: {(semana, dia)}} marcados como 'unterrichtsfrei' no proprio
+    calendario de provas — é a fonte da escola para feriados e recessos."""
+    wb = openpyxl.load_workbook(caminho, data_only=True)
+    out = {}
+    for turma in TURMAS:
+        ws = wb[turma]
+        livres = set()
+        for w in range(1, ULTIMA_SEMANA + 1):
+            r = week_row(w)
+            if r > ws.max_row:
+                break
+            for col, d in COLS.items():
+                if "unterrichtsfrei" in str(ws[f"{col}{r}"].value or "").lower():
+                    livres.add((w, d))
+        out[turma] = livres
+    return out
+
+
+def aulas_programadas(turma, dia, livres):
+    """Quantas vezes uma aula desse dia da semana aconteceu no semestre."""
+    return sum(1 for w in range(1, ULTIMA_SEMANA + 1)
+               if (w, dia) not in livres[turma])
+
+
+def contar(grade, provas, livres):
+    """{turma: [(disc, prof, aulas_sem, programadas, cedidas, pct)]}"""
+    tabelas = {}
+    for turma in TURMAS:
+        g = grade[turma]
+        semanais = collections.Counter(g.values())
+        programadas = collections.Counter()
+        for (d, _t), chave in g.items():
+            programadas[chave] += aulas_programadas(turma, d, livres)
+
+        cedidas = collections.Counter()
+        for (t, w, d, _txt, tempos, disc) in provas:
+            if t != turma:
+                continue
+            familia = FAMILIA.get(disc, {disc})
+            for tempo in tempos:
+                dono = g.get((d, tempo))
+                if not dono or dono[0] in familia:
+                    continue
+                cedidas[dono] += 1
+
+        linhas = []
+        for chave, n_sem in semanais.items():
+            n_prog = programadas[chave]
+            n_ced = cedidas.get(chave, 0)
+            linhas.append((chave[0], chave[1], n_sem, n_prog, n_ced,
+                           (n_ced / n_prog) if n_prog else None))
+        linhas.sort(key=lambda x: (-x[4], x[0], x[1]))
+        tabelas[turma] = linhas
+    return tabelas
 
 
 def main():
@@ -190,10 +292,97 @@ def main():
     print(f"Não interpretadas: {len(ilegiveis)}")
     for x in ilegiveis:
         print("   ?", x)
+    import sys
+    sys.path.insert(0, os.path.join(BASE, "horarios_1semestre"))
+    from grade_1semestre import GRADE_1SEM
+
+    livres = dias_sem_aula()
+    tabelas = contar(GRADE_1SEM, provas, livres)
+    destino = escrever(tabelas)
+    print("\nGravado:", destino)
     for t in TURMAS:
-        cont = collections.Counter(p[5] for p in provas if p[0] == t)
-        print(f"  {t}: {sum(cont.values())} provas — " +
-              ", ".join(f"{k}:{v}" for k, v in sorted(cont.items())))
+        tot_p = sum(l[3] for l in tabelas[t])
+        tot_c = sum(l[4] for l in tabelas[t])
+        pior = tabelas[t][0]
+        print(f"  {t}: {tot_c} de {tot_p} aulas cedidas ({tot_c / tot_p:.1%}) "
+              f"| pior: {pior[0]}/{pior[1]} {pior[4]}x = "
+              f"{pior[5]:.1%}" if tot_p else t)
+
+
+def escrever(tabelas):
+    from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
+    from openpyxl.utils import get_column_letter
+    from exportar_tabelas_turma import carregar_siglas, nomes_dos_profs
+    siglas = carregar_siglas()
+
+    wb = openpyxl.Workbook()
+    wb.remove(wb.active)
+    cab_fill = PatternFill("solid", fgColor="1F3864")
+    cab_font = Font(bold=True, color="FFFFFF", size=11)
+    borda = Border(*[Side(style="thin", color="BFBFBF")] * 4)
+    zebra = PatternFill("solid", fgColor="F2F2F2")
+    total_fill = PatternFill("solid", fgColor="D9E1F2")
+
+    for turma in TURMAS:
+        ws = wb.create_sheet(turma)
+        ws["A1"] = (f"Tempos Cedidos para Provas — {turma} — "
+                    f"1º semestre 2026 (o que de fato ocorreu)")
+        ws["A1"].font = Font(bold=True, size=13)
+        ws.merge_cells("A1:F1")
+        ws["A1"].alignment = Alignment(horizontal="center")
+
+        for c, t in enumerate(["Disciplina", "Professor(es)",
+                               "Nº de aulas semanais",
+                               "Nº de aulas programadas no semestre",
+                               "Nº de aulas cedidas para provas de outras disciplinas",
+                               "% de aulas cedidas no semestre"], 1):
+            cel = ws.cell(2, c, t)
+            cel.fill, cel.font = cab_fill, cab_font
+            cel.alignment = Alignment(horizontal="center", vertical="center",
+                                      wrap_text=True)
+            cel.border = borda
+
+        i = 3
+        for (disc, prof, n_sem, n_prog, n_ced, pct) in tabelas[turma]:
+            ws.cell(i, 1, disc)
+            ws.cell(i, 2, "—" if prof in ("-", "NN") else
+                    nomes_dos_profs(prof, siglas))
+            ws.cell(i, 3, n_sem)
+            ws.cell(i, 4, n_prog)
+            ws.cell(i, 5, n_ced)
+            cel = ws.cell(i, 6, pct if pct is not None else "—")
+            if pct is not None:
+                cel.number_format = "0.0%"
+            for c in range(1, 7):
+                x = ws.cell(i, c)
+                x.border = borda
+                x.alignment = Alignment(vertical="center", wrap_text=(c == 2),
+                                        horizontal="center" if c != 2 else "left")
+                if i % 2:
+                    x.fill = zebra
+            i += 1
+
+        tp = sum(l[3] for l in tabelas[turma])
+        tc = sum(l[4] for l in tabelas[turma])
+        ws.cell(i, 1, "Total").font = Font(bold=True)
+        ws.cell(i, 4, tp)
+        ws.cell(i, 5, tc)
+        cel = ws.cell(i, 6, (tc / tp) if tp else "—")
+        if tp:
+            cel.number_format = "0.0%"
+        for c in range(1, 7):
+            x = ws.cell(i, c)
+            x.border, x.fill, x.font = borda, total_fill, Font(bold=True)
+            x.alignment = Alignment(horizontal="center" if c != 2 else "left")
+
+        for col, larg in zip("ABCDEF", (16, 46, 14, 18, 16, 14)):
+            ws.column_dimensions[col].width = larg
+        ws.freeze_panes = "A3"
+        ws.auto_filter.ref = f"A2:F{i}"
+
+    destino = os.path.join(OUT, "Relatorio_Tempos_Cedidos_1SEM.xlsx")
+    wb.save(destino)
+    return destino
 
 
 if __name__ == "__main__":
