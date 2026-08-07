@@ -83,6 +83,11 @@ Nunca comece a montar o calendário sem antes:
     da mesma série) para cada disciplina, comparando as siglas do professor
     no horário-base — não perguntar ao usuário, isso se verifica direto nos
     dados. Ver regra de aplicação simultânea abaixo.
+14. **Se for gerar o relatório de tempos cedidos** (item 4 dos entregáveis):
+    perguntar, por grupo de turma, a data da última prova de 2ª chamada do
+    semestre — é o que define até quando contar aulas programadas. E
+    confirmar se a semana vetada para provas tem alguma aula normal ou é
+    zero aula (padrão: zero).
 
 ## Regras de distribuição das provas
 
@@ -288,10 +293,11 @@ LP/LIT/RED - BPad/MFo/SMo
 4. **Relatório de tempos cedidos** (uma aba por turma, um arquivo por
    proposta), para a coordenação enxergar de uma vez quanto cada
    disciplina/professor perdeu de aula própria ao longo do semestre por
-   causa de provas de outras disciplinas. Colunas:
+   causa de provas de outras disciplinas, em número absoluto e em
+   percentual da carga do semestre. Colunas:
 
-   | Disciplina | Professor | Nº de aulas semanais | Nº de aulas cedidas para provas de outras disciplinas |
-   |---|---|---|---|
+   | Disciplina | Professor | Nº de aulas semanais | Nº de aulas programadas no semestre | Nº de aulas cedidas para provas de outras disciplinas | % de aulas cedidas no semestre |
+   |---|---|---|---|---|---|
 
    - Uma linha por combinação (disciplina, professor) que aparece na grade
      da turma — inclusive disciplinas sem prova (Educação Física, Artes,
@@ -301,10 +307,26 @@ LP/LIT/RED - BPad/MFo/SMo
      linhas separadas.
    - **Nº de aulas semanais**: quantas vezes aquela combinação aparece na
      grade-base da turma (contagem simples, não multiplicar por período).
+   - **Nº de aulas programadas no semestre**: nº de aulas semanais x nº de
+     semanas letivas ativas da turma, contadas dia da semana por dia da
+     semana (não um número único para a turma toda), porque um feriado
+     específico só derruba as aulas daquele dia da semana:
+     - **Perguntar à escola, para cada grupo de turma, a data da última
+       prova de 2ª chamada do semestre** — é o fim real do período letivo
+       para efeito desta conta (depois disso as turmas que viajam saem de
+       aula, e as demais encerram o ciclo de avaliação). Contar da semana 1
+       do semestre até a semana dessa data.
+     - Descontar a semana inteira vetada para provas (conselho de classe)
+       **a não ser que a escola confirme que há aula normal nela** — por
+       padrão, tratar como sem nenhuma aula.
+     - Descontar, para cada dia da semana, os feriados que caem
+       especificamente naquele dia da semana dentro do intervalo.
    - **Nº de aulas cedidas**: some, ao longo do semestre inteiro (P1 + P2),
      cada tempo em que essa disciplina/professor apareceu como doador em
      alguma prova de outra disciplina. Um mesmo par (dia/tempo) doado duas
      vezes no semestre (uma por período) conta 2.
+   - **% de aulas cedidas no semestre**: aulas cedidas ÷ aulas programadas
+     no semestre. Formatar como percentual (ex.: 18,5%).
    - Gerar a partir das planilhas de calendário já gravadas cruzadas com a
      grade-base, em script separado — mesmo princípio da tabela-resumo:
      não confiar na memória do gerador.

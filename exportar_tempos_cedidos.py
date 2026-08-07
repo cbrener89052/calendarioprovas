@@ -4,9 +4,10 @@
 ja geradas.
 
 Para cada disciplina/professor da grade-base de cada turma, mostra quantas
-aulas semanais ela tem e quantas dessas aulas foram cedidas, ao longo do
-semestre, para a aplicacao de provas de OUTRAS disciplinas (tempo
-emprestado).
+aulas semanais ela tem, quantas aulas ela tem programadas no semestre
+inteiro, quantas dessas aulas foram cedidas para a aplicacao de provas de
+OUTRAS disciplinas (tempo emprestado) e que percentual da carga do
+semestre isso representa.
 
 Nao confia na memoria do gerador: rele as celulas de prova ja gravadas nas
 planilhas e cruza, tempo a tempo, com a grade-base (GRADES) para descobrir
@@ -14,6 +15,13 @@ de quem era originalmente cada tempo usado por uma prova. Quando o tempo
 nao e da propria disciplina examinada (nem, no caso de LP/LIT/RED, de uma
 das tres disciplinas que compoem a prova combinada), conta como cedencia
 do dono daquele tempo na grade.
+
+Aulas programadas no semestre = nº de vezes que a disciplina/professor
+aparece na grade semanal x nº de semanas letivas ativas da turma (da
+semana 1 ate a ultima data de 2a chamada confirmada pela escola: 13/11
+para as turmas 10/12, que viajam logo depois; 27/11 para as turmas 9/11),
+descontando a semana vetada (12 a 16/10, conselho de classe: sem aula
+normal) e os feriados que caem no mesmo dia da semana da aula.
 
 Le  : Horario desenvolvido/Proposta_N_Calendario_Provas_2026_2SEM.xlsx
       siglas/siglas_profs_aux_etc.xlsx  (sigla -> nome do professor)
@@ -35,6 +43,39 @@ SIM_COD = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+)")
 REV_NOME = {}
 for _cod, _nome in G.NOME.items():
     REV_NOME.setdefault(_nome, _cod)
+
+# ultima (semana, dia) com aula normal no semestre, por grupo de turma --
+# a data da ultima prova de 2a chamada, confirmada pela escola. Depois
+# disso as turmas 10/12 viajam (fim do ano letivo) e as turmas 9/11
+# encerram o periodo de avaliacao.
+FIM_AULAS = {
+    "10_12": (15, 5),   # sexta da semana 15 = 13/11/2026
+    "9_11": (17, 5),    # sexta da semana 17 = 27/11/2026
+}
+
+
+def semanas_ativas(grupo):
+    """Semanas letivas normais do semestre (nao so o periodo de provas),
+    da semana 1 ate a ultima data de 2a chamada do grupo, descontando a
+    semana vetada (conselho de classe, sem aula)."""
+    ultima_semana, _d = FIM_AULAS[grupo]
+    return set(range(1, ultima_semana + 1)) - G.SEMANA_BLOQUEADA
+
+
+def aulas_programadas(turma, dia):
+    """Quantas aulas de um certo dia da semana acontecem no semestre
+    inteiro da turma, descontando feriados que caem nesse dia da semana."""
+    semanas = semanas_ativas(G.grupo_turma(turma))
+    faltas = sum(1 for (sw, sd) in G.BLOQUEIOS if sd == dia and sw in semanas)
+    return len(semanas) - faltas
+
+
+def programadas_por_turma(turma):
+    """{(codigo, prof): nº de aulas programadas no semestre} da turma."""
+    cont = collections.Counter()
+    for (d, _t), (codigo, prof) in G.GRADES[turma].items():
+        cont[(codigo, prof)] += aulas_programadas(turma, d)
+    return cont
 
 
 def ler_exames(caminho, turma):
@@ -109,26 +150,34 @@ def exportar(proposta, siglas):
     borda = Border(*[Side(style="thin", color="BFBFBF")] * 4)
     zebra = PatternFill("solid", fgColor="F2F2F2")
     total_fill = PatternFill("solid", fgColor="D9E1F2")
+    N_COL = 6
 
     for turma in G.GRADES:
         cedidas = cedencias_por_turma(origem, turma)
         semanais = collections.Counter(
             (codigo, prof) for (codigo, prof) in G.GRADES[turma].values())
+        programadas = programadas_por_turma(turma)
 
-        linhas = [(G.NOME.get(codigo, codigo), prof, n_sem,
-                   cedidas.get((codigo, prof), 0))
-                  for (codigo, prof), n_sem in semanais.items()]
-        linhas.sort(key=lambda x: (-x[3], x[0], x[1]))
+        linhas = []
+        for (codigo, prof), n_sem in semanais.items():
+            n_prog = programadas[(codigo, prof)]
+            n_ced = cedidas.get((codigo, prof), 0)
+            pct = (n_ced / n_prog) if n_prog else None
+            linhas.append((G.NOME.get(codigo, codigo), prof, n_sem, n_prog,
+                           n_ced, pct))
+        linhas.sort(key=lambda x: (-x[4], x[0], x[1]))
 
         ws = wb.create_sheet(turma)
         ws["A1"] = (f"Tempos Cedidos para Provas — {turma} — "
                     f"2º semestre 2026 (Proposta {proposta})")
         ws["A1"].font = Font(bold=True, size=13)
-        ws.merge_cells("A1:D1")
+        ws.merge_cells(f"A1:{openpyxl.utils.get_column_letter(N_COL)}1")
         ws["A1"].alignment = Alignment(horizontal="center")
 
         cabecalhos = ["Disciplina", "Professor(es)", "Nº de aulas semanais",
-                      "Nº de aulas cedidas para provas de outras disciplinas"]
+                      "Nº de aulas programadas no semestre",
+                      "Nº de aulas cedidas para provas de outras disciplinas",
+                      "% de aulas cedidas no semestre"]
         for c, t in enumerate(cabecalhos, 1):
             cel = ws.cell(2, c, t)
             cel.fill, cel.font = cab_fill, cab_font
@@ -137,36 +186,46 @@ def exportar(proposta, siglas):
             cel.border = borda
 
         i = 3
-        for (disc, prof, n_sem, n_ced) in linhas:
+        for (disc, prof, n_sem, n_prog, n_ced, pct) in linhas:
             prof_txt = "—" if prof == "-" else nomes_dos_profs(prof, siglas)
             ws.cell(i, 1, disc)
             ws.cell(i, 2, prof_txt)
-            ws.cell(i, 3, n_sem).alignment = Alignment(horizontal="center")
-            ws.cell(i, 4, n_ced).alignment = Alignment(horizontal="center")
-            for c in range(1, 5):
+            ws.cell(i, 3, n_sem)
+            ws.cell(i, 4, n_prog)
+            ws.cell(i, 5, n_ced)
+            cel_pct = ws.cell(i, 6, pct if pct is not None else "—")
+            if pct is not None:
+                cel_pct.number_format = "0.0%"
+            for c in range(1, N_COL + 1):
                 cel = ws.cell(i, c)
                 cel.border = borda
                 cel.alignment = Alignment(
                     vertical="center", wrap_text=(c == 2),
-                    horizontal="center" if c in (3, 4) else "left")
+                    horizontal="center" if c != 2 else "left")
                 if i % 2:
                     cel.fill = zebra
             i += 1
 
+        tot_prog = sum(x[3] for x in linhas)
+        tot_ced = sum(x[4] for x in linhas)
         ws.cell(i, 1, "Total")
         ws.cell(i, 1).font = Font(bold=True)
-        ws.cell(i, 4, sum(x[3] for x in linhas))
-        for c in range(1, 5):
+        ws.cell(i, 4, tot_prog)
+        ws.cell(i, 5, tot_ced)
+        cel_tot_pct = ws.cell(i, 6, (tot_ced / tot_prog) if tot_prog else "—")
+        if tot_prog:
+            cel_tot_pct.number_format = "0.0%"
+        for c in range(1, N_COL + 1):
             cel = ws.cell(i, c)
             cel.border = borda
             cel.fill = total_fill
             cel.font = Font(bold=True)
-            cel.alignment = Alignment(horizontal="center" if c in (3, 4) else "left")
+            cel.alignment = Alignment(horizontal="center" if c != 2 else "left")
 
-        for col, larg in zip("ABCD", (16, 46, 16, 30)):
+        for col, larg in zip("ABCDEF", (16, 46, 14, 18, 16, 14)):
             ws.column_dimensions[col].width = larg
         ws.freeze_panes = "A3"
-        ws.auto_filter.ref = f"A2:D{i}"
+        ws.auto_filter.ref = f"A2:{openpyxl.utils.get_column_letter(N_COL)}{i}"
 
     wb.save(destino)
     return destino
