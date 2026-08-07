@@ -112,9 +112,9 @@ relaxado. **As regras 1, 2 e 5 nunca são relaxadas.** O
 `verificar_calendario.py` separa **falhas** (regras que valiam) de
 **avisos** (regras relaxadas de propósito).
 
-Resultado desta rodada: a Proposta 3 fechou com **todos os tetos estritos**
-(regras 1, 2, 3 e 5), precisando relaxar apenas a regra 4. O pior caso de
-cessão caiu de 19,2% (Proposta 1) para 10,7%.
+Resultado desta rodada: a Proposta 3 fechou com **as cinco regras
+integrais, sem nenhuma exceção**. O pior caso de cessão caiu de 23,1%
+(Proposta 1) para 10,7%.
 
 ## Enviar para o GitHub
 

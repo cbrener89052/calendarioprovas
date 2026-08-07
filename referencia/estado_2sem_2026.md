@@ -67,11 +67,13 @@ sem eles, para comparação). Ver a mecânica na skill:
 4. Não ceder na semana da própria prova nem na anterior.
 5. Teto de 11% das aulas programadas no semestre (alvo 10%).
 
-**Resultado desta rodada**: fechou com os tetos estritos (regras 1, 2, 3 e
-5 respeitadas integralmente, folga +0), relaxando apenas a regra 4 — que
-gerou 43 casos de cessão na semana da própria prova ou na anterior,
-listados como avisos pelo verificador. Pior caso de cessão: 10,7%
-(contra 19,2% na Proposta 1).
+**Resultado desta rodada**: fechou com **as cinco regras integrais, sem
+nenhuma exceção**. Pior caso de cessão: 10,7% (contra 23,1% na Proposta 1).
+
+A semente da busca importa: com restrições tão apertadas, ela decide se há
+ou não solução dentro do orçamento de nós. A semente 20261107 deixava a
+11C1 sem solução (obrigando a relaxar a regra 4 nela); a **semente 7**
+fecha as oito turmas. Está fixada em `SEED_PROPOSTA_3`.
 
 ## Datas de simulados/AG (fixas, contam como avaliação, não podem ser movidas)
 

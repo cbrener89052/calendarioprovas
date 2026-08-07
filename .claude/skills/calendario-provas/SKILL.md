@@ -260,6 +260,13 @@ são relaxadas. Nunca entregar em silêncio uma proposta que violou os
 limites: o script de verificação deve separar **falhas** (regras que
 valiam) de **avisos** (regras que foram explicitamente relaxadas).
 
+**A semente da busca importa**: com restrições tão apertadas, qual semente
+embaralha a ordem das opções decide se existe ou não solução dentro do
+orçamento de nós. Antes de concluir que uma regra é inviável e relaxá-la,
+**teste algumas sementes** — nesta rodada, uma turma que parecia exigir
+exceção fechou perfeitamente com outra semente. Fixe no código a semente
+escolhida, com um comentário dizendo por quê.
+
 **Custo computacional**: estas regras encarecem muito cada nó da busca
 (medido: ~600 nós/s contra dezenas de milhares sem elas). Duas
 providências são necessárias para o gerador terminar em tempo útil:

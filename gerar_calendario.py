@@ -614,6 +614,9 @@ MAX_NOS = 60000
 # degraus inviaveis da escada de relaxamento custarem minutos cada um.
 MAX_NOS_CESSAO = 5000
 
+# Semente da Proposta 3 (ver comentario em main()).
+SEED_PROPOSTA_3 = 7
+
 
 def escada(n_exames, cessoes):
     """Degraus (max_intervalo, max_tarde, max_g1) a tentar, em ordem.
@@ -1612,10 +1615,14 @@ def main():
     # relaxa a regra 4 (nao ceder as vesperas da propria prova) e, por
     # ultimo, a 3 (duas semanas sem contato). As regras 1, 2 e 5 (tetos) e
     # as datas exigidas pela coordenacao nunca sao relaxadas.
+    # A semente muda quais slots a busca experimenta primeiro e, com
+    # restricoes tao apertadas, decide se ha ou nao solucao dentro do
+    # orcamento. A 7 foi escolhida por teste: e a que fecha as 8 turmas
+    # com as cinco regras integrais, sem nenhuma excecao.
     print("Proposta 3: aplicando os limites de cessão de aula")
     aloc3, sem_r3, sem_r4, folga = None, set(), set(), 0
     for etapa in range(0, 12):
-        aloc, falharam = montar_proposta(20261107, folga=folga,
+        aloc, falharam = montar_proposta(SEED_PROPOSTA_3, folga=folga,
                                          sem_regra3=sem_r3, sem_regra4=sem_r4)
         if aloc3 is None:
             aloc3 = aloc                      # guarda a 1a como reserva
