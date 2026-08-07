@@ -188,6 +188,14 @@ def ler_provas(caminho=SRC):
 IRMA = {"9C1": "9C2", "9C2": "9C1", "10C1": "10C2", "10C2": "10C1",
         "11C1": "11C2", "11C2": "11C1", "12C1": "12C2", "12C2": "12C1"}
 
+# Celulas cuja leitura a escola confirmou a mao, por estarem incompletas
+# no arquivo. (turma, semana, dia) -> (disciplina, tempos)
+CORRECOES = {
+    # so o tempo foi preenchido; a coordenacao confirmou que e Sociologia.
+    # Nao dava para inferir da 12C2, onde a Sociologia caiu no 6o tempo.
+    ("12C1", 16, 3): ("soc", [3]),
+}
+
 
 def inferir_pela_irma(provas, ilegiveis):
     """Recupera a disciplina de celulas em que so o tempo foi preenchido.
@@ -204,6 +212,12 @@ def inferir_pela_irma(provas, ilegiveis):
     resolvidas, restantes = [], []
     for item in ilegiveis:
         turma, w, d, txt, motivo = item
+        corr = CORRECOES.get((turma, w, d))
+        if corr:
+            disc, tempos = corr
+            resolvidas.append((turma, w, d, txt + " [confirmado pela escola]",
+                               tempos, disc))
+            continue
         if motivo != "disciplina":
             restantes.append(item)
             continue

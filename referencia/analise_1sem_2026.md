@@ -60,41 +60,42 @@ comparação já é desfavorável à Proposta 3 por construção.
 
 ## Pendências em aberto
 
-### Células que não deu para ler (3)
+### Células que não deu para ler (2)
 
 | Turma | Quando | Conteúdo | Problema |
 |---|---|---|---|
 | 10C1 | sem. 14, terça | `p[[+` | Digitação acidental: sem disciplina e sem tempo |
 | 10C1 | sem. 15, quarta | `Geografia \| Rios \| 06+` | Tempo ambíguo — seria 6º e 7º? |
-| 12C1 | sem. 16, quarta | `3o tempo \| A312` | Falta a disciplina; na 12C2 a Sociologia foi no 6º tempo, então não dá para inferir |
 
 Onde a disciplina faltava mas a turma irmã tinha prova no **mesmo dia e
 nos mesmos tempos**, ela foi recuperada de lá (10 casos na 12C1) — é
-comprovadamente a mesma prova, de professor comum.
+comprovadamente a mesma prova, de professor comum. As correções que a
+escola confirmou a mão ficam em `CORRECOES`, em `analisar_1semestre.py`.
 
-### Decisões de interpretação ainda não confirmadas
+## Decisões de interpretação — confirmadas pela escola
 
-1. **O código `p` da grade.** Aparece 1×/semana: `p`/Jana nas 9C,
-   `p`/SMo nas 10C, `p`/Raf nas 11C. Na grade do 2º semestre esses mesmos
-   professores aparecem como **`gram`** (Gramática) nas 10C e 11C, mas
-   como **`port`** nas 9C. Aqui foram todos tratados como Português.
-2. **A prova "Port (SMo/MFo/BPad)" das 10C.** São os três professores do
-   trio Português + Redação + Gramática. Foi tratada como prova só de
-   Português, o que faz o tempo da Redação contar como cessão. Se for a
-   prova combinada (LP/LIT/RED), esses tempos são próprios e não deveriam
-   contar.
-3. **`ingT` como Inglês.** Nas 9C a grade tem `ingT`/APa (4×/semana) e
-   nenhum `ing`, mas há provas de Inglês. `ingT` foi tratado como o Inglês
-   regular; se for o inglês optativo, as provas de Inglês das 9C estariam
-   sendo aplicadas inteiramente em tempo de terceiros.
-4. **Simulados e AGs não contam como cessão** (23 dias no semestre).
-   Segue o critério do 2º semestre: bloco fixo, fora da lógica de
-   empréstimo. Mas um simulado do 1º ao 7º tempo consome aula de vários
-   colegas — se a escola quiser que contem, os números sobem bastante,
-   sobretudo na 12C2 (7 dias) e nas 11C (4 cada).
-5. **Células com grupos paralelos** (18). Onde havia duas disciplinas na
-   mesma célula (ex.: `apr` + `mat`), ficou a **regular**, descartando a
-   trilha de apoio/aprofundamento.
+Todas as cinco foram validadas; ficam registradas porque não são óbvias
+pelo código e voltarão a valer em rodadas futuras.
 
-As de maior impacto numérico são a 2 e a 3; a 4 é a de maior impacto
-absoluto, mas é decisão de critério, não de leitura.
+1. **O código `p` da grade** conta como Português. Ele aparece 1×/semana
+   (`p`/Jana nas 9C, `p`/SMo nas 10C, `p`/Raf nas 11C), e na grade do 2º
+   semestre esses mesmos professores aparecem como `gram` nas 10C e 11C —
+   ainda assim, tratar como Português é o correto para esta contagem.
+2. **A prova "Port (SMo/MFo/BPad)" das 10C** conta como prova de
+   Português, e não como a combinada LP/LIT/RED — o tempo da Redação
+   nela conta como cessão.
+3. **`ingT` conta como o Inglês** das turmas 9, que não têm `ing` na
+   grade.
+4. **Simulados e AGs não contam como cessão** (23 dias no semestre):
+   bloco fixo, fora da lógica de empréstimo, mesmo critério do 2º
+   semestre.
+5. **Células com grupos paralelos** (18): fica a disciplina **regular**,
+   descartando a trilha de apoio/aprofundamento.
+
+### Confirmação avulsa
+
+- 12C1, semana 16, quarta, 3º tempo: **Sociologia**. A célula trazia só o
+  tempo, e não dava para inferir da 12C2 (lá a Sociologia caiu no 6º).
+  Caiu no próprio tempo de Sociologia da 12C1 (quarta, 3º, prof. Kle),
+  então não gerou cessão nenhuma — e serve de conferência cruzada da
+  grade extraída do PDF.
