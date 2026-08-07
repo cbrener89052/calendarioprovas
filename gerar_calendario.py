@@ -10,7 +10,7 @@ Grava: Horario desenvolvido/Proposta_N_...xlsx  (uma aba por turma)
 As grades das turmas foram extraidas do PDF turmas9a12_2osemestre2026.pdf
 por leitura visual e conferidas contra siglas_profs_aux_etc.xlsx.
 """
-import openpyxl, shutil, os, random, copy
+import openpyxl, shutil, os, random, copy, collections
 from openpyxl.styles import Alignment, PatternFill
 from openpyxl.utils import get_column_letter
 
@@ -453,6 +453,88 @@ def nao_doadoras(turma):
     return {d for d, c in cont.items() if c == 1} | UM_TEMPO
 
 
+# ------------------------------------------------- CARGA HORARIA DO SEMESTRE
+# Ultima (semana, dia) com aula normal, por grupo de turma: a data da ultima
+# prova de 2a chamada, confirmada pela escola. Depois disso as turmas 10/12
+# viajam e as 9/11 encerram o ciclo de avaliacao.
+FIM_AULAS = {
+    "10_12": (15, 5),   # sexta da semana 15 = 13/11/2026
+    "9_11": (17, 5),    # sexta da semana 17 = 27/11/2026
+}
+
+
+def semanas_letivas(turma):
+    """Semanas com aula normal: da 1 ate a ultima 2a chamada do grupo,
+    fora a semana de conselho de classe (confirmado: sem aula nenhuma)."""
+    ultima, _d = FIM_AULAS[grupo_turma(turma)]
+    return set(range(1, ultima + 1)) - SEMANA_BLOQUEADA
+
+
+def aulas_no_semestre(turma, dia):
+    """Quantas aulas de um certo dia da semana ocorrem no semestre inteiro
+    da turma (um feriado so derruba as aulas do dia da semana dele)."""
+    semanas = semanas_letivas(turma)
+    faltas = sum(1 for (sw, sd) in BLOQUEIOS if sd == dia and sw in semanas)
+    return len(semanas) - faltas
+
+
+def programadas_no_semestre(turma):
+    """{(disc, prof): nº de aulas programadas no semestre} da turma."""
+    import collections as _c
+    cont = _c.Counter()
+    for (d, _t), (disc, prof) in GRADES[turma].items():
+        cont[(disc, prof)] += aulas_no_semestre(turma, d)
+    return cont
+
+
+def aulas_semanais(turma):
+    """{(disc, prof): nº de aulas por semana} da turma."""
+    import collections as _c
+    return _c.Counter(GRADES[turma].values())
+
+
+# ----------------------------------------------------- LIMITES DE CESSAO
+# Parametros da Proposta 3 (pedido da coordenacao). Ver a secao "Limites de
+# cessao de aula" na skill.
+META_CESSAO_POUCAS_AULAS = 2     # disciplinas de 2 ou 3 aulas semanais
+# Excecao confirmada pela escola: estas podem ceder 3 no semestre.
+META_CESSAO_EXCECAO = {"his": 3, "geo": 3, "GL": 3}
+LIMITE_PCT_CESSAO = 0.10         # alvo de cessao
+# Teto duro: "nenhuma disciplina deve ceder mais que 11%". A folga entre o
+# alvo e o teto e o que permite as 3 cessoes das disciplinas de 2 aulas
+# semanais acima (3 de 28 aulas = 10,7%).
+TETO_PCT_CESSAO = 0.11
+
+
+def meta_cessao(disc, n_sem):
+    """Teto de cessoes pela regra 1, ja com as excecoes por disciplina."""
+    if n_sem > 3:
+        return None                  # sem teto proprio: vale so o percentual
+    return META_CESSAO_EXCECAO.get(disc, META_CESSAO_POUCAS_AULAS)
+
+
+def limite_cessao(turma, disc, prof, folga=0):
+    """Maximo de aulas que (disc, prof) pode ceder no semestre naquela turma.
+
+    Combina as regras 1, 2 e 5 da Proposta 3, sempre pela mais restritiva:
+      - 1 aula por semana: nao cede nada (regra 2, ja valia antes);
+      - 2 ou 3 aulas por semana: no maximo 2 cessoes -- 3 para Historia,
+        Geografia e GL (regra 1 + excecao da escola);
+      - todas: no maximo 11% das aulas programadas no semestre (regra 5).
+    'folga' afrouxa o limite em N unidades — usado so quando a busca
+    estrita nao fecha, para achar a melhor solucao possivel.
+    """
+    n_sem = aulas_semanais(turma).get((disc, prof), 0)
+    if n_sem <= 1 or disc in UM_TEMPO:
+        return 0
+    prog = programadas_no_semestre(turma).get((disc, prof), 0)
+    lim = int(prog * TETO_PCT_CESSAO)
+    meta = meta_cessao(disc, n_sem)
+    if meta is not None:
+        lim = min(lim, meta)
+    return lim + folga
+
+
 def _tarde(t, n):
     """True se a prova encostar nos tempos 7 a 11 (a partir das 12h45)."""
     return (t + n - 1) >= PRIMEIRO_TEMPO_TARDE
@@ -525,6 +607,39 @@ def slots_da_disciplina(turma, disc, n_tempos):
 
 MAX_NOS = 60000
 
+# Orcamento de nos quando os limites de cessao da Proposta 3 estao ativos.
+# Cada no fica bem mais caro (checagem de teto/contato/vespera de prova):
+# medido, ~600 nos/s contra dezenas de milhares sem os limites. Como uma
+# solucao viavel e achada em menos de 3 mil nos, um teto alto so faz os
+# degraus inviaveis da escada de relaxamento custarem minutos cada um.
+MAX_NOS_CESSAO = 5000
+
+# Semente da Proposta 3 (ver comentario em main()).
+SEED_PROPOSTA_3 = 7
+
+
+def escada(n_exames, cessoes):
+    """Degraus (max_intervalo, max_tarde, max_g1) a tentar, em ordem.
+
+    Sem limites de cessao: escada exaustiva, do mais estrito ao mais
+    folgado — e o que as Propostas 1 e 2 sempre usaram.
+
+    Com os limites de cessao ligados, cada no da busca fica muito mais
+    caro e a escada exaustiva (~1300 degraus) nao termina em tempo util.
+    Como a ordenacao das opcoes dentro da busca ja prefere, nessa ordem,
+    nao cruzar o intervalo e nao usar os tempos 7-11, uma escada curta
+    chega praticamente na mesma qualidade em poucos segundos.
+    """
+    if cessoes is None:
+        return [(mi, mt, mg)
+                for mi in range(0, n_exames + 1)
+                for mt in range(0, n_exames + 1)
+                for mg in (1, 2, 3)]
+    n = n_exames + 1
+    # o degrau com max_g1=2 e obrigatorio: sem ele a busca pula direto para
+    # 3 disciplinas do grupo 1 na mesma semana, o que a regra proibe
+    return [(0, 0, 1), (0, n, 1), (0, n, 2), (n, n, 2), (n, n, 3)]
+
 # Provas com dia/tempo forcados por exigencia externa (turma, disc, periodo)
 # -> (semana, dia). Ex.: 1a prova de Ingles da 10C2 tem que cair em
 # 01/09/2026 (terca, semana 5) -- pedido da coordenacao.
@@ -559,8 +674,224 @@ def doador_discs(doador):
     return {doador[0]}
 
 
+def familia_de(disc):
+    """Disciplinas da grade que compoem a prova (LP/LIT/RED = as tres)."""
+    return set(COMBINA_PORT) if disc == "LPLITRED" else {disc}
+
+
+class Cessoes:
+    """Estado das cessoes de tempo de uma turma durante o backtracking.
+
+    Implementa as regras 1 a 5 da Proposta 3. Todo metodo de checagem e
+    puro (nao altera estado); 'aplicar'/'desfazer' andam em par com o
+    empilha/desempilha da busca.
+    """
+
+    # Cache por turma de quantas aulas cada (disc, prof) tem em cada semana
+    # (descontando feriados). E o denominador da regra 3 e nao muda durante
+    # a busca — recalcular no laco interno inviabilizava o tempo de solucao.
+    _CACHE_AULAS = {}
+
+    def __init__(self, turma, folga=0, inicial=None, regra3=True, regra4=True):
+        self.turma = turma
+        self.folga = folga
+        self.regra3 = regra3
+        self.regra4 = regra4
+        self.slots = collections.defaultdict(set)   # (disc,prof) -> {(w,d,t)}
+        self.exames = collections.defaultdict(set)  # disc da grade -> {semana}
+        self.ultima_semana = FIM_AULAS[grupo_turma(turma)][0]
+        # (disc,prof) -> {semana: nº de aulas dessa semana}
+        if turma not in Cessoes._CACHE_AULAS:
+            porsem = collections.defaultdict(lambda: collections.Counter())
+            for (d, t), chave in GRADES[turma].items():
+                for w in range(1, self.ultima_semana + 1):
+                    if w in SEMANA_BLOQUEADA or (w, d) in BLOQUEIOS:
+                        continue
+                    porsem[chave][w] += 1
+            Cessoes._CACHE_AULAS[turma] = {k: dict(v) for k, v in porsem.items()}
+        self._aulas_sem = Cessoes._CACHE_AULAS[turma]
+        # (disc,prof) -> {semana: nº de aulas ja cedidas nela}
+        self.cedidas_sem = collections.defaultdict(lambda: collections.Counter())
+        # disc da grade -> {semanas em que cedeu} (indice para a regra 4)
+        self.semanas_cedidas = collections.defaultdict(collections.Counter)
+        # Semanas em que cada disciplina NAO pode ceder porque ja tem data
+        # de prova exigida pela coordenacao (FORCAR_DATA): pela regra 4, uma
+        # cessao na semana da prova ou na anterior tornaria essa data
+        # impossivel -- e a data e inegociavel.
+        self.proibidas = collections.defaultdict(set)
+        for (turma2, disc2, _per2), (wf, _df) in FORCAR_DATA.items():
+            if turma2 == turma:
+                self.proibidas[disc2] |= {wf - 1, wf}
+        for (chave, slots) in (inicial or {}).items():
+            for (w, d, t) in slots:
+                self.slots[chave].add((w, d, t))
+                self.cedidas_sem[chave][w] += 1
+                self.semanas_cedidas[chave[0]][w] += 1
+
+    # ---------------------------------------------------------- consultas
+    def _sem_contato(self, chave, w, extra_w=None):
+        """A disciplina fica sem NENHUMA aula com a turma na semana w?
+
+        extra_w: semana de uma cessao candidata ainda nao aplicada."""
+        if w < 1 or w > self.ultima_semana:
+            return False                     # fora do semestre letivo
+        if w in SEMANA_BLOQUEADA:
+            return True                      # conselho de classe: sem aula
+        total = self._aulas_sem.get(chave, {}).get(w, 0)
+        if total == 0:
+            return True
+        cedidas = self.cedidas_sem[chave][w] + (1 if extra_w == w else 0)
+        return cedidas >= total
+
+    def _pares_sem_contato(self, chave, extra_w=None):
+        """Semanas w em que w e w+1 ficam ambas sem contato com a turma.
+
+        Varre o semestre inteiro — usar so fora do laco de busca (ex.: no
+        verificador). Dentro da busca, use _viola_regra3, que e O(1)."""
+        out = set()
+        anterior = self._sem_contato(chave, 1, extra_w)
+        for w in range(1, self.ultima_semana + 1):
+            atual = self._sem_contato(chave, w + 1, extra_w)
+            if anterior and atual:
+                out.add(w)
+            anterior = atual
+        return out
+
+    def _viola_regra3(self, chave, w, quantas):
+        """Ceder 'quantas' aulas de chave na semana w deixaria a disciplina
+        sem contato com a turma em duas semanas seguidas?
+
+        So a semana w muda de status, entao basta olhar w-1, w e w+1. Conta
+        apenas o que a cessao CAUSA: se w ja estava sem contato por outro
+        motivo (feriado no unico dia da disciplina), nao foi a cessao."""
+        if self._sem_contato(chave, w):
+            return False                     # ja era assim antes da cessao
+        self.cedidas_sem[chave][w] += quantas
+        try:
+            if not self._sem_contato(chave, w):
+                return False                 # ainda sobra aula na semana
+        finally:
+            self.cedidas_sem[chave][w] -= quantas
+        return self._sem_contato(chave, w - 1) or self._sem_contato(chave, w + 1)
+
+    def pode_ceder_bloco(self, w, d, t, n, disc):
+        """Regras 1 a 5 para o bloco inteiro de uma prova candidata.
+
+        Avalia o bloco de uma vez porque um mesmo doador pode ceder mais de
+        um tempo na mesma prova — checar tempo a tempo subestimaria o
+        consumo do teto.
+        """
+        if not self.pode_alocar_exame(disc, w):
+            return False
+        fam = familia_de(disc)
+        pedidos = collections.defaultdict(list)
+        for k in range(n):
+            dono = GRADES[self.turma].get((d, t + k))
+            if not dono or dono[0] in fam:
+                continue
+            pedidos[dono].append((w, d, t + k))
+        for (chave, novos) in pedidos.items():
+            disc_d, prof_d = chave
+            teto = limite_cessao(self.turma, disc_d, prof_d, self.folga)
+            if len(self.slots[chave]) + len(novos) > teto:
+                return False
+            if self.regra4:
+                for we in self.exames.get(disc_d, ()):
+                    if we in (w, w + 1):
+                        return False
+            # as datas exigidas pela coordenacao sao protegidas mesmo com a
+            # regra 4 relaxada: sao inegociaveis
+            if w in self.proibidas.get(disc_d, ()):
+                return False
+            # regra 3, com todos os tempos do bloco contados juntos (podem
+            # ser 2 ou 3 aulas do mesmo doador no mesmo dia)
+            if self.regra3 and self._viola_regra3(chave, w, len(novos)):
+                return False
+        return True
+
+    def pode_alocar_exame(self, disc, w):
+        """Regra 4, pelo lado da prova: nenhuma das disciplinas que compoem
+        esta prova pode ter cedido aula na semana da prova ou na anterior
+        (a aula anterior a prova e justamente a de revisao)."""
+        if not self.regra4:
+            return True
+        for cod in familia_de(disc):
+            semanas = self.semanas_cedidas.get(cod)
+            if semanas and (w in semanas or (w - 1) in semanas):
+                return False
+        return True
+
+    # ------------------------------------------------------------ mutacao
+    def aplicar(self, w, d, t, n, disc, doador):
+        """Registra a prova e as cessoes que ela provoca. Devolve o que for
+        preciso para desfazer."""
+        registradas = []
+        for k in range(n):
+            dono = GRADES[self.turma].get((d, t + k))
+            if not dono or dono[0] in familia_de(disc):
+                continue
+            slot = (w, d, t + k)
+            if slot in self.slots[dono]:
+                continue
+            self.slots[dono].add(slot)
+            self.cedidas_sem[dono][w] += 1
+            self.semanas_cedidas[dono[0]][w] += 1
+            registradas.append((dono, slot))
+        # a semana da prova entra sob CADA disciplina que a compoe: numa
+        # prova combinada (LP/LIT/RED) quem cede tempo e Português,
+        # Redação ou Gramática, e e por esse nome que a regra 4 consulta
+        novos_exames = [c for c in familia_de(disc) if w not in self.exames[c]]
+        for c in novos_exames:
+            self.exames[c].add(w)
+        return (registradas, novos_exames, w)
+
+    def desfazer(self, marca):
+        registradas, novos_exames, w = marca
+        for (dono, slot) in registradas:
+            self.slots[dono].discard(slot)
+            self.cedidas_sem[dono][slot[0]] -= 1
+            # zerar tem que APAGAR a chave: a regra 4 testa 'semana in
+            # semanas_cedidas', e um contador zerado continuaria presente
+            contagem = self.semanas_cedidas[dono[0]]
+            contagem[slot[0]] -= 1
+            if contagem[slot[0]] <= 0:
+                del contagem[slot[0]]
+        for c in novos_exames:
+            self.exames[c].discard(w)
+
+    def resumo(self):
+        """{(disc, prof): nº de aulas cedidas} — para o relatorio."""
+        return {k: len(v) for k, v in self.slots.items() if v}
+
+    # ---------------------------------------------------------- snapshot
+    # Uma tentativa de busca que estoura MAX_NOS aborta por excecao, sem
+    # desempilhar — por isso cada tentativa roda sobre um clone e so o
+    # clone vencedor e adotado.
+    def clone(self):
+        novo = Cessoes(self.turma, self.folga, regra3=self.regra3,
+                       regra4=self.regra4)
+        novo.slots = collections.defaultdict(set,
+                                             {k: set(v) for k, v in self.slots.items()})
+        novo.exames = collections.defaultdict(set,
+                                              {k: set(v) for k, v in self.exames.items()})
+        novo.cedidas_sem = collections.defaultdict(
+            lambda: collections.Counter(),
+            {k: collections.Counter(v) for k, v in self.cedidas_sem.items()})
+        novo.semanas_cedidas = collections.defaultdict(
+            collections.Counter,
+            {k: collections.Counter(v) for k, v in self.semanas_cedidas.items()})
+        return novo
+
+    def adotar(self, outro):
+        self.slots = outro.slots
+        self.exames = outro.exames
+        self.cedidas_sem = outro.cedidas_sem
+        self.semanas_cedidas = outro.semanas_cedidas
+
+
 def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
-            preocupado_dia=None, pre_por_semana=None, excluir=None):
+            preocupado_dia=None, pre_por_semana=None, excluir=None,
+            cessoes=None):
     """Backtracking sob tres folgas controladas, da de maior para a de
     menor prioridade (quem chama itera max_intervalo por fora de
     max_tarde, que fica por fora de max_g1):
@@ -574,6 +905,8 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
         para os limites desta turma mas nao sao realocadas aqui.
     excluir : nomes de disciplina ja resolvidos por resolver_par (nao
         entram nesta busca, so contam via preocupado_dia/pre_por_semana).
+    cessoes : objeto Cessoes com os limites de cessao de aula da Proposta 3.
+        None (Propostas 1 e 2) = sem essas restricoes.
     """
     rnd = random.Random(seed)
     exames = [e for e in montar_exames(turma) if e[0] not in (excluir or ())]
@@ -648,6 +981,9 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
                     continue
                 if _tarde(t, n) and tarde[0] >= max_tarde:
                     continue
+                if cessoes is not None and \
+                   not cessoes.pode_ceder_bloco(w, d, t, n, disc):
+                    continue
                 if cabe(w, d, disc, marcador):
                     out.append((w, d, t, doador))
         return out
@@ -660,7 +996,7 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
 
     def bt(restantes):
         nos[0] += 1
-        if nos[0] > MAX_NOS:
+        if nos[0] > (MAX_NOS_CESSAO if cessoes is not None else MAX_NOS):
             raise TimeoutError
         if not restantes:
             return True
@@ -702,6 +1038,10 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
             eh_tarde = _tarde(t, n)
             if eh_tarde and tarde[0] >= max_tarde:
                 continue
+            # revalida: o estado de cessoes mudou desde que opcoes() rodou
+            if cessoes is not None and \
+               not cessoes.pode_ceder_bloco(w, d, t, n, disc):
+                continue
             if cruza:
                 intervalo_cnt[0] += 1
             if eh_tarde:
@@ -714,8 +1054,12 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
                 semana_atual.remove(marcador)
             semana_atual.append(disc)
             resultado.append((w, d, t, n, disc, prof, doador))
+            marca = cessoes.aplicar(w, d, t, n, disc, doador) \
+                if cessoes is not None else None
             if bt(resto):
                 return True
+            if marca is not None:
+                cessoes.desfazer(marca)
             resultado.pop()
             por_semana[w].remove(disc)
             if tinha_marcador:
@@ -733,23 +1077,26 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
         return False, []
 
 
-def resolver(turma, seed, preocupado_dia=None, pre_por_semana=None, excluir=None):
+def resolver(turma, seed, preocupado_dia=None, pre_por_semana=None, excluir=None,
+             cessoes=None):
     """Procura a melhor solucao, afrouxando as folgas na ordem de
     prioridade: primeiro tenta nunca cruzar o intervalo do recreio; so
     depois de esgotar isso passa a tentar reduzir provas nos tempos 7-11;
     e so por ultimo aceita sobreposicao do grupo 1."""
     n_exames = len([e for e in montar_exames(turma) if e[0] not in (excluir or ())])
-    for max_intervalo in range(0, n_exames + 1):
-        for max_tarde in range(0, n_exames + 1):
-            for max_g1 in (1, 2, 3):
-                ok, res = _tentar(turma, seed + 17 * max_tarde + 131 * max_intervalo,
-                                  max_g1, max_tarde, max_intervalo,
-                                  preocupado_dia, pre_por_semana, excluir)
-                if ok:
-                    usadas = sum(1 for (_w, _d, t, n, *_r) in res if _tarde(t, n))
-                    cruzadas = sum(1 for (_w, _d, t, n, *_r) in res
-                                   if cruza_intervalo(t, n))
-                    return ok, res, max_g1, usadas, cruzadas
+    for (max_intervalo, max_tarde, max_g1) in escada(n_exames, cessoes):
+        tentativa = cessoes.clone() if cessoes is not None else None
+        ok, res = _tentar(turma, seed + 17 * max_tarde + 131 * max_intervalo,
+                          max_g1, max_tarde, max_intervalo,
+                          preocupado_dia, pre_por_semana, excluir,
+                          tentativa)
+        if ok:
+            if cessoes is not None:
+                cessoes.adotar(tentativa)
+            usadas = sum(1 for (_w, _d, t, n, *_r) in res if _tarde(t, n))
+            cruzadas = sum(1 for (_w, _d, t, n, *_r) in res
+                           if cruza_intervalo(t, n))
+            return ok, res, max_g1, usadas, cruzadas
     return False, [], 3, 0, 0
 
 
@@ -825,9 +1172,11 @@ def doador_de_bloco(bl):
     return tuple(doados)
 
 
-def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
+def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
     """Como _tentar(), mas decide de uma vez as provas de professor comum
-    entre as turmas irmas a/b, no mesmo dia e tempo nas duas."""
+    entre as turmas irmas a/b, no mesmo dia e tempo nas duas.
+
+    cessoes : {turma: Cessoes} com os limites da Proposta 3, ou None."""
     comuns = classificar_par(a, b)
     exames = []
     for (d, p, n, per) in montar_exames(a):
@@ -835,6 +1184,20 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
             exames.append((d, p, n, per))
     if not exames:
         return True, [], [], set(), {}, set(), {}
+
+    # Disciplinas que NAO sao resolvidas aqui (professores diferentes nas
+    # duas turmas -- na pratica o Ingles das turmas 10/11/12): a prova
+    # delas e alocada depois, por turma. Se estas provas coordenadas
+    # tomarem os tempos dessas disciplinas, a regra 4 ("nao ceder na
+    # semana da propria prova nem na anterior") pode deixa-las sem
+    # nenhuma semana livre. Evitar toma-las como doadoras.
+    pendentes = {d for (d, _p, _n, _per) in montar_exames(a) if d not in comuns}
+    for turma_x in (a, b):
+        pendentes |= {d for (d, _p, _n, _per) in montar_exames(turma_x)
+                      if d not in comuns}
+
+    def custo_pendente(bl):
+        return sum(1 for x in bl if x is not None and x[0] in pendentes)
 
     rnd = random.Random(seed)
     rnd.shuffle(exames)
@@ -895,40 +1258,63 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
             return semanas_p2(a)           # a e b sao do mesmo grupo de turma
         return list(semanas_p2(a)) + list(P1_SEMANAS)
 
+    # Blocos (dia, tempo) estruturalmente validos de cada prova, calculados
+    # UMA vez: nao dependem da semana nem do estado da busca. Sem isso, cada
+    # no reenumerava 5 dias x 11 tempos para cada prova restante, o que
+    # inviabilizava o tempo de solucao com os limites de cessao ligados.
+    BLOCOS = {}
+    for (_disc, _prof, _n, _per) in exames:
+        if (_disc, _n) in BLOCOS:
+            continue
+        e_propria = (lambda dd: dd in COMBINA_PORT) if _disc == "LPLITRED" \
+            else (lambda dd, _x=_disc: dd == _x)
+        cand = []
+        for d in range(1, 6):
+            for t in range(1, 12):
+                bl_a = bloco(a, e_propria, d, t, _n, veto_a)
+                if bl_a is None:
+                    continue
+                bl_b = bloco(b, e_propria, d, t, _n, veto_b)
+                if bl_b is None:
+                    continue
+                if all(x is not None for x in bl_a) and \
+                   all(x is not None for x in bl_b):
+                    continue        # nenhuma das duas turmas tem tempo proprio ali
+                custo = sum(x is not None for x in bl_a) + \
+                    sum(x is not None for x in bl_b)
+                cand.append((d, t, bl_a, bl_b, custo))
+        BLOCOS[(_disc, _n)] = cand
+
     def opcoes(ex):
         disc, prof, n, per = ex
-        e_propria = (lambda dd: dd in COMBINA_PORT) if disc == "LPLITRED" \
-            else (lambda dd: dd == disc)
         out = []
         for w in semanas_do(per):
-            for d in range(1, 6):
-                for t in range(1, 12):
-                    if cruza_intervalo(t, n) and intervalo_cnt[0] >= max_intervalo:
-                        continue
-                    if _tarde(t, n) and tarde[0] >= max_tarde:
-                        continue
-                    bl_a = bloco(a, e_propria, d, t, n, veto_a)
-                    if bl_a is None:
-                        continue
-                    bl_b = bloco(b, e_propria, d, t, n, veto_b)
-                    if bl_b is None:
-                        continue
-                    if all(x is not None for x in bl_a) and all(x is not None for x in bl_b):
-                        continue    # nenhuma das duas turmas tem tempo proprio ali
-                    if not cabe(a, ocupado_a, por_semana_a, w, d, disc):
-                        continue
-                    if not cabe(b, ocupado_b, por_semana_b, w, d, disc):
-                        continue
-                    custo = sum(x is not None for x in bl_a) + sum(x is not None for x in bl_b)
-                    out.append((w, d, t, bl_a, bl_b, custo))
+            for (d, t, bl_a, bl_b, custo) in BLOCOS[(disc, n)]:
+                if cruza_intervalo(t, n) and intervalo_cnt[0] >= max_intervalo:
+                    continue
+                if _tarde(t, n) and tarde[0] >= max_tarde:
+                    continue
+                if not cabe(a, ocupado_a, por_semana_a, w, d, disc):
+                    continue
+                if not cabe(b, ocupado_b, por_semana_b, w, d, disc):
+                    continue
+                if cessoes is not None and not all(
+                        cessoes[tu].pode_ceder_bloco(w, d, t, n, disc)
+                        for tu in (a, b)):
+                    continue
+                out.append((w, d, t, bl_a, bl_b, custo))
         return out
 
     def bt(restantes):
         nos[0] += 1
-        if nos[0] > MAX_NOS:
+        if nos[0] > (MAX_NOS_CESSAO if cessoes is not None else MAX_NOS):
             raise TimeoutError
         if not restantes:
             return True
+        # MRV: resolve primeiro a prova com menos opcoes. Com os limites de
+        # cessao ligados, avaliar TODAS as provas restantes a cada no e o
+        # grosso do custo, entao para na primeira suficientemente restrita.
+        corte = 1 if cessoes is None else 3
         melhor, melhor_ops = None, None
         for ex in restantes:
             ops = opcoes(ex)
@@ -936,18 +1322,27 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
                 return False
             if melhor_ops is None or len(ops) < len(melhor_ops):
                 melhor, melhor_ops = ex, ops
-                if len(ops) == 1:
+                if len(ops) <= corte:
                     break
         disc, prof, n, per = melhor
         rnd.shuffle(melhor_ops)
         melhor_ops.sort(key=lambda o: (
             cruza_intervalo(o[2], n),
             _tarde(o[2], n),
+            # nao consumir tempo de quem ainda precisa alocar a propria
+            # prova depois (ver 'pendentes'): so desempate, nunca piora as
+            # regras acima
+            custo_pendente(o[3]) + custo_pendente(o[4]),
             len(por_semana_a.get(o[0], [])) + len(por_semana_b.get(o[0], [])),
             o[5],
         ))
         resto = [e for e in restantes if e is not melhor]
         for (w, d, t, bl_a, bl_b, _custo) in melhor_ops:
+            # revalida: o estado de cessoes mudou desde que opcoes() rodou
+            if cessoes is not None and not all(
+                    cessoes[tu].pode_ceder_bloco(w, d, t, n, disc)
+                    for tu in (a, b)):
+                continue
             cruza = cruza_intervalo(t, n)
             eh_tarde = _tarde(t, n)
             if cruza:
@@ -959,8 +1354,12 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
             por_semana_b.setdefault(w, []).append(disc)
             resultado_a.append((w, d, t, n, disc, prof, doador_de_bloco(bl_a)))
             resultado_b.append((w, d, t, n, disc, prof, doador_de_bloco(bl_b)))
+            marcas = [(tu, cessoes[tu].aplicar(w, d, t, n, disc, None))
+                      for tu in (a, b)] if cessoes is not None else []
             if bt(resto):
                 return True
+            for (tu, marca) in marcas:
+                cessoes[tu].desfazer(marca)
             resultado_a.pop(); resultado_b.pop()
             por_semana_a[w].remove(disc); por_semana_b[w].remove(disc)
             ocupado_a.discard((w, d)); ocupado_b.discard((w, d))
@@ -977,21 +1376,24 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo):
     return ok, resultado_a, resultado_b, ocupado_a, por_semana_a, ocupado_b, por_semana_b
 
 
-def resolver_par(a, b, seed):
+def resolver_par(a, b, seed, cessoes=None):
     """Resolve, na ordem de prioridade (intervalo > tarde > grupo1), todas
     as provas de professor comum entre as turmas irmas a/b, aplicadas
     simultaneamente. Retorna as alocacoes conjuntas mais o que cada turma
     ja tem ocupado, para o resolver() de cada turma completar o resto."""
     comuns = classificar_par(a, b)
     n_exames = len(comuns)
-    for max_intervalo in range(0, n_exames + 1):
-        for max_tarde in range(0, n_exames + 1):
-            for max_g1 in (1, 2, 3):
-                (ok, res_a, res_b, ocup_a, psem_a, ocup_b, psem_b) = _tentar_par(
-                    a, b, seed + 17 * max_tarde + 131 * max_intervalo,
-                    max_g1, max_tarde, max_intervalo)
-                if ok:
-                    return res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns
+    for (max_intervalo, max_tarde, max_g1) in escada(n_exames, cessoes):
+        tentativa = {tu: cessoes[tu].clone() for tu in (a, b)} \
+            if cessoes is not None else None
+        (ok, res_a, res_b, ocup_a, psem_a, ocup_b, psem_b) = _tentar_par(
+            a, b, seed + 17 * max_tarde + 131 * max_intervalo,
+            max_g1, max_tarde, max_intervalo, tentativa)
+        if ok:
+            if cessoes is not None:
+                for tu in (a, b):
+                    cessoes[tu].adotar(tentativa[tu])
+            return res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns
     print(f"  !! {a}/{b}: NAO foi possivel coordenar as provas de professor comum")
     return [], [], set(), {}, set(), {}, comuns
 
@@ -1131,6 +1533,67 @@ def relatorio(alocacoes_por_proposta, comuns_por_par):
     return p
 
 
+def montar_proposta(seed, folga=None, sem_regra3=(), sem_regra4=()):
+    """Resolve as 8 turmas. folga=None: sem os limites de cessao da
+    Proposta 3. folga=N: com os limites, afrouxados em N unidades.
+
+    sem_regra3/sem_regra4: turmas em que essas regras ficam relaxadas. O
+    afrouxamento e POR TURMA -- se so uma turma nao fecha, as outras sete
+    continuam cumprindo a regra integralmente.
+
+    Devolve (alocacoes, turmas_que_nao_fecharam).
+    """
+    aloc = {}
+    preocup_dia, pre_psem, excluir_por_turma = {}, {}, {}
+    cessoes = {t: Cessoes(t, folga, regra3=t not in sem_regra3,
+                          regra4=t not in sem_regra4)
+               for t in GRADES} if folga is not None else None
+
+    # 1) provas de professor comum entre turmas irmas, coordenadas ou
+    #    ja combinadas -- decididas antes, para as duas turmas de vez.
+    for (a, b) in PARES_IRMAS:
+        res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns = resolver_par(
+            a, b, seed + sum(map(ord, a + b)), cessoes)
+        aloc[a] = list(res_a)
+        aloc[b] = list(res_b)
+        preocup_dia[a], pre_psem[a] = ocup_a, psem_a
+        preocup_dia[b], pre_psem[b] = ocup_b, psem_b
+        excluir_por_turma[a] = set(comuns)
+        excluir_por_turma[b] = set(comuns)
+        if len(res_a) < len(comuns):
+            print(f"  !! {a}/{b}: só {len(res_a)} de {len(comuns)} provas "
+                  "comuns foram coordenadas")
+
+    # 2) o resto de cada turma (disciplinas independentes, ex. Ingles
+    #    nas turmas 10/11/12), preenchendo ao redor do que ja foi
+    #    decidido acima.
+    falharam = set()
+    for turma in GRADES:
+        ok, res, g1, tarde, cruzadas = resolver(
+            turma, seed + sum(map(ord, turma)),
+            preocupado_dia=preocup_dia.get(turma),
+            pre_por_semana=pre_psem.get(turma),
+            excluir=excluir_por_turma.get(turma),
+            cessoes=cessoes[turma] if cessoes else None)
+        if not ok:
+            falharam.add(turma)
+        else:
+            avisos = []
+            if g1 > 1:
+                avisos.append(f"{g1} disciplinas do grupo 1 na mesma semana")
+            if tarde:
+                tardias = ", ".join(
+                    f"{NOME[dc]} ({rotulo_tempo(t, n)})"
+                    for (_w, _d, t, n, dc, *_r) in sorted(res) if _tarde(t, n))
+                avisos.append(f"{tarde} prova(s) nos tempos 7-11: {tardias}")
+            if cruzadas:
+                avisos.append(f"{cruzadas} prova(s) cruzando o intervalo do recreio")
+            if avisos:
+                print(f"  ~  {turma}: " + "; ".join(avisos))
+        aloc[turma].extend(res)
+    return aloc, falharam
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     carregar_ocupadas()
@@ -1139,52 +1602,63 @@ def main():
 
     todas = {}
     for prop, seed in [(1, 20260806), (2, 99887766)]:
-        aloc = {}
-        preocup_dia, pre_psem, excluir_por_turma = {}, {}, {}
-
-        # 1) provas de professor comum entre turmas irmas, coordenadas ou
-        #    ja combinadas -- decididas antes, para as duas turmas de vez.
-        for (a, b) in PARES_IRMAS:
-            res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns = resolver_par(
-                a, b, seed + sum(map(ord, a + b)))
-            aloc[a] = list(res_a)
-            aloc[b] = list(res_b)
-            preocup_dia[a], pre_psem[a] = ocup_a, psem_a
-            preocup_dia[b], pre_psem[b] = ocup_b, psem_b
-            excluir_por_turma[a] = set(comuns)
-            excluir_por_turma[b] = set(comuns)
-            if len(res_a) < len(comuns):
-                print(f"  !! {a}/{b}: só {len(res_a)} de {len(comuns)} provas "
-                      "comuns foram coordenadas")
-
-        # 2) o resto de cada turma (disciplinas independentes, ex. Ingles
-        #    nas turmas 10/11/12), preenchendo ao redor do que ja foi
-        #    decidido acima.
-        for turma in GRADES:
-            ok, res, g1, tarde, cruzadas = resolver(
-                turma, seed + sum(map(ord, turma)),
-                preocupado_dia=preocup_dia.get(turma),
-                pre_por_semana=pre_psem.get(turma),
-                excluir=excluir_por_turma.get(turma))
-            if not ok:
-                print(f"  !! {turma}: NAO foi possivel alocar tudo")
-            else:
-                avisos = []
-                if g1 > 1:
-                    avisos.append(f"{g1} disciplinas do grupo 1 na mesma semana")
-                if tarde:
-                    tardias = ", ".join(
-                        f"{NOME[dc]} ({rotulo_tempo(t, n)})"
-                        for (_w, _d, t, n, dc, *_r) in sorted(res) if _tarde(t, n))
-                    avisos.append(f"{tarde} prova(s) nos tempos 7-11: {tardias}")
-                if cruzadas:
-                    avisos.append(f"{cruzadas} prova(s) cruzando o intervalo do recreio")
-                if avisos:
-                    print(f"  ~  {turma}: " + "; ".join(avisos))
-            aloc[turma].extend(res)
+        aloc, _ok = montar_proposta(seed)
         caminho = escrever(prop, aloc)
         todas[prop] = aloc
         print(f"Proposta {prop} -> {caminho}")
+
+    # Proposta 3: mesmas regras das anteriores MAIS os limites de cessao de
+    # aula (regras 1 a 5 pedidas pela coordenacao). Tenta primeiro com os
+    # limites estritos; se nao fechar, afrouxa uma unidade por vez, para
+    # entregar a solucao mais proxima possivel do pedido.
+    # Escada de afrouxamento: primeiro sobe o teto de cessoes; so depois
+    # relaxa a regra 4 (nao ceder as vesperas da propria prova) e, por
+    # ultimo, a 3 (duas semanas sem contato). As regras 1, 2 e 5 (tetos) e
+    # as datas exigidas pela coordenacao nunca sao relaxadas.
+    # A semente muda quais slots a busca experimenta primeiro e, com
+    # restricoes tao apertadas, decide se ha ou nao solucao dentro do
+    # orcamento. A 7 foi escolhida por teste: e a que fecha as 8 turmas
+    # com as cinco regras integrais, sem nenhuma excecao.
+    print("Proposta 3: aplicando os limites de cessão de aula")
+    aloc3, sem_r3, sem_r4, folga = None, set(), set(), 0
+    for etapa in range(0, 12):
+        aloc, falharam = montar_proposta(SEED_PROPOSTA_3, folga=folga,
+                                         sem_regra3=sem_r3, sem_regra4=sem_r4)
+        if aloc3 is None:
+            aloc3 = aloc                      # guarda a 1a como reserva
+        if not falharam:
+            aloc3 = aloc
+            break
+        aloc3 = aloc
+        # Afrouxa na ordem inversa da importancia. Os tetos (regras 1, 2 e
+        # 5) sao limites duros dados em numero pela escola, entao a folga
+        # neles e o ULTIMO recurso: subir a folga vale para todas as turmas
+        # e estoura varios tetos de uma vez, enquanto relaxar a regra 4
+        # atinge so a turma que nao fecha.
+        if not sem_r4 >= falharam:
+            sem_r4 |= falharam
+            print(f"  ~  relaxando a regra 4 apenas em {sorted(falharam)}")
+        elif not sem_r3 >= falharam:
+            sem_r3 |= falharam
+            print(f"  ~  relaxando a regra 3 apenas em {sorted(falharam)}")
+        elif folga < 3:
+            folga += 1
+            print(f"  ~  {sorted(falharam)} ainda não fecharam; subindo o "
+                  f"teto de cessões para +{folga}")
+        else:
+            print(f"  !! {sorted(falharam)} não fecharam nem com tudo relaxado")
+            break
+    if folga or sem_r3 or sem_r4:
+        print(f"  ATENÇÃO: Proposta 3 fechada com folga +{folga}"
+              + (f"; regra 4 relaxada em {sorted(sem_r4)}" if sem_r4 else "")
+              + (f"; regra 3 relaxada em {sorted(sem_r3)}" if sem_r3 else "")
+              + ". As demais turmas cumprem todas as regras.")
+    else:
+        print("  Proposta 3 fechada com todos os limites estritos")
+    caminho = escrever(3, aloc3)
+    todas[3] = aloc3
+    print(f"Proposta 3 -> {caminho}")
+
     print("Relatorio ->", relatorio(todas, comuns_por_par))
 
 

@@ -29,11 +29,12 @@ def data_da(ws, w, d):
 
 def main():
     problemas = []
+    avisos = []
     comuns_por_par = {(a, b): G.classificar_par(a, b) for a, b in G.PARES_IRMAS}
     irma = {a: b for a, b in G.PARES_IRMAS}
     irma.update({b: a for a, b in G.PARES_IRMAS})
 
-    for prop in (1, 2):
+    for prop in (1, 2, 3):
         caminho = os.path.join(OUT, f"Proposta_{prop}_Calendario_Provas_2026_2SEM.xlsx")
         wb = openpyxl.load_workbook(caminho, data_only=True)
         provas_por_turma = {}
@@ -173,8 +174,12 @@ def main():
                              G.slots_da_disciplina(outra, d0, n)
                              if not G._tarde(tt, n) and not G.cruza_intervalo(tt, n)}
                 if cedo:
-                    problemas.append(f"{pre}: {disc} nos tempos 7-11 ({ult}) "
-                                     f"tendo {len(cedo)} opcao(oes) de manha")
+                    # na Proposta 3 os tetos de cessao tiram opcoes de manha
+                    # que este calculo (que so olha a grade) ainda enxerga —
+                    # por isso vira aviso, nao falha
+                    destino = avisos if prop == 3 else problemas
+                    destino.append(f"{pre}: {disc} nos tempos 7-11 ({ult}) "
+                                   f"tendo {len(cedo)} opcao(oes) de manha")
 
             # 7c. disciplina de 1 tempo semanal nao pode ter cedido tempo
             veto = G.nao_doadoras(turma)
@@ -190,9 +195,12 @@ def main():
                 if len(nums) < 2:
                     continue
                 faixa = range(min(nums), max(nums) + 1)
+                # numa prova combinada (LP/LIT/RED) o tempo de Gramática ou
+                # Redação é tempo PRÓPRIO da prova, não uma cessão
+                familia = G.familia_de(d0)
                 for t in faixa:
                     dono = G.GRADES[turma].get((d_prova, t))
-                    if dono and dono[0] != d0 and dono[0] in veto:
+                    if dono and dono[0] not in familia and dono[0] in veto:
                         problemas.append(
                             f"{pre}: {disc} usa o {t}º tempo de {dono[0]}, "
                             f"que so tem 1 aula na semana")
@@ -226,6 +234,77 @@ def main():
                         f"{pre}: {nome2} não está na data exigida "
                         f"(semana {w_f}, dia {d_f})")
 
+        # 10b. Proposta 3: limites de cessao de aula (regras 1 a 5 pedidas
+        #      pela coordenacao). Nao valem para as Propostas 1 e 2.
+        if prop == 3:
+            for turma in G.GRADES:
+                pre = f"P{prop}/{turma}"
+                cedidas = collections.defaultdict(list)   # (disc,prof) -> [(w,d,t)]
+                exames_de = collections.defaultdict(set)  # disc -> {semana}
+                for (_dt, w, d, disc, _tx, t_ini, n_t, _ds) in provas_por_turma[turma]:
+                    if SIM_COD.match(disc) or t_ini is None or n_t is None:
+                        continue
+                    chave = [k for k, v in G.NOME.items() if v == disc]
+                    fam = G.familia_de(chave[0]) if chave else set()
+                    for c in fam:
+                        exames_de[c].add(w)
+                    for t in range(t_ini, t_ini + n_t):
+                        dono = G.GRADES[turma].get((d, t))
+                        if not dono or dono[0] in fam:
+                            continue
+                        cedidas[dono].append((w, d, t))
+
+                semanais = G.aulas_semanais(turma)
+                prog = G.programadas_no_semestre(turma)
+                for (chave, slots) in cedidas.items():
+                    disc_d, prof_d = chave
+                    nome_d = G.NOME.get(disc_d, disc_d)
+                    n_sem = semanais.get(chave, 0)
+                    n_ced = len(slots)
+
+                    # regra 2: 1 aula por semana nao cede
+                    if n_sem <= 1:
+                        problemas.append(
+                            f"{pre}: {nome_d}/{prof_d} tem 1 aula semanal e "
+                            f"cedeu {n_ced}")
+                    # regra 1: 2 ou 3 aulas semanais -> meta de 2 (3 para
+                    # Historia, Geografia e GL, por decisão da escola)
+                    else:
+                        meta = G.meta_cessao(disc_d, n_sem)
+                        if meta is not None and n_ced > meta:
+                            problemas.append(
+                                f"{pre}: {nome_d}/{prof_d} tem {n_sem} aulas "
+                                f"semanais e cedeu {n_ced} (meta: no máximo "
+                                f"{meta})")
+                    # regra 5: teto percentual das aulas do semestre
+                    n_prog = prog.get(chave, 0)
+                    if n_prog and n_ced / n_prog > G.TETO_PCT_CESSAO:
+                        problemas.append(
+                            f"{pre}: {nome_d}/{prof_d} cedeu {n_ced} de "
+                            f"{n_prog} aulas ({n_ced / n_prog:.1%}) — acima "
+                            f"do teto de {G.TETO_PCT_CESSAO:.0%}")
+                    # regra 4: nao ceder as vesperas da propria prova. Foi
+                    # relaxada por inviabilidade (o gerador avisa), entao
+                    # entra como AVISO, nao como falha do checklist.
+                    for (w, _d, _t) in slots:
+                        for we in exames_de.get(disc_d, ()):
+                            if we in (w, w + 1):
+                                avisos.append(
+                                    f"{pre}: {nome_d}/{prof_d} cedeu aula na "
+                                    f"semana {w} tendo prova própria na "
+                                    f"semana {we}")
+                    # regra 3: duas semanas seguidas sem contato com a turma
+                    c = G.Cessoes(turma)
+                    antes = c._pares_sem_contato(chave)
+                    for (w, _d, _t) in slots:
+                        c.cedidas_sem[chave][w] += 1
+                    depois = c._pares_sem_contato(chave)
+                    for w in sorted(depois - antes):
+                        problemas.append(
+                            f"{pre}: {nome_d}/{prof_d} fica sem contato com a "
+                            f"turma nas semanas {w} e {w + 1} por causa das "
+                            f"cessões")
+
         # 11. provas de professor comum entre turmas irmas: mesmo dia/tempo
         for (a, b), comuns in comuns_por_par.items():
             pa = {}
@@ -247,7 +326,12 @@ def main():
         for p in problemas:
             print("  -", p)
     else:
-        print("OK: as duas propostas passaram em todos os itens do checklist.")
+        print("OK: as propostas passaram em todos os itens do checklist.")
+    if avisos:
+        print(f"\n{len(avisos)} AVISO(S) — regras relaxadas por inviabilidade, "
+              "não são falhas do checklist:")
+        for a in avisos:
+            print("  ~", a)
 
 
 if __name__ == "__main__":

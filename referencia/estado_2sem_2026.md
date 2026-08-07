@@ -55,6 +55,26 @@ A semana vetada (12 a 16/10, conselho de classe) foi tratada como **zero
 aula normal** — **confirmado pelo usuário**: não tem aula nenhuma nessa
 semana.
 
+## Limites de cessão de aula (Proposta 3)
+
+Pedido da coordenação, aplicado só na Proposta 3 (as Propostas 1 e 2 ficam
+sem eles, para comparação). Ver a mecânica na skill:
+
+1. 2 ou 3 aulas semanais: no máximo 2 cessões no semestre — **3 para
+   História, Geografia e GL** (exceção confirmada pelo usuário).
+2. 1 aula semanal: não cede.
+3. Nunca duas semanas seguidas sem contato com a turma.
+4. Não ceder na semana da própria prova nem na anterior.
+5. Teto de 11% das aulas programadas no semestre (alvo 10%).
+
+**Resultado desta rodada**: fechou com **as cinco regras integrais, sem
+nenhuma exceção**. Pior caso de cessão: 10,7% (contra 23,1% na Proposta 1).
+
+A semente da busca importa: com restrições tão apertadas, ela decide se há
+ou não solução dentro do orçamento de nós. A semente 20261107 deixava a
+11C1 sem solução (obrigando a relaxar a regra 4 nela); a **semente 7**
+fecha as oito turmas. Está fixada em `SEED_PROPOSTA_3`.
+
 ## Datas de simulados/AG (fixas, contam como avaliação, não podem ser movidas)
 
 | Código | Turmas | Data(s) | Período |

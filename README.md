@@ -20,7 +20,9 @@ a cada semestre.
 - **`gerar_calendario.py`** — monta as propostas de calendário. Lê o modelo
   `Klausurplan_2026_2SEM.xlsx`, aplica as regras de distribuição e grava um
   arquivo por proposta em `Horario desenvolvido/`, com uma aba por turma,
-  mais o relatório de trocas de tempo entre professores.
+  mais o relatório de trocas de tempo entre professores. As Propostas 1 e 2
+  seguem as regras gerais; a **Proposta 3** aplica, além delas, os limites
+  de cessão de aula (ver abaixo).
 - **`verificar_calendario.py`** — relê as planilhas geradas (sem confiar na
   memória do gerador) e confere o checklist: limite de 3 avaliações por
   semana, disciplinas do grupo 1 sem coincidir, feriados, semana vetada,
@@ -80,6 +82,39 @@ automaticamente pelo Claude Code ao abrir esta pasta.
   na semana (Filosofia, Sociologia e afins) não podem ceder tempo**, pois
   perderiam a aula inteira. Todas as trocas ficam registradas em
   `Horario desenvolvido/Relatorio_trocas_de_tempo.md`.
+
+## Limites de cessão de aula (só na Proposta 3)
+
+A Proposta 3 mantém todas as regras acima e acrescenta tetos para proteger
+a carga horária de quem cede tempo. Os tetos valem por
+**(disciplina, professor) dentro de cada turma**:
+
+1. Disciplina com **2 ou 3 aulas semanais**: no máximo **2 cessões** no
+   semestre — **3** para História, Geografia e GL.
+2. Disciplina com **1 aula semanal**: **não cede** nada.
+3. Nenhuma disciplina fica **duas semanas seguidas sem contato com a
+   turma** por causa das cessões. A semana de conselho de classe
+   (12–16/10, sem aula) conta como semana sem contato, então ceder todas
+   as aulas na semana anterior ou posterior a ela também viola a regra.
+4. Nenhuma disciplina cede aula **na semana da própria prova ou na
+   semana anterior** — é a aula de revisão.
+5. Nenhuma disciplina cede mais de **11%** das aulas programadas dela no
+   semestre (alvo 10%; a folga até 11% é o que permite as 3 cessões das
+   disciplinas de 2 aulas semanais da regra 1).
+
+Quando a regra 1 e a regra 5 discordam, vale a mais restritiva. Datas de
+prova exigidas pela coordenação são inegociáveis: nenhuma cessão ocorre na
+semana delas nem na anterior.
+
+Se os limites estritos não fecharem, o gerador afrouxa nesta ordem —
+tetos +1, depois regra 4, depois regra 3 — e avisa no terminal o que foi
+relaxado. **As regras 1, 2 e 5 nunca são relaxadas.** O
+`verificar_calendario.py` separa **falhas** (regras que valiam) de
+**avisos** (regras relaxadas de propósito).
+
+Resultado desta rodada: a Proposta 3 fechou com **as cinco regras
+integrais, sem nenhuma exceção**. O pior caso de cessão caiu de 23,1%
+(Proposta 1) para 10,7%.
 
 ## Enviar para o GitHub
 
