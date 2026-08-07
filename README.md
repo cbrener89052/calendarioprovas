@@ -30,6 +30,10 @@ a cada semestre.
 - **`exportar_tabelas_turma.py`** — gera a tabela-resumo por turma a partir
   das propostas já gravadas: disciplina, professores (sigla + nome completo),
   dia e tempos da prova, e número de tempos. Uma aba por turma.
+- **`exportar_tempos_cedidos.py`** — gera o relatório de tempos cedidos por
+  turma a partir das propostas já gravadas, cruzando com a grade-base: para
+  cada disciplina/professor, número de aulas semanais e número de aulas
+  cedidas no semestre para provas de outras disciplinas. Uma aba por turma.
 
 ## Como rodar (em qualquer máquina)
 
@@ -41,6 +45,7 @@ pip install openpyxl
 python gerar_calendario.py        # gera as 2 propostas + relatório de trocas
 python verificar_calendario.py    # confere tudo; deve terminar com "OK"
 python exportar_tabelas_turma.py  # gera as tabelas-resumo por turma
+python exportar_tempos_cedidos.py # gera os relatórios de tempos cedidos
 ```
 
 A skill fica em `.claude/skills/calendario-provas/` e é carregada

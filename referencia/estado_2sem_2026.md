@@ -42,6 +42,19 @@ Período 2 varia por grupo (turmas que viajam à Alemanha terminam antes):
 - **10C1, 10C2, 12C1, 12C2**: Período 2 = 14/09/2026 a 12/11/2026.
 - **9C1, 9C2, 11C1, 11C2**: Período 2 = 14/09/2026 a 26/11/2026.
 
+## Fim das aulas normais (para o relatório de tempos cedidos)
+
+Data da última prova de 2ª chamada do semestre, confirmada pelo usuário —
+usada para contar quantas semanas letivas ativas cada turma tem no
+semestre (ver skill, item "Relatório de tempos cedidos"):
+
+- **10C1, 10C2, 12C1, 12C2**: até **13/11/2026** (sexta da semana 15).
+- **9C1, 9C2, 11C1, 11C2**: até **27/11/2026** (sexta da semana 17).
+
+A semana vetada (12 a 16/10, conselho de classe) foi tratada como **zero
+aula normal** — **confirmado pelo usuário**: não tem aula nenhuma nessa
+semana.
+
 ## Datas de simulados/AG (fixas, contam como avaliação, não podem ser movidas)
 
 | Código | Turmas | Data(s) | Período |
