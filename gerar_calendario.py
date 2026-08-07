@@ -633,7 +633,9 @@ def escada(n_exames, cessoes):
                 for mt in range(0, n_exames + 1)
                 for mg in (1, 2, 3)]
     n = n_exames + 1
-    return [(0, 0, 1), (0, n, 3), (n, n, 3)]
+    # o degrau com max_g1=2 e obrigatorio: sem ele a busca pula direto para
+    # 3 disciplinas do grupo 1 na mesma semana, o que a regra proibe
+    return [(0, 0, 1), (0, n, 1), (0, n, 2), (n, n, 2), (n, n, 3)]
 
 # Provas com dia/tempo forcados por exigencia externa (turma, disc, periodo)
 # -> (semana, dia). Ex.: 1a prova de Ingles da 10C2 tem que cair em
@@ -832,12 +834,16 @@ class Cessoes:
             self.cedidas_sem[dono][w] += 1
             self.semanas_cedidas[dono[0]][w] += 1
             registradas.append((dono, slot))
-        novo_exame = w not in self.exames[disc]
-        self.exames[disc].add(w)
-        return (registradas, disc, w, novo_exame)
+        # a semana da prova entra sob CADA disciplina que a compoe: numa
+        # prova combinada (LP/LIT/RED) quem cede tempo e Português,
+        # Redação ou Gramática, e e por esse nome que a regra 4 consulta
+        novos_exames = [c for c in familia_de(disc) if w not in self.exames[c]]
+        for c in novos_exames:
+            self.exames[c].add(w)
+        return (registradas, novos_exames, w)
 
     def desfazer(self, marca):
-        registradas, disc, w, novo_exame = marca
+        registradas, novos_exames, w = marca
         for (dono, slot) in registradas:
             self.slots[dono].discard(slot)
             self.cedidas_sem[dono][slot[0]] -= 1
@@ -847,8 +853,8 @@ class Cessoes:
             contagem[slot[0]] -= 1
             if contagem[slot[0]] <= 0:
                 del contagem[slot[0]]
-        if novo_exame:
-            self.exames[disc].discard(w)
+        for c in novos_exames:
+            self.exames[c].discard(w)
 
     def resumo(self):
         """{(disc, prof): nº de aulas cedidas} — para o relatorio."""
@@ -1176,6 +1182,20 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
     if not exames:
         return True, [], [], set(), {}, set(), {}
 
+    # Disciplinas que NAO sao resolvidas aqui (professores diferentes nas
+    # duas turmas -- na pratica o Ingles das turmas 10/11/12): a prova
+    # delas e alocada depois, por turma. Se estas provas coordenadas
+    # tomarem os tempos dessas disciplinas, a regra 4 ("nao ceder na
+    # semana da propria prova nem na anterior") pode deixa-las sem
+    # nenhuma semana livre. Evitar toma-las como doadoras.
+    pendentes = {d for (d, _p, _n, _per) in montar_exames(a) if d not in comuns}
+    for turma_x in (a, b):
+        pendentes |= {d for (d, _p, _n, _per) in montar_exames(turma_x)
+                      if d not in comuns}
+
+    def custo_pendente(bl):
+        return sum(1 for x in bl if x is not None and x[0] in pendentes)
+
     rnd = random.Random(seed)
     rnd.shuffle(exames)
 
@@ -1306,6 +1326,10 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
         melhor_ops.sort(key=lambda o: (
             cruza_intervalo(o[2], n),
             _tarde(o[2], n),
+            # nao consumir tempo de quem ainda precisa alocar a propria
+            # prova depois (ver 'pendentes'): so desempate, nunca piora as
+            # regras acima
+            custo_pendente(o[3]) + custo_pendente(o[4]),
             len(por_semana_a.get(o[0], [])) + len(por_semana_b.get(o[0], [])),
             o[5],
         ))
@@ -1506,12 +1530,20 @@ def relatorio(alocacoes_por_proposta, comuns_por_par):
     return p
 
 
-def montar_proposta(seed, folga=None, regra3=True, regra4=True):
+def montar_proposta(seed, folga=None, sem_regra3=(), sem_regra4=()):
     """Resolve as 8 turmas. folga=None: sem os limites de cessao da
-    Proposta 3. folga=N: com os limites, afrouxados em N unidades."""
+    Proposta 3. folga=N: com os limites, afrouxados em N unidades.
+
+    sem_regra3/sem_regra4: turmas em que essas regras ficam relaxadas. O
+    afrouxamento e POR TURMA -- se so uma turma nao fecha, as outras sete
+    continuam cumprindo a regra integralmente.
+
+    Devolve (alocacoes, turmas_que_nao_fecharam).
+    """
     aloc = {}
     preocup_dia, pre_psem, excluir_por_turma = {}, {}, {}
-    cessoes = {t: Cessoes(t, folga, regra3=regra3, regra4=regra4)
+    cessoes = {t: Cessoes(t, folga, regra3=t not in sem_regra3,
+                          regra4=t not in sem_regra4)
                for t in GRADES} if folga is not None else None
 
     # 1) provas de professor comum entre turmas irmas, coordenadas ou
@@ -1532,7 +1564,7 @@ def montar_proposta(seed, folga=None, regra3=True, regra4=True):
     # 2) o resto de cada turma (disciplinas independentes, ex. Ingles
     #    nas turmas 10/11/12), preenchendo ao redor do que ja foi
     #    decidido acima.
-    completo = True
+    falharam = set()
     for turma in GRADES:
         ok, res, g1, tarde, cruzadas = resolver(
             turma, seed + sum(map(ord, turma)),
@@ -1541,8 +1573,7 @@ def montar_proposta(seed, folga=None, regra3=True, regra4=True):
             excluir=excluir_por_turma.get(turma),
             cessoes=cessoes[turma] if cessoes else None)
         if not ok:
-            print(f"  !! {turma}: NAO foi possivel alocar tudo")
-            completo = False
+            falharam.add(turma)
         else:
             avisos = []
             if g1 > 1:
@@ -1557,7 +1588,7 @@ def montar_proposta(seed, folga=None, regra3=True, regra4=True):
             if avisos:
                 print(f"  ~  {turma}: " + "; ".join(avisos))
         aloc[turma].extend(res)
-    return aloc, completo
+    return aloc, falharam
 
 
 def main():
@@ -1582,24 +1613,39 @@ def main():
     # ultimo, a 3 (duas semanas sem contato). As regras 1, 2 e 5 (tetos) e
     # as datas exigidas pela coordenacao nunca sao relaxadas.
     print("Proposta 3: aplicando os limites de cessão de aula")
-    tentativas = [(f, True, True) for f in range(0, 4)] + \
-                 [(f, True, False) for f in range(0, 4)] + \
-                 [(f, False, False) for f in range(0, 4)]
-    aloc3, relaxou = None, None
-    for (folga, r3, r4) in tentativas:
-        aloc, ok = montar_proposta(20261107, folga=folga, regra3=r3, regra4=r4)
+    aloc3, sem_r3, sem_r4, folga = None, set(), set(), 0
+    for etapa in range(0, 12):
+        aloc, falharam = montar_proposta(20261107, folga=folga,
+                                         sem_regra3=sem_r3, sem_regra4=sem_r4)
         if aloc3 is None:
-            aloc3, relaxou = aloc, (folga, r3, r4)   # guarda a 1a como reserva
-        if ok:
-            aloc3, relaxou = aloc, (folga, r3, r4)
+            aloc3 = aloc                      # guarda a 1a como reserva
+        if not falharam:
+            aloc3 = aloc
             break
-        print(f"  ~  não fechou com folga +{folga}, regra3={r3}, regra4={r4}")
-    folga, r3, r4 = relaxou
-    if folga or not r3 or not r4:
-        print(f"  ATENÇÃO: Proposta 3 precisou de folga +{folga}"
-              + ("" if r4 else "; regra 4 (não ceder às vésperas da própria "
-                               "prova) relaxada")
-              + ("" if r3 else "; regra 3 (duas semanas sem contato) relaxada"))
+        aloc3 = aloc
+        # Afrouxa na ordem inversa da importancia. Os tetos (regras 1, 2 e
+        # 5) sao limites duros dados em numero pela escola, entao a folga
+        # neles e o ULTIMO recurso: subir a folga vale para todas as turmas
+        # e estoura varios tetos de uma vez, enquanto relaxar a regra 4
+        # atinge so a turma que nao fecha.
+        if not sem_r4 >= falharam:
+            sem_r4 |= falharam
+            print(f"  ~  relaxando a regra 4 apenas em {sorted(falharam)}")
+        elif not sem_r3 >= falharam:
+            sem_r3 |= falharam
+            print(f"  ~  relaxando a regra 3 apenas em {sorted(falharam)}")
+        elif folga < 3:
+            folga += 1
+            print(f"  ~  {sorted(falharam)} ainda não fecharam; subindo o "
+                  f"teto de cessões para +{folga}")
+        else:
+            print(f"  !! {sorted(falharam)} não fecharam nem com tudo relaxado")
+            break
+    if folga or sem_r3 or sem_r4:
+        print(f"  ATENÇÃO: Proposta 3 fechada com folga +{folga}"
+              + (f"; regra 4 relaxada em {sorted(sem_r4)}" if sem_r4 else "")
+              + (f"; regra 3 relaxada em {sorted(sem_r3)}" if sem_r3 else "")
+              + ". As demais turmas cumprem todas as regras.")
     else:
         print("  Proposta 3 fechada com todos os limites estritos")
     caminho = escrever(3, aloc3)
