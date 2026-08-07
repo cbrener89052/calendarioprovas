@@ -55,6 +55,46 @@ e das aulas do dia); já *de quem* veio cada tempo emprestado é a melhor
 estimativa possível pela regra 3. Isso precisa ficar sinalizado no
 relatório.
 
+## Resultado
+
+132 das 140 provas dentro do período letivo (8 caíram depois do fim das
+aulas regulares — confirmado pela escola: aulas encerradas antes, então
+não cedem tempo de ninguém). Dessas 132, **104 foram reconstruídas com
+confiança** e 28 (21%) ficaram sem reconstrução possível — ver pendências
+abaixo. As 28 ficam de fora da contagem (conservador: subconta em vez de
+chutar).
+
+| Turma | Cedidas | Aulas no semestre | % | Mais afetado |
+|---|---|---|---|---|
+| 9C1 | 10 | 846 | 1,2% | Mat/HRi — 3 (9,1%) |
+| 9C2 | 10 | 832 | 1,2% | GL/SGa — 3 (6,0%) |
+| 10C1 | 17 | 812 | 2,1% | DaF/Swa — 3 (4,3%) |
+| 10C2 | 13 | 798 | 1,6% | DaF/Swa — 5 (7,1%) |
+| 11C1 | 7 | 831 | 0,8% | Mat/BrSa — 3 (8,8%) |
+| 11C2 | 14 | 848 | 1,7% | Bio/Raq — 2 (11,8%) |
+| 12C1 | 15 | 700 | 2,1% | DaF/Swa — 3 (5,4%) |
+
+Percentuais bem mais baixos que os do 1º semestre de 2026 (2,9%–3,6%) e
+das propostas do 2º semestre de 2026 — mas a comparação exige cautela por
+dois motivos: (1) a reconstrução aqui é conservadora, então tende a
+**subestimar**; (2) só se conta o que passa pela regra do vizinho — sem
+os tempos reais, não há como saber se o percentual verdadeiro é maior.
+
+### Pendências: 28 provas sem reconstrução possível
+
+Duas causas, ambas por falta de âncora confiável — nunca chutadas:
+
+1. **Nenhum tempo próprio, nem na turma nem na irmã** (10 casos) — ex.:
+   `PGRAM (2)` na 9C1/9C2 em duas datas, `Bio (2) Fsi` e `QUI (2) CAL` na
+   10C1/10C2, `Soc (1)` na 12C1 (sem irmã em 2025). A disciplina
+   simplesmente não tem aula naquele dia da semana em nenhuma das duas
+   turmas.
+2. **Falta 1 tempo e os vizinhos estão em branco na grade extraída**
+   (18 casos) — ex.: Física da 11C1/11C2, Matemática da 11C1. Uma célula
+   em branco pode ser um período livre real ou uma falha do OCR — não dá
+   para diferenciar com segurança, então a prova fica de fora em vez de
+   presumir.
+
 ## Comparação entre semestres
 
 Use sempre o **percentual**, nunca a contagem absoluta: os semestres têm

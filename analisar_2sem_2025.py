@@ -51,6 +51,17 @@ ALIAS = [
 ]
 
 
+# Nome de exibicao, igual aos relatorios de 2026, para os relatorios
+# poderem ser comparados lado a lado.
+NOME_EXIBIDO = {
+    "mat": "Mat", "DaF": "DaF", "GL": "GL", "port": "Port", "gram": "Gram",
+    "ing": "Ing", "ingT": "Ing", "pred": "Redação", "his": "Hist",
+    "geo": "Geo", "bio": "Bio", "fis": "Fis", "qui": "Qui", "fil": "Fil",
+    "soc": "Soc", "esp": "Ed.Física", "art": "Artes", "mus": "Música",
+    "tec": "Tec", "elet": "Eletiva", "apoio": "Apoio", "prve": "Proj.Vestibular",
+}
+
+
 def sem_acento(s):
     return "".join(c for c in unicodedata.normalize("NFD", s)
                    if unicodedata.category(c) != "Mn")
@@ -114,6 +125,44 @@ def ler_provas(caminho=SRC):
 
 def dentro_do_periodo(turma, data):
     return INICIO <= data <= FIM[grupo(turma)]
+
+
+def dias_sem_aula(caminho=SRC):
+    """{turma: {datas marcadas 'unterrichtsfrei' no calendário de provas}}."""
+    wb = openpyxl.load_workbook(caminho, data_only=True)
+    out = {}
+    for turma in TURMAS:
+        ws = wb[turma]
+        r_cab, cols = colunas_da_aba(ws)
+        primeira_col_dia = min(cols)
+        livres = set()
+        for r in range(r_cab + 1, ws.max_row + 1):
+            segunda = None
+            for c in range(1, primeira_col_dia):
+                v = ws.cell(r, c).value
+                if isinstance(v, datetime.datetime):
+                    segunda = v.date()
+                    break
+            if segunda is None:
+                continue
+            for c, d in cols.items():
+                v = str(ws.cell(r, c).value or "")
+                if "unterrichtsfrei" in v.lower():
+                    livres.add(segunda + datetime.timedelta(days=d - 1))
+        out[turma] = livres
+    return out
+
+
+def semanas_letivas(turma, livres):
+    """{dia_da_semana (1-5): nº de vezes que esse dia teve aula}."""
+    cont = collections.Counter()
+    d = INICIO
+    fim = FIM[grupo(turma)]
+    while d <= fim:
+        if d.isoweekday() <= 5 and d not in livres[turma]:
+            cont[d.isoweekday()] += 1
+        d += datetime.timedelta(days=1)
+    return cont
 
 
 def main():
