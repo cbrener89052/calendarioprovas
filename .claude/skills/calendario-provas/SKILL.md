@@ -1,6 +1,6 @@
 ---
 name: "calendario-provas"
-description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Lê o horário-base (planilha, PDF ou imagem) e gera as propostas de calendário, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos) e o relatório de tempos cedidos por disciplina/professor (aulas semanais x aulas cedidas para provas de outras disciplinas). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas."
+description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, provas coordenadas entre turmas irmãs quando o professor é o mesmo, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Também aplica limites de cessão de aula: teto de cessões por disciplina no semestre, percentual máximo da carga, proibição de ceder às vésperas da própria prova e de ficar duas semanas sem contato com a turma. Lê o horário-base (planilha, PDF ou imagem) e gera as propostas de calendário, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos) e o relatório de tempos cedidos por disciplina/professor (aulas semanais, aulas programadas no semestre, aulas cedidas e percentual). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas, ou para limitar quanto cada professor cede de aula."
 ---
 
 # Calendário de Provas
@@ -458,9 +458,12 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       tempo: toda cedência de um está refletida no outro
 - [ ] Nas propostas que aplicam os **limites de cessão de aula**: nenhuma
       disciplina de 1 aula semanal cedeu; nenhuma de 2-3 aulas semanais
-      passou de 2 cessões; nenhuma passou de 10% das aulas do semestre;
-      nenhuma ficou duas semanas seguidas sem contato com a turma por
-      causa de cessão; e nenhuma cedeu na semana da própria prova ou na
-      anterior
+      passou do teto dela (2, ou 3 nas disciplinas com exceção); nenhuma
+      passou do teto percentual; nenhuma ficou duas semanas seguidas sem
+      contato com a turma por causa de cessão; e nenhuma cedeu na semana
+      da própria prova ou na anterior
+- [ ] O que o gerador anunciou ter relaxado bate exatamente com o que o
+      verificador lista como aviso — se o gerador disse "todos os limites
+      estritos", não pode haver nenhum aviso de regra de cessão
 - [ ] A estrutura de saída está conforme combinado
 
