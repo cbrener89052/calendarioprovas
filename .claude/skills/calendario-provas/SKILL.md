@@ -195,6 +195,79 @@ Nunca comece a montar o calendário sem antes:
 - **Não preencher**: células de dia sem aula; células já preenchidas com
   qualquer outra informação.
 
+## Limites de cessão de aula
+
+Conjunto de tetos pedido pela coordenação para proteger a carga horária de
+quem cede tempo. Confirmar com o usuário se valem para **todas** as
+propostas ou só para uma proposta específica — a primeira vez que
+apareceram, foram pedidos como uma proposta à parte (Proposta 3), mantendo
+as anteriores sem eles para comparação.
+
+Todos os tetos são por **(disciplina, professor) dentro de uma turma** — é
+a mesma chave do relatório de tempos cedidos, então os dois batem
+diretamente.
+
+1. **2 ou 3 aulas semanais → no máximo 2 cessões no semestre.**
+   *Exceção confirmada nesta escola*: **História, Geografia e GL** podem
+   ceder **3**. Perguntar sempre se há disciplinas com exceção — não
+   presumir a lista.
+2. **1 aula semanal → não cede nada.** (Já valia antes como regra geral;
+   aqui vira caso particular do mesmo princípio.)
+3. **Nunca ficar duas semanas seguidas sem contato com a turma.** Uma
+   semana "sem contato" é aquela em que todas as aulas da disciplina
+   naquela semana foram cedidas — e a semana vetada (conselho de classe)
+   conta como sem contato para todo mundo, então ceder tudo na semana
+   imediatamente anterior ou posterior a ela também viola a regra.
+   Avaliar só o que a cessão **causa**: se a disciplina já ficaria sem
+   contato por outro motivo (feriado no único dia dela), isso não é
+   provocado pela cessão e não conta.
+4. **Não ceder às vésperas da própria prova.** Se a disciplina tem prova
+   marcada para aquela semana ou para a semana seguinte, ela não cede
+   aula — é justamente a aula de revisão. Vale nos dois sentidos, e o
+   algoritmo precisa checar os dois: ao alocar uma cessão (a prova da
+   doadora já está marcada?) e ao alocar uma prova (a disciplina já cedeu
+   aula na semana da prova ou na anterior?).
+5. **Teto percentual das aulas do semestre.** O alvo é 10%, e o teto duro
+   é **11%** — nenhuma disciplina cede mais que isso das aulas programadas
+   dela no semestre (ver o cálculo de "aulas programadas" no relatório de
+   tempos cedidos). A folga entre o alvo e o teto é o que viabiliza as 3
+   cessões das disciplinas de 2 aulas semanais da exceção acima
+   (3 de 28 aulas = 10,7%). Quando o percentual e a regra 1 discordam,
+   vale **a mais restritiva**.
+
+Implementação: o teto efetivo de cada disciplina é
+`min(regra 1, floor(11% das aulas programadas))`, e 0 para quem tem 1 aula
+semanal. As regras 3 e 4 são checadas a cada cessão candidata, durante a
+busca — não dá para aplicá-las depois, porque mudam quais slots são
+viáveis.
+
+**Datas exigidas pela coordenação são inegociáveis e vêm antes da regra
+4.** Se uma prova tem data fixa, nenhuma cessão pode ocorrer na semana
+dela nem na anterior — senão a regra 4 tornaria a data impossível. Essa
+proteção precisa entrar **na fase que decide as provas coordenadas entre
+turmas irmãs**, que roda antes das provas individuais: sem ela, as provas
+coordenadas consomem justamente os tempos que a prova de data fixa
+precisaria, e o calendário fica insolúvel sem sintoma óbvio.
+
+**Se os limites estritos não fecharem o calendário**, afrouxar nesta
+ordem, sempre **avisando o usuário** do que foi relaxado:
+1. subir os tetos de cessão de uma unidade por vez;
+2. relaxar a **regra 4** (não ceder às vésperas da própria prova);
+3. relaxar a **regra 3** (duas semanas sem contato).
+
+As regras 1, 2 e 5 (os tetos) e as datas exigidas pela coordenação **nunca**
+são relaxadas. Nunca entregar em silêncio uma proposta que violou os
+limites: o script de verificação deve separar **falhas** (regras que
+valiam) de **avisos** (regras que foram explicitamente relaxadas).
+
+**Custo computacional**: estas regras encarecem muito cada nó da busca
+(medido: ~600 nós/s contra dezenas de milhares sem elas). Duas
+providências são necessárias para o gerador terminar em tempo útil:
+pré-computar uma única vez os blocos (dia, tempo) válidos de cada prova —
+eles não dependem da semana nem do estado da busca — e usar um orçamento
+de nós menor, já que uma solução viável aparece em poucos milhares de nós
+e um teto alto só faz os degraus inviáveis custarem minutos.
+
 ## Leitura do arquivo-base
 
 - Disciplina abreviada, sigla do professor e sala aparecem juntas em cada
@@ -376,5 +449,11 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       avaliações, e todas as siglas foram traduzidas em nomes
 - [ ] O relatório de tempos cedidos bate com o relatório de trocas de
       tempo: toda cedência de um está refletida no outro
+- [ ] Nas propostas que aplicam os **limites de cessão de aula**: nenhuma
+      disciplina de 1 aula semanal cedeu; nenhuma de 2-3 aulas semanais
+      passou de 2 cessões; nenhuma passou de 10% das aulas do semestre;
+      nenhuma ficou duas semanas seguidas sem contato com a turma por
+      causa de cessão; e nenhuma cedeu na semana da própria prova ou na
+      anterior
 - [ ] A estrutura de saída está conforme combinado
 

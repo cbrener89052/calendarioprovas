@@ -44,38 +44,10 @@ REV_NOME = {}
 for _cod, _nome in G.NOME.items():
     REV_NOME.setdefault(_nome, _cod)
 
-# ultima (semana, dia) com aula normal no semestre, por grupo de turma --
-# a data da ultima prova de 2a chamada, confirmada pela escola. Depois
-# disso as turmas 10/12 viajam (fim do ano letivo) e as turmas 9/11
-# encerram o periodo de avaliacao.
-FIM_AULAS = {
-    "10_12": (15, 5),   # sexta da semana 15 = 13/11/2026
-    "9_11": (17, 5),    # sexta da semana 17 = 27/11/2026
-}
-
-
-def semanas_ativas(grupo):
-    """Semanas letivas normais do semestre (nao so o periodo de provas),
-    da semana 1 ate a ultima data de 2a chamada do grupo, descontando a
-    semana vetada (conselho de classe, sem aula)."""
-    ultima_semana, _d = FIM_AULAS[grupo]
-    return set(range(1, ultima_semana + 1)) - G.SEMANA_BLOQUEADA
-
-
-def aulas_programadas(turma, dia):
-    """Quantas aulas de um certo dia da semana acontecem no semestre
-    inteiro da turma, descontando feriados que caem nesse dia da semana."""
-    semanas = semanas_ativas(G.grupo_turma(turma))
-    faltas = sum(1 for (sw, sd) in G.BLOQUEIOS if sd == dia and sw in semanas)
-    return len(semanas) - faltas
-
-
-def programadas_por_turma(turma):
-    """{(codigo, prof): nº de aulas programadas no semestre} da turma."""
-    cont = collections.Counter()
-    for (d, _t), (codigo, prof) in G.GRADES[turma].items():
-        cont[(codigo, prof)] += aulas_programadas(turma, d)
-    return cont
+# O calculo de aulas programadas no semestre vive no gerador (as regras de
+# limite de cessao da Proposta 3 dependem dele), para nao haver duas
+# versoes da mesma conta.
+programadas_por_turma = G.programadas_no_semestre
 
 
 def ler_exames(caminho, turma):
@@ -233,7 +205,7 @@ def exportar(proposta, siglas):
 
 def main():
     siglas = carregar_siglas()
-    for p in (1, 2):
+    for p in (1, 2, 3):
         print("Gerado:", exportar(p, siglas))
 
 
