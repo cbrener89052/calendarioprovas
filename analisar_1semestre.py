@@ -226,7 +226,24 @@ FAMILIA = {
     "ing": {"ing", "ingT"},          # nas turmas 9 o ingles aparece como ingT
 }
 
-ULTIMA_SEMANA = 23                   # 06 a 10/07/2026, fim do 1o semestre
+# Periodo letivo do 1o semestre, confirmado pela escola.
+INICIO_AULAS = datetime.date(2026, 2, 4)     # quarta da semana 1
+FIM_AULAS = datetime.date(2026, 7, 10)       # sexta da semana 23
+ULTIMA_SEMANA = 23
+
+
+def data_de(w, d):
+    """Data da (semana, dia) — semana 1 comeca em 02/02/2026 (segunda)."""
+    return SEMANA1 + datetime.timedelta(days=7 * (w - 1) + d - 1)
+
+
+def dia_letivo(w, d, livres_turma):
+    """Teve aula nesse dia? Fora do periodo letivo ou marcado como
+    'unterrichtsfrei' no calendario, nao."""
+    dt = data_de(w, d)
+    if dt < INICIO_AULAS or dt > FIM_AULAS:
+        return False
+    return (w, d) not in livres_turma
 
 # Nome de exibicao das disciplinas, igual ao dos relatorios do 2o semestre,
 # para os dois poderem ser comparados lado a lado. A grade do 1o semestre
@@ -265,7 +282,7 @@ def dias_sem_aula(caminho=SRC):
 def aulas_programadas(turma, dia, livres):
     """Quantas vezes uma aula desse dia da semana aconteceu no semestre."""
     return sum(1 for w in range(1, ULTIMA_SEMANA + 1)
-               if (w, dia) not in livres[turma])
+               if dia_letivo(w, dia, livres[turma]))
 
 
 def contar(grade, provas, livres):
