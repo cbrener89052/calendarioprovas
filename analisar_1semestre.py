@@ -228,6 +228,20 @@ FAMILIA = {
 
 ULTIMA_SEMANA = 23                   # 06 a 10/07/2026, fim do 1o semestre
 
+# Nome de exibicao das disciplinas, igual ao dos relatorios do 2o semestre,
+# para os dois poderem ser comparados lado a lado. A grade do 1o semestre
+# usa alguns codigos proprios ('p'/'plit' para Portugues, 'ingT' para o
+# Ingles das turmas 9).
+NOME_EXIBIDO = {
+    "mat": "Mat", "DaF": "DaF", "GL": "GL", "p": "Port", "plit": "Port",
+    "gram": "Gram", "ing": "Ing", "ingT": "Ing", "pred": "Redação",
+    "his": "Hist", "geo": "Geo", "bio": "Bio", "fis": "Fis", "qui": "Qui",
+    "fil": "Fil", "soc": "Soc", "esp": "Ed.Física", "art": "Artes",
+    "mus": "Música", "tec": "Tec", "finan": "Finanças", "socem": "Socioem.",
+    "apr": "Aprof.", "ap": "Apoio", "apmat": "Apoio Mat",
+    "appor": "Apoio Port",
+}
+
 
 def dias_sem_aula(caminho=SRC):
     """{turma: {(semana, dia)}} marcados como 'unterrichtsfrei' no proprio
@@ -279,7 +293,8 @@ def contar(grade, provas, livres):
         for chave, n_sem in semanais.items():
             n_prog = programadas[chave]
             n_ced = cedidas.get(chave, 0)
-            linhas.append((chave[0], chave[1], n_sem, n_prog, n_ced,
+            linhas.append((NOME_EXIBIDO.get(chave[0], chave[0]), chave[1],
+                           n_sem, n_prog, n_ced,
                            (n_ced / n_prog) if n_prog else None))
         linhas.sort(key=lambda x: (-x[4], x[0], x[1]))
         tabelas[turma] = linhas
