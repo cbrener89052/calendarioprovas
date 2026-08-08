@@ -251,14 +251,33 @@ precisaria, e o calendário fica insolúvel sem sintoma óbvio.
 
 **Se os limites estritos não fecharem o calendário**, afrouxar nesta
 ordem, sempre **avisando o usuário** do que foi relaxado:
-1. subir os tetos de cessão de uma unidade por vez;
-2. relaxar a **regra 4** (não ceder às vésperas da própria prova);
-3. relaxar a **regra 3** (duas semanas sem contato).
+1. relaxar a **regra 4** (não ceder às vésperas da própria prova);
+2. relaxar a **regra 3** (duas semanas sem contato);
+3. só por último, subir os tetos de cessão (regra 1/5) de uma unidade
+   por vez.
 
-As regras 1, 2 e 5 (os tetos) e as datas exigidas pela coordenação **nunca**
-são relaxadas. Nunca entregar em silêncio uma proposta que violou os
-limites: o script de verificação deve separar **falhas** (regras que
-valiam) de **avisos** (regras que foram explicitamente relaxadas).
+Os tetos (regras 1, 2 e 5) são limites duros que a escola deu em
+**número** — relaxá-los primeiro é a troca errada: uma folga vale para
+as 8 turmas de uma vez e pode estourar dezenas de tetos só para salvar
+a regra 4 em uma única turma. Relaxar a regra 4 (ou a 3) primeiro, e
+**por turma** — só nas turmas que não fecham, nunca nas 8 de uma vez —
+custa muito menos: normalmente resolve 1 ou 2 turmas sem tocar nas
+outras 6 ou 7, que continuam cumprindo tudo. As datas exigidas pela
+coordenação **nunca** são relaxadas, em nenhuma etapa. Nunca entregar
+em silêncio uma proposta que violou os limites: o script de verificação
+deve separar **falhas** (regras que valiam) de **avisos** (regras que
+foram explicitamente relaxadas, e em quais turmas).
+
+**No solver de provas coordenadas entre turmas irmãs, evite tomar tempo
+de disciplinas cuja prova ainda será alocada depois** (ex.: o Inglês das
+turmas 10/11/12, que tem professores diferentes entre as turmas irmãs e
+por isso é resolvido individualmente, depois das coordenadas). Sem essa
+precaução, a prova coordenada consome justamente os tempos de que a
+disciplina pendente vai precisar, e a regra 4 trava essa disciplina sem
+nenhuma semana livre mais adiante — sintoma nada óbvio de rastrear. É
+critério de desempate entre opções já equivalentes nas regras
+anteriores (nunca piora intervalo, tarde ou grupo 1 só para evitar
+esse doador).
 
 **A semente da busca importa**: com restrições tão apertadas, qual semente
 embaralha a ordem das opções decide se existe ou não solução dentro do
@@ -464,6 +483,8 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       da própria prova ou na anterior
 - [ ] O que o gerador anunciou ter relaxado bate exatamente com o que o
       verificador lista como aviso — se o gerador disse "todos os limites
-      estritos", não pode haver nenhum aviso de regra de cessão
+      estritos", não pode haver nenhum aviso de regra de cessão; se disse
+      "regra 4 relaxada em ['11C1']", os avisos de véspera-da-própria-prova
+      só podem aparecer nessa turma, nenhuma outra
 - [ ] A estrutura de saída está conforme combinado
 
