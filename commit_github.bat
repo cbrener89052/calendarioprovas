@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 REM ============================================================
 REM  Envia esta pasta para o GitHub:
 REM  https://github.com/cbrener89052/calendarioprovas
@@ -59,9 +59,9 @@ if errorlevel 1 (
   git status --short
   echo.
   set "MSG="
-  set /p MSG="Mensagem do commit (ENTER usa a padrao): "
-  if "%MSG%"=="" set "MSG=Atualiza calendario de provas, scripts e skill"
-  git commit -m "%MSG%"
+  set /p "MSG=Mensagem do commit (ENTER usa a padrao): "
+  if "!MSG!"=="" set "MSG=Atualiza calendario de provas, scripts e skill"
+  git commit -m "!MSG!"
   if errorlevel 1 goto :erro
 ) else (
   echo Nenhum arquivo novo para preparar.
