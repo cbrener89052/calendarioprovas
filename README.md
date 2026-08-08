@@ -116,7 +116,37 @@ Resultado desta rodada: a Proposta 3 fechou com **as cinco regras
 integrais, sem nenhuma exceção**. O pior caso de cessão caiu de 23,1%
 (Proposta 1) para 10,7%.
 
-## Enviar para o GitHub
+## Sincronizar com o GitHub
 
-Dois cliques em `commit_github.bat`. Na primeira vez o Git pede o login;
-use um Personal Access Token no lugar da senha.
+Repositório remoto: https://github.com/cbrener89052/calendarioprovas
+
+### Pasta local já existente (Windows)
+
+Se os arquivos já estão em uma pasta (por exemplo
+`C:\Users\cbrener\Downloads\CALENDARIODEPROVAS\calendarioprovas`) e você
+quer ligá-la ao GitHub **sem apagar nada**:
+
+1. Copie para essa pasta os arquivos `.bat` deste repositório (ou clone
+   o repo em outro lugar e copie o conteúdo para lá).
+2. Dê dois cliques em **`configurar_pasta_local.bat`** — ele cria o
+   `.git`, conecta o remoto, une com a `main` do GitHub e configura o
+   acompanhamento (`push` / `pull`).
+3. Na primeira vez o Git pede login; use um
+   [Personal Access Token](https://github.com/settings/tokens) no lugar
+   da senha.
+
+Depois disso:
+
+| Ação | Arquivo |
+|---|---|
+| Enviar alterações locais → GitHub | `commit_github.bat` |
+| Baixar alterações do GitHub → pasta | `atualizar_do_github.bat` |
+
+### Pasta nova (qualquer sistema)
+
+```bash
+git clone https://github.com/cbrener89052/calendarioprovas.git
+cd calendarioprovas
+```
+
+No Windows, após editar arquivos, use `commit_github.bat` para enviar.
