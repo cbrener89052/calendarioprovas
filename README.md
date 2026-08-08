@@ -150,3 +150,26 @@ cd calendarioprovas
 ```
 
 No Windows, após editar arquivos, use `commit_github.bat` para enviar.
+
+### Fluxo de trabalho (Cursor ↔ GitHub ↔ Windows)
+
+```
+  Cursor (desenvolvimento)  ──push──►  GitHub (main)
+                                              │
+  Windows (pasta local)     ◄──pull───  GitHub (main)
+```
+
+**Quando desenvolvemos aqui no Cursor:**
+
+1. Eu faço as alterações, commito e envio para o GitHub (`main`).
+2. Na sua máquina, dê dois cliques em **`atualizar_do_github.bat`**
+   (ou `git pull --rebase origin main` no terminal).
+
+**Quando você edita algo no Windows:**
+
+1. Dê dois cliques em **`commit_github.bat`** para enviar ao GitHub.
+2. Na próxima sessão aqui no Cursor, o agente parte do que está no
+   GitHub (já atualizado).
+
+Sempre use a branch **`main`** — é ela que fica sincronizada entre os
+dois lados.
