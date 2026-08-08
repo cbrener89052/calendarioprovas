@@ -163,6 +163,17 @@ Nunca comece a montar o calendário sem antes:
   provas ficaram à tarde e por quê.
 - **Disciplinas com 1 prova no semestre** (1 tempo semanal na grade, ou
   exceção de série confirmada): alocar em apenas um dos períodos.
+- **Distância mínima de 4 semanas entre as 2 provas da mesma disciplina/
+  professor** no semestre (quando a turma tem 1 prova por período — a
+  maioria das disciplinas). Não se aplica às disciplinas de prova única
+  (Fil/Soc e as exceções de série), que só têm 1 ocorrência. Checar pela
+  **diferença entre os números das semanas** (não pela data corrida) —
+  ex.: prova de P1 na semana 6 e prova de P2 na semana 9 tem distância 3,
+  viola a regra; semana 6 e semana 10 tem distância 4, ok. Vale tanto
+  para as provas resolvidas por turma quanto para as coordenadas entre
+  turmas irmãs (mesmo professor, tempos diferentes) — nesse segundo caso
+  a distância é conferida **por turma**, comparando as duas ocorrências
+  daquela disciplina especificamente naquela turma.
 - **Simulados/AG**: entram nas datas informadas, são fixos, não podem ser
   movidos para encaixar outras provas.
 - **Tempo de aplicação**: preferencialmente no(s) tempo(s) da própria
@@ -555,6 +566,8 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Cada disciplina tem exatamente o número de provas esperado (2, ou 1
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
       prova foi descartada silenciosamente na escrita
+- [ ] Nas disciplinas com 2 provas no semestre, a distância entre as
+      semanas das duas é de **pelo menos 4**
 - [ ] Provas combinadas (LP/LIT/RED) usam o número certo de tempos e não
       aparecem como disciplinas separadas
 - [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada

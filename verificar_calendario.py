@@ -117,6 +117,21 @@ def main():
                 if c != esperado:
                     problemas.append(f"{pre}: {disc} tem {c} provas (esperado {esperado})")
 
+            # 5a. distancia minima entre as 2 provas do semestre da mesma
+            #     disciplina (disciplinas de prova unica nao entram, ja
+            #     tem so 1 ocorrencia)
+            por_disc = collections.defaultdict(list)
+            for (_, w, _, disc, _tx, _ti, _nt, _ds) in provas:
+                if not SIM_COD.match(disc):
+                    por_disc[disc].append(w)
+            for disc, semanas in por_disc.items():
+                if len(semanas) == 2:
+                    dist = abs(semanas[0] - semanas[1])
+                    if dist < G.DISTANCIA_MIN_MESMA_DISC:
+                        problemas.append(
+                            f"{pre}: {disc} com só {dist} semana(s) entre as "
+                            f"2 provas (mínimo {G.DISTANCIA_MIN_MESMA_DISC})")
+
             # 5b. LP/LIT/RED usa 3 tempos nas turmas 10/11/12
             for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 if disc == "LP/LIT/RED":

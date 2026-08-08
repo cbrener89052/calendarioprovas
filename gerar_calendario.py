@@ -352,6 +352,12 @@ DOIS_TEMPOS = {"mat", "DaF", "GL", "port", "ing", "pred", "his", "geo", "bio", "
 UM_TEMPO = {"fil", "soc"}                       # 1 tempo, 1 prova no semestre
 NOVE_UM_TEMPO = {"bio", "fis", "qui"}           # nas turmas 9C: 1 tempo, 1 prova no semestre
 
+# Quando a turma tem 2 provas no semestre da mesma disciplina/professor
+# (uma por periodo), a distancia entre as duas datas tem que ser de pelo
+# menos 4 semanas -- pedido da coordenacao. Nao se aplica as disciplinas
+# de prova unica (UM_TEMPO / NOVE_UM_TEMPO), que so tem 1 ocorrencia.
+DISTANCIA_MIN_MESMA_DISC = 4
+
 # ---------------------------------------------------- CALENDARIO / BLOQUEIOS
 # semanas: 4..7 = periodo 1 ; 7..16 = periodo 2
 # P1 mudou de 17/08-11/09 (semanas 3-6) para 24/08-18/09 (semanas 4-7) —
@@ -990,6 +996,10 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
             return False
         if disc in atuais:
             return False
+        # distancia minima entre as 2 provas do semestre da mesma disciplina
+        for (w2, _d2, _t2, _n2, dc2, _p2, _do2) in resultado:
+            if dc2 == disc and abs(w - w2) < DISTANCIA_MIN_MESMA_DISC:
+                return False
         if disc in GRUPO1:
             if sum(1 for a in atuais if eh_grupo1(a)) >= max_g1:
                 return False
@@ -1286,6 +1296,11 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
             return False
         if disc in atuais:
             return False
+        # distancia minima entre as 2 provas do semestre da mesma disciplina
+        hist = resultado_a if turma == a else resultado_b
+        for (w2, _d2, _t2, _n2, dc2, _p2, _do2) in hist:
+            if dc2 == disc and abs(w - w2) < DISTANCIA_MIN_MESMA_DISC:
+                return False
         if disc in GRUPO1:
             if sum(1 for x in atuais if eh_grupo1(x)) >= max_g1:
                 return False
