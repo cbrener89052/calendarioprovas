@@ -1,6 +1,6 @@
 ---
 name: "calendario-provas"
-description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, provas coordenadas entre turmas irmãs quando o professor é o mesmo, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Também aplica limites de cessão de aula: teto de cessões por disciplina no semestre, percentual máximo da carga, proibição de ceder às vésperas da própria prova e de ficar duas semanas sem contato com a turma. Lê o horário-base (planilha, PDF ou imagem) e gera as propostas de calendário, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos) e o relatório de tempos cedidos por disciplina/professor (aulas semanais, aulas programadas no semestre, aulas cedidas e percentual). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas, ou para limitar quanto cada professor cede de aula."
+description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, provas coordenadas entre turmas irmãs quando o professor é o mesmo, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Com limites de cessão de aula: teto de cessões por disciplina no semestre, percentual máximo da carga, proibição de ceder às vésperas da própria prova e de ficar duas semanas sem contato com a turma. Lê o horário-base (planilha, PDF ou imagem) e gera o calendário de provas, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos) e o relatório de tempos cedidos por disciplina/professor (aulas semanais, aulas programadas no semestre, aulas cedidas e percentual). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas com proteção de carga horária dos professores."
 ---
 
 # Calendário de Provas
@@ -18,9 +18,9 @@ Montar um calendário de provas a partir de:
 4. (Se houver) A tabela oficial de simulados / avaliações globais.
 5. A planilha de siglas de professores (sigla → nome completo).
 
-O resultado final são as **propostas de calendário** (quantidade combinada
-com o usuário), um **relatório de trocas de tempo entre professores** e uma
-**tabela-resumo por turma**.
+O resultado final é o **calendário de provas**, um **relatório de trocas de
+tempo entre professores**, uma **tabela-resumo por turma** e um **relatório
+de tempos cedidos**.
 
 ## Passo 0 — Perguntas obrigatórias antes de começar
 
@@ -68,8 +68,7 @@ Nunca comece a montar o calendário sem antes:
    Socioemocional, aulas de apoio/aprofundamento ("ap...", "apr..."),
    eletivas e Projeto Vestibular. Confirmar sempre.
 9. **Confirmar a estrutura de saída** (quantos arquivos/abas, layout de
-   célula) olhando o arquivo-modelo mais recente. Perguntar quantas
-   propostas o usuário quer.
+   célula) olhando o arquivo-modelo mais recente.
 10. **Confirmar a leitura do horário-base** em caso de ambiguidade. Cuidado
     com siglas parecidas entre escolas: aqui "esp"/"Spo" = Esportes/Educação
     Física, NÃO Espanhol.
@@ -198,10 +197,7 @@ Nunca comece a montar o calendário sem antes:
 ## Limites de cessão de aula
 
 Conjunto de tetos pedido pela coordenação para proteger a carga horária de
-quem cede tempo. Confirmar com o usuário se valem para **todas** as
-propostas ou só para uma proposta específica — a primeira vez que
-apareceram, foram pedidos como uma proposta à parte (Proposta 3), mantendo
-as anteriores sem eles para comparação.
+quem cede tempo. Sempre aplicados no calendário de provas.
 
 Todos os tetos são por **(disciplina, professor) dentro de uma turma** — é
 a mesma chave do relatório de tempos cedidos, então os dois batem
@@ -353,8 +349,7 @@ LP/LIT/RED - BPad/MFo/SMo
 
 ## Entregáveis finais
 
-1. **As propostas de calendário**, na estrutura combinada com o usuário
-   (ex.: um arquivo xlsx por proposta, com uma aba por turma).
+1. **O calendário de provas**, em arquivo xlsx com uma aba por turma.
 2. **Relatório de trocas de tempo entre professores**, em tabela, uma linha
    por troca:
 
@@ -367,7 +362,7 @@ LP/LIT/RED - BPad/MFo/SMo
 
    Claro o suficiente para ser usado direto na comunicação com os
    professores.
-3. **Tabela-resumo por turma** (uma aba por turma, um arquivo por proposta),
+3. **Tabela-resumo por turma** (uma aba por turma, em arquivo separado),
    em formato de lista ordenada por data — é a visão que a coordenação usa
    para conferir e divulgar. Colunas:
 
@@ -389,11 +384,11 @@ LP/LIT/RED - BPad/MFo/SMo
    - Gerar essa tabela a partir das planilhas de calendário já gravadas,
      em script separado — assim ela reflete o que foi realmente escrito, e
      não o que o gerador acha que escreveu.
-4. **Relatório de tempos cedidos** (uma aba por turma, um arquivo por
-   proposta), para a coordenação enxergar de uma vez quanto cada
-   disciplina/professor perdeu de aula própria ao longo do semestre por
-   causa de provas de outras disciplinas, em número absoluto e em
-   percentual da carga do semestre. Colunas:
+4. **Relatório de tempos cedidos** (uma aba por turma, em arquivo separado),
+   para a coordenação enxergar de uma vez quanto cada disciplina/professor
+   perdeu de aula própria ao longo do semestre por causa de provas de outras
+   disciplinas, em número absoluto e em percentual da carga do semestre.
+   Colunas:
 
    | Disciplina | Professor | Nº de aulas semanais | Nº de aulas programadas no semestre | Nº de aulas cedidas para provas de outras disciplinas | % de aulas cedidas no semestre |
    |---|---|---|---|---|---|
