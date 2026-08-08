@@ -747,7 +747,7 @@ class Cessoes:
         self.regra3 = regra3
         self.regra4 = regra4
         self.slots = collections.defaultdict(set)   # (disc,prof) -> {(w,d,t)}
-        self.exames = collections.defaultdict(set)  # disc da grade -> {semana}
+        self.exames = collections.defaultdict(set)  # disc da grade -> {(semana, dia)}
         self.ultima_semana = FIM_AULAS[grupo_turma(turma)][0]
         # (disc,prof) -> {semana: nº de aulas dessa semana}
         if turma not in Cessoes._CACHE_AULAS:
@@ -763,6 +763,11 @@ class Cessoes:
         self.cedidas_sem = collections.defaultdict(lambda: collections.Counter())
         # disc da grade -> {semanas em que cedeu} (indice para a regra 4)
         self.semanas_cedidas = collections.defaultdict(collections.Counter)
+        # disc da grade -> {(semana, dia) em que cedeu} -- granularidade de
+        # dia para a regra 4 afrouxada (so protege ate o dia da prova
+        # dentro da semana dela; a semana anterior continua protegida por
+        # inteiro mesmo relaxada, ver pode_ceder_bloco/pode_alocar_exame).
+        self.dias_cedidos = collections.defaultdict(set)
         # Semanas em que cada disciplina NAO pode ceder porque ja tem data
         # de prova exigida pela coordenacao (FORCAR_DATA): pela regra 4, uma
         # cessao na semana da prova ou na anterior tornaria essa data
@@ -776,6 +781,7 @@ class Cessoes:
                 self.slots[chave].add((w, d, t))
                 self.cedidas_sem[chave][w] += 1
                 self.semanas_cedidas[chave[0]][w] += 1
+                self.dias_cedidos[chave[0]].add((w, d))
 
     # ---------------------------------------------------------- consultas
     def _sem_contato(self, chave, w, extra_w=None):
@@ -830,7 +836,7 @@ class Cessoes:
         um tempo na mesma prova — checar tempo a tempo subestimaria o
         consumo do teto.
         """
-        if not self.pode_alocar_exame(disc, w):
+        if not self.pode_alocar_exame(disc, w, d):
             return False
         fam = familia_de(disc)
         pedidos = collections.defaultdict(list)
@@ -844,10 +850,18 @@ class Cessoes:
             teto = limite_cessao(self.turma, disc_d, prof_d, self.folga)
             if len(self.slots[chave]) + len(novos) > teto:
                 return False
-            if self.regra4:
-                for we in self.exames.get(disc_d, ()):
-                    if we in (w, w + 1):
-                        return False
+            # Regra 4, pelo lado do doador: nao pode ceder na semana
+            # anterior a sua propria prova (SEMPRE proibido, mesmo com a
+            # regra 4 relaxada -- essa protecao nunca abre) nem, dentro da
+            # semana da propria prova, ate o dia dela inclusive. So o que a
+            # regra 4 relaxada libera e ceder DEPOIS do dia da propria
+            # prova, ainda na mesma semana; com a regra 4 estrita, a semana
+            # inteira da prova continua protegida.
+            for (we, de) in self.exames.get(disc_d, ()):
+                if we == w + 1:
+                    return False
+                if we == w and (self.regra4 or d <= de):
+                    return False
             # as datas exigidas pela coordenacao sao protegidas mesmo com a
             # regra 4 relaxada: sao inegociaveis
             if w in self.proibidas.get(disc_d, ()):
@@ -858,16 +872,26 @@ class Cessoes:
                 return False
         return True
 
-    def pode_alocar_exame(self, disc, w):
+    def pode_alocar_exame(self, disc, w, d):
         """Regra 4, pelo lado da prova: nenhuma das disciplinas que compoem
-        esta prova pode ter cedido aula na semana da prova ou na anterior
-        (a aula anterior a prova e justamente a de revisao)."""
-        if not self.regra4:
-            return True
+        esta prova pode ter cedido aula na semana anterior (sempre proibido,
+        mesmo com a regra 4 relaxada) nem, na propria semana da prova, ate o
+        dia dela inclusive (com a regra 4 estrita, a semana inteira da
+        prova fica protegida; relaxada, so protege ate o dia da prova --
+        cessoes depois do dia da prova, na mesma semana, ja tinham
+        acontecido antes de alocarmos essa prova, entao sao permitidas)."""
         for cod in familia_de(disc):
             semanas = self.semanas_cedidas.get(cod)
-            if semanas and (w in semanas or (w - 1) in semanas):
+            if not semanas:
+                continue
+            if (w - 1) in semanas:
                 return False
+            if w in semanas:
+                if self.regra4:
+                    return False
+                dias = self.dias_cedidos.get(cod, ())
+                if any(dw == w and dd <= d for (dw, dd) in dias):
+                    return False
         return True
 
     # ------------------------------------------------------------ mutacao
@@ -885,17 +909,19 @@ class Cessoes:
             self.slots[dono].add(slot)
             self.cedidas_sem[dono][w] += 1
             self.semanas_cedidas[dono[0]][w] += 1
+            self.dias_cedidos[dono[0]].add((w, d))
             registradas.append((dono, slot))
-        # a semana da prova entra sob CADA disciplina que a compoe: numa
+        # a semana/dia da prova entra sob CADA disciplina que a compoe: numa
         # prova combinada (LP/LIT/RED) quem cede tempo e Português,
         # Redação ou Gramática, e e por esse nome que a regra 4 consulta
-        novos_exames = [c for c in familia_de(disc) if w not in self.exames[c]]
+        novos_exames = [c for c in familia_de(disc)
+                        if not any(ww == w for (ww, _dd) in self.exames[c])]
         for c in novos_exames:
-            self.exames[c].add(w)
-        return (registradas, novos_exames, w)
+            self.exames[c].add((w, d))
+        return (registradas, novos_exames, w, d)
 
     def desfazer(self, marca):
-        registradas, novos_exames, w = marca
+        registradas, novos_exames, w, d = marca
         for (dono, slot) in registradas:
             self.slots[dono].discard(slot)
             self.cedidas_sem[dono][slot[0]] -= 1
@@ -905,8 +931,9 @@ class Cessoes:
             contagem[slot[0]] -= 1
             if contagem[slot[0]] <= 0:
                 del contagem[slot[0]]
+            self.dias_cedidos[dono[0]].discard((slot[0], slot[1]))
         for c in novos_exames:
-            self.exames[c].discard(w)
+            self.exames[c].discard((w, d))
 
     def resumo(self):
         """{(disc, prof): nº de aulas cedidas} — para o relatorio."""
@@ -929,6 +956,8 @@ class Cessoes:
         novo.semanas_cedidas = collections.defaultdict(
             collections.Counter,
             {k: collections.Counter(v) for k, v in self.semanas_cedidas.items()})
+        novo.dias_cedidos = collections.defaultdict(
+            set, {k: set(v) for k, v in self.dias_cedidos.items()})
         return novo
 
     def adotar(self, outro):
@@ -936,6 +965,7 @@ class Cessoes:
         self.exames = outro.exames
         self.cedidas_sem = outro.cedidas_sem
         self.semanas_cedidas = outro.semanas_cedidas
+        self.dias_cedidos = outro.dias_cedidos
 
 
 def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
@@ -1577,6 +1607,65 @@ def escrever(proposta, alocacoes):
     return dst
 
 
+def detectar_regras_relaxadas(turma, itens):
+    """Reconstroi, a partir das alocacoes ja feitas (nao confia no estado
+    do backtracking), quais cessoes desta turma violam a regra 4 (ceder as
+    vesperas da propria prova) ou a regra 3 (duas semanas seguidas sem
+    contato com a turma) -- ou seja, exatamente os casos que so existem
+    porque essas regras precisaram ser relaxadas para fechar o calendario.
+
+    Mesma logica de deteccao do verificar_calendario.py, mas direto das
+    tuplas (w,d,t,n,disc,prof,doador) que ja estao em memoria, sem
+    precisar reler a planilha.
+
+    Devolve lista de (regra, disc_doadora, prof_doador, detalhe).
+    """
+    avisos = []
+    exames_de = collections.defaultdict(set)   # disc doadora -> {semanas com prova propria}
+    cedidas = collections.defaultdict(list)    # (disc,prof) doadora -> [(w,d,t)]
+    for (w, d, t, n, disc, prof, doador) in itens:
+        for c in familia_de(disc):
+            exames_de[c].add(w)
+        if not doador:
+            continue
+        doadores = doador if isinstance(doador[0], tuple) else (doador,)
+        for (dd, dp) in doadores:
+            tempos = [t + k for k in range(n)
+                      if GRADES[turma].get((d, t + k), (None,))[0] == dd]
+            for tt in tempos:
+                cedidas[(dd, dp)].append((w, d, tt))
+
+    # regra 4: doador cedeu na semana da sua propria prova ou na anterior
+    for (dd, dp), slots in cedidas.items():
+        for (w, _d, _t) in slots:
+            for we in exames_de.get(dd, ()):
+                if we in (w, w + 1):
+                    avisos.append(("regra4", dd, dp,
+                        f"cedeu aula na semana {w} tendo prova própria "
+                        f"na semana {we}"))
+
+    # regra 3: a cessao deixou a disciplina duas semanas seguidas sem
+    # contato com a turma (a semana vetada tambem conta como sem contato)
+    for chave, slots in cedidas.items():
+        c = Cessoes(turma)
+        antes = c._pares_sem_contato(chave)
+        for (w, _d, _t) in slots:
+            c.cedidas_sem[chave][w] += 1
+        depois = c._pares_sem_contato(chave)
+        for w in sorted(depois - antes):
+            dd, dp = chave
+            avisos.append(("regra3", dd, dp,
+                f"fica sem contato com a turma nas semanas {w} e {w + 1} "
+                f"por causa das cessões"))
+    return avisos
+
+
+NOME_REGRA_CESSAO = {
+    "regra4": "Regra 4 (não ceder às vésperas da própria prova)",
+    "regra3": "Regra 3 (nunca 2 semanas seguidas sem contato)",
+}
+
+
 def relatorio(alocacoes_por_proposta, comuns_por_par):
     irma = {a: b for a, b in PARES_IRMAS}
     irma.update({b: a for a, b in PARES_IRMAS})
@@ -1636,6 +1725,30 @@ def relatorio(alocacoes_por_proposta, comuns_por_par):
                         f"({DIAS[d]}, semana {w}) | {dp} | {NOME.get(dd, dd)} | "
                         f"Solicitar ao prof. {dp} a cessão do(s) tempo(s) {tl} de "
                         f"{NOME.get(dd, dd)} para a prova de {NOME[disc]} | {obs_txt} |")
+        linhas.append("")
+
+        # Regras relaxadas: nao confia no que o gerador ANUNCIOU ter
+        # relaxado durante a busca -- reconstroi direto das alocacoes
+        # finais, turma por turma, disciplina por disciplina (ver skill,
+        # secao "Entregaveis finais" / entregavel 2).
+        avisos_prop = []
+        for turma, itens in alocacoes.items():
+            for (regra, dd, dp, detalhe) in detectar_regras_relaxadas(turma, itens):
+                avisos_prop.append((turma, regra, dd, dp, detalhe))
+        linhas += [f"### Proposta {prop} — Regras relaxadas", ""]
+        if avisos_prop:
+            linhas += ["Limites de cessão de aula que precisaram ser afrouxados "
+                       "para fechar o calendário desta turma (ver a escada de "
+                       "afrouxamento na skill) — não é falha, é o preço mínimo "
+                       "pago para o calendário fechar.", "",
+                       "| Turma | Regra relaxada | Disciplina/Professor | Detalhe |",
+                       "|---|---|---|---|"]
+            for (turma, regra, dd, dp, detalhe) in sorted(avisos_prop):
+                linhas.append(f"| {turma} | {NOME_REGRA_CESSAO.get(regra, regra)} "
+                              f"| {NOME.get(dd, dd)} / {dp} | {detalhe} |")
+        else:
+            linhas.append("Nenhuma regra de cessão precisou ser relaxada nesta "
+                          "rodada — todos os limites fecharam estritos.")
         linhas.append("")
     p = os.path.join(OUT, "Relatorio_trocas_de_tempo.md")
     with open(p, "w", encoding="utf-8") as f:
