@@ -322,7 +322,9 @@ NOVE_UM_TEMPO = {"bio", "fis", "qui"}           # nas turmas 9C: 1 tempo, 1 prov
 # alteracao pontual da rodada (calendario de simulados revisado), nao e
 # regra generica da skill. A semana 7 passa a ser comum aos dois pools (P1
 # e P2 ja incluiam P1_SEMANAS como fallback, entao compartilhar a semana 7
-# nao muda a mecanica de busca).
+# nao muda a mecanica de busca). O AG10 (10C1/10C2) NAO fica mais no ultimo
+# dia de P1: acabou reagendado pela escola para 25/09 (semana 8, ja dentro
+# do pool de P2) -- ver SIMULADOS.
 P1_SEMANAS = [4, 5, 6, 7]
 P2_SEMANAS_10_12 = [7, 8, 9, 10, 12, 13, 14, 15]   # ate 12/11 (quinta da sem 15)
 P2_SEMANAS_9_11 = [7, 8, 9, 10, 12, 13, 14, 15, 16]  # ate 21/11 (sem 16, sem sexta 20/11)
@@ -382,8 +384,8 @@ def carregar_ocupadas():
 SIMULADOS = {
     "9C1": [(9, 5, "AG9", "2º ao 7º tempos")],
     "9C2": [(9, 5, "AG9", "2º ao 7º tempos")],
-    "10C1": [(7, 5, "AG10", "2º ao 7º tempos")],  # 18/09/2026 (era 11/09)
-    "10C2": [(7, 5, "AG10", "2º ao 7º tempos")],  # 18/09/2026 (era 11/09)
+    "10C1": [(8, 5, "AG10", "2º ao 7º tempos")],  # 25/09/2026 (era 11/09, depois 18/09)
+    "10C2": [(8, 5, "AG10", "2º ao 7º tempos")],  # 25/09/2026 (era 11/09, depois 18/09)
     "11C1": [(4, 2, "S3-11", "2º ao 7º tempos"), (4, 3, "S3-11", "2º ao 7º tempos"),
              (13, 1, "S4-11", "2º ao 7º tempos"), (13, 2, "S4-11", "2º ao 7º tempos")],
     "11C2": [(4, 2, "S3-11", "2º ao 7º tempos"), (4, 3, "S3-11", "2º ao 7º tempos"),
