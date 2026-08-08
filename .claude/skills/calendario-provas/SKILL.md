@@ -476,12 +476,12 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       avaliações, e todas as siglas foram traduzidas em nomes
 - [ ] O relatório de tempos cedidos bate com o relatório de trocas de
       tempo: toda cedência de um está refletida no outro
-- [ ] Nas propostas que aplicam os **limites de cessão de aula**: nenhuma
-      disciplina de 1 aula semanal cedeu; nenhuma de 2-3 aulas semanais
-      passou do teto dela (2, ou 3 nas disciplinas com exceção); nenhuma
-      passou do teto percentual; nenhuma ficou duas semanas seguidas sem
-      contato com a turma por causa de cessão; e nenhuma cedeu na semana
-      da própria prova ou na anterior
+- [ ] Nos **limites de cessão de aula**: nenhuma disciplina de 1 aula
+      semanal cedeu; nenhuma de 2-3 aulas semanais passou do teto dela
+      (2, ou 3 nas disciplinas com exceção); nenhuma passou do teto
+      percentual; nenhuma ficou duas semanas seguidas sem contato com a
+      turma por causa de cessão; e nenhuma cedeu na semana da própria
+      prova ou na anterior
 - [ ] O que o gerador anunciou ter relaxado bate exatamente com o que o
       verificador lista como aviso — se o gerador disse "todos os limites
       estritos", não pode haver nenhum aviso de regra de cessão; se disse
