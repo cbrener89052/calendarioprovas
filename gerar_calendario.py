@@ -11,13 +11,42 @@ As grades das turmas foram extraidas do PDF turmas9a12_2osemestre2026.pdf
 por leitura visual e conferidas contra siglas_profs_aux_etc.xlsx.
 """
 import openpyxl, shutil, os, random, copy, collections
-from openpyxl.styles import Alignment, PatternFill
-from openpyxl.utils import get_column_letter
+from openpyxl.styles import Alignment, PatternFill, Border, Side
+from openpyxl.utils import get_column_letter, column_index_from_string, \
+    range_boundaries
 
 # destaque visual para provas que precisaram cruzar o intervalo do recreio
-# por falta de qualquer outra alternativa (ver regra na skill)
+# por falta de qualquer outra alternativa (ver regra na skill) -- tem
+# prioridade sobre a cor da disciplina, e um aviso raro e deliberado.
 DESTAQUE_INTERVALO = PatternFill(start_color="FFC000", end_color="FFC000",
                                   fill_type="solid")
+
+# Simulados/AG sao SEMPRE amarelos, em toda serie (ver skill).
+COR_SIMULADO = PatternFill(start_color="FFFF00", end_color="FFFF00",
+                            fill_type="solid")
+
+# Cor por disciplina: a MESMA disciplina usa a MESMA cor em qualquer serie
+# (ver skill). Paleta pastel (14 tons, matiz igualmente espacado de 78 a
+# 330 graus, saturacao 40%, luminosidade 84%) escolhida para nunca invadir
+# a faixa do amarelo (reservada aos simulados) nem do vermelho/laranja
+# (reservados a marcacao de 2a chamada e ao destaque de intervalo).
+COR_DISCIPLINA = {
+    "mat":      "DDE7C6",
+    "DaF":      "D2E7C6",
+    "GL":       "C8E7C6",
+    "ing":      "C6E7CF",
+    "his":      "C6E7D9",
+    "geo":      "C6E7E4",
+    "bio":      "C6DFE7",
+    "fis":      "C6D4E7",
+    "qui":      "C6CAE7",
+    "fil":      "CDC6E7",
+    "soc":      "D7C6E7",
+    "LPLITRED": "E2C6E7",
+    "port":     "E7C6E1",
+    "pred":     "E7C6D6",
+}
+COR_DISCIPLINA_PADRAO = "E7E6E6"   # fallback p/ disciplina fora da lista acima
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(BASE, "Klausurplan_2026_2SEM.xlsx")
@@ -1414,6 +1443,43 @@ def rotulo_tempo(t, n):
     return f"{t}º ao {t+n-1}º tempos"
 
 
+def _borda_bloco(pos):
+    """Borda para uma das 3 linhas de um bloco de celula mesclada (pos =
+    'topo', 'meio' ou 'base') -- so a borda externa fica visivel, sem
+    linha divisoria por dentro do bloco mesclado."""
+    fina = Side(style="thin")
+    return Border(left=fina, right=fina,
+                   top=fina if pos == "topo" else None,
+                   bottom=fina if pos == "base" else None)
+
+
+def _escrever_celula(ws, w, d, texto, fill):
+    """Escreve o texto de uma prova/simulado na celula-ancora da semana/dia
+    e mescla as 3 linhas do bloco (Fach|Lehrkraft + Raumwunsch + U-Stunden)
+    numa unica celula visual -- em vez de deixar so a 1a das 3 linhas
+    preenchida e as outras duas em branco."""
+    r = week_row(w)
+    c = COL[d]
+    cell = ws[f"{c}{r}"]
+    cell.value = texto
+    cell.alignment = Alignment(wrap_text=True, vertical="center",
+                               horizontal="center")
+    if fill is not None:
+        cell.fill = fill
+    ci = column_index_from_string(c)
+    ja_mesclada = any(
+        min_c <= ci <= max_c and not (max_r < r or min_r > r + 2)
+        for min_c, min_r, max_c, max_r in
+        (range_boundaries(str(mc)) for mc in ws.merged_cells.ranges)
+    )
+    if not ja_mesclada:
+        ws.merge_cells(f"{c}{r}:{c}{r+2}")
+        ws[f"{c}{r}"].border = _borda_bloco("topo")
+        ws[f"{c}{r+1}"].border = _borda_bloco("meio")
+        ws[f"{c}{r+2}"].border = _borda_bloco("base")
+    return cell
+
+
 def escrever(proposta, alocacoes):
     dst = os.path.join(OUT, f"Proposta_{proposta}_Calendario_Provas_2026_2SEM.xlsx")
     shutil.copy(SRC, dst)
@@ -1463,27 +1529,28 @@ def escrever(proposta, alocacoes):
         for (w, d, t, n, disc, prof, doador) in itens:
             r = week_row(w)
             c = COL[d]
-            cell = ws[f"{c}{r}"]
-            if cell.value:      # nunca sobrescrever
+            if ws[f"{c}{r}"].value:      # nunca sobrescrever
                 print(f"  !! {turma}: {disc} sem 'celula livre' em "
                       f"sem {w} {DIAS[d]} (ja ocupada)")
                 continue
-            cell.value = f"{NOME[disc]} - {prof}\n\n{rotulo_tempo(t, n)}"
-            cell.alignment = Alignment(wrap_text=True, vertical="center",
-                                       horizontal="center")
+            texto = f"{NOME[disc]} - {prof}\n\n{rotulo_tempo(t, n)}"
+            fill = PatternFill(
+                start_color=COR_DISCIPLINA.get(disc, COR_DISCIPLINA_PADRAO),
+                end_color=COR_DISCIPLINA.get(disc, COR_DISCIPLINA_PADRAO),
+                fill_type="solid")
+            # cruzar o intervalo do recreio e um aviso raro e deliberado
+            # (ultimo recurso) -- tem prioridade sobre a cor da disciplina
             if cruza_intervalo(t, n):
-                cell.fill = DESTAQUE_INTERVALO
+                fill = DESTAQUE_INTERVALO
+            _escrever_celula(ws, w, d, texto, fill)
         for (w, d, cod, lab) in SIMULADOS[turma]:
             r = week_row(w)
             c = COL[d]
-            cell = ws[f"{c}{r}"]
-            atual = str(cell.value or "").strip()
+            atual = str(ws[f"{c}{r}"].value or "").strip()
             if atual and not atual.startswith(("AG9", "AG10", "S1-", "S2-",
                                                "S3-", "S4-", "EX")):
                 continue                       # celula com outra informacao
-            cell.value = f"{cod}\n\n{lab}"
-            cell.alignment = Alignment(wrap_text=True, vertical="center",
-                                       horizontal="center")
+            _escrever_celula(ws, w, d, f"{cod}\n\n{lab}", COR_SIMULADO)
     wb.save(dst)
     return dst
 
@@ -1622,16 +1689,13 @@ def main():
     comuns_por_par = {(a, b): classificar_par(a, b) for a, b in PARES_IRMAS}
 
     todas = {}
-    for prop, seed in [(1, 20260806), (2, 99887766)]:
-        aloc, _ok = montar_proposta(seed)
-        caminho = escrever(prop, aloc)
-        todas[prop] = aloc
-        print(f"Proposta {prop} -> {caminho}")
 
-    # Proposta 3: mesmas regras das anteriores MAIS os limites de cessao de
-    # aula (regras 1 a 5 pedidas pela coordenacao). Tenta primeiro com os
-    # limites estritos; se nao fechar, afrouxa uma unidade por vez, para
-    # entregar a solucao mais proxima possivel do pedido.
+    # So a Proposta 3 e desenvolvida (com os limites de cessao de aula das
+    # regras 1 a 5 pedidas pela coordenacao). As Propostas 1 e 2 (sem esses
+    # limites) foram uma comparacao inicial e nao sao mais geradas -- pedido
+    # explicito do usuario. Tenta primeiro com os limites estritos; se nao
+    # fechar, afrouxa uma unidade por vez, para entregar a solucao mais
+    # proxima possivel do pedido.
     # Escada de afrouxamento: primeiro sobe o teto de cessoes; so depois
     # relaxa a regra 4 (nao ceder as vesperas da propria prova) e, por
     # ultimo, a 3 (duas semanas sem contato). As regras 1, 2 e 5 (tetos) e

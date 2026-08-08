@@ -335,6 +335,20 @@ e um teto alto só faz os degraus inviáveis custarem minutos.
   elas bloqueiam dias silenciosamente e provas somem sem aviso.
 - O algoritmo de alocação deve conhecer as células já ocupadas no modelo,
   senão aloca provas em dias que serão descartados na escrita.
+- **Datas de 2ª chamada (segunda chamada / Nachschreibtermine)**: sempre
+  que o usuário informar (ou corrigir) uma data de 2ª chamada, **marque-a
+  no arquivo-modelo**, não só em documentação. Esta escola já tem a
+  convenção pronta no modelo: texto `"2CH <séries>"` (ex.: "2CH
+  9,10,11,12") com **preenchimento vermelho** (a mesma cor do exemplo na
+  legenda "Nachschreibtermine | Segunda Chamada" do modelo), na coluna do
+  dia certo — inclusive **sábado**, que tem coluna própria na grade (a
+  2ª chamada cai no dia seguinte ao fim de um período, frequentemente um
+  sábado, fora da janela de segunda a sexta usada para alocar provas
+  normais). Ao mudar uma data de 2ª chamada já marcada, **apague a marca
+  antiga** (volte a célula ao estilo vazio de uma célula vizinha do mesmo
+  tipo) antes de marcar a nova — senão fica uma marca obsoleta que confunde
+  o usuário, do mesmo jeito que aconteceria com uma data de simulado
+  movida sem limpar a célula antiga.
 
 Formato de célula confirmado nesta escola (3 linhas):
 
@@ -350,6 +364,69 @@ LP/LIT/RED - BPad/MFo/SMo
 
 1º ao 3º tempos
 ```
+
+**Mesclar a célula da prova**: cada dia de semana no modelo ocupa 3 linhas
+físicas (a legenda do cabeçalho mostra o porquê: `Fach | Lehrkraft`,
+`Raumwunsch`, `U-Stunden` — matéria/professor, sala, horário). Escrever só
+na célula-âncora sem mesclar deixa 1 das 3 linhas preenchida e as outras
+2 em branco, um efeito visual ruim (o usuário via isso como "só a
+primeira de três células preenchida"). Sempre que escrever uma prova ou
+simulado, **mescle o bloco de 3 linhas daquele dia** (célula-âncora +
+as 2 abaixo) antes ou depois de escrever o texto, e limpe a borda interna
+(deixe só a borda externa do bloco visível) — é o mesmo efeito da solução
+manual de selecionar as 3 células e mesclar, automatizado. Antes de
+mesclar, **confira se aquele bloco já não está mesclado** (algumas
+semanas already vêm com bloco mesclado do próprio modelo, ex.: semanas de
+feriado/"unterrichtsfrei") para não tentar mesclar em cima de um merge
+existente.
+
+**Cor de preenchimento por disciplina**: cada disciplina tem uma cor fixa,
+igual em todas as séries/turmas — a mesma disciplina nunca muda de cor
+entre 9C, 10C, 11C e 12C. Objetivo: dar para o olhar rápido reconhecer a
+disciplina pela cor, sem prejudicar a leitura do texto (por isso paleta
+**pastel**, sempre com texto preto por cima — nunca uma cor tão escura
+que dificulte a leitura). Regras de prioridade sobre a cor:
+
+1. **Simulados/AG são SEMPRE amarelos** (`FFFF00`), em qualquer série —
+   não depende de cor herdada do modelo por coincidência de posição:
+   **fixe o preenchimento explicitamente** toda vez que escrever um
+   simulado. (Um bug já aconteceu aqui: o modelo trazia uma célula de
+   exemplo do AG10 já amarela numa posição fixa; quando a data mudou de
+   semana, a célula nova ficou branca porque o código nunca tinha
+   definido a cor de verdade, só herdava por acaso — só apareceu quando
+   o usuário reparou que a maioria dos simulados não estava amarela.)
+2. **Cruzar o intervalo do recreio** (ver regra acima) é um aviso raro e
+   deliberado — quando acontece, o destaque laranja (`FFC000`) tem
+   **prioridade sobre a cor da disciplina** naquela célula específica.
+3. Fora esses dois casos, use a cor fixa da disciplina.
+
+Paleta usada nesta escola (matiz igualmente espaçado entre 78° e 330°,
+saturação 40%, luminosidade 84% — sempre longe da faixa do amarelo,
+reservada aos simulados, e da faixa vermelho/laranja, reservada à 2ª
+chamada e ao destaque de intervalo):
+
+| Disciplina | Cor |
+|---|---|
+| Mat | `#DDE7C6` |
+| DaF | `#D2E7C6` |
+| GL | `#C8E7C6` |
+| Ing | `#C6E7CF` |
+| Hist | `#C6E7D9` |
+| Geo | `#C6E7E4` |
+| Bio | `#C6DFE7` |
+| Fis | `#C6D4E7` |
+| Qui | `#C6CAE7` |
+| Fil | `#CDC6E7` |
+| Soc | `#D7C6E7` |
+| LP/LIT/RED | `#E2C6E7` |
+| Port (turma 9, prova separada) | `#E7C6E1` |
+| Redação (turma 9, prova separada) | `#E7C6D6` |
+
+Disciplina fora dessa lista: cor cinza-claro neutra (`#E7E6E6`) como
+fallback, e sinalizar ao usuário para decidir uma cor definitiva.
+Ao montar a paleta para uma escola nova, gere as cores algoritmicamente
+(matiz igualmente espaçado, mesma saturação/luminosidade) em vez de
+escolher uma a uma — garante que fiquem sempre distintas entre si.
 
 ## Entregáveis finais
 
@@ -468,7 +545,14 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
       nenhum slot possível pela manhã
 - [ ] Nenhuma prova usa tempo de disciplina que tem só 1 aula na semana
-- [ ] Todos os simulados nas datas oficiais e nos tempos corretos
+- [ ] Todos os simulados nas datas oficiais e nos tempos corretos, e **todos
+      com preenchimento amarelo** (não herdado por coincidência — checar a
+      cor de fato, célula por célula)
+- [ ] Cada célula de prova/simulado está **mesclada** (bloco de 3 linhas
+      numa célula só, sem linha divisória visível por dentro)
+- [ ] A mesma disciplina usa **a mesma cor** em todas as séries/turmas
+      (exceto onde o destaque de intervalo ou o amarelo do simulado
+      sobrescrevem, de propósito)
 - [ ] Nenhuma prova em feriado, na semana vetada, antes do início do
       período ou depois da data-limite do grupo daquela turma
 - [ ] Todo tempo emprestado de outro professor está no relatório de trocas

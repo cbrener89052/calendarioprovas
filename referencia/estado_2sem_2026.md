@@ -115,6 +115,15 @@ uma confirmação explícita.
 Simulados extras (EX-TURMA-N): **ainda não definidos** pelo usuário —
 perguntar antes de fechar o calendário final, ou deixar espaço reservado.
 
+**Reconferência (08/2026)**: novo upload do PDF oficial (`Calendário de
+simulados e avaliação global 2026.pdf`, "Proposta de Calendário das
+Avaliações Globais e Simulados de 2025" no título — nome do arquivo tem
+"2025" mas as datas são de 2026) confirmou os 5 valores acima item a
+item, inclusive o AG10 em 25.09.2026 — bate exatamente com o valor já
+corrigido nesta rodada. Nenhuma mudança adicional necessária. O S4-12
+segue com o mesmo ano grafado "2025" nesse PDF novo também — mesma
+suposição de erro de digitação mantida.
+
 ## Regras específicas confirmadas para esta escola/rodada
 
 - "esp"/"Spo" no horário-base = **Educação Física**, não Espanhol. Não tem

@@ -167,7 +167,7 @@ def exportar(proposta, siglas):
 
 def main():
     siglas = carregar_siglas()
-    for p in (1, 2, 3):
+    for p in (3,):   # so a Proposta 3 e desenvolvida (pedido do usuario)
         print("Gerado:", exportar(p, siglas))
 
 

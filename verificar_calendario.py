@@ -34,7 +34,7 @@ def main():
     irma = {a: b for a, b in G.PARES_IRMAS}
     irma.update({b: a for a, b in G.PARES_IRMAS})
 
-    for prop in (1, 2, 3):
+    for prop in (3,):   # so a Proposta 3 e desenvolvida (pedido do usuario)
         caminho = os.path.join(OUT, f"Proposta_{prop}_Calendario_Provas_2026_2SEM.xlsx")
         wb = openpyxl.load_workbook(caminho, data_only=True)
         provas_por_turma = {}
