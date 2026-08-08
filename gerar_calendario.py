@@ -15,14 +15,21 @@ from openpyxl.styles import Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter, column_index_from_string, \
     range_boundaries
 
+# IMPORTANTE: PatternFill do openpyxl exige ARGB de 8 digitos hex (alfa +
+# RGB). Passar so 6 digitos (RGB) faz o Excel entender alfa = 00
+# (totalmente transparente) -- a celula fica sem cor visivel nenhuma,
+# mesmo com patternType="solid" gravado no arquivo. Prefixo "FF" sempre
+# (ver skill).
+
 # destaque visual para provas que precisaram cruzar o intervalo do recreio
 # por falta de qualquer outra alternativa (ver regra na skill) -- tem
 # prioridade sobre a cor da disciplina, e um aviso raro e deliberado.
-DESTAQUE_INTERVALO = PatternFill(start_color="FFC000", end_color="FFC000",
+DESTAQUE_INTERVALO = PatternFill(start_color="FFFFC000", end_color="FFFFC000",
                                   fill_type="solid")
 
-# Simulados/AG sao SEMPRE amarelos, em toda serie (ver skill).
-COR_SIMULADO = PatternFill(start_color="FFFF00", end_color="FFFF00",
+# Simulados/AG sao SEMPRE amarelos, em toda serie -- nunca usado para mais
+# nada (ver skill).
+COR_SIMULADO = PatternFill(start_color="FFFFFF00", end_color="FFFFFF00",
                             fill_type="solid")
 
 # Cor por disciplina: a MESMA disciplina usa a MESMA cor em qualquer serie
@@ -31,22 +38,22 @@ COR_SIMULADO = PatternFill(start_color="FFFF00", end_color="FFFF00",
 # a faixa do amarelo (reservada aos simulados) nem do vermelho/laranja
 # (reservados a marcacao de 2a chamada e ao destaque de intervalo).
 COR_DISCIPLINA = {
-    "mat":      "DDE7C6",
-    "DaF":      "D2E7C6",
-    "GL":       "C8E7C6",
-    "ing":      "C6E7CF",
-    "his":      "C6E7D9",
-    "geo":      "C6E7E4",
-    "bio":      "C6DFE7",
-    "fis":      "C6D4E7",
-    "qui":      "C6CAE7",
-    "fil":      "CDC6E7",
-    "soc":      "D7C6E7",
-    "LPLITRED": "E2C6E7",
-    "port":     "E7C6E1",
-    "pred":     "E7C6D6",
+    "mat":      "FFDDE7C6",
+    "DaF":      "FFD2E7C6",
+    "GL":       "FFC8E7C6",
+    "ing":      "FFC6E7CF",
+    "his":      "FFC6E7D9",
+    "geo":      "FFC6E7E4",
+    "bio":      "FFC6DFE7",
+    "fis":      "FFC6D4E7",
+    "qui":      "FFC6CAE7",
+    "fil":      "FFCDC6E7",
+    "soc":      "FFD7C6E7",
+    "LPLITRED": "FFE2C6E7",
+    "port":     "FFE7C6E1",
+    "pred":     "FFE7C6D6",
 }
-COR_DISCIPLINA_PADRAO = "E7E6E6"   # fallback p/ disciplina fora da lista acima
+COR_DISCIPLINA_PADRAO = "FFE7E6E6"   # fallback p/ disciplina fora da lista acima
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(BASE, "Klausurplan_2026_2SEM.xlsx")

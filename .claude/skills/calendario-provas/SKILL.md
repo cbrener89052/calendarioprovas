@@ -387,18 +387,37 @@ disciplina pela cor, sem prejudicar a leitura do texto (por isso paleta
 **pastel**, sempre com texto preto por cima — nunca uma cor tão escura
 que dificulte a leitura). Regras de prioridade sobre a cor:
 
-1. **Simulados/AG são SEMPRE amarelos** (`FFFF00`), em qualquer série —
-   não depende de cor herdada do modelo por coincidência de posição:
-   **fixe o preenchimento explicitamente** toda vez que escrever um
-   simulado. (Um bug já aconteceu aqui: o modelo trazia uma célula de
-   exemplo do AG10 já amarela numa posição fixa; quando a data mudou de
-   semana, a célula nova ficou branca porque o código nunca tinha
-   definido a cor de verdade, só herdava por acaso — só apareceu quando
-   o usuário reparou que a maioria dos simulados não estava amarela.)
+1. **Amarelo é EXCLUSIVO dos simulados/AG** (`FFFF00`) — os códigos de
+   data fixa (`S1-<turma>` a `S4-<turma>`, `AG9`, `AG10` etc., ver
+   SIMULADOS). **Nenhuma outra célula pode usar amarelo**: não é a cor de
+   nenhuma disciplina normal, nem serve de destaque para outra coisa —
+   reservar essa cor inteira aos simulados é o que deixa eles
+   reconhecíveis à primeira vista na planilha. Em qualquer série — não
+   depende de cor herdada do modelo por coincidência de posição: **fixe o
+   preenchimento explicitamente** toda vez que escrever um simulado.
+   (Um bug já aconteceu aqui: o modelo trazia uma célula de exemplo do
+   AG10 já amarela numa posição fixa; quando a data mudou de semana, a
+   célula nova ficou branca porque o código nunca tinha definido a cor de
+   verdade, só herdava por acaso — só apareceu quando o usuário reparou
+   que a maioria dos simulados não estava amarela.)
 2. **Cruzar o intervalo do recreio** (ver regra acima) é um aviso raro e
    deliberado — quando acontece, o destaque laranja (`FFC000`) tem
    **prioridade sobre a cor da disciplina** naquela célula específica.
 3. Fora esses dois casos, use a cor fixa da disciplina.
+
+**Pegadinha do openpyxl com `PatternFill`**: o parâmetro `start_color`/
+`end_color` exige uma string ARGB de **8 dígitos hex** (alfa + RGB). Um
+código de 6 dígitos (só RGB, ex. `"DDE7C6"`) é aceito sem erro, mas o
+Excel entende que o alfa é `00` (totalmente transparente) — a célula fica
+gravada como `patternType="solid"` só que **invisível**, sem nenhum aviso
+no processo de escrita. Já aconteceu nesta rodada: a implementação
+inteira da cor por disciplina (e o destaque de intervalo) foi escrita com
+6 dígitos, passou no script de verificação (que só olha o texto, não a
+cor) e só o usuário reparou, abrindo o arquivo, que nada estava colorido.
+**Sempre prefixar `"FF"`** (ex. `"FFDDE7C6"`) em qualquer cor de
+preenchimento — e, se possível, o script de verificação deveria checar
+que `cell.fill.fgColor.rgb` começa com `FF` (opaco) em toda célula que
+deveria ter cor, não só que o texto está certo.
 
 Paleta usada nesta escola (matiz igualmente espaçado entre 78° e 330°,
 saturação 40%, luminosidade 84% — sempre longe da faixa do amarelo,
@@ -547,12 +566,15 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Nenhuma prova usa tempo de disciplina que tem só 1 aula na semana
 - [ ] Todos os simulados nas datas oficiais e nos tempos corretos, e **todos
       com preenchimento amarelo** (não herdado por coincidência — checar a
-      cor de fato, célula por célula)
+      cor de fato, célula por célula) e **nenhuma outra célula usa amarelo**
 - [ ] Cada célula de prova/simulado está **mesclada** (bloco de 3 linhas
       numa célula só, sem linha divisória visível por dentro)
 - [ ] A mesma disciplina usa **a mesma cor** em todas as séries/turmas
       (exceto onde o destaque de intervalo ou o amarelo do simulado
       sobrescrevem, de propósito)
+- [ ] Toda cor de preenchimento é **opaca** — `cell.fill.fgColor.rgb`
+      começa com `FF`, nunca `00` (ver a pegadinha do `PatternFill` de
+      6 dígitos, que grava a cor mas fica invisível no Excel)
 - [ ] Nenhuma prova em feriado, na semana vetada, antes do início do
       período ou depois da data-limite do grupo daquela turma
 - [ ] Todo tempo emprestado de outro professor está no relatório de trocas
