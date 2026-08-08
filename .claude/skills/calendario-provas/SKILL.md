@@ -233,11 +233,24 @@ diretamente.
    contato por outro motivo (feriado no único dia dela), isso não é
    provocado pela cessão e não conta.
 4. **Não ceder às vésperas da própria prova.** Se a disciplina tem prova
-   marcada para aquela semana ou para a semana seguinte, ela não cede
+   marcada para aquela semana ou para a semana **anterior**, ela não cede
    aula — é justamente a aula de revisão. Vale nos dois sentidos, e o
    algoritmo precisa checar os dois: ao alocar uma cessão (a prova da
-   doadora já está marcada?) e ao alocar uma prova (a disciplina já cedeu
-   aula na semana da prova ou na anterior?).
+   doadora já está marcada para a mesma semana ou para a semana seguinte
+   à da cessão?) e ao alocar uma prova (a disciplina já cedeu aula na
+   semana da prova ou na anterior?).
+   - **Ao afrouxar esta regra** (ver escada de afrouxamento abaixo), **o
+     lado ANTES da prova nunca é liberado** — só o lado DEPOIS. Ou seja,
+     mesmo numa turma com a regra 4 relaxada, nenhuma disciplina pode
+     ceder aula na semana anterior à própria prova, nem em nenhum dia até
+     e incluindo o dia da própria prova. O que a relaxação abre é ceder a
+     partir do **primeiro dia útil depois da prova** daquela disciplina —
+     nunca antes. Exemplo: prova de Português numa terça-feira — relaxada
+     a regra, Português pode ceder aula a partir de **quarta-feira** em
+     diante; nunca na segunda, na terça, nem em qualquer dia da semana
+     anterior. A proteção que importa de verdade é a aula de revisão
+     **antes** da prova; depois da prova aplicada, não há mais nada
+     naquela ocorrência para proteger.
 5. **Teto percentual das aulas do semestre.** O alvo é 10%, e o teto duro
    é **11%** — nenhuma disciplina cede mais que isso das aulas programadas
    dela no semestre (ver o cálculo de "aulas programadas" no relatório de
@@ -262,7 +275,10 @@ precisaria, e o calendário fica insolúvel sem sintoma óbvio.
 
 **Se os limites estritos não fecharem o calendário**, afrouxar nesta
 ordem, sempre **avisando o usuário** do que foi relaxado:
-1. relaxar a **regra 4** (não ceder às vésperas da própria prova);
+1. relaxar a **regra 4** (não ceder às vésperas da própria prova) —
+   **só o lado depois da prova**, nunca o lado antes (ver o detalhe da
+   regra 4 acima: o afrouxamento nunca reabre a semana anterior nem o
+   próprio dia da prova, só os dias posteriores à aplicação);
 2. relaxar a **regra 3** (duas semanas sem contato);
 3. só por último, subir os tetos de cessão (regra 1/5) de uma unidade
    por vez.
@@ -606,5 +622,8 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       estritos", não pode haver nenhum aviso de regra de cessão; se disse
       "regra 4 relaxada em ['11C1']", os avisos de véspera-da-própria-prova
       só podem aparecer nessa turma, nenhuma outra
+- [ ] Mesmo nas turmas com a **regra 4 relaxada**, nenhuma cessão aparece
+      antes ou no dia da própria prova — só depois. Uma cessão antes da
+      prova é sempre falha, nunca é coberta pela relaxação
 - [ ] A estrutura de saída está conforme combinado
 
