@@ -1607,6 +1607,65 @@ def escrever(proposta, alocacoes):
     return dst
 
 
+def detectar_regras_relaxadas(turma, itens):
+    """Reconstroi, a partir das alocacoes ja feitas (nao confia no estado
+    do backtracking), quais cessoes desta turma violam a regra 4 (ceder as
+    vesperas da propria prova) ou a regra 3 (duas semanas seguidas sem
+    contato com a turma) -- ou seja, exatamente os casos que so existem
+    porque essas regras precisaram ser relaxadas para fechar o calendario.
+
+    Mesma logica de deteccao do verificar_calendario.py, mas direto das
+    tuplas (w,d,t,n,disc,prof,doador) que ja estao em memoria, sem
+    precisar reler a planilha.
+
+    Devolve lista de (regra, disc_doadora, prof_doador, detalhe).
+    """
+    avisos = []
+    exames_de = collections.defaultdict(set)   # disc doadora -> {semanas com prova propria}
+    cedidas = collections.defaultdict(list)    # (disc,prof) doadora -> [(w,d,t)]
+    for (w, d, t, n, disc, prof, doador) in itens:
+        for c in familia_de(disc):
+            exames_de[c].add(w)
+        if not doador:
+            continue
+        doadores = doador if isinstance(doador[0], tuple) else (doador,)
+        for (dd, dp) in doadores:
+            tempos = [t + k for k in range(n)
+                      if GRADES[turma].get((d, t + k), (None,))[0] == dd]
+            for tt in tempos:
+                cedidas[(dd, dp)].append((w, d, tt))
+
+    # regra 4: doador cedeu na semana da sua propria prova ou na anterior
+    for (dd, dp), slots in cedidas.items():
+        for (w, _d, _t) in slots:
+            for we in exames_de.get(dd, ()):
+                if we in (w, w + 1):
+                    avisos.append(("regra4", dd, dp,
+                        f"cedeu aula na semana {w} tendo prova própria "
+                        f"na semana {we}"))
+
+    # regra 3: a cessao deixou a disciplina duas semanas seguidas sem
+    # contato com a turma (a semana vetada tambem conta como sem contato)
+    for chave, slots in cedidas.items():
+        c = Cessoes(turma)
+        antes = c._pares_sem_contato(chave)
+        for (w, _d, _t) in slots:
+            c.cedidas_sem[chave][w] += 1
+        depois = c._pares_sem_contato(chave)
+        for w in sorted(depois - antes):
+            dd, dp = chave
+            avisos.append(("regra3", dd, dp,
+                f"fica sem contato com a turma nas semanas {w} e {w + 1} "
+                f"por causa das cessões"))
+    return avisos
+
+
+NOME_REGRA_CESSAO = {
+    "regra4": "Regra 4 (não ceder às vésperas da própria prova)",
+    "regra3": "Regra 3 (nunca 2 semanas seguidas sem contato)",
+}
+
+
 def relatorio(alocacoes_por_proposta, comuns_por_par):
     irma = {a: b for a, b in PARES_IRMAS}
     irma.update({b: a for a, b in PARES_IRMAS})
@@ -1666,6 +1725,30 @@ def relatorio(alocacoes_por_proposta, comuns_por_par):
                         f"({DIAS[d]}, semana {w}) | {dp} | {NOME.get(dd, dd)} | "
                         f"Solicitar ao prof. {dp} a cessão do(s) tempo(s) {tl} de "
                         f"{NOME.get(dd, dd)} para a prova de {NOME[disc]} | {obs_txt} |")
+        linhas.append("")
+
+        # Regras relaxadas: nao confia no que o gerador ANUNCIOU ter
+        # relaxado durante a busca -- reconstroi direto das alocacoes
+        # finais, turma por turma, disciplina por disciplina (ver skill,
+        # secao "Entregaveis finais" / entregavel 2).
+        avisos_prop = []
+        for turma, itens in alocacoes.items():
+            for (regra, dd, dp, detalhe) in detectar_regras_relaxadas(turma, itens):
+                avisos_prop.append((turma, regra, dd, dp, detalhe))
+        linhas += [f"### Proposta {prop} — Regras relaxadas", ""]
+        if avisos_prop:
+            linhas += ["Limites de cessão de aula que precisaram ser afrouxados "
+                       "para fechar o calendário desta turma (ver a escada de "
+                       "afrouxamento na skill) — não é falha, é o preço mínimo "
+                       "pago para o calendário fechar.", "",
+                       "| Turma | Regra relaxada | Disciplina/Professor | Detalhe |",
+                       "|---|---|---|---|"]
+            for (turma, regra, dd, dp, detalhe) in sorted(avisos_prop):
+                linhas.append(f"| {turma} | {NOME_REGRA_CESSAO.get(regra, regra)} "
+                              f"| {NOME.get(dd, dd)} / {dp} | {detalhe} |")
+        else:
+            linhas.append("Nenhuma regra de cessão precisou ser relaxada nesta "
+                          "rodada — todos os limites fecharam estritos.")
         linhas.append("")
     p = os.path.join(OUT, "Relatorio_trocas_de_tempo.md")
     with open(p, "w", encoding="utf-8") as f:
