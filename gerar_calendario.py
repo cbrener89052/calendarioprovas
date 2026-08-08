@@ -317,8 +317,13 @@ UM_TEMPO = {"fil", "soc"}                       # 1 tempo, 1 prova no semestre
 NOVE_UM_TEMPO = {"bio", "fis", "qui"}           # nas turmas 9C: 1 tempo, 1 prova no semestre
 
 # ---------------------------------------------------- CALENDARIO / BLOQUEIOS
-# semanas: 3..6 = periodo 1 ; 7..16 = periodo 2
-P1_SEMANAS = [3, 4, 5, 6]
+# semanas: 4..7 = periodo 1 ; 7..16 = periodo 2
+# P1 mudou de 17/08-11/09 (semanas 3-6) para 24/08-18/09 (semanas 4-7) —
+# alteracao pontual da rodada (calendario de simulados revisado), nao e
+# regra generica da skill. A semana 7 passa a ser comum aos dois pools (P1
+# e P2 ja incluiam P1_SEMANAS como fallback, entao compartilhar a semana 7
+# nao muda a mecanica de busca).
+P1_SEMANAS = [4, 5, 6, 7]
 P2_SEMANAS_10_12 = [7, 8, 9, 10, 12, 13, 14, 15]   # ate 12/11 (quinta da sem 15)
 P2_SEMANAS_9_11 = [7, 8, 9, 10, 12, 13, 14, 15, 16]  # ate 21/11 (sem 16, sem sexta 20/11)
 
@@ -377,8 +382,8 @@ def carregar_ocupadas():
 SIMULADOS = {
     "9C1": [(9, 5, "AG9", "2º ao 7º tempos")],
     "9C2": [(9, 5, "AG9", "2º ao 7º tempos")],
-    "10C1": [(6, 5, "AG10", "2º ao 7º tempos")],
-    "10C2": [(6, 5, "AG10", "2º ao 7º tempos")],
+    "10C1": [(7, 5, "AG10", "2º ao 7º tempos")],  # 18/09/2026 (era 11/09)
+    "10C2": [(7, 5, "AG10", "2º ao 7º tempos")],  # 18/09/2026 (era 11/09)
     "11C1": [(4, 2, "S3-11", "2º ao 7º tempos"), (4, 3, "S3-11", "2º ao 7º tempos"),
              (13, 1, "S4-11", "2º ao 7º tempos"), (13, 2, "S4-11", "2º ao 7º tempos")],
     "11C2": [(4, 2, "S3-11", "2º ao 7º tempos"), (4, 3, "S3-11", "2º ao 7º tempos"),
@@ -1413,6 +1418,20 @@ def escrever(proposta, alocacoes):
     wb = openpyxl.load_workbook(dst)
 
     base = wb["10C2"]
+    # o template traz os simulados da 10C2 gravados direto na celula. Como
+    # as datas de simulado sao a fonte da verdade em SIMULADOS (podem mudar
+    # entre rodadas), apaga qualquer celula de simulado do template aqui e
+    # deixa o 2º loop abaixo (por SIMULADOS[turma]) escrever so o que vale
+    # hoje -- senao uma data antiga que sobrou no arquivo (ex.: AG10 na
+    # semana errada apos uma mudanca de calendario) fica "invisivel" para o
+    # agendador (que so olha SIMULADOS) mas ainda ocupa a celula fisica, e
+    # colide com a prova que o agendador tentar por ali.
+    for r in range(3, base.max_row + 1):
+        for c in "EFGHIJ":
+            v = base[f"{c}{r}"].value
+            if v and str(v).strip().startswith(
+                    ("AG9", "AG10", "S1-", "S2-", "S3-", "S4-", "EX")):
+                base[f"{c}{r}"] = None
     for turma in GRADES:
         if turma == "10C2":
             continue

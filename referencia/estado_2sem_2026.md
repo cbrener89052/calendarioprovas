@@ -35,12 +35,25 @@ disciplina-professor / sala / tempo). Salvar na pasta `Horario desenvolvido`.
 
 ## Períodos de provas (por grupo de turma)
 
-Todas as turmas: **Período 1 = 17/08/2026 a 11/09/2026**.
+Todas as turmas: **Período 1 = 24/08/2026 a 18/09/2026** (semanas 4 a 7).
+
+**Alteração pontual (08/2026)**: o período 1 mudou de 17/08-11/09 (semanas
+3-6) para 24/08-18/09 (semanas 4-7), a pedido do usuário, motivado pela
+revisão do calendário de simulados (ver seção seguinte — o AG10 passou a
+cair em 18/09, exatamente o novo último dia de P1). A **primeira segunda
+chamada passa para 19/09/2026** (sábado seguinte à sexta 18/09) — data
+administrativa, fora da janela de segunda a sexta usada pelo gerador, não
+exige mudança de código, só o registro aqui. Isto é um dado concreto desta
+rodada, não uma regra genérica — não foi incorporado à skill.
 
 Período 2 varia por grupo (turmas que viajam à Alemanha terminam antes):
 
 - **10C1, 10C2, 12C1, 12C2**: Período 2 = 14/09/2026 a 12/11/2026.
 - **9C1, 9C2, 11C1, 11C2**: Período 2 = 14/09/2026 a 26/11/2026.
+
+(A semana 7 agora é comum aos pools de P1 e P2 — já era assim na prática,
+porque o pool de P2 sempre incluiu as semanas de P1 como fallback; a
+mecânica de busca não muda.)
 
 ## Fim das aulas normais (para o relatório de tempos cedidos)
 
@@ -80,10 +93,19 @@ fecha as oito turmas. Está fixada em `SEED_PROPOSTA_3`.
 | Código | Turmas | Data(s) | Período |
 |---|---|---|---|
 | AG9 | 9C1, 9C2 | 02/10/2026 | P2 |
-| AG10 | 10C1, 10C2 | 11/09/2026 | P1 |
+| AG10 | 10C1, 10C2 | **18/09/2026** (era 11/09) | P1 |
 | S3-11 | 11C1, 11C2 | 25/08 e 26/08/2026 | P1 |
 | S4-11 | 11C1, 11C2 | 26/10 e 27/10/2026 | P2 |
 | S4-12 | 12C1, 12C2 | 16/09 e 17/09/2026 | P2 |
+
+Fonte: `Calendário de simulados e avaliação global 2026_v2.pdf` (versão
+revisada, upload de 08/2026). Conferido item a item contra o PDF anterior:
+só o AG10 mudou (11/09 → 18/09/2026). AG9, S3-11 e S4-11 vieram idênticos.
+O S4-12 do PDF novo veio com o ano grafado "2025" ("16.09.2025" /
+"17.09.2025") — tratado como erro de digitação e mantido em 2026, pois
+bate exatamente com a data já confirmada anteriormente e um 2025 seria
+passado em relação a este planejamento; **sinalizar ao usuário**, não foi
+uma confirmação explícita.
 
 Simulados extras (EX-TURMA-N): **ainda não definidos** pelo usuário —
 perguntar antes de fechar o calendário final, ou deixar espaço reservado.
