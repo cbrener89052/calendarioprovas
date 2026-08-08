@@ -149,6 +149,10 @@ Nunca comece a montar o calendário sem antes:
     tem professores diferentes e é alocado por turma. Continua valendo:
     nunca três do grupo 1 na mesma semana, e o par sem Inglês
     (ex.: Mat + LP/LIT/RED) segue proibido.
+- **LP/LIT/RED (turmas 10, 11 e 12)**: a prova combinada de Português,
+  Redação e Gramática deve cair na **1ª ou 2ª semana de cada rodada de
+  provas** (P1 e P2), nunca nas semanas seguintes do período. Vale nas
+  duas rodadas do semestre.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -457,6 +461,8 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       prova foi descartada silenciosamente na escrita
 - [ ] Provas combinadas (LP/LIT/RED) usam o número certo de tempos e não
       aparecem como disciplinas separadas
+- [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada
+      rodada (P1 e P2), nas duas turmas irmãs
 - [ ] Disciplinas de prova única usam apenas 1 tempo
 - [ ] Nenhuma prova para disciplinas sem avaliação
 - [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
