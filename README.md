@@ -173,3 +173,18 @@ No Windows, após editar arquivos, use `commit_github.bat` para enviar.
 
 Sempre use a branch **`main`** — é ela que fica sincronizada entre os
 dois lados.
+
+## Reversa (engenharia reversa com IA)
+
+Instalado (v1.2.58). No chat do **Cursor**, digite:
+
+```
+/reversa
+```
+
+Isso inicia a análise do projeto e gera specs em `_reversa_sdd/`. Outros
+fluxos: `/reversa-new`, `/reversa-forward`, `/reversa-migrate`,
+`/reversa-docs`.
+
+Configuração em `.reversa/`; skills em `.agents/skills/` e
+`.claude/skills/reversa-*`. Atualizar agentes: `npx reversa update`.
