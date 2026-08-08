@@ -489,6 +489,28 @@ escolher uma a uma — garante que fiquem sempre distintas entre si.
 
    Claro o suficiente para ser usado direto na comunicação com os
    professores.
+
+   **Seção obrigatória "Regras relaxadas"** (só quando a Proposta 3
+   não fechou com os 5 limites de cessão estritos): uma seção separada,
+   clara e legível — não só um aviso solto no terminal — listando **por
+   turma e por disciplina/professor** exatamente o que precisou ser
+   afrouxado. "Regra 4 relaxada em ['11C1']" (aviso agregado por turma,
+   sem dizer qual disciplina) **não é suficiente** — a coordenação
+   precisa saber, por exemplo, "11C1: Hist/JuLa cedeu na semana 6 tendo
+   prova própria na semana 7" ou "9C1: Mat/BrSa ficou sem contato com a
+   turma nas semanas 8 e 9 por causa de cessão", não só que "a turma
+   11C1 teve a regra 4 relaxada". Uma tabela funciona bem:
+
+   | Turma | Regra relaxada | Disciplina/Professor | Detalhe |
+   |---|---|---|---|
+
+   Essa granularidade (turma **e** disciplina) já é o que
+   `verificar_calendario.py` calcula internamente para os avisos —
+   é questão de persistir essa mesma informação no relatório entregue,
+   em vez de deixá-la só no terminal da execução. Se nenhuma regra
+   precisou ser relaxada, a seção pode ser omitida ou dizer
+   explicitamente "nenhuma regra de cessão precisou ser relaxada nesta
+   rodada" — nunca ficar em silêncio sobre o que foi ou não relaxado.
 3. **Tabela-resumo por turma** (uma aba por turma, em arquivo separado),
    em formato de lista ordenada por data — é a visão que a coordenação usa
    para conferir e divulgar. Colunas:
@@ -622,6 +644,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       estritos", não pode haver nenhum aviso de regra de cessão; se disse
       "regra 4 relaxada em ['11C1']", os avisos de véspera-da-própria-prova
       só podem aparecer nessa turma, nenhuma outra
+- [ ] Se alguma regra de cessão foi relaxada, o **relatório de trocas de
+      tempo entregue** (não só o terminal) tem a seção "Regras relaxadas"
+      com o detalhe por turma e por disciplina/professor — ver entregável 2
 - [ ] Mesmo nas turmas com a **regra 4 relaxada**, nenhuma cessão aparece
       antes ou no dia da própria prova — só depois. Uma cessão antes da
       prova é sempre falha, nunca é coberta pela relaxação
