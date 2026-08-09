@@ -172,7 +172,23 @@ No Windows, após editar arquivos, use `commit_github.bat` para enviar.
    GitHub (já atualizado).
 
 Sempre use a branch **`main`** — é ela que fica sincronizada entre os
-dois lados.
+dois lados no **desenvolvimento**.
+
+### Branch producao (versão estável)
+
+Para código **validado** (após `verificar_calendario.py` OK), promova
+`main` → `producao`:
+
+| Ação | Arquivo |
+|---|---|
+| Promover versão validada → producao | `promover_para_producao.bat` |
+
+Detalhes completos: `referencia/fluxo-git-main-producao.md`
+
+```
+  main (dev)  ──commit a cada evolução──►  GitHub
+  main        ──promover quando OK──────►  producao (estável)
+```
 
 ## Reversa (engenharia reversa com IA)
 
