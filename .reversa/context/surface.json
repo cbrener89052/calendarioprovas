@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-08-09T02:59:00Z",
+  "project_root": "/workspace",
+  "languages": [
+    { "name": "Python", "extensions": [".py"], "file_count": 16 },
+    { "name": "Markdown", "extensions": [".md"], "file_count": 10 },
+    { "name": "Batch", "extensions": [".bat"], "file_count": 4 }
+  ],
+  "primary_language": "Python",
+  "frameworks": [
+    { "name": "openpyxl", "version": "unknown", "source": "imports in gerar_calendario.py" },
+    { "name": "PyMuPDF", "version": "unknown", "source": "imports in extrair_grade_2025.py" }
+  ],
+  "package_manager": "pip (informal, sem requirements.txt)",
+  "entry_points": [
+    { "path": "gerar_calendario.py", "type": "cli_main", "description": "Gera propostas de calendário de provas" },
+    { "path": "verificar_calendario.py", "type": "cli_main", "description": "Valida planilhas geradas" },
+    { "path": "exportar_tabelas_turma.py", "type": "cli_main", "description": "Exporta tabela-resumo por turma" },
+    { "path": "exportar_tempos_cedidos.py", "type": "cli_main", "description": "Exporta relatório de cessões" }
+  ],
+  "config_files": [
+    "README.md",
+    ".claude/skills/calendario-provas/SKILL.md",
+    "referencia/estado_2sem_2026.md"
+  ],
+  "ci_cd": [],
+  "docker": null,
+  "database_hints": [],
+  "test_framework": null,
+  "test_file_count": 0,
+  "modules": [
+    "geracao-calendario",
+    "verificacao-calendario",
+    "exportacao-relatorios",
+    "extracao-grade",
+    "analise-historica",
+    "regras-negocio",
+    "sincronizacao-git"
+  ],
+  "total_files": 55,
+  "organization_suggestion": {
+    "granularity": "feature",
+    "rationale": "Scripts Python CLI independentes por função (gerar, verificar, exportar, extrair), sem roteamento centralizado nem pastas de domínio no código — pastas top-level são dados (horários, modelos), não módulos.",
+    "signals": [],
+    "features": [
+      "geracao-calendario",
+      "verificacao-calendario",
+      "exportacao-relatorios",
+      "extracao-grade",
+      "analise-historica",
+      "regras-negocio",
+      "plataforma-multi-coordenador"
+    ]
+  },
+  "future_platform": {
+    "deploy": "cloud + docker-on-prem",
+    "backend": "Python FastAPI",
+    "database": "PostgreSQL",
+    "users": 5,
+    "auth": "individual-login"
+  }
+}

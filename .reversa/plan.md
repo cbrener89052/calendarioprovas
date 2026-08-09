@@ -6,11 +6,24 @@
 
 ---
 
+## Visão futura declarada pelo usuário (2026-08-09)
+
+O sistema será usado por **vários coordenadores** da instituição. A evolução
+prevista inclui **banco de dados** para persistir entradas (horários, modelos,
+simulados, siglas) e saídas (calendários, relatórios) **por coordenador**.
+
+Detalhes em `.reversa/context/user-requirements.md`.
+
+**Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
+individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
+
+---
+
 ## Fase 1: Reconhecimento 🔍
 
-- [ ] **Scout** — Mapeamento de estrutura de pastas e tecnologias
-- [ ] **Scout** — Análise de dependências e gerenciadores de pacotes
-- [ ] **Scout** — Identificação de entry points, CI/CD e configurações
+- [x] **Scout** — Mapeamento de estrutura de pastas e tecnologias
+- [x] **Scout** — Análise de dependências e gerenciadores de pacotes
+- [x] **Scout** — Identificação de entry points, CI/CD e configurações
 
 ## Decisão de organização das specs 🗂️
 
@@ -20,16 +33,22 @@
 
 > O Reversa preenche esta seção com os módulos reais após o Scout concluir o reconhecimento.
 
-- [ ] **Arqueólogo** — Análise dos módulos identificados pelo Scout
+- [ ] **Arqueólogo** — Análise do módulo `geracao-calendario`
+- [ ] **Arqueólogo** — Análise do módulo `verificacao-calendario`
+- [ ] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
+- [ ] **Arqueólogo** — Análise do módulo `extracao-grade`
+- [ ] **Arqueólogo** — Análise do módulo `analise-historica`
+- [ ] **Arqueólogo** — Análise do módulo `regras-negocio`
+- [ ] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
 
 ## Fase 3: Interpretação 🧠
 
 - [ ] **Detetive** — Arqueologia Git e ADRs retroativos
 - [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado
-- [ ] **Detetive** — Matriz de permissões (RBAC/ACL)
+- [ ] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
 - [ ] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
-- [ ] **Arquiteto** — ERD completo e integrações externas
-- [ ] **Arquiteto** — Spec Impact Matrix
+- [ ] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
+- [ ] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
 
 ## Fase 4: Geração 📝
 
