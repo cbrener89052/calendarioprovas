@@ -153,6 +153,20 @@ Nunca comece a montar o calendário sem antes:
   Redação e Gramática deve cair na **1ª ou 2ª semana de cada rodada de
   provas** (P1 e P2), nunca nas semanas seguintes do período. Vale nas
   duas rodadas do semestre.
+- **LP/LIT/RED — prazo mínimo antes do conselho de classe**: por exigir
+  **3 tempos de aplicação** (a maior prova do calendário), a prova
+  combinada de Português/Redação/Gramática precisa ocorrer com **pelo
+  menos 10 dias de antecedência** da semana vetada de conselho de
+  classe. Checar pela **data corrida** (não por semana civil) contra o
+  **início** da semana vetada — ex.: se o conselho começa 12/10/2026, a
+  prova de LP/LIT/RED não pode cair depois de 02/10/2026. Normalmente só
+  a ocorrência mais próxima do conselho (em geral a de P2) chega perto o
+  suficiente para essa checagem importar; a de P1 costuma estar bem
+  distante. Se esta regra entrar em conflito com a da "1ª ou 2ª semana
+  da rodada" acima (ex.: numa rodada onde a 2ª semana de P2 já cai muito
+  perto do conselho), as duas precisam ser checadas juntas — avisar o
+  usuário se não houver combinação de semana que atenda as duas ao mesmo
+  tempo.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -610,6 +624,8 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       aparecem como disciplinas separadas
 - [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada
       rodada (P1 e P2), nas duas turmas irmãs
+- [ ] Todas as ocorrências de LP/LIT/RED estão pelo menos **10 dias
+      corridos** antes do início da semana vetada de conselho de classe
 - [ ] Disciplinas de prova única usam apenas 1 tempo
 - [ ] Nenhuma prova para disciplinas sem avaliação
 - [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
