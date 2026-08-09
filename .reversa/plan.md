@@ -54,10 +54,10 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Fase 4: Geração 📝
 
-- [ ] **Redator** — Specs SDD por componente
-- [ ] **Redator** — OpenAPI (se aplicável)
-- [ ] **Redator** — User Stories (se aplicável)
-- [ ] **Redator** — Code/Spec Matrix
+- [x] **Redator** — Specs SDD por componente (7 features × requirements/design/tasks)
+- [x] **Redator** — OpenAPI (`_reversa_sdd/openapi/calendarioprovas.yaml`)
+- [x] **Redator** — User Stories (`_reversa_sdd/user-stories/fluxo-calendario-semestre.md`)
+- [x] **Redator** — Code/Spec Matrix (`_reversa_sdd/traceability/code-spec-matrix.md`)
 
 ## Fase 5: Revisão ✅
 
@@ -80,7 +80,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Próximo passo
 
-Fase 3 (Interpretação) concluída. Próxima fase: **Geração** — Redator (specs SDD por feature em `_reversa_sdd/<feature>/`).
+Fase 4 (Geração) concluída. Próxima fase: **Revisão** — Revisor (revisão cruzada, lacunas com usuário, relatório de confiança).
 
 Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
 
