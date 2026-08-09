@@ -53,8 +53,21 @@ precisa existir um **banco de dados** para armazenar:
 Cada coordenador configura o **seu segmento de atuação** na escola, com as características do seu contexto:
 
 - Séries/turmas sob sua responsabilidade (ex.: só Ensino Médio C, ou segmento específico)
-- Períodos letivos, grupos de viagem, calendário de simulados do segmento
-- Parâmetros locais (datas-limite, feriados adicionais, exceções de disciplina)
+- **GRUPOS** customizáveis (ver abaixo), calendário de simulados do segmento
+- Parâmetros locais (feriados adicionais, exceções de disciplina)
+
+### GRUPOS (customizáveis por coordenador)
+
+Substituem o conceito fixo “grupos de viagem” (ex.: 10/12 vs 9/11). Cada coordenador define **GRUPOS** com:
+
+| Campo | Descrição |
+|---|---|
+| **Nome** | Rótulo livre (ex.: “Turmas que viajam cedo”, “9º e 11º”) |
+| **Início / fim do semestre** | Janela letiva do grupo para provas |
+| **Datas de 2ª chamada** | Uma ou mais datas por grupo |
+| **Datas de conselho de classe** | Período vetado (início/fim) por grupo |
+
+Turmas são associadas a um GRUPO; limites de período, 2CH e conselho vêm do grupo, não de código hardcoded.
 
 **Isolamento:** cada coordenador vê e opera **apenas os dados do seu segmento** (tenant = coordenador + segmento).
 

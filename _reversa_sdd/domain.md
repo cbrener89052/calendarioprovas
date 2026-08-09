@@ -21,6 +21,8 @@
 | **Semana vetada** | Semana de conselho de classe — sem provas normais | 🟢 |
 | **Coordenador** | Usuário futuro da plataforma (5 contas) | 🟡 |
 | **Segmento** | Escopo escolar do coordenador (turmas, regras, parâmetros) | 🟢 |
+| **GRUPO** | Agrupamento customizável de turmas: nome, início/fim semestre, 2ª chamada, conselho | 🟢 |
+| **Grupo 1** | Mat, DaF, Port/LP-LIT-RED, Ing — regra de distribuição (≠ GRUPO acima) | 🟢 |
 | **Regra codificada** | Restrição no solver; toggle ativo/inativo | 🟢 |
 | **Customização IA** | Preferência/exceção interpretada por IA, sem alterar código | 🟢 |
 | **Semestre letivo** | Unidade de trabalho (ex.: 2º sem 2026) | 🟢 |
@@ -34,7 +36,7 @@
 1. Máx. **3 avaliações/semana** por turma (simulado 2 dias = 1) 🟢
 2. **1 prova/dia** por turma 🟢
 3. **Distância mínima 4 semanas** entre 2 provas da mesma disciplina (por número de semana) 🟢
-4. Provas dentro do **período do grupo** (10/12 vs 9/11), sem feriados/semana vetada 🟢
+4. Provas dentro do **período do GRUPO** da turma (início/fim semestre configuráveis), sem feriados/semana vetada de conselho 🟢
 5. **LP/LIT/RED** (10–12): 3 tempos, 1ª ou 2ª semana de cada rodada 🟢
 6. **LP/LIT/RED ≥10 dias** antes do início da semana vetada de conselho 🟢 skill (PR #14 em main) / 🔴 código
 7. **Intervalo recreio**: proibido cruzar 3+4 ou 5+6; exceção com destaque laranja 🟢

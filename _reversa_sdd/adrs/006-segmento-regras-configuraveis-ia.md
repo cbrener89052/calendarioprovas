@@ -10,7 +10,7 @@ Plataforma multi-coordenador (5 usuários). Cada escola/segmento tem caracterís
 
 ## Decisão
 
-1. **Segmento de atuação** — cada coordenador configura turmas, períodos e parâmetros do seu contexto escolar.
+1. **Segmento de atuação** — cada coordenador configura turmas, **GRUPOS** (nome, datas semestre, 2ª chamada, conselho) e parâmetros do seu contexto escolar.
 2. **Regras codificadas** — catálogo derivado da skill; **ativar/desativar** por coordenador/semestre via UI.
 3. **Customizações IA** — adaptações que não entram no solver; IA interpreta configs do coordenador (texto + contexto do segmento).
 
@@ -24,7 +24,7 @@ Plataforma multi-coordenador (5 usuários). Cada escola/segmento tem caracterís
 
 ## Consequências
 
-- ERD: `segmento`, `regra_catalogo`, `regra_config`, `customizacao_ia`
+- ERD: `segmento`, `grupo`, `turma`, `regra_catalogo`, `regra_config`, `customizacao_ia`
 - Solver recebe `RuleContext` filtrado pelos toggles ativos
 - Fase Redator: feature `plataforma-multi-coordenador` + `regras-configuraveis`
 - PR #14 permanece lacuna de código até implementação explícita

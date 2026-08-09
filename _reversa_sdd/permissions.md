@@ -21,7 +21,7 @@ Cada **coordenador** configura o **segmento de atuação** na escola:
 | Dimensão do segmento | Exemplo |
 |---|---|
 | Turmas/séries | 9C–12C, ou subset |
-| Grupos de viagem | 10/12 vs 9/11 |
+| **GRUPOS** | Nome + início/fim semestre + 2ª chamada + conselho |
 | Simulados do segmento | AG9, S4-12… |
 | Regras ativas | toggles do catálogo |
 | Customizações IA | preferências textuais, exceções documentadas |

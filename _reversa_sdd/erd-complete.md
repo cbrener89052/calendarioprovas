@@ -8,6 +8,7 @@
 
 ```mermaid
 erDiagram
+    TURMA }o--|| GRUPO : pertence
     TURMA ||--o{ CELULA_GRADE : tem
     TURMA ||--o{ ALOCACAO : recebe
     DISCIPLINA ||--o{ CELULA_GRADE : ocupa
@@ -17,7 +18,13 @@ erDiagram
 
     TURMA {
         string codigo PK
-        string grupo
+        string grupo_codigo FK "legado: 10_12, 9_11 → futuro: GRUPO.id"
+    }
+    GRUPO {
+        string codigo PK "legado: 10_12, 9_11"
+        date inicio_semestre
+        date fim_semestre
+        date segunda_chamada
     }
     DISCIPLINA {
         string codigo PK
@@ -53,6 +60,8 @@ erDiagram
 erDiagram
     INSTITUICAO ||--o{ COORDENADOR : emprega
     COORDENADOR ||--|| SEGMENTO : configura
+    SEGMENTO ||--o{ GRUPO : define
+    GRUPO ||--o{ TURMA : agrupa
     SEGMENTO ||--o{ SEMESTRE : escopo
     SEMESTRE ||--o{ ARQUIVO_ENTRADA : tem
     SEMESTRE ||--o{ CALENDARIO_GERADO : produz
@@ -71,9 +80,21 @@ erDiagram
         uuid id PK
         uuid coordenador_id FK UK
         string nome
-        jsonb turmas
-        jsonb grupos_viagem
-        jsonb params_default
+    }
+    GRUPO {
+        uuid id PK
+        uuid segmento_id FK
+        string nome
+        date data_inicio_semestre
+        date data_fim_semestre
+        jsonb datas_segunda_chamada
+        date conselho_inicio
+        date conselho_fim
+    }
+    TURMA {
+        uuid id PK
+        uuid grupo_id FK
+        string codigo UK
     }
     SEMESTRE {
         uuid id PK
@@ -142,6 +163,10 @@ erDiagram
 
 | Legado | Tabela/coluna futura |
 |---|---|
+| `LIMITE` / `grupo_turma()` | `grupo.data_fim_semestre` |
+| `SEMANA_VETADA` | `grupo.conselho_inicio/fim` |
+| 2CH no modelo xlsx | `grupo.datas_segunda_chamada` |
+| Turmas 9C–12C | `turma.grupo_id` → GRUPO nomeado pelo coordenador |
 | `GRADES` hardcoded | `grade_celula` + import de PDF |
 | `Horario desenvolvido/*.xlsx` | `calendario_gerado` + blob |
 | `siglas/*.xlsx` | `arquivo_entrada` tipo siglas |
