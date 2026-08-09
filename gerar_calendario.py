@@ -1266,6 +1266,24 @@ def doador_de_bloco(bl):
     return tuple(doados)
 
 
+def posicoes_por_doador(turma, disc, d, t, n):
+    """{(disc_doadora, prof_doador): [tempos doados]} dentro do bloco
+    (d, t..t+n-1) de uma prova ja alocada -- reconstroi diretamente da
+    grade em vez de reler a tupla `doador`, que pode repetir o mesmo
+    (disc,prof) mais de uma vez quando ele doa mais de um tempo do MESMO
+    bloco (ex.: LP/LIT/RED com 2 dos 3 tempos vindos do mesmo professor).
+    Reler `doador` posicionalmente sem essa funcao faz reconstroes tipo
+    detectar_regras_relaxadas contarem esse doador em dobro."""
+    fam = familia_de(disc)
+    out = collections.defaultdict(list)
+    for k in range(n):
+        cell = GRADES[turma].get((d, t + k))
+        if cell is None or cell[0] in fam:
+            continue
+        out[cell].append(t + k)
+    return out
+
+
 def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
     """Como _tentar(), mas decide de uma vez as provas de professor comum
     entre as turmas irmas a/b, no mesmo dia e tempo nas duas.
@@ -1639,12 +1657,9 @@ def detectar_regras_relaxadas(turma, itens):
             exames_de[c].add(w)
         if not doador:
             continue
-        doadores = doador if isinstance(doador[0], tuple) else (doador,)
-        for (dd, dp) in doadores:
-            tempos = [t + k for k in range(n)
-                      if GRADES[turma].get((d, t + k), (None,))[0] == dd]
+        for chave, tempos in posicoes_por_doador(turma, disc, d, t, n).items():
             for tt in tempos:
-                cedidas[(dd, dp)].append((w, d, tt))
+                cedidas[chave].append((w, d, tt))
 
     # regra 4: doador cedeu na semana da sua propria prova ou na anterior
     for (dd, dp), slots in cedidas.items():
@@ -1751,10 +1766,7 @@ def relatorio(alocacoes_por_proposta, comuns_por_par):
                     if obs_txt:
                         linhas.append(f"| {turma} | {NOME[disc]} / {prof} | — | — | — | — | {obs_txt} |")
                     continue
-                doadores = doador if isinstance(doador[0], tuple) else (doador,)
-                for (dd, dp) in doadores:
-                    tempos = [t + k for k in range(n)
-                              if GRADES[turma].get((d, t + k), (None,))[0] == dd]
+                for (dd, dp), tempos in posicoes_por_doador(turma, disc, d, t, n).items():
                     tl = ", ".join(f"{x}º" for x in tempos) or f"{t+1}º"
                     linhas.append(
                         f"| {turma} | {NOME[disc]} / {prof} | {tl} tempo(s) "
