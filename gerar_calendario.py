@@ -1668,12 +1668,37 @@ def detectar_regras_relaxadas(turma, itens):
             avisos.append(("regra3", dd, dp,
                 f"fica sem contato com a turma nas semanas {w} e {w + 1} "
                 f"por causa das cessões"))
+
+    # regras 1 e 5: teto de cessoes (meta por disciplina / percentual da
+    # carga do semestre) -- so podem ter sido ultrapassados se o teto foi
+    # elevado nesta turma (folga_extra), ja que a busca os respeita
+    # estritamente caso contrario.
+    semanais = aulas_semanais(turma)
+    prog = programadas_no_semestre(turma)
+    for chave, slots in cedidas.items():
+        dd, dp = chave
+        n_sem = semanais.get(chave, 0)
+        n_ced = len(slots)
+        if n_sem > 1:
+            meta = meta_cessao(dd, n_sem)
+            if meta is not None and n_ced > meta:
+                avisos.append(("regra1", dd, dp,
+                    f"tem {n_sem} aulas semanais e cedeu {n_ced} "
+                    f"(meta: no máximo {meta})"))
+        n_prog = prog.get(chave, 0)
+        if n_prog and n_ced / n_prog > TETO_PCT_CESSAO:
+            avisos.append(("regra5", dd, dp,
+                f"cedeu {n_ced} de {n_prog} aulas "
+                f"({n_ced / n_prog:.1%}) — acima do teto de "
+                f"{TETO_PCT_CESSAO:.0%}"))
     return avisos
 
 
 NOME_REGRA_CESSAO = {
     "regra4": "Regra 4 (não ceder às vésperas da própria prova)",
     "regra3": "Regra 3 (nunca 2 semanas seguidas sem contato)",
+    "regra1": "Regra 1 (teto de cessões por disciplina no semestre)",
+    "regra5": "Regra 5 (teto de 11% das aulas programadas no semestre)",
 }
 
 

@@ -286,24 +286,32 @@ def main():
                     n_sem = semanais.get(chave, 0)
                     n_ced = len(slots)
 
-                    # regra 2: 1 aula por semana nao cede
+                    # regra 2: 1 aula por semana nao cede -- e a unica das
+                    # cinco que o gerador NUNCA relaxa (limite_cessao
+                    # devolve 0 sempre, folga nao entra nessa conta), entao
+                    # continua PROBLEMA se acontecer.
                     if n_sem <= 1:
                         problemas.append(
                             f"{pre}: {nome_d}/{prof_d} tem 1 aula semanal e "
                             f"cedeu {n_ced}")
                     # regra 1: 2 ou 3 aulas semanais -> meta de 2 (3 para
-                    # Historia, Geografia e GL, por decisão da escola)
+                    # Historia, Geografia e GL, por decisão da escola). Junto
+                    # com a regra 5 abaixo, pode ser relaxada POR TURMA (o
+                    # teto de cessões elevado, ver escada em main()) quando a
+                    # busca estrita nao fecha -- o gerador avisa, entao entra
+                    # como AVISO, nao como falha do checklist (mesmo
+                    # tratamento ja dado a regra 4 logo abaixo).
                     else:
                         meta = G.meta_cessao(disc_d, n_sem)
                         if meta is not None and n_ced > meta:
-                            problemas.append(
+                            avisos.append(
                                 f"{pre}: {nome_d}/{prof_d} tem {n_sem} aulas "
                                 f"semanais e cedeu {n_ced} (meta: no máximo "
                                 f"{meta})")
                     # regra 5: teto percentual das aulas do semestre
                     n_prog = prog.get(chave, 0)
                     if n_prog and n_ced / n_prog > G.TETO_PCT_CESSAO:
-                        problemas.append(
+                        avisos.append(
                             f"{pre}: {nome_d}/{prof_d} cedeu {n_ced} de "
                             f"{n_prog} aulas ({n_ced / n_prog:.1%}) — acima "
                             f"do teto de {G.TETO_PCT_CESSAO:.0%}")
