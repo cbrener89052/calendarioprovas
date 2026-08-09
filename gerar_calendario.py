@@ -1791,6 +1791,13 @@ def montar_proposta(seed, folga=None, sem_regra3=(), sem_regra4=(),
 
     # 1) provas de professor comum entre turmas irmas, coordenadas ou
     #    ja combinadas -- decididas antes, para as duas turmas de vez.
+    # Se a coordenacao nao fechar (total ou parcialmente), as duas turmas
+    # do par entram em `falharam`: cair so no aviso, sem marcar falha,
+    # deixava resolver() excluir essas disciplinas (excluir_por_turma) e
+    # "fechar" a turma silenciosamente faltando provas -- a escada de
+    # afrouxamento do main() nunca era acionada porque nada parecia ter
+    # falhado.
+    falharam = set()
     for (a, b) in PARES_IRMAS:
         res_a, res_b, ocup_a, psem_a, ocup_b, psem_b, comuns = resolver_par(
             a, b, seed + sum(map(ord, a + b)), cessoes)
@@ -1803,11 +1810,11 @@ def montar_proposta(seed, folga=None, sem_regra3=(), sem_regra4=(),
         if len(res_a) < len(comuns):
             print(f"  !! {a}/{b}: só {len(res_a)} de {len(comuns)} provas "
                   "comuns foram coordenadas")
+            falharam |= {a, b}
 
     # 2) o resto de cada turma (disciplinas independentes, ex. Ingles
     #    nas turmas 10/11/12), preenchendo ao redor do que ja foi
     #    decidido acima.
-    falharam = set()
     for turma in GRADES:
         ok, res, g1, tarde, cruzadas = resolver(
             turma, seed + sum(map(ord, turma)),
