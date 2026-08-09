@@ -675,7 +675,7 @@ MAX_NOS = 60000
 MAX_NOS_CESSAO = 5000
 
 # Semente da Proposta 3 (ver comentario em main()).
-SEED_PROPOSTA_3 = 7
+SEED_PROPOSTA_3 = 3
 
 
 def escada(n_exames, cessoes):
