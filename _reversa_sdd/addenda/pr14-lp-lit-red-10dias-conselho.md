@@ -6,7 +6,8 @@
 
 ## Vigência
 
-Vigente desde 2026-08-09.
+Vigente desde 2026-08-09.  
+**PR #14 mergeada em `main`** (2026-08-09).
 
 ## Resumo
 

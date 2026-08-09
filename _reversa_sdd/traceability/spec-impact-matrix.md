@@ -15,7 +15,8 @@
 | extracao-grade | `extrair_grade_*.py` | .py gerado | Upload PDF + job OCR | Alto — pipeline assíncrono | Alto |
 | analise-historica | `analisar_*.py` | xlsx | Relatórios comparativos BD | Baixo — opcional v2 | Baixo |
 | regras-negocio | SKILL.md | git | `template_regras` versionado | Médio — sync skill↔BD | Médio |
-| plataforma-multi-coordenador | — | — | Auth, RBAC, tenant | **Novo** | Alto |
+| plataforma-multi-coordenador | — | — | Segmento + RBAC + rule engine | **Novo** | Alto |
+| regras-configuraveis | skill + hardcode | git | Catálogo + toggles + IA | **Novo** | Alto |
 | sync git | `*.bat` | git | CI/CD + API (substitui parcial) | Médio | Médio |
 
 ---
@@ -67,4 +68,4 @@ flowchart LR
 - ADR-002 Cessão
 - ADR-003 Regra 4
 - ADR-004 Skill fonte viva
-- ADR-005 FastAPI + Postgres
+- ADR-006 Segmento + regras configuráveis + IA

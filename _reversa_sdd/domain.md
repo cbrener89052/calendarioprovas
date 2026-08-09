@@ -20,6 +20,9 @@
 | **Simulado/AG** | Avaliação global fixa (AG9, AG10, S3-11…) — 2º–7º tempo, amarelo | 🟢 |
 | **Semana vetada** | Semana de conselho de classe — sem provas normais | 🟢 |
 | **Coordenador** | Usuário futuro da plataforma (5 contas) | 🟡 |
+| **Segmento** | Escopo escolar do coordenador (turmas, regras, parâmetros) | 🟢 |
+| **Regra codificada** | Restrição no solver; toggle ativo/inativo | 🟢 |
+| **Customização IA** | Preferência/exceção interpretada por IA, sem alterar código | 🟢 |
 | **Semestre letivo** | Unidade de trabalho (ex.: 2º sem 2026) | 🟢 |
 
 ---
@@ -33,7 +36,7 @@
 3. **Distância mínima 4 semanas** entre 2 provas da mesma disciplina (por número de semana) 🟢
 4. Provas dentro do **período do grupo** (10/12 vs 9/11), sem feriados/semana vetada 🟢
 5. **LP/LIT/RED** (10–12): 3 tempos, 1ª ou 2ª semana de cada rodada 🟢
-6. **LP/LIT/RED ≥10 dias** antes do início da semana vetada de conselho 🟢 skill / 🔴 código
+6. **LP/LIT/RED ≥10 dias** antes do início da semana vetada de conselho 🟢 skill (PR #14 em main) / 🔴 código
 7. **Intervalo recreio**: proibido cruzar 3+4 ou 5+6; exceção com destaque laranja 🟢
 
 ### Cessão de aula (Proposta 3)
@@ -77,7 +80,8 @@
 |---|---|
 | LP/LIT/RED 10 dias antes conselho | Skill PR #14; não no gerador/verificador |
 | Verificação de cores ARGB opacas | Skill pede; verificador só checa texto |
-| RBAC / multi-coordenador | Só requisitos futuros |
+| RBAC por segmento | 🟢 user-requirements 2026-08-09 |
+| Motor regras toggles + IA | 🟢 ADR-006 |
 | `requirements.txt` ausente | Dependências implícitas (openpyxl, fpdf, pymupdf) |
 
 ---

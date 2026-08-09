@@ -51,47 +51,72 @@ erDiagram
 
 ```mermaid
 erDiagram
-    COORDENADOR ||--o{ SEMESTRE : possui
+    INSTITUICAO ||--o{ COORDENADOR : emprega
+    COORDENADOR ||--|| SEGMENTO : configura
+    SEGMENTO ||--o{ SEMESTRE : escopo
     SEMESTRE ||--o{ ARQUIVO_ENTRADA : tem
     SEMESTRE ||--o{ CALENDARIO_GERADO : produz
     CALENDARIO_GERADO ||--o{ RELATORIO : gera
-    INSTITUICAO ||--o{ COORDENADOR : emprega
-    INSTITUICAO ||--o{ TEMPLATE_REGRAS : compartilha
+    INSTITUICAO ||--o{ REGRA_CATALOGO : publica
+    SEGMENTO ||--o{ REGRA_CONFIG : toggles
+    SEGMENTO ||--o{ CUSTOMIZACAO_IA : preferencias
+    REGRA_CATALOGO ||--o{ REGRA_CONFIG : instancia
 
     COORDENADOR {
         uuid id PK
         string email UK
         string nome
-        string papel
     }
-    INSTITUICAO {
+    SEGMENTO {
         uuid id PK
+        uuid coordenador_id FK UK
         string nome
+        jsonb turmas
+        jsonb grupos_viagem
+        jsonb params_default
     }
     SEMESTRE {
         uuid id PK
-        uuid coordenador_id FK
+        uuid segmento_id FK
         int ano
         int periodo
         date inicio
         date fim
-        jsonb config_grupos
+    }
+    REGRA_CATALOGO {
+        uuid id PK
+        string codigo UK
+        string descricao
+        bool implementada_solver
+        string skill_ref
+    }
+    REGRA_CONFIG {
+        uuid id PK
+        uuid segmento_id FK
+        uuid regra_id FK
+        uuid semestre_id FK
+        bool ativo
+        jsonb params
+    }
+    CUSTOMIZACAO_IA {
+        uuid id PK
+        uuid segmento_id FK
+        uuid semestre_id FK
+        text instrucao
+        text contexto
+        datetime created_at
     }
     ARQUIVO_ENTRADA {
         uuid id PK
         uuid semestre_id FK
         enum tipo
         string blob_path
-        string content_hash
-        datetime uploaded_at
     }
     CALENDARIO_GERADO {
         uuid id PK
         uuid semestre_id FK
-        int proposta
         enum status
         string xlsx_blob_path
-        datetime created_at
     }
     RELATORIO {
         uuid id PK
@@ -99,13 +124,9 @@ erDiagram
         enum tipo
         string blob_path
     }
-    TEMPLATE_REGRAS {
-        uuid id PK
-        uuid instituicao_id FK
-        string skill_version
-        text conteudo_md
-    }
 ```
+
+> Nota: entidade `INSTITUICAO` e `REGRA_CATALOGO` substituem o modelo anterior `TEMPLATE_REGRAS` único — catálogo + toggles por segmento.
 
 ### Tipos enum propostos
 
@@ -124,8 +145,9 @@ erDiagram
 | `GRADES` hardcoded | `grade_celula` + import de PDF |
 | `Horario desenvolvido/*.xlsx` | `calendario_gerado` + blob |
 | `siglas/*.xlsx` | `arquivo_entrada` tipo siglas |
-| SKILL.md | `template_regras` + versionamento |
-| `FORCAR_DATA`, simulados | `semestre.config` JSON ou tabelas filhas |
+| SKILL.md | `regra_catalogo` (seed) + toggles |
+| Toggles hardcoded → config | `regra_config.ativo` |
+| Preferências textuais | `customizacao_ia` |
 
 ---
 

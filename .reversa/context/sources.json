@@ -2,8 +2,9 @@
   "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
   "updated_at": "2026-08-09T03:20:00Z",
   "last_sync_requested_at": "2026-08-09T03:20:00Z",
-  "last_sync_completed_at": "2026-08-09T03:25:00Z",
+  "last_sync_completed_at": "2026-08-09T03:35:00Z",
   "last_sync_pr": 14,
+  "last_sync_note": "PR14 em main; RBAC segmento + regras toggles + IA (ADR-006)",
   "canonical": [
     {
       "id": "skill-calendario-provas",

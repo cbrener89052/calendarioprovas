@@ -45,12 +45,12 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Fase 3: Interpretação 🧠
 
-- [ ] **Detetive** — Arqueologia Git e ADRs retroativos
-- [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado
-- [ ] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
-- [ ] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
-- [ ] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
-- [ ] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
+- [x] **Detetive** — Arqueologia Git e ADRs retroativos
+- [x] **Detetive** — Regras de negócio implícitas e máquinas de estado
+- [x] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
+- [x] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
+- [x] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
+- [x] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
 
 ## Fase 4: Geração 📝
 
@@ -80,7 +80,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Próximo passo
 
-Fase 2 (Escavação) concluída. Próxima fase: **Interpretação** — Detetive + Arquiteto.
+Fase 3 (Interpretação) concluída. Próxima fase: **Geração** — Redator (specs SDD por feature em `_reversa_sdd/<feature>/`).
 
 Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
 
