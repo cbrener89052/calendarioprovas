@@ -91,4 +91,4 @@ flowchart LR
 ## Lacunas 🔴
 
 - Audit log de toggles e customizações
-- PR #14 LP/LIT/RED 10 dias no código (ver `questions.md#pergunta-4`)
+- [x] PR #14 LP/LIT/RED 10 dias → **Must** antes deploy; Claude agendado

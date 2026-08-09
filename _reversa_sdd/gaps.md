@@ -9,7 +9,7 @@
 
 | ID | Lacuna | Specs afetadas | Status |
 |----|--------|----------------|--------|
-| G-C01 | **LP/LIT/RED ≥10 dias** — skill em `main`, código ausente | geracao, verificacao, regras | 🔴 `questions.md#pergunta-4` |
+| G-C01 | **LP/LIT/RED ≥10 dias** — skill ✅; código 🔴 | geracao, verificacao, regras | 🟡 **Must** antes deploy; Claude agendado; bloqueia publish |
 | ~~G-C02~~ | ~~Customização IA — escopo pipeline~~ | regras, verificacao | ✅ **Ambos** (verificador + relatório) |
 | ~~G-C03~~ | ~~Admin institucional~~ | plataforma, permissions | ✅ Brener admin; coords isolados |
 

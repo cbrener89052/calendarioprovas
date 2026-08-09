@@ -80,7 +80,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Próximo passo
 
-**Time de Descoberta concluído** (Fases 1–5). Responda as 4 perguntas em `_reversa_sdd/questions.md` e avise com `reversa`.
+**Time de Descoberta concluído** — 4/4 perguntas respondidas. PR #14 Must deploy; Claude agendado.
 
 Fluxos disponíveis:
 

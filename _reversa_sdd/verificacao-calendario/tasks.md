@@ -22,10 +22,9 @@
   - Critério: Detecta cessão véspera como erro
   - Confiança: 🟢
 
-- [ ] T-04 — Check LP/LIT/RED 10 dias conselho
-  - Origem: PR #14, skill
-  - Critério: Erro quando <10 dias
-  - Confiança: 🔴
+- [ ] T-04 — Check LP/LIT/RED 10 dias conselho (**Must deploy**)
+  - Origem: PR #14, Brener 2026-08-09; Claude agendado
+  - Confiança: 🔴 código; 🟢 requisito
 
 - [ ] T-05 — Extrair módulo `rules/` compartilhado com gerador
   - Origem: acoplamento import

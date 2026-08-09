@@ -48,7 +48,7 @@
         "_reversa_sdd/adrs/"
       ],
       "adrs_count": 7,
-      "lacunas": ["LP/LIT/RED 10 dias no código", "Audit log toggles"]
+      "lacunas": ["PR #14 código (Claude agendado)", "Audit log toggles"]
     },
     "architect": {
       "completed_at": "2026-08-09T03:30:00Z",
@@ -78,8 +78,9 @@
       "features_reviewed": 7,
       "reclassifications": 3,
       "questions_generated": 4,
-      "questions_answered": 3,
-      "confidence_overall": "80%",
+      "questions_answered": 4,
+      "confidence_overall": "82%",
+      "discovery_complete": true,
       "cross_review_codex": false,
       "files": [
         "_reversa_sdd/confidence-report.md",

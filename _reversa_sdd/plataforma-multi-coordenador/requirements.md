@@ -50,7 +50,7 @@ Plataforma web para 5 coordenadores gerarem calendários de provas com dados iso
 | RF-08 | Download relatórios (tabela, cessões, trocas) | Must | Paridade exportadores | 🟢 |
 | RF-09 | Toggles regras codificadas por semestre | Must | ADR-006 | 🟢 |
 | RF-10 | CRUD customização IA | Must | Texto por segmento; usado em verificador + relatório | 🟢 |
-| RF-11 | Publicar versão calendário | Should | Flag publicado + timestamp | 🟡 |
+| RF-11 | Publicar versão calendário | Should | Flag publicado; **bloqueado** se PR #14 não implementada | 🟢 |
 | RF-12 | Admin catálogo regras + leitura cross-segmento (Brener) | Must | Papel `admin_instituicao`; coords isolados | 🟢 |
 | RF-13 | Docker Compose (API + Postgres + worker + frontend) | Must | `docker compose up` on-prem | 🟢 |
 | RF-14 | Frontend web React Vite + Tailwind | Must | ADR-007; toggles e job solver na UI | 🟢 |
@@ -89,7 +89,7 @@ RF-01–RF-06, RF-08, RF-09, RF-12–RF-14 Must; RF-07, RF-11 Should.
 
 ## 10. Lacunas
 
-- 🔴 PR #14 LP/LIT/RED 10 dias no código — ver `questions.md#pergunta-4`
+- 🟡 PR #14 no código — Must antes deploy; Claude agendado
 - 🟡 Context vs Redux — decidir na implementação
 
 ## 11. Histórico

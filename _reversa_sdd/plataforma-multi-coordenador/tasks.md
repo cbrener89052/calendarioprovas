@@ -78,5 +78,5 @@ T-01 → T-02 → T-03 → T-13 → T-14 → T-04 → T-05 → T-06 → T-07 →
 
 ## Lacunas (🔴)
 
-- PR #14 Must antes deploy? (`questions.md#pergunta-4`)
+- PR #14 Must deploy — ✅ confirmado; Claude agendado
 - Context vs Redux (decisão implementação)

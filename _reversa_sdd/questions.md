@@ -48,4 +48,5 @@ Brener será **admin_instituicao** (acesso cross-segmento leitura + catálogo). 
 **Pergunta:** Confirma que a implementação desta regra no código é **prioridade Must** antes do deploy da plataforma (não pode ir para produção sem ela)?  
 **Impacto:** Ordenação do backlog; bloqueio de “publicar” na plataforma.
 
-**Resposta:** <!-- preencha aqui -->
+**Resposta:** ✅ Respondida (2026-08-09)  
+**SIM** — implementação Must antes do deploy; **publicar** bloqueado sem a regra no gerador e verificador. Claude Code agendado para atualizar skill/código.

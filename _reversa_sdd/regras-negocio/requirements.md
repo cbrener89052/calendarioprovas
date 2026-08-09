@@ -87,9 +87,9 @@ Cenário: Customização IA registrada
 
 ## 10. Lacunas
 
-- 🔴 PR #14: skill mergeada, solver/verificador pendentes
-- 🔴 Customização IA: entra no verificador ou só relatório?
-- 🟡 Admin vs coordenador puro (admin_instituicao)
+- 🔴 PR #14: skill ✅; código 🔴 — **Must deploy**; Claude agendado (Brener 2026-08-09)
+- 🟢 Customização IA: verificador + relatório auxiliar (Brener 2026-08-09)
+- 🟢 Admin: Brener admin_instituicao; coords isolados
 
 ## 11. Histórico
 

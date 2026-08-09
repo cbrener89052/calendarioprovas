@@ -34,10 +34,10 @@
   - Critério de pronto: xlsx abre; verificador passa checklist base
   - Confiança: 🟢
 
-- [ ] T-06 — Implementar RN-08 LP/LIT/RED ≥10 dias antes conselho
-  - Origem: `.claude/skills/calendario-provas/SKILL.md`, PR #14
-  - Critério de pronto: Verificador inclui check; gerador rejeita slot inválido
-  - Confiança: 🔴 (lacuna atual)
+- [ ] T-06 — Implementar RN-08 LP/LIT/RED ≥10 dias antes conselho (**Must deploy**)
+  - Origem: PR #14, Brener 2026-08-09; Claude agendado
+  - Critério: Verificador inclui check; gerador rejeita slot inválido; publish bloqueado
+  - Confiança: 🔴 código; 🟢 requisito confirmado
 
 - [ ] T-07 — Integrar `RuleContext` com toggles (plataforma)
   - Origem: ADR-006, `regras-negocio/design.md`
@@ -71,6 +71,5 @@
 
 ## Lacunas Pendentes (🔴)
 
-- LP/LIT/RED 10 dias no código
+- ~~LP/LIT/RED 10 dias~~ — Must confirmado; implementação via Claude agendada
 - Formato exato de `RuleContext` na API
-- Customização IA: entra como pré-processamento ou pós-validação?

@@ -57,9 +57,7 @@ Gera o calendário de provas do 2º semestre para turmas C via backtracking com 
    - Origem: skill + `gerar_calendario.py`  
    - Tipo: confirmada
 
-8. **RN-08:** LP/LIT/RED ≥10 dias corridos antes da semana vetada de conselho 🟢 skill / 🔴 código  
-   - Origem: PR #14 mergeada em `main`  
-   - Tipo: alterada — **pendente implementação**
+8. **RN-08:** LP/LIT/RED ≥10 dias corridos antes da semana vetada de conselho 🟢 skill / 🔴 código → **Must deploy** (Brener 2026-08-09)
 
 9. **RN-09:** Relatório de trocas deve incluir seção **Regras relaxadas** quando afrouxamento ocorrer 🟢  
    - Origem: `gerar_calendario.py:detectar_regras_relaxadas`  
@@ -76,7 +74,7 @@ Gera o calendário de provas do 2º semestre para turmas C via backtracking com 
 | RF-05 | Gravar calendário xlsx com 8 abas (uma por turma) | Must | Arquivo abre no Excel com provas, simulados e cores esperadas | 🟢 |
 | RF-06 | Gerar relatório de trocas de tempo entre professores | Must | Lista cessões com origem/destino disciplina e professor | 🟢 |
 | RF-07 | Respeitar toggles de regras codificadas (plataforma futura) | Should | Regras desativadas no `RuleContext` não são aplicadas | 🟡 |
-| RF-08 | Validar LP/LIT/RED ≥10 dias antes conselho | Must | Prova LP/LIT/RED a ≥10 dias do início da semana vetada | 🔴 |
+| RF-08 | Validar LP/LIT/RED ≥10 dias antes conselho | Must | Bloqueia publish até implementado; Claude agendado | 🟢 requisito / 🔴 código |
 
 ## 6. Requisitos Não Funcionais
 
@@ -128,9 +126,8 @@ Cenário: LP/LIT/RED respeita distância do conselho (futuro)
 
 ## 10. Lacunas
 
-- 🔴 LP/LIT/RED 10 dias: skill em `main`, não implementado em `gerar_calendario.py`
-- 🔴 Integração `RuleContext` com toggles ADR-006 — desenho em plataforma, não no CLI
-- 🟡 Cores ARGB no xlsx: skill pede destaque; gerador grava cores parcialmente
+- 🟡 RN-08 PR #14: código pendente — **Must** antes deploy; Claude agendado
+- 🟡 Integração `RuleContext` com toggles ADR-006 — plataforma
 
 ## 11. Histórico de alterações
 

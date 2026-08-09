@@ -62,7 +62,7 @@
 
 | Lacuna | Feature | Status |
 |---|---|---|
-| LP/LIT/RED 10 dias conselho | geracao + verificacao + regras | 🔴 PR #14 skill only |
+| LP/LIT/RED 10 dias | 🔴 código | 🟢 Must deploy; Claude agendado |
 | Validação cores ARGB | verificacao-calendario | 🔴 |
 | RuleContext / toggles | regras + plataforma | 🟡 spec, sem código |
 | API FastAPI | plataforma | 🟡 OpenAPI draft |

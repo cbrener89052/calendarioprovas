@@ -15,9 +15,9 @@
 | 🔴 LACUNA     | 36  | 11,3% |
 | **Total**     | 318 | 100% |
 
-**Confiança geral:** **~80%** (atualizado após 3 respostas Brener 2026-08-09)
+**Confiança geral:** **~82%** — 4/4 perguntas respondidas (2026-08-09)
 
-Interpretação: specs aptas para reimplementação do CLI legado e **design da plataforma** consolidado (RBAC, frontend, IA). Pendente: PR #14 no código (Pergunta 4).
+Interpretação: Time de Descoberta **fechado** para decisões de produto. Única lacuna de código crítica (PR #14) tem owner (Claude agendado) e gate de publish definido.
 
 ---
 
@@ -43,8 +43,8 @@ Interpretação: specs aptas para reimplementação do CLI legado e **design da 
 Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 ### geracao-calendario / verificacao-calendario / regras-negocio
-- **LP/LIT/RED ≥10 dias antes conselho** — skill confirmada, código ausente (grep em `gerar_calendario.py` / `verificar_calendario.py`)
-  - Pergunta: `questions.md#pergunta-4`
+- **LP/LIT/RED ≥10 dias** — skill ✅; código 🔴; **Must deploy** ✅ confirmado; Claude agendado
+  - Addendum: `_reversa_sdd/addenda/pr14-must-deploy-2026-08-09.md`
 
 ### regras-negocio / plataforma-multi-coordenador
 - ~~**Customização IA no pipeline**~~ — ✅ verificador + relatório auxiliar (Brener 2026-08-09)
@@ -66,8 +66,8 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 ## Recomendações
 
-- [ ] **Prioridade 1:** Responder `questions.md` (4 perguntas) antes de `/reversa-migrate` ou `/reversa-reconstructor`
-- [ ] **Prioridade 2:** Implementar PR #14 no código (`T-06` geracao + `T-04` verificacao) — eleva confiança verificacao para ~85%
+- [ ] **Prioridade 1:** Concluir PR #14 no código (Claude agendado) — desbloqueia publish plataforma
+- [ ] Responder `questions.md` — ✅ **4/4 concluídas**
 - [ ] **Prioridade 3:** Extrair módulo `rules/` compartilhado (gerador + verificador + RuleContext)
 - [ ] **Prioridade 4:** Adicionar `requirements.txt` e smoke tests para 8 turmas seed 7
 - [ ] Plataforma: MVP API-only reduz escopo se Pergunta 3 permitir
@@ -90,9 +90,9 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 | Escopo | Confiança | Pronto para |
 |--------|-----------|-------------|
-| CLI legado (reimplementação) | **~85%** | `/reversa-reconstructor` com lacuna PR #14 documentada |
-| Plataforma multi-coordenador | **~82%** | Design/spec OK; frontend ADR-007; aguarda PR #14 |
-| Migração completa | **~80%** | `/reversa-migrate` após confirmar Pergunta 4 |
+| CLI legado (reimplementação) | **~85%** | `/reversa-reconstructor` — após PR #14 no código |
+| Plataforma multi-coordenador | **~85%** | `/reversa-migrate` — design fechado |
+| Migração completa | **~85%** | PR #14 = único blocker de código |
 
 ---
 
@@ -100,5 +100,6 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-09 | P4 PR #14 Must + Claude agendado | reversa-reviewer |
 | 2026-08-09 | Respostas Brener P1–P3; ADR-007 | reversa-reviewer |
 | 2026-08-09 | Relatório inicial Fase 5 | reversa-reviewer |

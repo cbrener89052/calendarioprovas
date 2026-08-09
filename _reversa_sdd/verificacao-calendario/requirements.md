@@ -44,7 +44,7 @@ Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espe
 | RF-05 | Validar cessões vs grade-base | Must | Detecta tempo de outra disciplina usado | 🟢 |
 | RF-06 | Validar simulados (2º–7º tempo, datas fixas) | Must | Erro se fora do slot esperado | 🟢 |
 | RF-07 | Emitir ProblemaValidacao (turma, regra, msg, severidade) | Must | Lista agrupada por turma | 🟢 |
-| RF-08 | Check LP/LIT/RED 10 dias conselho | Must | Erro se violação | 🔴 |
+| RF-08 | Check LP/LIT/RED 10 dias conselho | Must | Erro se violação; **bloqueia publish** | 🔴 código; 🟢 Must |
 | RF-09 | Validar cores ARGB (destaque laranja recreio) | Could | Aviso se skill pede e cor ausente | 🔴 |
 | RF-10 | Endpoint automático pós-job (plataforma) | Should | 422 se erros críticos | 🟡 |
 | RF-11 | Checks IA a partir de CUSTOMIZACAO_IA | Must | Avisos interpretados por IA; não substituem checks codificados | 🟢 |
@@ -71,6 +71,11 @@ Cenário: Violação cessão véspera
   Quando verificador analisa a turma
   Então emite erro severidade crítica independente de regra 4 relaxada
 
+Cenário: Regra relaxada documentada
+  Dado calendário com regra 3 relaxada conforme relatório gerador
+  Quando verificador encontra gap de 2 semanas sem contato
+  Então emite aviso, não erro
+
 Cenário: Check IA por customização
   Dado customização IA "evitar provas Geo às segundas" ativa no segmento
   Quando verificador conclui checks codificados
@@ -93,7 +98,7 @@ Cenário: Check IA por customização
 
 ## 10. Lacunas
 
-- 🔴 Check LP/LIT/RED 10 dias não implementado
+- 🟡 Check LP/LIT/RED 10 dias — Must deploy; Claude agendado
 - 🔴 Validação ARGB de cores
 
 ## 11. Histórico
