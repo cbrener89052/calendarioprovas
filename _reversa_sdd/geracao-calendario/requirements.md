@@ -82,7 +82,7 @@ Gera o calendário de provas do 2º semestre para turmas C via backtracking com 
 
 | Tipo | Requisito | Evidência ou justificativa | Confiança |
 |------|-----------|----------------------------|-------------|
-| Desempenho | Orçamento `MAX_NOS` limita nós de backtracking (~600/s) | `gerar_calendario.py` constante + comentário | 🟢 |
+| Desempenho | `MAX_NOS=60000` (sem cessão) / `MAX_NOS_CESSAO=5000` (Proposta 3); ~600 nós/s com limites de cessão | `gerar_calendario.py:657-664` | 🟢 |
 | Determinismo | Semente fixa `SEED_PROPOSTA_3 = 7` para reprodutibilidade | `gerar_calendario.py` | 🟢 |
 | Manutenibilidade | Constantes hardcoded (feriados, simulados, grades) | Scout + code-analysis | 🟢 |
 | Escalabilidade | Job assíncrono na plataforma (futuro) | ADR-005, architecture.md | 🟡 |

@@ -283,6 +283,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegraConfig'
 
+  /customizacoes-ia:
+    get:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      summary: Listar customizações IA do segmento
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomizacaoIA'
+    post:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      summary: Criar customização IA
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomizacaoIACreate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomizacaoIA'
+
+  /customizacoes-ia/{customizacao_id}:
+    delete:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: customizacao_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Removido
+
   /calendarios/{calendario_id}/download:
     get:
       tags: [calendarios]
@@ -554,3 +598,23 @@ components:
         severidade:
           type: string
           enum: [erro, aviso]
+
+    CustomizacaoIA:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        texto:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    CustomizacaoIACreate:
+      type: object
+      required: [texto]
+      properties:
+        texto:
+          type: string
+          description: Preferência ou exceção interpretada pela camada IA (ADR-006)

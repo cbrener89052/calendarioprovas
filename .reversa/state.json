@@ -8,11 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "geracao",
-  "completed": ["reconhecimento", "escavacao", "interpretacao"],
-  "pending": [
-    "revisao"
-  ],
+  "phase": "revisao",
+  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao"],
+  "pending": [],
   "checkpoints": {
     "scout": {
       "completed_at": "2026-08-09T03:00:00Z",
@@ -74,6 +72,20 @@
         "_reversa_sdd/traceability/code-spec-matrix.md"
       ],
       "coverage_estimate": "95%"
+    },
+    "reviewer": {
+      "completed_at": "2026-08-09T04:30:00Z",
+      "features_reviewed": 7,
+      "reclassifications": 3,
+      "questions_generated": 4,
+      "questions_answered": 0,
+      "confidence_overall": "77.5%",
+      "cross_review_codex": false,
+      "files": [
+        "_reversa_sdd/confidence-report.md",
+        "_reversa_sdd/questions.md",
+        "_reversa_sdd/gaps.md"
+      ]
     }
   },
   "redator_progress": {

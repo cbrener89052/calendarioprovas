@@ -16,6 +16,9 @@
 | `extrair_grade_2025.py` | `extracao-grade/` | 🟢 | requirements, design, tasks |
 | `extrair_grade_1semestre.py` | `extracao-grade/` | 🟢 | requirements, design, tasks |
 | `esqueleto_grade_2025.py` | `extracao-grade/` | 🟡 | design (template) |
+| `limpar_grade_2025.py` | `extracao-grade/` | 🟡 | — (utilitário limpeza OCR) |
+| `contar_2sem_2025.py` | `analise-historica/` | 🟡 | — (contagem auxiliar) |
+| `horarios2025/*.py` | `extracao-grade/` | 🟡 | artefatos gerados, não fonte |
 | `analisar_1semestre.py` | `analise-historica/` | 🟢 | requirements, design, tasks |
 | `analisar_2sem_2025.py` | `analise-historica/` | 🟢 | requirements, design, tasks |
 | `comparar_semestres.py` | `analise-historica/` | 🟢 | requirements, design, tasks |

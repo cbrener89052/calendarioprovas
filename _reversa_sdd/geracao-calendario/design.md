@@ -41,7 +41,7 @@
 
 ## Fluxos Alternativos
 
-- **MAX_NOS esgotado:** Termina com disciplinas em `falharam`; não grava xlsx parcial 🟢
+- **MAX_NOS esgotado:** Teto `MAX_NOS=60000` ou `MAX_NOS_CESSAO=5000`; termina com disciplinas em `falharam`; não grava xlsx parcial 🟢 (`gerar_calendario.py:657-664,1082`)
 - **FORCAR_DATA:** Datas forçadas não participam de relaxamento 🟢
 - **Grupo 1:** Mat, DaF, Port/LP-LIT-RED, Ing não coincidem na mesma semana — checado em `_tentar` 🟢
 - **Prova combinada LP/LIT/RED:** 3 tempos consecutivos, preferência manhã 🟢

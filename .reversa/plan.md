@@ -61,9 +61,9 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Fase 5: Revisão ✅
 
-- [ ] **Revisor** — Revisão cruzada de specs
-- [ ] **Revisor** — Resolução de lacunas com o usuário
-- [ ] **Revisor** — Relatório de confiança final
+- [x] **Revisor** — Revisão cruzada de specs (7 features, 0 contradições críticas)
+- [x] **Revisor** — Lacunas documentadas (`questions.md` — 4 perguntas para Brener)
+- [x] **Revisor** — Relatório de confiança final (`confidence-report.md` — 77,5%)
 
 ---
 
@@ -80,9 +80,9 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Próximo passo
 
-Fase 4 (Geração) concluída. Próxima fase: **Revisão** — Revisor (revisão cruzada, lacunas com usuário, relatório de confiança).
+**Time de Descoberta concluído** (Fases 1–5). Responda as 4 perguntas em `_reversa_sdd/questions.md` e avise com `reversa`.
 
-Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
+Fluxos disponíveis:
 
 - `/reversa-migrate`: orquestrador do **Time de Migração** (Paradigm Advisor → Curator → Strategist → Designer → Screen Translator → Inspector). Gera as specs do sistema novo. Saída em `_reversa_sdd/migration/` e `_reversa_sdd/screens/`.
 - `/reversa-reconstructor`: gera plano bottom-up para reimplementar o software a partir das specs do legado (uma tarefa por sessão).
