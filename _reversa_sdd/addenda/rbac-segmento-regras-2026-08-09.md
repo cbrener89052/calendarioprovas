@@ -10,8 +10,9 @@ Vigente desde 2026-08-09.
 ## Decisões registradas
 
 1. Cada coordenador configura **segmento de atuação** (turmas, parâmetros, características).
-2. Regras hardcoded → futuro **menu de toggles** (ativar/desativar regras codificadas).
-3. Customizações que **não viram código** → **IA assistida** conforme configs do coordenador.
+2. **GRUPOS** customizáveis (nome, início/fim semestre, 2ª chamada, conselho) — substituem hardcode `10_12`/`9_11`.
+3. Regras hardcoded → futuro **menu de toggles** (ativar/desativar regras codificadas).
+4. Customizações que **não viram código** → **IA assistida** conforme configs do coordenador.
 
 ## Artefatos atualizados
 

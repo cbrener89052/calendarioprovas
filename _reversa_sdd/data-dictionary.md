@@ -9,7 +9,7 @@
 | Campo | Tipo | Exemplo | Descrição |
 |---|---|---|---|
 | codigo | string | `10C1` | Identificador da turma C |
-| grupo | string | `10` | Grupo para fim de aulas / P2 |
+| grupo | string | `10_12` | **Legado:** FK implícita a GRUPO hardcoded; **Futuro:** `grupo_id` → GRUPO customizável |
 | grade | map | `GRADES[codigo]` | `(dia, tempo) → (disc, prof)` |
 
 ### Exame (prova) 🟢
@@ -56,10 +56,13 @@
 | Entidade | Campos previstos |
 |---|---|
 | Coordenador | id, nome, email, instituição |
-| Semestre | id, ano, periodo, coordenador_id |
-| ArquivoEntrada | id, tipo (grade/modelo/simulados/siglas), path/blob, semestre_id |
+| Segmento | id, coordenador_id, nome |
+| **Grupo** | id, segmento_id, **nome**, data_inicio_semestre, data_fim_semestre, datas_segunda_chamada[], conselho_inicio, conselho_fim |
+| Turma | id, grupo_id, codigo |
+| Semestre | id, segmento_id, ano, periodo |
+| ArquivoEntrada | id, tipo, path/blob, semestre_id |
 | CalendarioGerado | id, proposta, semestre_id, xlsx_path, created_at |
-| Relatorio | id, tipo (trocas/tabela/cessoes), calendario_id |
+| Relatorio | id, tipo, calendario_id |
 
 > Detalhamento ERD completo na fase do **Arquiteto**, após escavação.
 
