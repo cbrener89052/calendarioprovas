@@ -675,7 +675,7 @@ MAX_NOS = 60000
 MAX_NOS_CESSAO = 5000
 
 # Semente da Proposta 3 (ver comentario em main()).
-SEED_PROPOSTA_3 = 11
+SEED_PROPOSTA_3 = 7
 
 
 def escada(n_exames, cessoes):
@@ -1767,19 +1767,25 @@ def relatorio(alocacoes_por_proposta, comuns_por_par):
     return p
 
 
-def montar_proposta(seed, folga=None, sem_regra3=(), sem_regra4=()):
+def montar_proposta(seed, folga=None, sem_regra3=(), sem_regra4=(),
+                    folga_extra=None):
     """Resolve as 8 turmas. folga=None: sem os limites de cessao da
-    Proposta 3. folga=N: com os limites, afrouxados em N unidades.
+    Proposta 3. folga=N: com os limites, afrouxados em N unidades (para
+    todas as turmas).
 
-    sem_regra3/sem_regra4: turmas em que essas regras ficam relaxadas. O
-    afrouxamento e POR TURMA -- se so uma turma nao fecha, as outras sete
-    continuam cumprindo a regra integralmente.
+    sem_regra3/sem_regra4: turmas em que essas regras ficam relaxadas.
+    folga_extra: {turma: unidades extras de teto SO NAQUELA turma}, somadas
+    a `folga`. O afrouxamento e POR TURMA em todos os tres -- se so uma
+    turma nao fecha, as outras sete continuam cumprindo a regra
+    integralmente.
 
     Devolve (alocacoes, turmas_que_nao_fecharam).
     """
     aloc = {}
     preocup_dia, pre_psem, excluir_por_turma = {}, {}, {}
-    cessoes = {t: Cessoes(t, folga, regra3=t not in sem_regra3,
+    folga_extra = folga_extra or {}
+    cessoes = {t: Cessoes(t, folga + folga_extra.get(t, 0),
+                          regra3=t not in sem_regra3,
                           regra4=t not in sem_regra4)
                for t in GRADES} if folga is not None else None
 
@@ -1842,47 +1848,58 @@ def main():
     # explicito do usuario. Tenta primeiro com os limites estritos; se nao
     # fechar, afrouxa uma unidade por vez, para entregar a solucao mais
     # proxima possivel do pedido.
-    # Escada de afrouxamento: primeiro sobe o teto de cessoes; so depois
-    # relaxa a regra 4 (nao ceder as vesperas da propria prova) e, por
-    # ultimo, a 3 (duas semanas sem contato). As regras 1, 2 e 5 (tetos) e
-    # as datas exigidas pela coordenacao nunca sao relaxadas.
+    # Escada de afrouxamento, sempre POR TURMA (nunca global): primeiro
+    # relaxa a regra 4 (nao ceder as vesperas da propria prova), so depois
+    # a regra 3 (duas semanas sem contato) e, por ultimo, sobe o teto de
+    # cessoes -- mas so na(s) turma(s) que ainda nao fecharam, nunca nas
+    # demais. Um teto global (a versao antiga desta escada) estourava a
+    # folga de turmas que ja cumpriam a regra integralmente so porque
+    # OUTRA turma precisava de mais espaco; localizar por turma evita esse
+    # efeito colateral. As regras 1, 2 e 5 (tetos) e as datas exigidas pela
+    # coordenacao nunca sao relaxadas alem do teto individual acima.
     # A semente muda quais slots a busca experimenta primeiro e, com
     # restricoes tao apertadas, decide se ha ou nao solucao dentro do
     # orcamento. A 7 foi escolhida por teste: e a que fecha as 8 turmas
-    # com as cinco regras integrais, sem nenhuma excecao.
+    # com as cinco regras integrais, sem nenhuma excecao -- exceto o
+    # LP/LIT/RED da 10C1 (ver LIMITE_LPLITRED_CONSELHO), que precisa da
+    # regra 4 e de +1 no teto de cessoes, localizados so nela.
     print("Proposta 3: aplicando os limites de cessão de aula")
-    aloc3, sem_r3, sem_r4, folga = None, set(), set(), 0
+    aloc3, sem_r3, sem_r4, folga_extra = None, set(), set(), {}
     for etapa in range(0, 12):
-        aloc, falharam = montar_proposta(SEED_PROPOSTA_3, folga=folga,
-                                         sem_regra3=sem_r3, sem_regra4=sem_r4)
+        aloc, falharam = montar_proposta(SEED_PROPOSTA_3, folga=0,
+                                         sem_regra3=sem_r3, sem_regra4=sem_r4,
+                                         folga_extra=folga_extra)
         if aloc3 is None:
             aloc3 = aloc                      # guarda a 1a como reserva
         if not falharam:
             aloc3 = aloc
             break
         aloc3 = aloc
-        # Afrouxa na ordem inversa da importancia. Os tetos (regras 1, 2 e
-        # 5) sao limites duros dados em numero pela escola, entao a folga
-        # neles e o ULTIMO recurso: subir a folga vale para todas as turmas
-        # e estoura varios tetos de uma vez, enquanto relaxar a regra 4
-        # atinge so a turma que nao fecha.
         if not sem_r4 >= falharam:
             sem_r4 |= falharam
             print(f"  ~  relaxando a regra 4 apenas em {sorted(falharam)}")
         elif not sem_r3 >= falharam:
             sem_r3 |= falharam
             print(f"  ~  relaxando a regra 3 apenas em {sorted(falharam)}")
-        elif folga < 3:
-            folga += 1
+        elif any(folga_extra.get(t, 0) < 3 for t in falharam):
+            for t in falharam:
+                folga_extra[t] = folga_extra.get(t, 0) + 1
+            maxf = max(folga_extra[t] for t in falharam)
             print(f"  ~  {sorted(falharam)} ainda não fecharam; subindo o "
-                  f"teto de cessões para +{folga}")
+                  f"teto de cessões (só nelas) para +{maxf}")
         else:
             print(f"  !! {sorted(falharam)} não fecharam nem com tudo relaxado")
             break
-    if folga or sem_r3 or sem_r4:
-        print(f"  ATENÇÃO: Proposta 3 fechada com folga +{folga}"
-              + (f"; regra 4 relaxada em {sorted(sem_r4)}" if sem_r4 else "")
-              + (f"; regra 3 relaxada em {sorted(sem_r3)}" if sem_r3 else "")
+    if folga_extra or sem_r3 or sem_r4:
+        partes = []
+        if sem_r4:
+            partes.append(f"regra 4 relaxada em {sorted(sem_r4)}")
+        if sem_r3:
+            partes.append(f"regra 3 relaxada em {sorted(sem_r3)}")
+        if folga_extra:
+            teto = ", ".join(f"{t} (+{n})" for t, n in sorted(folga_extra.items()))
+            partes.append(f"teto de cessões elevado em {teto}")
+        print("  ATENÇÃO: Proposta 3 fechada com " + "; ".join(partes)
               + ". As demais turmas cumprem todas as regras.")
     else:
         print("  Proposta 3 fechada com todos os limites estritos")
