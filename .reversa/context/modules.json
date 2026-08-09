@@ -72,8 +72,18 @@
           "confidence": "confirmed"
         },
         {
-          "description": "Coordenação de provas entre turmas irmãs",
-          "location": "gerar_calendario.py:resolver_par",
+          "description": "Regra 4 refinada: afrouxamento só libera cessão depois da prova, nunca antes",
+          "location": ".claude/skills/calendario-provas/SKILL.md#limites-de-cessão-de-aula",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Seção Regras relaxadas obrigatória no relatório de trocas",
+          "location": "gerar_calendario.py:detectar_regras_relaxadas",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "FORCAR_DATA inegociável, processada antes de resolver_par",
+          "location": "gerar_calendario.py:FORCAR_DATA",
           "confidence": "confirmed"
         }
       ],
@@ -121,8 +131,13 @@
           "confidence": "confirmed"
         },
         {
-          "description": "Problemas vs avisos (regras relaxadas em P3)",
-          "location": "verificar_calendario.py:195-310",
+          "description": "Checklist ~30 itens espelhando skill; regra 4 relaxada = aviso",
+          "location": "verificar_calendario.py:main",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Cessão antes/no dia da prova = falha mesmo com regra 4 relaxada",
+          "location": ".claude/skills/calendario-provas/SKILL.md",
           "confidence": "confirmed"
         }
       ],
@@ -306,8 +321,8 @@
       "entities": [],
       "business_rules": [
         {
-          "description": "7 seções: entradas, períodos, distribuição, cessão, simulados, formato, entregáveis",
-          "location": "exportar_regras_pdf.py:build_pdf",
+          "description": "SKILL.md é fonte viva; PDF é resumo estático",
+          "location": ".claude/skills/calendario-provas/SKILL.md",
           "confidence": "confirmed"
         }
       ],

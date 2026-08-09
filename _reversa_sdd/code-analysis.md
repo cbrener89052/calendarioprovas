@@ -44,12 +44,28 @@ python gerar_calendario.py  →  main()
 
 ### Classe `Cessoes` (Proposta 3) 🟢
 
-Implementa regras 1–5 de cessão de aula:
-- Tetos por `(disciplina, professor)` por turma
-- Regra 3: duas semanas seguidas sem contato
-- Regra 4: não ceder na semana da prova nem na anterior
-- Regra 5: teto percentual 11% das aulas programadas
-- Métodos: `pode_ceder_bloco`, `pode_alocar_exame`, `aplicar`, `desfazer`, `clone`
+Implementa regras 1–5 de cessão de aula (detalhadas na skill, seção "Limites de cessão"):
+
+| # | Regra | Implementação |
+|---|---|---|
+| 1 | 2–3 aulas/sem → máx. 2 cessões (3 para Hist/Geo/GL) | `meta_cessao()` |
+| 2 | 1 aula/sem → não cede | `nao_doadoras()` |
+| 3 | Duas semanas seguidas sem contato | `_pares_sem_contato()` |
+| 4 | Não ceder vésperas da própria prova | `pode_ceder_bloco`, `pode_alocar_exame` |
+| 5 | Teto 11% das aulas programadas | `TETO_PCT_CESSAO`, `programadas_no_semestre()` |
+
+**Regra 4 refinada (skill 2026-08):** ao afrouxar (`sem_regra4` por turma), **nunca** libera cessão na semana anterior nem no dia da prova — só **depois** do dia da aplicação. Proteção da aula de revisão é inegociável.
+
+**Datas fixas (`FORCAR_DATA`):** inegociáveis e processadas **antes** de `resolver_par` — reservam semanas para evitar conflito com regra 4.
+
+**Escada de afrouxamento** (`montar_proposta`): 1) regra 4 por turma → 2) regra 3 por turma → 3) tetos +1. Nunca relaxar datas fixas.
+
+Métodos: `pode_ceder_bloco`, `pode_alocar_exame`, `aplicar`, `desfazer`, `clone`
+
+### Relatório e regras relaxadas 🟢
+
+- `detectar_regras_relaxadas(turma, itens)` — reconstrói violações da regra 4 a partir das alocações finais
+- `relatorio()` inclui seção **"Regras relaxadas"** (tabela turma | regra | disciplina/prof | detalhe) — exigência da skill, entregável 2
 
 ### Regras embutidas no código 🟢
 
@@ -109,24 +125,21 @@ python verificar_calendario.py  →  main()
 
 ### Checklist implementado 🟢
 
-| # | Regra | Tipo |
+Espelha a skill (seção "Verificação obrigatória", ~30 itens). Principais grupos:
+
+| Grupo | Exemplos | Tipo |
 |---|---|---|
-| 1 | Máx. 3 avaliações/semana (simulado 2 dias = 1) | problema |
-| 2 | Grupo 1 não coincide (exc. 2 com Ing) | problema |
-| 3 | Uma prova por dia | problema |
-| 4 | Datas dentro do período, sem feriado/semana vetada | problema |
-| 5 | Nº provas por disciplina; LP/LIT/RED separado; distância mínima 4 sem | problema |
-| 5b | LP/LIT/RED com 3 tempos (10–12) | problema |
-| 5c | Simulados 2º–7º tempo | problema |
-| 6 | Disciplinas 1 tempo usam 1 tempo | problema |
-| 7 | Sem prova de Ed.Física, Artes, etc. | problema |
-| 7b | Provas 7–11 só se inevitável (opcional manhã) | aviso (P3) |
-| 7c | Disciplina 1 aula/semana não cede tempo | problema |
-| 8 | Simulados nas datas oficiais (`G.SIMULADOS`) | problema |
-| 9 | Não cruzar intervalo sem destaque laranja | problema |
-| 10 | Datas em `G.FORCAR_DATA` | problema |
-| 10b | Limites cessão regras 1–5 (Proposta 3) | problema/aviso |
-| 11 | Provas professor comum em turmas irmãs coincidem | problema |
+| Distribuição | máx 3/sem, 1/dia, grupo 1, distância 4 sem | problema |
+| LP/LIT/RED | 3 tempos, semanas 1–2 rodada | problema |
+| Horário | tarde inevitável, intervalo + destaque laranja | aviso/problema |
+| Simulados | datas oficiais, 2º–7º tempo, **amarelo exclusivo** | problema |
+| Cessão P3 | regras 1–5 | problema |
+| Regra 4 relaxada | cessão véspera | **aviso** |
+| Regra 4 estrita | cessão **antes/no dia** da prova | **problema** (mesmo com relaxamento) |
+| Turmas irmãs | professor comum → mesmo dia/tempo | problema |
+| Cores | `fgColor.rgb` começa com `FF` (opaco) | 🟡 skill pede; verificador ainda foca texto |
+
+**Distinção crítica (skill ↔ verificador):** relaxar regra 4 transforma violações **depois** da prova em aviso; violações **antes** da prova permanecem falha.
 
 ### Dependências
 
@@ -235,23 +248,28 @@ python verificar_calendario.py  →  main()
 
 ## Feature: regras-negocio
 
-**Arquivos:** `exportar_regras_pdf.py`, `.claude/skills/calendario-provas/SKILL.md`, `referencia/Regras_Negocio_Calendario_Provas.pdf`  
-**Propósito:** Documentar regras de negócio em PDF legível para coordenação.
+**Arquivos:** `.claude/skills/calendario-provas/SKILL.md` (fonte viva, ~655 linhas), `exportar_regras_pdf.py`, `referencia/Regras_Negocio_Calendario_Provas.pdf`  
+**Propósito:** Regras de negócio em linguagem humana; PDF é resumo para coordenação.
 
-### exportar_regras_pdf.py 🟢
+### Hierarquia de fontes 🟢
 
-- `build_pdf()` — gera PDF com fpdf2 (fonte DejaVu)
-- Seções: entradas, períodos/bloqueios, distribuição, cessão P3, simulados, formato saída, entregáveis
-- Conteúdo espelha a skill `calendario-provas` (fonte de verdade humana)
-- Saída: `referencia/Regras_Negocio_Calendario_Provas.pdf`
+1. **SKILL.md** — verdade operacional (Passo 0, distribuição, cessão, entregáveis, checklist)
+2. **Código** — `gerar_calendario.py`, `verificar_calendario.py`
+3. **PDF** — gerado por `exportar_regras_pdf.py` (resumo estático; pode ficar atrás da skill)
+4. **`referencia/estado_2sem_2026.md`** — dados concretos desta rodada
 
-### Relação código ↔ regras 🟢
+### Novidades na skill (sync 2026-08-09) 🟢
 
-| Regra documentada | Implementação |
-|---|---|
-| Backtracking + cessão | `gerar_calendario.py:Cessoes` |
-| Checklist 11 itens | `verificar_calendario.py:main` |
-| Limites percentuais | `G.TETO_PCT_CESSAO`, `programadas_no_semestre` |
+- Regra 4: afrouxamento só **depois** da prova; nunca antes/no dia
+- `FORCAR_DATA` prioridade sobre coordenação de pares
+- Seção "Regras relaxadas" obrigatória no relatório de trocas
+- Checklist expandido: cores ARGB, amarelo simulados, mesclagem 3 linhas
+- Orientação de semente e orçamento de nós (`MAX_NOS`)
+
+### exportar_regras_pdf.py 🟡
+
+- `build_pdf()` — resumo em 7 seções (não cobre todo o detalhe da skill)
+- **Lacuna:** skill evolui mais rápido que o PDF — priorizar SKILL.md na fase Detetive/Writer
 
 ### Dependências
 
