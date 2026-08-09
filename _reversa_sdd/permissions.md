@@ -35,8 +35,10 @@ Cada **coordenador** configura o **segmento de atuação** na escola:
 | Papel | Escopo |
 |---|---|
 | **coordenador** | CRUD do próprio segmento, semestres, entradas, geração, toggles de regras |
-| **admin_instituicao** | Catálogo institucional de regras, usuários, leitura cross-segmento 🟡 |
+| **admin_instituicao** | Brener: catálogo institucional de regras, usuários, leitura cross-segmento 🟢 |
 | **leitor** | Somente calendários publicados do segmento (opcional) |
+
+**Decisão 2026-08-09:** Brener é o único admin inicial; 5 coordenadores têm acesso **somente ao próprio segmento**. Admin não substitui tenant — coordenadores permanecem isolados.
 
 ---
 
@@ -71,20 +73,22 @@ flowchart LR
         CFG --> IA
     end
     SOL --> OUT[Calendário]
-    IA --> OUT
+    IA --> VER[Verificador checks IA]
+    IA --> REL[Relatório auxiliar]
+    VER --> OUT
+    REL --> OUT
 ```
 
 | Trilho | Quando usar | Persistência |
 |---|---|---|
 | **Codificado** | Restrição determinística (cessão, grupo 1, intervalo…) | `regra_config.ativo` + params JSON |
-| **IA assistida** | Nuances, exceções pontuais, preferências que não viram PR | `customizacao_ia.texto` + contexto segmento |
+| **IA assistida** | Nuances, exceções pontuais, preferências que não viram PR | `customizacao_ia.texto` + contexto segmento; saída no **verificador** e **relatório auxiliar** 🟢 |
 
-**Regra de ouro:** customização IA **não substitui** verificação automática das regras codificadas ativas — complementa ou documenta exceções humanas.
+**Regra de ouro:** customização IA **não substitui** verificação automática das regras codificadas ativas — complementa via checks IA no verificador e documentação no relatório auxiliar.
 
 ---
 
 ## Lacunas 🔴
 
-- Admin inicial (Brener) vs todos iguais?
-- Customização IA entra no verificador ou só no relatório?
 - Audit log de toggles e customizações
+- PR #14 LP/LIT/RED 10 dias no código (ver `questions.md#pergunta-4`)

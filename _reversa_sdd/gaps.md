@@ -7,19 +7,19 @@
 
 ## Crítico (bloqueiam reimplementação fiel ou deploy)
 
-| ID | Lacuna | Specs afetadas | Pergunta |
-|----|--------|----------------|----------|
-| G-C01 | **LP/LIT/RED ≥10 dias** — skill em `main`, código ausente | geracao, verificacao, regras | `questions.md#pergunta-4` |
-| G-C02 | **Customização IA** — escopo no pipeline indefinido | regras, verificacao, plataforma | `questions.md#pergunta-2` |
-| G-C03 | **Admin institucional** — papel e escopo MVP auth | plataforma, permissions | `questions.md#pergunta-1` |
+| ID | Lacuna | Specs afetadas | Status |
+|----|--------|----------------|--------|
+| G-C01 | **LP/LIT/RED ≥10 dias** — skill em `main`, código ausente | geracao, verificacao, regras | 🔴 `questions.md#pergunta-4` |
+| ~~G-C02~~ | ~~Customização IA — escopo pipeline~~ | regras, verificacao | ✅ **Ambos** (verificador + relatório) |
+| ~~G-C03~~ | ~~Admin institucional~~ | plataforma, permissions | ✅ Brener admin; coords isolados |
 
 ---
 
-## Moderado (não bloqueiam CLI legado; bloqueiam plataforma v1)
+## Moderado
 
-| ID | Lacuna | Specs afetadas | Nota |
-|----|--------|----------------|------|
-| G-M01 | Frontend web vs API-only MVP | plataforma | `questions.md#pergunta-3` |
+| ID | Lacuna | Specs afetadas | Status |
+|----|--------|----------------|--------|
+| ~~G-M01~~ | ~~Frontend web vs API-only~~ | plataforma | ✅ React Vite + Tailwind (ADR-007) |
 | G-M02 | `RuleContext` / toggles — spec 🟡, zero código | geracao, regras | ADR-006; depende externalizar constantes |
 | G-M03 | Validação cores ARGB no verificador | verificacao | Skill pede; verificador só texto |
 | G-M04 | `requirements.txt` ausente | todas | Dependências implícitas |

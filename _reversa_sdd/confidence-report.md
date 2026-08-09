@@ -15,9 +15,9 @@
 | 🔴 LACUNA     | 36  | 11,3% |
 | **Total**     | 318 | 100% |
 
-**Confiança geral:** **77,5%** — fórmula: (🟢 + 🟡×0,5) / total
+**Confiança geral:** **~80%** (atualizado após 3 respostas Brener 2026-08-09)
 
-Interpretação: specs **aptas para reimplementação do CLI legado** com alta fidelidade; **plataforma multi-coordenador** requer validação das 4 perguntas em `questions.md` antes de codificar auth/IA/frontend.
+Interpretação: specs aptas para reimplementação do CLI legado e **design da plataforma** consolidado (RBAC, frontend, IA). Pendente: PR #14 no código (Pergunta 4).
 
 ---
 
@@ -47,14 +47,11 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
   - Pergunta: `questions.md#pergunta-4`
 
 ### regras-negocio / plataforma-multi-coordenador
-- **Customização IA no pipeline** — ADR-006 🟢 declarado; ponto de integração 🔴
-  - Pergunta: `questions.md#pergunta-2`
+- ~~**Customização IA no pipeline**~~ — ✅ verificador + relatório auxiliar (Brener 2026-08-09)
 
 ### plataforma-multi-coordenador
-- **Admin institucional vs coordenador** — permissions 🟡
-  - Pergunta: `questions.md#pergunta-1`
-- **Frontend MVP** — stack não decidida
-  - Pergunta: `questions.md#pergunta-3`
+- ~~**Admin institucional vs coordenador**~~ — ✅ Brener admin; 5 coords isolados
+- ~~**Frontend MVP**~~ — ✅ React Vite + Tailwind + Lucide (ADR-007)
 
 ---
 
@@ -94,8 +91,8 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 | Escopo | Confiança | Pronto para |
 |--------|-----------|-------------|
 | CLI legado (reimplementação) | **~85%** | `/reversa-reconstructor` com lacuna PR #14 documentada |
-| Plataforma multi-coordenador | **~70%** | Design/spec OK; aguarda respostas RBAC + IA + frontend |
-| Migração completa | **~75%** | `/reversa-migrate` após clarificar perguntas |
+| Plataforma multi-coordenador | **~82%** | Design/spec OK; frontend ADR-007; aguarda PR #14 |
+| Migração completa | **~80%** | `/reversa-migrate` após confirmar Pergunta 4 |
 
 ---
 
@@ -103,4 +100,5 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-09 | Respostas Brener P1–P3; ADR-007 | reversa-reviewer |
 | 2026-08-09 | Relatório inicial Fase 5 | reversa-reviewer |

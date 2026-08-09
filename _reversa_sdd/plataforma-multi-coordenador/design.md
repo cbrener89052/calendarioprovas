@@ -3,7 +3,7 @@
 ## Containers (C4)
 
 ```
-Browser → Frontend (🟡 TBD)
+Browser → Frontend React (Vite) + Tailwind + Lucide 🟢
               ↓ HTTPS
          FastAPI (API)
          ├── Auth (JWT)
@@ -70,7 +70,19 @@ Substitui hardcode `10_12` / `9_11` legado.
 ## Deploy híbrido 🟢
 
 **Nuvem:** API managed + Neon Postgres + S3  
-**On-prem:** `docker-compose.yml` — api, postgres, worker, (frontend), volume blobs
+**On-prem:** `docker-compose.yml` — api, postgres, worker, **frontend** (Vite build), volume blobs
+
+## Frontend (ADR-007) 🟢
+
+| Item | Escolha |
+|------|---------|
+| Build | Vite + React + TypeScript |
+| UI | Tailwind CSS |
+| Ícones | lucide-react |
+| Estado | Context ou Redux — stores: `regras` (toggles), `solverJob`, `segmento` |
+| API | Client OpenAPI/fetch → FastAPI |
+
+Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizações IA, gerar (progress), verificação, downloads.
 
 ## Decisões
 
@@ -78,10 +90,12 @@ Substitui hardcode `10_12` / `9_11` legado.
 |---------|-----|-------|
 | FastAPI + Postgres | 005 | 🟢 |
 | Segmento + toggles + IA | 006 | 🟢 |
+| React Vite + Tailwind | 007 | 🟢 |
+| Brener = admin_instituicao | permissions 2026-08-09 | 🟢 |
 | Manter Python solver | user-requirements | 🟢 |
 
 ## Riscos
 
 - 🟡 Refactor constantes hardcoded — blocker para multi-segmento
-- 🟡 Frontend não especificado
-- 🔴 Admin role TBD
+- 🟡 Escolha Context vs Redux — decidir na implementação T-13
+- 🔴 PR #14 no código — bloqueia publish (pendente confirmação Pergunta 4)

@@ -11,7 +11,8 @@ SKILL.md ──sync──► REGRA_CATALOGO (institucional)
                          ▼
                    RuleContext ──► Solver (geracao-calendario)
 
-CUSTOMIZACAO_IA (texto) ──► Camada IA ──► Relatório / pós-processamento
+CUSTOMIZACAO_IA (texto) ──► Camada IA ──┬──► Verificador (checks IA)
+                                        └──► Relatório auxiliar pós-geração
 ```
 
 ## Interface — Catálogo (legado + futuro)
@@ -63,5 +64,5 @@ class RuleContext:
 ## Riscos
 
 - 🔴 Divergência skill/código sem sync regular
-- 🟡 IA não determinística — não substituir toggles críticos
+- 🟡 IA não determinística — checks IA no verificador são **avisos**, não substituem regras codificadas 🟢
 - 🟡 Params JSON sem schema — validar com JSON Schema

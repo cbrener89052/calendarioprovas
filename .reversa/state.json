@@ -47,8 +47,8 @@
         "_reversa_sdd/permissions.md",
         "_reversa_sdd/adrs/"
       ],
-      "adrs_count": 6,
-      "lacunas": ["LP/LIT/RED 10 dias no código", "Admin vs coordenador", "IA no verificador"]
+      "adrs_count": 7,
+      "lacunas": ["LP/LIT/RED 10 dias no código", "Audit log toggles"]
     },
     "architect": {
       "completed_at": "2026-08-09T03:30:00Z",
@@ -78,8 +78,8 @@
       "features_reviewed": 7,
       "reclassifications": 3,
       "questions_generated": 4,
-      "questions_answered": 0,
-      "confidence_overall": "77.5%",
+      "questions_answered": 3,
+      "confidence_overall": "80%",
       "cross_review_codex": false,
       "files": [
         "_reversa_sdd/confidence-report.md",

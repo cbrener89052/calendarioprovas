@@ -12,7 +12,8 @@
 **Pergunta:** Você (Brener) será o **admin institucional inicial** com acesso a todos os segmentos, ou cada um dos 5 coordenadores terá apenas o papel `coordenador` (sem admin)? Haverá um 6º usuário admin?  
 **Impacto:** Define RF-12, matriz de permissões e escopo do MVP de auth.
 
-**Resposta:** <!-- preencha aqui -->
+**Resposta:** ✅ Respondida (2026-08-09)  
+Brener será **admin_instituicao** (acesso cross-segmento leitura + catálogo). Cada um dos 5 coordenadores opera **apenas o próprio segmento** (tenant isolado). Não há 6º usuário — admin e coordenador são papéis distintos; Brener acumula admin.
 
 ---
 
@@ -23,7 +24,8 @@
 **Pergunta:** Customizações IA devem entrar no **verificador** (checks adicionais interpretados por IA), apenas no **relatório auxiliar** pós-geração, ou **ambos**?  
 **Impacto:** Escopo de RF do verificador, pipeline worker e custo de API IA.
 
-**Resposta:** <!-- preencha aqui -->
+**Resposta:** ✅ Respondida (2026-08-09)  
+**Ambos:** customizações IA entram no **verificador** (checks interpretados por IA) **e** no **relatório auxiliar** pós-geração.
 
 ---
 
@@ -34,7 +36,8 @@
 **Pergunta:** O MVP da plataforma pode ser **API-only** (coordenadores usam via Claude/Cursor/scripts temporariamente) ou exige **frontend web** na v1? Se web, há preferência (Next.js, React simples, outro)?  
 **Impacto:** Escopo T-13, Docker Compose (serviço frontend), cronograma de migração.
 
-**Resposta:** <!-- preencha aqui -->
+**Resposta:** ✅ Respondida (2026-08-09)  
+**Web na v1**, stack: **React (Vite) + Tailwind CSS**, ícones **Lucide React**, estado **React Context ou Redux** (regras + status do solver). Ver ADR-007.
 
 ---
 

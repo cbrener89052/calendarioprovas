@@ -51,23 +51,32 @@
 - [ ] T-12 — CRUD CUSTOMIZACAO_IA
   - Confiança: 🟢
 
-## Fase 5 — UX (🟡)
+## Fase 5 — Frontend (ADR-007)
 
-- [ ] T-13 — Frontend mínimo ou API-only MVP
-  - Confiança: 🔴
+- [ ] T-13 — Scaffold Vite + React + Tailwind + Lucide
+  - Confiança: 🟢
+
+- [ ] T-14 — Estado global (Context ou Redux): regras, job solver, segmento
+  - Confiança: 🟢
+
+- [ ] T-15 — Telas MVP (login, GRUPOS, upload, toggles, gerar, verificação, download)
+  - Confiança: 🟡
+
+- [ ] T-16 — Serviço `frontend` no Docker Compose
+  - Confiança: 🟢
 
 ## Testes
 
 - [ ] TT-01 — Isolamento tenant A vs B
 - [ ] TT-02 — GRUPO conselho refletido no solver
 - [ ] TT-03 — E2E upload → gerar → verificar → download
+- [ ] TT-04 — Admin Brener lê segmento alheio; coordenador não
 
 ## Ordem
 
-T-01 → T-02 → T-03 → T-04 → T-05 → T-06 → T-07 → T-11 → T-08 → T-09 → T-10
+T-01 → T-02 → T-03 → T-13 → T-14 → T-04 → T-05 → T-06 → T-07 → T-11 → T-08 → T-09 → T-15 → T-10 → T-16
 
 ## Lacunas (🔴)
 
-- Frontend stack
-- Admin institucional
-- IA no verificador
+- PR #14 Must antes deploy? (`questions.md#pergunta-4`)
+- Context vs Redux (decisão implementação)

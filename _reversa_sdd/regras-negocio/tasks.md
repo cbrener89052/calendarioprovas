@@ -21,14 +21,18 @@
 - [ ] T-05 — API toggles CRUD
   - Confiança: 🟡
 
-- [ ] T-06 — CRUD CUSTOMIZACAO_IA
+- [ ] T-06 — CRUD CUSTOMIZACAO_IA (API + persistência)
   - Confiança: 🟢
 
-- [ ] T-07 — Job sync skill → catálogo
+- [ ] T-07 — Integração camada IA: verificador + relatório auxiliar
+  - Origem: Brener 2026-08-09, ADR-006
+  - Confiança: 🟢
+
+- [ ] T-08 — Job sync skill → catálogo
   - Origem: sync-regras.md
   - Confiança: 🟡
 
-- [ ] T-08 — Implementar RN PR #14 no solver + verificador
+- [ ] T-09 — Implementar RN PR #14 no solver + verificador
   - Confiança: 🔴
 
 ## Testes
@@ -38,9 +42,8 @@
 
 ## Ordem
 
-T-01 → T-02 → T-04 → T-03 → T-05 → T-06 → T-07 → T-08
+T-01 → T-02 → T-04 → T-03 → T-05 → T-06 → T-07 → T-08 → T-09
 
 ## Lacunas (🔴)
 
-- Escopo IA no verificador
 - Schema params JSON por regra

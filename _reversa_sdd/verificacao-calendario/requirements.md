@@ -47,6 +47,8 @@ Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espe
 | RF-08 | Check LP/LIT/RED 10 dias conselho | Must | Erro se violação | 🔴 |
 | RF-09 | Validar cores ARGB (destaque laranja recreio) | Could | Aviso se skill pede e cor ausente | 🔴 |
 | RF-10 | Endpoint automático pós-job (plataforma) | Should | 422 se erros críticos | 🟡 |
+| RF-11 | Checks IA a partir de CUSTOMIZACAO_IA | Must | Avisos interpretados por IA; não substituem checks codificados | 🟢 |
+| RF-12 | Relatório auxiliar IA pós-verificação | Must | Documenta preferências/exceções do segmento | 🟢 |
 
 ## 6. Requisitos Não Funcionais
 
@@ -69,10 +71,11 @@ Cenário: Violação cessão véspera
   Quando verificador analisa a turma
   Então emite erro severidade crítica independente de regra 4 relaxada
 
-Cenário: Regra relaxada documentada
-  Dado calendário com regra 3 relaxada conforme relatório gerador
-  Quando verificador encontra gap de 2 semanas sem contato
-  Então emite aviso, não erro
+Cenário: Check IA por customização
+  Dado customização IA "evitar provas Geo às segundas" ativa no segmento
+  Quando verificador conclui checks codificados
+  Então camada IA emite aviso se prova Geo cair em segunda
+  E relatório auxiliar lista a preferência avaliada
 ```
 
 ## 8. Prioridade MoSCoW
@@ -92,7 +95,6 @@ Cenário: Regra relaxada documentada
 
 - 🔴 Check LP/LIT/RED 10 dias não implementado
 - 🔴 Validação ARGB de cores
-- 🔴 Customização IA: entra no verificador ou só relatório?
 
 ## 11. Histórico
 

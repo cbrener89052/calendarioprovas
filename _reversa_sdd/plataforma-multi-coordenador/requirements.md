@@ -22,7 +22,7 @@ Plataforma web para 5 coordenadores gerarem calendários de provas com dados iso
 | Persona | Objetivo | Cenário |
 |---------|----------|---------|
 | Coordenador | Configurar segmento e gerar calendário | Login → upload grade → gerar → publicar |
-| Admin instituição | Gerenciar usuários e catálogo regras | CRUD coords + templates 🟡 |
+| Admin instituição | Gerenciar usuários e catálogo regras | CRUD coords + templates 🟢 |
 | Leitor | Consultar calendário publicado | Somente leitura |
 
 ## 4. Regras de negócio
@@ -49,10 +49,11 @@ Plataforma web para 5 coordenadores gerarem calendários de provas com dados iso
 | RF-07 | Verificação automática pós-job | Must | Bloqueia publish se erro crítico | 🟡 |
 | RF-08 | Download relatórios (tabela, cessões, trocas) | Must | Paridade exportadores | 🟢 |
 | RF-09 | Toggles regras codificadas por semestre | Must | ADR-006 | 🟢 |
-| RF-10 | CRUD customização IA | Should | Texto por segmento | 🟢 |
+| RF-10 | CRUD customização IA | Must | Texto por segmento; usado em verificador + relatório | 🟢 |
 | RF-11 | Publicar versão calendário | Should | Flag publicado + timestamp | 🟡 |
-| RF-12 | Admin catálogo regras institucional | Should | admin_instituicao 🟡 | 🟡 |
-| RF-13 | Docker Compose (API + Postgres + worker) | Must | `docker compose up` on-prem | 🟢 |
+| RF-12 | Admin catálogo regras + leitura cross-segmento (Brener) | Must | Papel `admin_instituicao`; coords isolados | 🟢 |
+| RF-13 | Docker Compose (API + Postgres + worker + frontend) | Must | `docker compose up` on-prem | 🟢 |
+| RF-14 | Frontend web React Vite + Tailwind | Must | ADR-007; toggles e job solver na UI | 🟢 |
 
 ## 6. RNFs
 
@@ -84,16 +85,16 @@ Cenário: GRUPO define conselho
 
 ## 8. MoSCoW
 
-RF-01–RF-06, RF-08, RF-09, RF-13 Must; RF-07, RF-10, RF-11 Should; RF-12 Should (admin TBD).
+RF-01–RF-06, RF-08, RF-09, RF-12–RF-14 Must; RF-07, RF-11 Should.
 
 ## 10. Lacunas
 
-- 🟡 Papel admin_instituicao vs coordenador puro
-- 🔴 Customização IA no verificador
-- 🟡 Frontend (Next.js ou similar) — não especificado
+- 🔴 PR #14 LP/LIT/RED 10 dias no código — ver `questions.md#pergunta-4`
+- 🟡 Context vs Redux — decidir na implementação
 
 ## 11. Histórico
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-09 | IA verificador+relatório; admin Brener | reversa-reviewer |
 | 2026-08-09 | Versão inicial Fase 4 | reversa-writer |

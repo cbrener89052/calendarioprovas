@@ -44,7 +44,7 @@ precisa existir um **banco de dados** para armazenar:
 | Usuários | **5 coordenadores**, login individual |
 | Banco | **PostgreSQL** (metadados, regras, versionamento) |
 | Arquivos | Storage de blobs (S3 na nuvem / pasta local no deploy on-prem) |
-| Frontend | A definir na fase de design (provável web app — Next.js ou similar) |
+| Frontend | **React (Vite) + Tailwind CSS** — Lucide React; estado Context ou Redux (ADR-007) |
 
 ## Decisões RBAC e regras (2026-08-09 — confirmado por Brener)
 
@@ -91,10 +91,12 @@ Regra **LP/LIT/RED ≥10 dias antes do conselho** — na skill ✅; implementaç
 
 - [x] Isolamento por coordenador → **sim**, via segmento de atuação
 - [x] Templates compartilhados → catálogo institucional de regras + toggles
-- [ ] Admin institucional vs coordenador puro — a detalhar (provável: Brener admin inicial)
+- [x] Admin institucional vs coordenador puro → **Brener = admin_instituicao**; coords só no próprio segmento
+- [x] Frontend v1 → **React Vite + Tailwind + Lucide** (ADR-007)
+- [x] Customização IA → **verificador + relatório auxiliar**
 
 ### Implicação do deploy híbrido
 
-- Mesma aplicação empacotada em **Docker Compose**: API Python + Postgres + (opcional) frontend
+- Mesma aplicação empacotada em **Docker Compose**: API Python + Postgres + **frontend Vite** + worker
 - Na nuvem: serviços gerenciados (ex.: Vercel/Railway/Fly + Neon Postgres + S3)
 - On-prem: `docker compose up` em servidor local da escola, sem dependência de internet para operação diária
