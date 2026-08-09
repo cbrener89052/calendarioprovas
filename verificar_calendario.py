@@ -132,6 +132,15 @@ def main():
                             f"{pre}: {disc} com só {dist} semana(s) entre as "
                             f"2 provas (mínimo {G.DISTANCIA_MIN_MESMA_DISC})")
 
+            # 5a-bis. LP/LIT/RED precisa cair ate 10 dias corridos antes do
+            # inicio da semana vetada de conselho de classe (ver skill)
+            for w in por_disc.get("LP/LIT/RED", ()):
+                if w > G.LIMITE_LPLITRED_CONSELHO:
+                    problemas.append(
+                        f"{pre}: LP/LIT/RED na semana {w}, depois do limite "
+                        f"de {G.LIMITE_LPLITRED_CONSELHO} semanas antes do "
+                        f"conselho de classe")
+
             # 5b. LP/LIT/RED usa 3 tempos nas turmas 10/11/12
             for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 if disc == "LP/LIT/RED":

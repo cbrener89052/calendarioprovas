@@ -379,6 +379,12 @@ BLOQUEIOS = {
 }
 SEMANA_BLOQUEADA = {11}   # 12/10 a 16/10
 
+# LP/LIT/RED precisa cair ate 10 dias corridos antes do INICIO da semana
+# vetada de conselho de classe (12/10/2026): 12/10 - 10 dias = 02/10/2026,
+# sexta da semana 9 -- ou seja, a prova nao pode passar da semana 9 (ver
+# skill, "LP/LIT/RED -- prazo minimo antes do conselho de classe").
+LIMITE_LPLITRED_CONSELHO = 9
+
 LIMITE_DIA = {           # ultima (semana, dia) permitida por grupo de turma
     "10_12": (15, 4),    # 12/11 = quinta da semana 15
     "9_11": (16, 4),     # 20/11 e feriado -> ultimo dia util e quinta 19/11
@@ -445,13 +451,18 @@ def semanas_p2(t):
     return P2_SEMANAS_9_11 if grupo_turma(t) == "9_11" else P2_SEMANAS_10_12
 
 
-def dia_permitido(turma, w, d):
+def dia_permitido(turma, w, d, disc=None):
     if w in SEMANA_BLOQUEADA:
         return False
     if (w, d) in BLOQUEIOS:
         return False
     lw, ld = LIMITE_DIA[grupo_turma(turma)]
     if w > lw or (w == lw and d > ld):
+        return False
+    # LP/LIT/RED exige 3 tempos de aplicacao (a maior prova do calendario)
+    # e precisa cair com pelo menos 10 dias corridos de antecedencia do
+    # inicio da semana vetada de conselho de classe (ver skill).
+    if disc == "LPLITRED" and w > LIMITE_LPLITRED_CONSELHO:
         return False
     return True
 
@@ -664,7 +675,7 @@ MAX_NOS = 60000
 MAX_NOS_CESSAO = 5000
 
 # Semente da Proposta 3 (ver comentario em main()).
-SEED_PROPOSTA_3 = 7
+SEED_PROPOSTA_3 = 11
 
 
 def escada(n_exames, cessoes):
@@ -1012,7 +1023,7 @@ def _tentar(turma, seed, max_g1, max_tarde, max_intervalo,
     intervalo_cnt = [0]
 
     def cabe(w, d, disc, marcador=None):
-        if not dia_permitido(turma, w, d):
+        if not dia_permitido(turma, w, d, disc):
             return False
         if (w, d) in OCUPADAS.get(turma, ()):
             return False
@@ -1315,7 +1326,7 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
     intervalo_cnt = [0]
 
     def cabe(turma, ocup, psem, w, d, disc):
-        if not dia_permitido(turma, w, d):
+        if not dia_permitido(turma, w, d, disc):
             return False
         if (w, d) in OCUPADAS.get(turma, ()):
             return False
