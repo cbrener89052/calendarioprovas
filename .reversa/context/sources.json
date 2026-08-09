@@ -2,7 +2,8 @@
   "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
   "updated_at": "2026-08-09T03:20:00Z",
   "last_sync_requested_at": "2026-08-09T03:20:00Z",
-  "last_sync_completed_at": "2026-08-09T03:20:00Z",
+  "last_sync_completed_at": "2026-08-09T03:25:00Z",
+  "last_sync_pr": 14,
   "canonical": [
     {
       "id": "skill-calendario-provas",
@@ -15,8 +16,9 @@
         "regras-negocio",
         "exportacao-relatorios"
       ],
-      "content_hash_sha256": "c88329feabfd7c8e408c2e359b7b3b02dfd21d49458881a8ba523f6cec3e79a9",
-      "synced_to_reversa_at": "2026-08-09T03:20:00Z"
+      "content_hash_sha256": "6be51fe2257b2acda97c2c0fbca5158d506e125131280ae627ce6af26fdd838c",
+      "synced_to_reversa_at": "2026-08-09T03:25:00Z",
+      "sync_note": "Inclui PR #14 (LP/LIT/RED 10 dias antes conselho)"
     },
     {
       "id": "gerador",
