@@ -187,6 +187,47 @@ skill para a ressalva de que a extração automática pode vir desalinhada):
 Química (fora do 9º ano) usam 2 tempos padronizados, ou se variam por
 turma.
 
+## Ajustes manuais na Proposta 3 (08/2026, a pedido do usuário)
+
+Editados **diretamente na planilha já gerada** (não passaram pelo
+solver, não entraram na skill nem no `gerar_calendario.py`) — se a
+Proposta 3 for regenerada do zero, esses ajustes se perdem e precisam
+ser reaplicados manualmente:
+
+1. **10C1/10C2**: 1ª ocorrência de LP/LIT/RED (24/08) trocada de lugar
+   com a 1ª ocorrência de Química (14/09). A 2ª ocorrência de cada uma
+   (LP/LIT/RED 28/09, Química 09/11) não mudou.
+2. **9C1/9C2**: Português (Jana) movido de 26/08 para 02/09.
+3. **11C1/11C2**: Matemática movida de 27/08 para 21/09 (semana 8) —
+   as duas datas sugeridas pelo usuário (28/08 e 04/09) tinham
+   problema (28/08 continua na semana do simulado S3-11; 04/09 already
+   estava no teto de 3 provas/semana), por isso a semana 8 foi usada
+   no lugar.
+4. **12C1/12C2**: ciclo de 4 provas — LP/LIT/RED 25/08→01/09, GL
+   27/08→25/08, Física 15/09→27/08, Biologia 01/09→15/09 (a vaga que a
+   Física deixou). Sem esse ciclo o "01/09" pedido colidia com a
+   Biologia que já estava lá (só 1 prova por dia por turma).
+5. **12C1/12C2**: Filosofia (LAn) movida de 11/11 para 30/09.
+
+**Regras conscientemente quebradas** por causa desses ajustes (usuário
+pediu para não se preocupar): duas disciplinas do grupo 1 na mesma
+semana em 10C1/10C2 (semana 7: Mat + LP/LIT/RED) e em 9C1/9C2 (Port +
+Ing). **Efeitos colaterais não pedidos explicitamente, mas decorrentes
+dos ajustes acima** (`verificar_calendario.py` continua acusando):
+Português da 9C com só 3 semanas entre as 2 provas (mínimo 7, antes 4);
+LP/LIT/RED da 10C1/10C2 com só 2 semanas entre as 2 provas; Biologia da
+12C1/12C2 com só 3 semanas entre as 2 provas.
+
+## Datas concretas das regras novas (08/2026)
+
+- **Véspera de 2ª chamada, turmas 9C** (ver skill): a 2ª chamada da
+  série 9/11 está marcada (`"2CH 9,11"`) em **27/11/2026** (sexta,
+  semana 17) — a véspera protegida é **26/11/2026** (quinta).
+- **12C — 6 dias do último conselho de classe** (ver skill): a marcação
+  `"CC 10,12"` no modelo está em **17/11/2026** (terça, semana 16) —
+  6 dias antes é **11/11/2026**; provas da 12C1/12C2 não deveriam
+  passar dessa data.
+
 ## Extração do horário-base (progresso)
 
 Já extraído e conferido (sem ambiguidade de siglas, todas batem com
