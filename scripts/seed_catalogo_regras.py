@@ -39,7 +39,7 @@ REGRAS: list[dict] = [
     },
     {
         "codigo": "distancia_4_semanas_mesma_disciplina",
-        "descricao": "Distância mínima de 4 semanas entre provas da mesma disciplina/professor.",
+        "descricao": "Distância entre provas: escada tenta 7 semanas, piso rígido 4 semanas (código enforce 4).",
         "implementada_solver": True,
         "skill_ref": f"{SKILL}#distância-entre-as-2-provas",
     },
@@ -57,9 +57,15 @@ REGRAS: list[dict] = [
     },
     {
         "codigo": "lp_lit_red_10_dias_conselho",
-        "descricao": "LP/LIT/RED ≥10 dias corridos antes da semana vetada de conselho (LIMITE=9).",
+        "descricao": "LP/LIT/RED ≥10 dias antes conselho; limite por grupo via CC (BASE=9 + dict por grupo_turma).",
         "implementada_solver": True,
         "skill_ref": f"{SKILL}#lp-lit-red-prazo-mínimo-antes-do-conselho",
+    },
+    {
+        "codigo": "quimica_fis_bio_9c_semanas_12_14",
+        "descricao": "Química, Física e Biologia 9C (1 prova) entre semanas 12 e 14 do semestre.",
+        "implementada_solver": False,
+        "skill_ref": f"{SKILL}#química-física-e-biologia-das-turmas-9c",
     },
     {
         "codigo": "vespera_2ch_9c",
