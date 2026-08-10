@@ -10,7 +10,7 @@ Grava: Horario desenvolvido/Proposta_N_...xlsx  (uma aba por turma)
 As grades das turmas foram extraidas do PDF turmas9a12_2osemestre2026.pdf
 por leitura visual e conferidas contra siglas_profs_aux_etc.xlsx.
 """
-import openpyxl, shutil, os, random, copy, collections, datetime
+import openpyxl, shutil, os, random, copy, collections, datetime, re
 from openpyxl.styles import Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter, column_index_from_string, \
     range_boundaries
@@ -1261,6 +1261,42 @@ def resolver(turma, seed, preocupado_dia=None, pre_por_semana=None, excluir=None
 # ainda e uma escolha unica que tem que ser igual nas duas abas. Ver a
 # regra "Disciplina com professor comum entre turmas irmas" na skill.
 PARES_IRMAS = [("9C1", "9C2"), ("10C1", "10C2"), ("11C1", "11C2"), ("12C1", "12C2")]
+IRMA = {a: b for a, b in PARES_IRMAS}
+IRMA.update({b: a for a, b in PARES_IRMAS})
+
+
+# ---------------------------------- REGRA PRIORIDADE 1: PRESENCA DO PROFESSOR
+# Todo professor tem que estar presente na aplicacao da propria prova: tem
+# que ter pelo menos 1 tempo de aula da familia da disciplina, no dia e
+# dentro do bloco de tempos da prova, na propria turma OU na turma irma
+# (nao precisa ter os 2 tempos -- so precisa "estar por perto"). Quando a
+# prova cita mais de um professor (disciplina com professor comum entre
+# turmas irmas / grupo paralelo), basta 1 deles satisfazer a regra.
+def profs_no_bloco(turma, disc, d, t_ini, n):
+    """Professores que dao aula de alguma disciplina da familia de `disc`
+    nesse dia, em algum tempo do bloco [t_ini, t_ini+n-1], na turma."""
+    fam = familia_de(disc)
+    grade = GRADES.get(turma, {})
+    out = set()
+    for k in range(n):
+        cell = grade.get((d, t_ini + k))
+        if cell and cell[0] in fam:
+            out.add(cell[1])
+    return out
+
+
+def professor_presente_no_bloco(turma, disc, prof_txt, d, t_ini, n):
+    """True se pelo menos 1 dos professores citados em `prof_txt` (separados
+    por '/' ou '-') tem aula propria (familia de `disc`) na propria turma
+    OU na turma irma, em algum tempo do bloco [t_ini, t_ini+n-1] do dia d."""
+    disponiveis = profs_no_bloco(turma, disc, d, t_ini, n)
+    irma = IRMA.get(turma)
+    if irma:
+        disponiveis |= profs_no_bloco(irma, disc, d, t_ini, n)
+    profs_citados = [p.strip() for p in re.split(r"[/\-]", prof_txt) if p.strip()]
+    return any(
+        any(p == d2 or p in re.split(r"[/\-]", d2) for d2 in disponiveis)
+        for p in profs_citados)
 
 
 def _discs_de(disc):
@@ -1452,9 +1488,12 @@ def _tentar_par(a, b, seed, max_g1, max_tarde, max_intervalo, cessoes=None):
                 bl_b = bloco(b, e_propria, d, t, _n, veto_b)
                 if bl_b is None:
                     continue
-                if all(x is not None for x in bl_a) and \
-                   all(x is not None for x in bl_b):
-                    continue        # nenhuma das duas turmas tem tempo proprio ali
+                # regra prioridade 1: pelo menos 1 dos professores citados
+                # tem que ter aula propria (turma a ou turma b, que sao
+                # irmas) em algum tempo do bloco -- ele precisa estar
+                # presente na aplicacao da propria prova.
+                if not professor_presente_no_bloco(a, _disc, _prof, d, t, _n):
+                    continue
                 custo = sum(x is not None for x in bl_a) + \
                     sum(x is not None for x in bl_b)
                 cand.append((d, t, bl_a, bl_b, custo))

@@ -291,6 +291,50 @@ manual na Proposta 3 atual) — vale para qualquer regeneração futura.
   6 dias antes é **11/11/2026**; provas da 12C1/12C2 não deveriam
   passar dessa data.
 
+## Regra de presença do professor — prioridade 1 (08/2026)
+
+Pedido do usuário: revisão manual encontrou provas de professor comum
+entre turmas irmãs (GL, Física, Redação) aplicadas em blocos onde
+**nenhum** dos professores citados tinha aula própria (nem na turma, nem
+na turma irmã) — o professor não estaria fisicamente presente para
+acompanhar a prova. Regra nova, marcada como **prioridade 1** (nunca
+relaxa) na skill: todo professor citado precisa de pelo menos 1 tempo
+próprio no bloco (turma OU turma irmã); quando há mais de um professor
+citado, basta 1 deles satisfazer a regra.
+
+**Causa raiz**: os 3 casos vieram de **edições manuais** feitas em rodadas
+anteriores desta mesma conversa (não do algoritmo do gerador) — ao mover
+GL e Física da 12C1/12C2 e a Redação da 9C1/9C2 para novos dias/tempos a
+pedido do usuário, os tempos escolhidos não foram reconferidos contra a
+grade-base para o novo dia. Verificado que o caminho de resolução do
+gerador (`_tentar_par`, usado quando há professor comum entre turmas
+irmãs) **já garantia** essa propriedade estruturalmente antes mesmo
+desta correção — smoke test rodando `_tentar_par` para os 4 pares de
+turmas irmãs com a Proposta 3 (semente `SEED_PROPOSTA_3`) deu **zero**
+violações da regra nos exames comuns gerados. Ainda assim, o filtro foi
+reescrito para checar o professor citado explicitamente (função nova
+`professor_presente_no_bloco`), em vez de depender implicitamente da
+premissa "1 professor por disciplina por turma nesse caminho" — ver
+skill para detalhes.
+
+**6 violações encontradas e corrigidas na Proposta 3** (todas dentro da
+mesma semana/dia, só mudando o(s) tempo(s); confirmado com `G.GRADES`
+antes de aplicar):
+
+| Turma(s) | Disciplina | Semana/dia | Tempos (antes) | Tempos (depois) | Motivo do novo tempo |
+|---|---|---|---|---|---|
+| 12C1/12C2 | GL (CBu-EFr-Eth) | sem4, terça (25/08) | 9º-10º | **5º-6º** | GL próprio no 6º; 5º é 'apr' (doador seguro, 4x/semana) |
+| 12C1/12C2 | Física (Cadu) | sem4, quinta (27/08) | 1º-2º | **2º-3º** | 12C2 tem fis próprio no 3º (resolve via turma irmã); 2º é 'art' (doador seguro, 2x/semana) |
+| 9C1/9C2 | Redação (Raf) | sem17, segunda (23/11) | 3º-4º | **6º-7º** | 9C1 tem pred próprio no 7º (resolve via turma irmã); 6º é GL (doador seguro, 3x/semana) |
+
+Depois da correção: `verificar_calendario.py` (novo item "0." do
+checklist) e os dois scripts de revisão ad hoc (`revisar_presenca_
+professor.py`/`2.py`, no scratchpad, não commitados) confirmam **zero**
+violações. Os 42 AVISOs pré-existentes (regras 1/3/4/5 de cessão já
+documentadas como relaxamento conhecido) não mudaram.
+`Relatorio_Tempos_Cedidos_Proposta_3.xlsx` e `Tabela_Provas_por_Turma_
+Proposta_3.xlsx` foram regenerados depois do ajuste.
+
 ## Extração do horário-base (progresso)
 
 Já extraído e conferido (sem ambiguidade de siglas, todas batem com
