@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from sqlalchemy import text
+
+from app.db.session import engine
+
 app = FastAPI(
     title="calendarioprovas API",
     version="0.1.0",
@@ -18,7 +22,14 @@ app.add_middleware(
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    return {"status": "ok", "service": "api"}
+    db_ok = "unknown"
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        db_ok = "ok"
+    except Exception:
+        db_ok = "error"
+    return {"status": "ok", "service": "api", "database": db_ok}
 
 
 @app.get("/")

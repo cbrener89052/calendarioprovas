@@ -23,6 +23,9 @@ docker compose -f infra/docker-compose.yml config
 # Subir stack
 docker compose -f infra/docker-compose.yml up --build
 
+# Migrations (PostgreSQL rodando)
+cd apps/api && ./scripts/migrate.sh upgrade head
+
 # API: http://localhost:8000/health
 # Web: http://localhost:8080
 ```
