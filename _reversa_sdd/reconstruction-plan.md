@@ -12,7 +12,7 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 1 | 13 | 14 |
+| 3 | 11 | 14 |
 
 ---
 
@@ -26,17 +26,19 @@
 
 ## Tarefa 2 — Schema PostgreSQL + migrations
 
-- **Status:** pending
+- **Status:** done
 - **Lê:** `migration/target_data_model.md`, `erd-complete.md`
 - **Entrega:** Alembic/Flyway migrations; tabelas instituicao→relatorio
 - **Critério:** migrate up/down OK
+- **Concluída:** 2026-08-10 — schema `calendario`, 13 tabelas, revision `48f843bb6ab4`
 
 ## Tarefa 3 — Seed catálogo regras
 
-- **Status:** pending
+- **Status:** done
 - **Lê:** `migration/data_migration_plan.md`, `regras-negocio/requirements.md`, `.claude/skills/calendario-provas/SKILL.md` (seções regras)
 - **Entrega:** `scripts/seed_catalogo_regras.py`
 - **Critério:** ≥30 regras em regra_catalogo
+- **Concluída:** 2026-08-10 — 37 regras seed (idempotente)
 
 ## Tarefa 4 — Extrair packages/solver
 

@@ -26,6 +26,9 @@ docker compose -f infra/docker-compose.yml up --build
 # Migrations (PostgreSQL rodando)
 cd apps/api && ./scripts/migrate.sh upgrade head
 
+# Seed catálogo de regras (após migrate)
+python3 scripts/seed_catalogo_regras.py
+
 # API: http://localhost:8000/health
 # Web: http://localhost:8080
 ```
