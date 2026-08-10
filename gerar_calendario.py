@@ -10,7 +10,7 @@ Grava: Horario desenvolvido/Proposta_N_...xlsx  (uma aba por turma)
 As grades das turmas foram extraidas do PDF turmas9a12_2osemestre2026.pdf
 por leitura visual e conferidas contra siglas_profs_aux_etc.xlsx.
 """
-import openpyxl, shutil, os, random, copy, collections
+import openpyxl, shutil, os, random, copy, collections, datetime
 from openpyxl.styles import Alignment, PatternFill, Border, Side
 from openpyxl.utils import get_column_letter, column_index_from_string, \
     range_boundaries
@@ -61,6 +61,11 @@ OUT = os.path.join(BASE, "Horario desenvolvido")
 
 DIAS = {1: "Seg", 2: "Ter", 3: "Qua", 4: "Qui", 5: "Sex"}
 COL = {1: "E", 2: "F", 3: "G", 4: "H", 5: "I"}
+
+# Segunda da semana 1 do 2o semestre (usada so para contas de data corrida
+# -- ex. o limite de LP/LIT/RED antes do conselho de classe final por
+# grupo de turma; a alocacao em si trabalha so com semana/dia inteiros).
+SEMANA1 = datetime.date(2026, 8, 3)
 
 
 def week_row(w):
@@ -382,8 +387,37 @@ SEMANA_BLOQUEADA = {11}   # 12/10 a 16/10
 # LP/LIT/RED precisa cair ate 10 dias corridos antes do INICIO da semana
 # vetada de conselho de classe (12/10/2026): 12/10 - 10 dias = 02/10/2026,
 # sexta da semana 9 -- ou seja, a prova nao pode passar da semana 9 (ver
-# skill, "LP/LIT/RED -- prazo minimo antes do conselho de classe").
-LIMITE_LPLITRED_CONSELHO = 9
+# skill, "LP/LIT/RED -- prazo minimo antes do conselho de classe"). Vale
+# para todas as series por igual -- e o PISO minimo de cada grupo de turma
+# em LIMITE_LPLITRED_CONSELHO abaixo.
+LIMITE_LPLITRED_CONSELHO_BASE = 9
+
+# Limite efetivo POR GRUPO DE TURMA (grupo_turma() -> ultima semana
+# permitida para LP/LIT/RED), preenchido por carregar_ocupadas() a partir
+# da marcacao "CC <series>" do modelo (o conselho de classe FINAL daquela
+# serie, diferente da semana vetada do meio do semestre, que e a mesma
+# para todas). Usa o maior dos dois limites (o do meio do semestre e o do
+# conselho final menos 10 dias): se a prova ja cai depois do conselho do
+# meio do semestre, o que importa e nao passar do final -- confirmado
+# pelo usuario para a 10C (conselho final 17/11 -> LP/LIT/RED pode cair
+# ate a semana 14, mesmo depois da semana vetada do meio do semestre).
+# Ate carregar_ocupadas() rodar, cai no piso (LIMITE_LPLITRED_CONSELHO_BASE).
+LIMITE_LPLITRED_CONSELHO = {}
+
+
+def _limite_semana_conselho(w_cc, d_cc):
+    """Ultima semana em que uma prova ainda tem pelo menos 10 dias corridos
+    de antecedencia do conselho marcado em (w_cc, d_cc). Usa a sexta-feira
+    da semana como referencia (pior caso -- garante a distancia minima
+    nao importa em qual dia da semana o gerador acabe alocando a prova),
+    igual ao calculo original do conselho do meio do semestre."""
+    data_conselho = SEMANA1 + datetime.timedelta(days=7 * (w_cc - 1) + (d_cc - 1))
+    cutoff = data_conselho - datetime.timedelta(days=10)
+    for w in range(20, 0, -1):
+        sexta = SEMANA1 + datetime.timedelta(days=7 * (w - 1) + 4)
+        if sexta <= cutoff:
+            return w
+    return 0
 
 LIMITE_DIA = {           # ultima (semana, dia) permitida por grupo de turma
     "10_12": (15, 4),    # 12/11 = quinta da semana 15
@@ -432,6 +466,23 @@ def carregar_ocupadas():
             ocup.add((w, d))
         OCUPADAS[turma] = ocup
 
+    # limite de LP/LIT/RED por grupo de turma (ver comentario acima de
+    # LIMITE_LPLITRED_CONSELHO): comeca no piso do meio do semestre e sobe
+    # se a marcacao "CC <series>" (conselho de classe final) permitir mais.
+    for grupo in ("9_11", "10_12"):
+        LIMITE_LPLITRED_CONSELHO[grupo] = LIMITE_LPLITRED_CONSELHO_BASE
+    series_do_grupo = {"9_11": {"9", "11"}, "10_12": {"10", "12"}}
+    for (w, d), txt in base.items():
+        t = txt.replace("\n", " ")
+        if not t.startswith("CC"):
+            continue
+        series_marcadas = {s.strip() for s in t.split(None, 1)[-1].split(",")}
+        limite_cc = _limite_semana_conselho(w, d)
+        for grupo, series in series_do_grupo.items():
+            if series & series_marcadas:
+                LIMITE_LPLITRED_CONSELHO[grupo] = max(
+                    LIMITE_LPLITRED_CONSELHO[grupo], limite_cc)
+
 
 SIMULADOS = {
     "9C1": [(9, 5, "AG9", "2º ao 7º tempos")],
@@ -465,8 +516,11 @@ def dia_permitido(turma, w, d, disc=None):
         return False
     # LP/LIT/RED exige 3 tempos de aplicacao (a maior prova do calendario)
     # e precisa cair com pelo menos 10 dias corridos de antecedencia do
-    # inicio da semana vetada de conselho de classe (ver skill).
-    if disc == "LPLITRED" and w > LIMITE_LPLITRED_CONSELHO:
+    # conselho de classe relevante para o grupo de turma (ver skill e o
+    # comentario de LIMITE_LPLITRED_CONSELHO acima).
+    limite = LIMITE_LPLITRED_CONSELHO.get(grupo_turma(turma),
+                                          LIMITE_LPLITRED_CONSELHO_BASE)
+    if disc == "LPLITRED" and w > limite:
         return False
     return True
 
