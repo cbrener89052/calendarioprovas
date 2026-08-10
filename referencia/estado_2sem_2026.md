@@ -190,33 +190,53 @@ turma.
 ## Ajustes manuais na Proposta 3 (08/2026, a pedido do usuário)
 
 Editados **diretamente na planilha já gerada** (não passaram pelo
-solver, não entraram na skill nem no `gerar_calendario.py`) — se a
-Proposta 3 for regenerada do zero, esses ajustes se perdem e precisam
-ser reaplicados manualmente:
+solver, não entraram na skill nem no `gerar_calendario.py` — exceto o
+limite de data da série 9/11, ver abaixo) — se a Proposta 3 for
+regenerada do zero, esses ajustes se perdem e precisam ser reaplicados
+manualmente. Estado **final**, já com as correções de espaçamento da
+2ª rodada incorporadas:
 
-1. **10C1/10C2**: 1ª ocorrência de LP/LIT/RED (24/08) trocada de lugar
-   com a 1ª ocorrência de Química (14/09). A 2ª ocorrência de cada uma
-   (LP/LIT/RED 28/09, Química 09/11) não mudou.
-2. **9C1/9C2**: Português (Jana) movido de 26/08 para 02/09.
+1. **10C1/10C2**: Química movida para a 1ª ocorrência de LP/LIT/RED
+   (24/08); LP/LIT/RED movida para 31/08 (semana 5, não para a semana 7
+   que a Química deixou — a semana 7 já tinha Matemática, o que violava
+   o grupo 1, e ficava a só 2 semanas da 2ª ocorrência de LP/LIT/RED,
+   28/09, violando o piso de 4). A 2ª ocorrência de cada uma (LP/LIT/RED
+   28/09, Química 09/11) não mudou.
+2. **9C1/9C2**: Português (Jana), 1ª ocorrência, movida de 26/08 para
+   02/09; 2ª ocorrência movida de 23/09 para 21/10 (restaura os 7
+   semanas de espaçamento).
 3. **11C1/11C2**: Matemática movida de 27/08 para 21/09 (semana 8) —
    as duas datas sugeridas pelo usuário (28/08 e 04/09) tinham
-   problema (28/08 continua na semana do simulado S3-11; 04/09 already
+   problema (28/08 continua na semana do simulado S3-11; 04/09 já
    estava no teto de 3 provas/semana), por isso a semana 8 foi usada
    no lugar.
 4. **12C1/12C2**: ciclo de 4 provas — LP/LIT/RED 25/08→01/09, GL
-   27/08→25/08, Física 15/09→27/08, Biologia 01/09→15/09 (a vaga que a
-   Física deixou). Sem esse ciclo o "01/09" pedido colidia com a
-   Biologia que já estava lá (só 1 prova por dia por turma).
+   27/08→25/08, Física 15/09→27/08, Biologia (1ª ocorrência) 01/09→15/09
+   (a vaga que a Física deixou). Biologia, 2ª ocorrência, movida de
+   06/10 para 03/11 (restaura os 7 semanas de espaçamento com a 1ª).
 5. **12C1/12C2**: Filosofia (LAn) movida de 11/11 para 30/09.
+6. **9C1/9C2**: Física movida de 16/11 para 23/11 (semana 17, segunda).
+7. **11C1/11C2**: Química, 2ª ocorrência, movida de 17/11 para 24/11
+   (semana 17, terça). Os itens 6 e 7 atendem o pedido de a semana 17
+   ter pelo menos 1 prova até quarta-feira (ver skill) — exigiu também
+   estender o limite de data da série 9/11 no código (item abaixo).
 
-**Regras conscientemente quebradas** por causa desses ajustes (usuário
-pediu para não se preocupar): duas disciplinas do grupo 1 na mesma
-semana em 10C1/10C2 (semana 7: Mat + LP/LIT/RED) e em 9C1/9C2 (Port +
-Ing). **Efeitos colaterais não pedidos explicitamente, mas decorrentes
-dos ajustes acima** (`verificar_calendario.py` continua acusando):
-Português da 9C com só 3 semanas entre as 2 provas (mínimo 7, antes 4);
-LP/LIT/RED da 10C1/10C2 com só 2 semanas entre as 2 provas; Biologia da
-12C1/12C2 com só 3 semanas entre as 2 provas.
+**Regra conscientemente quebrada** por causa do item 1 (usuário pediu
+para não se preocupar): duas disciplinas do grupo 1 na mesma semana em
+9C1/9C2 (semana 5: Port + Ing, aceitável pela exceção "uma delas é
+Inglês"). Todos os demais efeitos colaterais (grupo 1 repetido em
+10C1/10C2, distâncias abaixo do piso) foram corrigidos nos itens acima
+— `verificar_calendario.py` fecha sem nenhum PROBLEMA nesta versão.
+
+## Limite de data da série 9/11 estendido (08/2026)
+
+`LIMITE_DIA["9_11"]` (`gerar_calendario.py`) e `LIMITE["9_11"]`
+(`verificar_calendario.py`) foram estendidos de quinta da semana 16
+(19/11) para **quinta da semana 17 (26/11)** — pedido do usuário: as
+aulas normais da série 9/11 seguem até 27/11 (sexta da semana 17,
+mesma data da 2ª chamada "2CH 9,11"), então a semana 17 é letiva e
+precisa poder receber provas. Essa é uma mudança **de código** (não só
+manual na Proposta 3 atual) — vale para qualquer regeneração futura.
 
 ## Datas concretas das regras novas (08/2026)
 
