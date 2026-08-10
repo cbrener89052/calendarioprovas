@@ -30,6 +30,7 @@ def data_da(ws, w, d):
 def main():
     problemas = []
     avisos = []
+    G.carregar_ocupadas()  # preenche G.LIMITE_LPLITRED_CONSELHO por grupo de turma
     comuns_por_par = {(a, b): G.classificar_par(a, b) for a, b in G.PARES_IRMAS}
     irma = {a: b for a, b in G.PARES_IRMAS}
     irma.update({b: a for a, b in G.PARES_IRMAS})
@@ -133,13 +134,15 @@ def main():
                             f"2 provas (mínimo {G.DISTANCIA_MIN_MESMA_DISC})")
 
             # 5a-bis. LP/LIT/RED precisa cair ate 10 dias corridos antes do
-            # inicio da semana vetada de conselho de classe (ver skill)
+            # conselho de classe relevante pro grupo de turma (ver skill)
+            limite_lplitred = G.LIMITE_LPLITRED_CONSELHO.get(
+                G.grupo_turma(turma), G.LIMITE_LPLITRED_CONSELHO_BASE)
             for w in por_disc.get("LP/LIT/RED", ()):
-                if w > G.LIMITE_LPLITRED_CONSELHO:
+                if w > limite_lplitred:
                     problemas.append(
                         f"{pre}: LP/LIT/RED na semana {w}, depois do limite "
-                        f"de {G.LIMITE_LPLITRED_CONSELHO} semanas antes do "
-                        f"conselho de classe")
+                        f"de {limite_lplitred} semanas antes do conselho de "
+                        f"classe relevante para essa turma")
 
             # 5b. LP/LIT/RED usa 3 tempos nas turmas 10/11/12
             for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
