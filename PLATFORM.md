@@ -1,0 +1,32 @@
+# Plataforma web (monorepo)
+
+Estrutura alvo da migração Reversa — ver `_reversa_sdd/migration/handoff.md`.
+
+```
+apps/
+  api/      FastAPI — auth, CRUD, jobs
+  worker/   Pipeline solver + verificador
+  web/      React Vite + Tailwind
+packages/
+  solver/   Lógica Proposta 3 (T4)
+infra/
+  docker-compose.yml
+legacy/     Referência CLI durante Strangler
+```
+
+## Desenvolvimento local
+
+```bash
+# Validar compose
+docker compose -f infra/docker-compose.yml config
+
+# Subir stack
+docker compose -f infra/docker-compose.yml up --build
+
+# API: http://localhost:8000/health
+# Web: http://localhost:8080
+```
+
+## CLI legado
+
+Scripts na raiz (`gerar_calendario.py`, etc.) permanecem até paridade confirmada.

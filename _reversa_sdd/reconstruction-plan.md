@@ -12,16 +12,17 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 0 | 14 | 14 |
+| 1 | 13 | 14 |
 
 ---
 
 ## Tarefa 1 — Scaffold monorepo e infra
 
-- **Status:** pending
+- **Status:** done
 - **Lê:** `migration/topology_decision.md`, `migration/target_architecture.md`, `migration/migration_brief.md`
 - **Entrega:** Estrutura `apps/api`, `apps/worker`, `apps/web`, `packages/solver`, `infra/docker-compose.yml`, `legacy/` symlink/copy
 - **Critério:** `docker compose config` válido
+- **Concluída:** 2026-08-10 — branch `cursor/reversa-reconstruct-b8d6`
 
 ## Tarefa 2 — Schema PostgreSQL + migrations
 
