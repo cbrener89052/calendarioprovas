@@ -156,17 +156,25 @@ Nunca comece a montar o calendário sem antes:
 - **LP/LIT/RED — prazo mínimo antes do conselho de classe**: por exigir
   **3 tempos de aplicação** (a maior prova do calendário), a prova
   combinada de Português/Redação/Gramática precisa ocorrer com **pelo
-  menos 10 dias de antecedência** da semana vetada de conselho de
-  classe. Checar pela **data corrida** (não por semana civil) contra o
-  **início** da semana vetada — ex.: se o conselho começa 12/10/2026, a
-  prova de LP/LIT/RED não pode cair depois de 02/10/2026. Normalmente só
-  a ocorrência mais próxima do conselho (em geral a de P2) chega perto o
-  suficiente para essa checagem importar; a de P1 costuma estar bem
-  distante. Se esta regra entrar em conflito com a da "1ª ou 2ª semana
-  da rodada" acima (ex.: numa rodada onde a 2ª semana de P2 já cai muito
-  perto do conselho), as duas precisam ser checadas juntas — avisar o
-  usuário se não houver combinação de semana que atenda as duas ao mesmo
-  tempo.
+  menos 10 dias de antecedência** do conselho de classe **relevante para
+  aquela turma**. Checar pela **data corrida** (não por semana civil).
+  Para a maioria das séries o conselho relevante é a semana vetada do
+  meio do semestre (ex.: se o conselho começa 12/10/2026, a prova de
+  LP/LIT/RED não pode cair depois de 02/10/2026) — mas as turmas
+  10/12 (marcação `"CC 10,12"` no modelo) têm um **conselho de classe
+  final próprio**, mais tarde no semestre, e é contra ELE que a checagem
+  vale para essas turmas, não contra o do meio do semestre (confirmado
+  pelo usuário, 08/2026, para a 10C: conselho em 17/11 → LP/LIT/RED pode
+  cair até 07/11 nessa turma, mesmo depois da semana vetada do meio do
+  semestre). **Ainda não implementado assim no gerador** — o código hoje
+  (`LIMITE_LPLITRED_CONSELHO`) só conhece o conselho do meio do
+  semestre, então pode acusar falso positivo para 10C/12C; checar contra
+  o conselho certo por turma é uma melhoria pendente. Normalmente só a
+  ocorrência mais próxima do conselho relevante chega perto o suficiente
+  para a checagem importar. Se esta regra entrar em conflito com a da
+  "1ª ou 2ª semana da rodada" acima, as duas precisam ser checadas
+  juntas — avisar o usuário se não houver combinação de semana que
+  atenda as duas ao mesmo tempo.
 - **Véspera de 2ª chamada (turmas 9C)**: nenhuma prova no dia anterior à
   data de 2ª chamada marcada no modelo (`"2CH <séries>"`) para a série 9.
   Pedido do usuário (08/2026), só para as turmas 9C1/9C2 — não se estende
@@ -175,14 +183,15 @@ Nunca comece a montar o calendário sem antes:
   fechar (antes da regra 4, regra 3 e do teto de cessões da Proposta 3)
   — ainda não implementada no gerador, só documentada aqui; ver
   `referencia/estado_2sem_2026.md` para a data concreta desta rodada.
-- **12C — distância mínima do conselho de classe final**: as provas das
-  turmas 12C1/12C2 precisam cair com pelo menos 6 dias de antecedência
-  do último conselho de classe da série (marcação `"CC 10,12"` no
-  modelo — não confundir com a semana vetada de conselho de classe do
-  meio do semestre, que vale para todas as séries). Motivado por provas
-  caindo na véspera da 2ª chamada dessas turmas. Pode ser relaxada se o
-  horário não fechar de outra forma — ainda não implementada no
-  gerador, só documentada aqui.
+- **10C/12C — distância mínima do conselho de classe final**: as provas
+  das turmas 10C1/10C2/12C1/12C2 precisam cair com pelo menos 6 dias de
+  antecedência do conselho de classe final da série (marcação
+  `"CC 10,12"` no modelo — não confundir com a semana vetada de
+  conselho de classe do meio do semestre, que vale para todas as
+  séries; é o mesmo conselho referenciado na regra do LP/LIT/RED acima).
+  Motivado por provas caindo na véspera da 2ª chamada dessas turmas.
+  Pode ser relaxada se o horário não fechar de outra forma — ainda não
+  implementada no gerador, só documentada aqui.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -195,19 +204,30 @@ Nunca comece a montar o calendário sem antes:
   exceção de série confirmada): alocar em apenas um dos períodos.
 - **Distância entre as 2 provas da mesma disciplina/professor** no
   semestre (quando a turma tem 1 prova por período — a maioria das
-  disciplinas): **idealmente 7 semanas**; se não for possível, ficar o
-  **mais distante possível dentro do que fechar**, mas **nunca menos que
-  4 semanas** — esse piso de 4 é rígido, não relaxa (pedido do usuário,
-  08/2026; antes disso o alvo único era 4). Não se aplica às disciplinas
-  de prova única (Fil/Soc e as exceções de série), que só têm 1
-  ocorrência. Checar pela **diferença entre os números das semanas**
-  (não pela data corrida) — ex.: semana 6 e semana 9 tem distância 3,
-  viola o piso de 4; semana 6 e semana 10 tem distância 4, cumpre o piso
-  mas não o ideal; semana 6 e semana 13 tem distância 7, ideal. Vale
-  tanto para as provas resolvidas por turma quanto para as coordenadas
-  entre turmas irmãs (mesmo professor, tempos diferentes) — nesse
-  segundo caso a distância é conferida **por turma**, comparando as duas
-  ocorrências daquela disciplina especificamente naquela turma.
+  disciplinas): a busca **tenta primeiro fechar com 7 semanas** de
+  distância; **só se isso não deixar o horário fechar** é que flexibiliza,
+  procurando o mais distante possível dentro do que fechar, mas **nunca
+  menos que 4 semanas** — esse piso de 4 é rígido, não relaxa (pedido do
+  usuário, 08/2026; antes disso o alvo único, sem escada, era 4). Não se
+  aplica às disciplinas de prova única (Fil/Soc e as exceções de série),
+  que só têm 1 ocorrência. Checar pela **diferença entre os números das
+  semanas** (não pela data corrida) — ex.: semana 6 e semana 9 tem
+  distância 3, viola o piso de 4; semana 6 e semana 10 tem distância 4,
+  cumpre o piso mas não o ideal; semana 6 e semana 13 tem distância 7,
+  ideal. Vale tanto para as provas resolvidas por turma quanto para as
+  coordenadas entre turmas irmãs (mesmo professor, tempos diferentes) —
+  nesse segundo caso a distância é conferida **por turma**, comparando as
+  duas ocorrências daquela disciplina especificamente naquela turma.
+- **Química, Física e Biologia das turmas 9C entre as semanas 12 e 14**
+  do 2º semestre (pedido do usuário, 08/2026) — cerca de 3 a 4 semanas
+  antes da 2ª chamada da série 9/11. Cada uma tem só 1 prova no semestre
+  nessas turmas (ver "disciplinas com 1 prova no semestre" acima), então
+  a regra é sobre essa única ocorrência.
+- **A regra acima vale para qualquer disciplina de 1 único tempo de
+  aula** (Fil/Soc, em qualquer turma/série) — não é exclusiva da 9C:
+  a prova única dessas disciplinas também deve cair terminando 3 a 4
+  semanas antes da 2ª chamada daquela turma. Ex. concreto desta rodada:
+  Sociologia das turmas 12C.
 - **Semana 17 das turmas 9C/11C precisa ter pelo menos 1 prova até
   quarta-feira** (pedido do usuário, 08/2026). Motivo: as aulas normais
   da série 9/11 seguem até 27/11 (sexta da semana 17, mesma data da 2ª
@@ -659,10 +679,16 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada
       rodada (P1 e P2), nas duas turmas irmãs
 - [ ] Todas as ocorrências de LP/LIT/RED estão pelo menos **10 dias
-      corridos** antes do início da semana vetada de conselho de classe
+      corridos** antes do conselho de classe relevante para a turma (o
+      do meio do semestre, ou o conselho final de 10C/12C — "CC 10,12" —
+      quando for esse o mais próximo)
 - [ ] Turmas 9C1/9C2: nenhuma prova no dia anterior à 2ª chamada da série
-- [ ] Turmas 12C1/12C2: todas as provas estão pelo menos **6 dias**
-      antes do último conselho de classe da série (marcação "CC 10,12")
+- [ ] Turmas 10C1/10C2/12C1/12C2: todas as provas estão pelo menos
+      **6 dias** antes do conselho de classe final da série
+      (marcação "CC 10,12")
+- [ ] Química, Física e Biologia da 9C1/9C2, e qualquer disciplina de 1
+      único tempo em qualquer turma (Fil/Soc), caem entre as semanas
+      12 e 14 do 2º semestre
 - [ ] Disciplinas de prova única usam apenas 1 tempo
 - [ ] Nenhuma prova para disciplinas sem avaliação
 - [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
