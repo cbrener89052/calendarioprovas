@@ -11,7 +11,7 @@ OUT = G.OUT
 COLS = {"E": 1, "F": 2, "G": 3, "H": 4, "I": 5}
 
 LIMITE = {"10_12": datetime.date(2026, 11, 12),
-          "9_11": datetime.date(2026, 11, 21)}
+          "9_11": datetime.date(2026, 11, 26)}
 INICIO_P1 = datetime.date(2026, 8, 17)
 FERIADOS = {datetime.date(2026, 9, 7), datetime.date(2026, 11, 20)}
 SEMANA_VETADA = (datetime.date(2026, 10, 12), datetime.date(2026, 10, 16))

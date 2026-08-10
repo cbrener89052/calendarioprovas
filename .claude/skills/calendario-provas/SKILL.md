@@ -193,18 +193,29 @@ Nunca comece a montar o calendário sem antes:
   provas ficaram à tarde e por quê.
 - **Disciplinas com 1 prova no semestre** (1 tempo semanal na grade, ou
   exceção de série confirmada): alocar em apenas um dos períodos.
-- **Distância mínima de 7 semanas entre as 2 provas da mesma disciplina/
-  professor** no semestre (quando a turma tem 1 prova por período — a
-  maioria das disciplinas). Subiu de 4 para 7 semanas (pedido do
-  usuário, 08/2026). Não se aplica às disciplinas de prova única (Fil/Soc
-  e as exceções de série), que só têm 1 ocorrência. Checar pela
-  **diferença entre os números das semanas** (não pela data corrida) —
-  ex.: prova de P1 na semana 6 e prova de P2 na semana 9 tem distância 3,
-  viola a regra; semana 6 e semana 13 tem distância 7, ok. Vale tanto
-  para as provas resolvidas por turma quanto para as coordenadas entre
-  turmas irmãs (mesmo professor, tempos diferentes) — nesse segundo caso
-  a distância é conferida **por turma**, comparando as duas ocorrências
-  daquela disciplina especificamente naquela turma.
+- **Distância entre as 2 provas da mesma disciplina/professor** no
+  semestre (quando a turma tem 1 prova por período — a maioria das
+  disciplinas): **idealmente 7 semanas**; se não for possível, ficar o
+  **mais distante possível dentro do que fechar**, mas **nunca menos que
+  4 semanas** — esse piso de 4 é rígido, não relaxa (pedido do usuário,
+  08/2026; antes disso o alvo único era 4). Não se aplica às disciplinas
+  de prova única (Fil/Soc e as exceções de série), que só têm 1
+  ocorrência. Checar pela **diferença entre os números das semanas**
+  (não pela data corrida) — ex.: semana 6 e semana 9 tem distância 3,
+  viola o piso de 4; semana 6 e semana 10 tem distância 4, cumpre o piso
+  mas não o ideal; semana 6 e semana 13 tem distância 7, ideal. Vale
+  tanto para as provas resolvidas por turma quanto para as coordenadas
+  entre turmas irmãs (mesmo professor, tempos diferentes) — nesse
+  segundo caso a distância é conferida **por turma**, comparando as duas
+  ocorrências daquela disciplina especificamente naquela turma.
+- **Semana 17 das turmas 9C/11C precisa ter pelo menos 1 prova até
+  quarta-feira** (pedido do usuário, 08/2026). Motivo: as aulas normais
+  da série 9/11 seguem até 27/11 (sexta da semana 17, mesma data da 2ª
+  chamada "2CH 9,11"), então a semana 17 é letiva e não deve ficar sem
+  nenhuma prova só porque é a última do semestre. **Já implementada**:
+  o limite de data para provas da série 9/11 (`LIMITE_DIA`/`LIMITE`) foi
+  estendido até quinta da semana 17 (26/11) para comportar isso — ver
+  `referencia/estado_2sem_2026.md`.
 - **Simulados/AG**: entram nas datas informadas, são fixos, não podem ser
   movidos para encaixar outras provas.
 - **Tempo de aplicação**: preferencialmente no(s) tempo(s) da própria
@@ -639,7 +650,10 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
       prova foi descartada silenciosamente na escrita
 - [ ] Nas disciplinas com 2 provas no semestre, a distância entre as
-      semanas das duas é de **pelo menos 7**
+      semanas das duas é, idealmente, de **7**, e nunca menos que **4**
+      (piso rígido)
+- [ ] Turmas 9C1/9C2 e 11C1/11C2 têm pelo menos 1 prova até quarta-feira
+      da semana 17
 - [ ] Provas combinadas (LP/LIT/RED) usam o número certo de tempos e não
       aparecem como disciplinas separadas
 - [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada

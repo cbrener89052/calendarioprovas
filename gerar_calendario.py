@@ -387,7 +387,11 @@ LIMITE_LPLITRED_CONSELHO = 9
 
 LIMITE_DIA = {           # ultima (semana, dia) permitida por grupo de turma
     "10_12": (15, 4),    # 12/11 = quinta da semana 15
-    "9_11": (16, 4),     # 20/11 e feriado -> ultimo dia util e quinta 19/11
+    "9_11": (17, 4),     # 26/11 = quinta da semana 17 (pedido do usuario,
+                          # 08/2026: as aulas normais da serie 9/11 seguem
+                          # ate 27/11 -- a sexta da semana 17 -- e essa e a
+                          # data da 2a chamada "2CH 9,11", entao a ultima
+                          # quinta antes dela e o limite util)
 }
 
 # celulas ja preenchidas no modelo (2CH, CC, unterrichtsfrei...) por turma.
