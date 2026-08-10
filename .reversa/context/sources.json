@@ -1,10 +1,10 @@
 {
   "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
-  "updated_at": "2026-08-10T01:45:00Z",
-  "last_sync_requested_at": "2026-08-10T01:45:00Z",
-  "last_sync_completed_at": "2026-08-10T01:50:00Z",
-  "last_sync_pr": 18,
-  "last_sync_note": "PR #18: LP/LIT/RED 10 dias implementado; SEED=3; folga_extra por turma; regras 1/5 aviso",
+  "updated_at": "2026-08-10T21:15:00Z",
+  "last_sync_requested_at": "2026-08-10T21:15:00Z",
+  "last_sync_completed_at": "2026-08-10T21:15:00Z",
+  "last_sync_pr": 21,
+  "last_sync_note": "PR #20/#21: semana 17 9_11; 3 regras skill; Proposta 3 ajustada",
   "canonical": [
     {
       "id": "skill-calendario-provas",
@@ -17,9 +17,9 @@
         "regras-negocio",
         "exportacao-relatorios"
       ],
-      "content_hash_sha256": "a010cbea283de85a925b6e6f9331a2453c15d0d0e406f5f5a1db771150987322",
-      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
-      "sync_note": "PR #18: folga por turma; conflito LP/LIT/RED vs rodada documentado"
+      "content_hash_sha256": "36b9d62565adee24f08c36b4e99c92e4cba4aec3a7c060767767cf0224a8df9d",
+      "synced_to_reversa_at": "2026-08-10T21:15:00Z",
+      "sync_note": "PR #20/#21: véspera 2CH 9C; CC 10/12; semana 17 9C/11C"
     },
     {
       "id": "gerador",
@@ -27,9 +27,9 @@
       "role": "Implementação do solver e constantes do semestre",
       "priority": 2,
       "features": ["geracao-calendario"],
-      "content_hash_sha256": "9d8586c7c08b96ef7207270d9b73a59fd1b4d5dd1011de4a9229110405fe174d",
-      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
-      "sync_note": "LIMITE_LPLITRED_CONSELHO=9; SEED=3; folga_extra; posicoes_por_doador"
+      "content_hash_sha256": "10f3581036b86688e470ce2c7b7d8689ae19052b695446fa5ae5972266d92690",
+      "synced_to_reversa_at": "2026-08-10T21:15:00Z",
+      "sync_note": "LIMITE_DIA 9_11 semana 17; demais PR #18"
     },
     {
       "id": "verificador",
@@ -37,18 +37,18 @@
       "role": "Checklist automático espelhando a skill",
       "priority": 2,
       "features": ["verificacao-calendario"],
-      "content_hash_sha256": "a3c1e5b91bf2ab2f4afff45159df909459758ab6ad1cc84a12d59db5692dbe8d",
-      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
-      "sync_note": "Check 5a-bis LP/LIT/RED; regras 1/5 como AVISO se relaxadas"
+      "content_hash_sha256": "79b687cb2f2b3f1f2010e7cd691ce4731199e7853145346178f222f8b5395a41",
+      "synced_to_reversa_at": "2026-08-10T21:15:00Z",
+      "sync_note": "LIMITE 9_11 = 2026-11-26"
     },
     {
       "id": "estado-semestre",
       "path": "referencia/estado_2sem_2026.md",
       "role": "Dados desta rodada (períodos, simulados, exceções)",
       "priority": 2,
-      "content_hash_sha256": "0b8563ac11fd6a44ee2cde68822c4e9a9e806a3497ffb4df8423154c8ba9676f",
-      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
-      "sync_note": "Rodada PR #18: 10C1 afrouxamento localizado; SEED 3"
+      "content_hash_sha256": "71ea215197bda5a4252e4ebf035793913c4508c81a4ba94abe8cebfd6f7df5e0",
+      "synced_to_reversa_at": "2026-08-10T21:15:00Z",
+      "sync_note": "Proposta 3 pós PR #20/#21"
     },
     {
       "id": "requisitos-plataforma",
