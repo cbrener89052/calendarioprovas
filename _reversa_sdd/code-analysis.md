@@ -74,7 +74,7 @@ Métodos: `pode_ceder_bloco`, `pode_alocar_exame`, `aplicar`, `desfazer`, `clone
 - Distância mínima 4 semanas entre provas da mesma disciplina
 - Não cruzar intervalo 3+4 / 5+6 tempos (prioridade máxima)
 - LP/LIT/RED turmas 10–12: 3 tempos, semanas 1–2 de cada rodada
-- **LP/LIT/RED — 10 dias antes do conselho** (skill PR #14): data da prova ≥ 10 dias corridos antes do início da semana vetada (ex.: conselho 12/10 → prova não depois de 02/10). 🔴 **Lacuna no código** — ainda não implementado em `gerar_calendario.py` / `verificar_calendario.py`
+- **LP/LIT/RED — 10 dias antes do conselho** (PR #18): `LIMITE_LPLITRED_CONSELHO = 9`; semana >9 vetada para LPLITRED. 🟢 **Implementado** em `gerar_calendario.py` e `verificar_calendario.py`
 - Cores ARGB 8 dígitos (`FF` + RGB) — bug histórico documentado
 
 ### Saída Excel 🟢
@@ -94,7 +94,7 @@ Sem arquivo externo: períodos, feriados, simulados, grades e regras estão **ha
 
 ### Complexidade
 
-**Alta** — solver combinatório com dezenas de restrições; semente `SEED_PROPOSTA_3 = 7` fixada após testes.
+**Alta** — solver combinatório com dezenas de restrições; semente `SEED_PROPOSTA_3 = 3` (PR #18; era 7). Escalonamento `folga_extra` por turma.
 
 ---
 
@@ -131,10 +131,8 @@ Espelha a skill (seção "Verificação obrigatória", ~30 itens). Principais gr
 | Grupo | Exemplos | Tipo |
 |---|---|---|
 | Distribuição | máx 3/sem, 1/dia, grupo 1, distância 4 sem | problema |
-| LP/LIT/RED | 3 tempos, semanas 1–2 rodada, **≥10 dias antes conselho** | problema (10 dias: 🔴 lacuna verificador) |
-| Horário | tarde inevitável, intervalo + destaque laranja | aviso/problema |
-| Simulados | datas oficiais, 2º–7º tempo, **amarelo exclusivo** | problema |
-| Cessão P3 | regras 1–5 | problema |
+| LP/LIT/RED | 3 tempos, semanas 1–2 rodada, **≥10 dias antes conselho** (check 5a-bis) | 🟢 problema |
+| Cessão P3 | regras 1–5; regras 1/5 **aviso** se relaxadas por turma | problema/aviso |
 | Regra 4 relaxada | cessão véspera | **aviso** |
 | Regra 4 estrita | cessão **antes/no dia** da prova | **problema** (mesmo com relaxamento) |
 | Turmas irmãs | professor comum → mesmo dia/tempo | problema |

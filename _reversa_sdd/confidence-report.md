@@ -15,7 +15,7 @@
 | 🔴 LACUNA     | 36  | 11,3% |
 | **Total**     | 318 | 100% |
 
-**Confiança geral:** **~82%** — 4/4 perguntas respondidas (2026-08-09)
+**Confiança geral:** **~85%** — sync PR #18 2026-08-10
 
 Interpretação: Time de Descoberta **fechado** para decisões de produto. Única lacuna de código crítica (PR #14) tem owner (Claude agendado) e gate de publish definido.
 
@@ -25,8 +25,8 @@ Interpretação: Time de Descoberta **fechado** para decisões de produto. Únic
 
 | Feature | 🟢 | 🟡 | 🔴 | Confiança |
 |---------|----|----|-----|-----------|
-| `geracao-calendario` | 52 | 12 | 10 | 78% |
-| `verificacao-calendario` | 34 | 6 | 14 | 69% |
+| `geracao-calendario` | 52 | 12 | 2 | 82% |
+| `verificacao-calendario` | 38 | 6 | 4 | 88% |
 | `exportacao-relatorios` | 21 | 6 | 0 | 89% |
 | `extracao-grade` | 24 | 7 | 1 | 86% |
 | `analise-historica` | 15 | 5 | 0 | 88% |
@@ -43,8 +43,7 @@ Interpretação: Time de Descoberta **fechado** para decisões de produto. Únic
 Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 ### geracao-calendario / verificacao-calendario / regras-negocio
-- **LP/LIT/RED ≥10 dias** — skill ✅; código 🔴; **Must deploy** ✅ confirmado; Claude agendado
-  - Addendum: `_reversa_sdd/addenda/pr14-must-deploy-2026-08-09.md`
+- **LP/LIT/RED ≥10 dias** — ✅ PR #18 implementado
 
 ### regras-negocio / plataforma-multi-coordenador
 - ~~**Customização IA no pipeline**~~ — ✅ verificador + relatório auxiliar (Brener 2026-08-09)
@@ -66,8 +65,8 @@ Itens que permanecem sem confirmação após revisão — detalhes em `gaps.md`.
 
 ## Recomendações
 
-- [ ] **Prioridade 1:** Concluir PR #14 no código (Claude agendado) — desbloqueia publish plataforma
-- [ ] Responder `questions.md` — ✅ **4/4 concluídas**
+- [x] **PR #14/#18** — implementado no código
+- [ ] Externalizar `folga_extra` / GRUPO na plataforma
 - [ ] **Prioridade 3:** Extrair módulo `rules/` compartilhado (gerador + verificador + RuleContext)
 - [ ] **Prioridade 4:** Adicionar `requirements.txt` e smoke tests para 8 turmas seed 7
 - [ ] Plataforma: MVP API-only reduz escopo se Pergunta 3 permitir

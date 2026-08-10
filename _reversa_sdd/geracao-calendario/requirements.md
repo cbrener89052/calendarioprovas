@@ -17,7 +17,7 @@ Gera o calendário de provas do 2º semestre para turmas C via backtracking com 
 | `_reversa_sdd/code-analysis.md#geracao-calendario` | Backtracking, `Cessoes`, seed fixa 7 | 🟢 |
 | `_reversa_sdd/flowcharts/geracao-calendario.md` | Fluxo main → montar_proposta → resolver → xlsx | 🟢 |
 | `_reversa_sdd/adrs/002-limites-cessao-proposta-3.md` | Regras 1–5 de cessão e escada de afrouxamento | 🟢 |
-| `_reversa_sdd/addenda/pr14-lp-lit-red-10dias-conselho.md` | LP/LIT/RED ≥10 dias antes conselho — skill ✅, código 🔴 | 🔴 |
+| `_reversa_sdd/addenda/sync-skill-2026-08-10.md` | PR #18 implementado | 🟢 |
 
 ## 3. Personas e cenários de uso
 
@@ -57,7 +57,7 @@ Gera o calendário de provas do 2º semestre para turmas C via backtracking com 
    - Origem: skill + `gerar_calendario.py`  
    - Tipo: confirmada
 
-8. **RN-08:** LP/LIT/RED ≥10 dias corridos antes da semana vetada de conselho 🟢 skill / 🔴 código → **Must deploy** (Brener 2026-08-09)
+8. **RN-08:** LP/LIT/RED ≥10 dias corridos antes da semana vetada de conselho 🟢 (PR #18)
 
 9. **RN-09:** Relatório de trocas deve incluir seção **Regras relaxadas** quando afrouxamento ocorrer 🟢  
    - Origem: `gerar_calendario.py:detectar_regras_relaxadas`  
@@ -74,14 +74,14 @@ Gera o calendário de provas do 2º semestre para turmas C via backtracking com 
 | RF-05 | Gravar calendário xlsx com 8 abas (uma por turma) | Must | Arquivo abre no Excel com provas, simulados e cores esperadas | 🟢 |
 | RF-06 | Gerar relatório de trocas de tempo entre professores | Must | Lista cessões com origem/destino disciplina e professor | 🟢 |
 | RF-07 | Respeitar toggles de regras codificadas (plataforma futura) | Should | Regras desativadas no `RuleContext` não são aplicadas | 🟡 |
-| RF-08 | Validar LP/LIT/RED ≥10 dias antes conselho | Must | Bloqueia publish até implementado; Claude agendado | 🟢 requisito / 🔴 código |
+| RF-08 | Validar LP/LIT/RED ≥10 dias antes conselho | Must | `LIMITE_LPLITRED_CONSELHO=9` | 🟢 |
 
 ## 6. Requisitos Não Funcionais
 
 | Tipo | Requisito | Evidência ou justificativa | Confiança |
 |------|-----------|----------------------------|-------------|
 | Desempenho | `MAX_NOS=60000` (sem cessão) / `MAX_NOS_CESSAO=5000` (Proposta 3); ~600 nós/s com limites de cessão | `gerar_calendario.py:657-664` | 🟢 |
-| Determinismo | Semente fixa `SEED_PROPOSTA_3 = 7` para reprodutibilidade | `gerar_calendario.py` | 🟢 |
+| Determinismo | Semente `SEED_PROPOSTA_3 = 3` (PR #18) | `gerar_calendario.py:678` | 🟢 |
 | Manutenibilidade | Constantes hardcoded (feriados, simulados, grades) | Scout + code-analysis | 🟢 |
 | Escalabilidade | Job assíncrono na plataforma (futuro) | ADR-005, architecture.md | 🟡 |
 
@@ -104,7 +104,7 @@ Cenário: Falha por impossibilidade combinatória
   Quando o backtracking esgota MAX_NOS
   Então o processo termina com falha explícita e lista de disciplinas não alocadas
 
-Cenário: LP/LIT/RED respeita distância do conselho (futuro)
+Cenário: LP/LIT/RED respeita distância do conselho
   Dado semana vetada de conselho configurada no GRUPO da turma 12C1
   Quando LP/LIT/RED é alocada na rodada P2
   Então a data da prova é ≥10 dias antes do início da semana vetada
@@ -126,7 +126,6 @@ Cenário: LP/LIT/RED respeita distância do conselho (futuro)
 
 ## 10. Lacunas
 
-- 🟡 RN-08 PR #14: código pendente — **Must** antes deploy; Claude agendado
 - 🟡 Integração `RuleContext` com toggles ADR-006 — plataforma
 
 ## 11. Histórico de alterações

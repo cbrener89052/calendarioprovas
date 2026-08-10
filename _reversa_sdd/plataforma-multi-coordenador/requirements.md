@@ -89,7 +89,6 @@ RF-01–RF-06, RF-08, RF-09, RF-12–RF-14 Must; RF-07, RF-11 Should.
 
 ## 10. Lacunas
 
-- 🟡 PR #14 no código — Must antes deploy; Claude agendado
 - 🟡 Context vs Redux — decidir na implementação
 
 ## 11. Histórico

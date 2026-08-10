@@ -87,7 +87,7 @@ Cenário: Customização IA registrada
 
 ## 10. Lacunas
 
-- 🔴 PR #14: skill ✅; código 🔴 — **Must deploy**; Claude agendado (Brener 2026-08-09)
+- 🟢 PR #14/#18: skill + código implementados
 - 🟢 Customização IA: verificador + relatório auxiliar (Brener 2026-08-09)
 - 🟢 Admin: Brener admin_instituicao; coords isolados
 

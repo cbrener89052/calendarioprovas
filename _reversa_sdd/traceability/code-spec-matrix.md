@@ -62,7 +62,7 @@
 
 | Lacuna | Feature | Status |
 |---|---|---|
-| LP/LIT/RED 10 dias | 🔴 código | 🟢 Must deploy; Claude agendado |
+| LP/LIT/RED 10 dias | 🟢 PR #18 | geracao + verificacao + regras |
 | Validação cores ARGB | verificacao-calendario | 🔴 |
 | RuleContext / toggles | regras + plataforma | 🟡 spec, sem código |
 | API FastAPI | plataforma | 🟡 OpenAPI draft |
@@ -76,7 +76,7 @@
 | `geracao-calendario/tasks.md` T-06 | `gerar_calendario.py` |
 | `verificacao-calendario/tasks.md` T-04 | `verificar_calendario.py` |
 | `plataforma-multi-coordenador/tasks.md` T-08 | worker + refactor gerador |
-| `regras-negocio/tasks.md` T-08 | solver + verificador |
+| `regras-negocio/tasks.md` T-09 | ✅ PR #18 |
 
 ---
 
@@ -84,4 +84,5 @@
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-10 | Sync PR #18 | reversa-sync |
 | 2026-08-09 | Matriz inicial Fase 4 | reversa-writer |

@@ -34,10 +34,9 @@
   - Critério de pronto: xlsx abre; verificador passa checklist base
   - Confiança: 🟢
 
-- [ ] T-06 — Implementar RN-08 LP/LIT/RED ≥10 dias antes conselho (**Must deploy**)
-  - Origem: PR #14, Brener 2026-08-09; Claude agendado
-  - Critério: Verificador inclui check; gerador rejeita slot inválido; publish bloqueado
-  - Confiança: 🔴 código; 🟢 requisito confirmado
+- [x] T-06 — Implementar RN-08 LP/LIT/RED ≥10 dias (**PR #18** ✅)
+  - Origem: `LIMITE_LPLITRED_CONSELHO`, `dia_permitido(..., disc)`
+  - Confiança: 🟢
 
 - [ ] T-07 — Integrar `RuleContext` com toggles (plataforma)
   - Origem: ADR-006, `regras-negocio/design.md`
@@ -51,10 +50,10 @@
 
 ## Tarefas de Teste
 
-- [ ] TT-01 — Happy path: proposta 3 completa 8 turmas, seed 7
+- [ ] TT-01 — Happy path: proposta 3 completa 8 turmas, seed 3
 - [ ] TT-02 — Cessão bloqueada véspera da prova (regra 4 dura)
 - [ ] TT-03 — Afrouxamento regra 4 só após data da prova
-- [ ] TT-04 — LP/LIT/RED 10 dias (quando T-06 implementado)
+- [x] TT-04 — LP/LIT/RED semana ≤9 (PR #18)
 - [ ] TT-05 — MAX_NOS: falha graciosa com lista `falharam`
 
 ## Tarefas de Migração de Dados
@@ -66,10 +65,10 @@
 
 1. T-01 (externalizar config) — desbloqueia multi-coordenador
 2. T-02 → T-03 → T-04 → T-05 (paridade legado)
-3. T-06 (lacuna PR #14)
-4. T-07 → T-08 (plataforma)
+3. T-07 → T-08 (plataforma)
 
-## Lacunas Pendentes (🔴)
+## Lacunas Pendentes
 
-- ~~LP/LIT/RED 10 dias~~ — Must confirmado; implementação via Claude agendada
+- [ ] T-09 — Externalizar `folga_extra` / GRUPO na plataforma
+  - Confiança: 🟡
 - Formato exato de `RuleContext` na API

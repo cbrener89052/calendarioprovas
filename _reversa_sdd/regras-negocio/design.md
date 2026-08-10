@@ -53,7 +53,7 @@ class RuleContext:
 |--------|--------|----------------|
 | max_3_avaliacoes_semana | ✅ | on |
 | cessao_regra_4_pos_prova | ✅ | on |
-| lp_lit_red_10_dias_conselho | 🔴 | on (quando impl.) |
+| lp_lit_red_10_dias_conselho | ✅ | on |
 | grupo_1_semana_unica | ✅ | on |
 
 ## Dependências

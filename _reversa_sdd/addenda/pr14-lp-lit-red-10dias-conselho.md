@@ -1,34 +1,25 @@
 # Adendo — PR #14: LP/LIT/RED 10 dias antes do conselho
 
-**Data:** 2026-08-09  
-**Cenário:** legado  
-**Fonte:** PR https://github.com/cbrener89052/calendarioprovas/pull/14 (branch `claude/skill-calendar-install-b2oqrs`)
+**Data:** 2026-08-09 (skill) / **2026-08-10** (código PR #18)  
+**Status:** ✅ **Implementado**
 
 ## Vigência
 
-Vigente desde 2026-08-09.  
-**PR #14 mergeada em `main`** (2026-08-09).
+- Skill: PR #14 mergeada em `main`
+- Código: PR #18 (`5bcd2ae`)
 
-## Resumo
+## Implementação
 
-Nova regra documentada na skill (commit `8383e4d`): prova combinada **LP/LIT/RED** (3 tempos) deve ocorrer com **pelo menos 10 dias corridos** de antecedência do **início** da semana vetada de conselho de classe.
+| Arquivo | Mecanismo |
+|---------|-----------|
+| `gerar_calendario.py` | `LIMITE_LPLITRED_CONSELHO = 9`; `dia_permitido(w, disc)` |
+| `verificar_calendario.py` | Checklist 5a-bis |
 
-Exemplo: conselho começa 12/10/2026 → LP/LIT/RED não pode cair depois de 02/10/2026.
+## Mudanças correlatas (PR #18)
 
-## Impacto por artefato
+- `SEED_PROPOSTA_3 = 3`
+- `folga_extra` por turma
+- Regras 1/5 → AVISO no verificador quando relaxadas
+- `posicoes_por_doador` — fix contagem cessão
 
-| Artefato | Tipo | Delta |
-|---|---|---|
-| `.claude/skills/calendario-provas/SKILL.md` | regra-nova | Seção distribuição + item checklist |
-| `gerar_calendario.py` | lacuna | **Não implementado** (conforme PR #14) |
-| `verificar_calendario.py` | lacuna | **Não implementado** |
-| `_reversa_sdd/code-analysis.md` | regra-nova | Documentada com 🔴 lacuna |
-
-## Conflito potencial
-
-Skill avisa: pode conflitar com regra "1ª/2ª semana da rodada" — checar as duas juntas e avisar usuário se não houver semana válida.
-
-## Fontes
-
-- PR #14 diff
-- `.claude/skills/calendario-provas/SKILL.md`
+Ver `_reversa_sdd/addenda/sync-skill-2026-08-10.md`.

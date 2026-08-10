@@ -82,13 +82,18 @@
           "confidence": "confirmed"
         },
         {
-          "description": "LP/LIT/RED: ≥10 dias corridos antes da semana vetada de conselho (PR #14)",
-          "location": ".claude/skills/calendario-provas/SKILL.md",
+          "description": "LP/LIT/RED ≥10 dias conselho — skill + código PR #18",
+          "location": "SKILL.md + gerar_calendario.py LIMITE_LPLITRED_CONSELHO",
           "confidence": "confirmed"
         },
         {
-          "description": "LP/LIT/RED 10 dias: NÃO implementado no gerador/verificador ainda",
-          "location": "gerar_calendario.py",
+          "description": "SEED_PROPOSTA_3 = 3 (PR #18)",
+          "location": "gerar_calendario.py:678",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "folga_extra por turma na escada cessão",
+          "location": "gerar_calendario.py:montar_proposta",
           "confidence": "confirmed"
         }
       ],

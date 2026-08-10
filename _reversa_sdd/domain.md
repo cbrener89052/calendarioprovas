@@ -38,7 +38,7 @@
 3. **Distância mínima 4 semanas** entre 2 provas da mesma disciplina (por número de semana) 🟢
 4. Provas dentro do **período do GRUPO** da turma (início/fim semestre configuráveis), sem feriados/semana vetada de conselho 🟢
 5. **LP/LIT/RED** (10–12): 3 tempos, 1ª ou 2ª semana de cada rodada 🟢
-6. **LP/LIT/RED ≥10 dias** antes do início da semana vetada de conselho 🟢 skill (PR #14 em main) / 🔴 código
+6. **LP/LIT/RED ≥10 dias** antes do início da semana vetada de conselho 🟢 skill + código (PR #18)
 7. **Intervalo recreio**: proibido cruzar 3+4 ou 5+6; exceção com destaque laranja 🟢
 
 ### Cessão de aula (Proposta 3)
@@ -66,7 +66,10 @@
 
 | Regra | Evidência | Confiança |
 |---|---|---|
-| Semente fixa `SEED_PROPOSTA_3 = 7` após testes | `gerar_calendario.py` | 🟢 |
+| Semente `SEED_PROPOSTA_3 = 3` após PR #18 (era 7) | `gerar_calendario.py:678` | 🟢 |
+| `LIMITE_LPLITRED_CONSELHO = 9` | `gerar_calendario.py:386` | 🟢 |
+| `folga_extra` por turma na escada cessão | `montar_proposta` | 🟢 |
+| Falha `resolver_par` entra em `falharam` | PR #18 | 🟢 |
 | Orçamento `MAX_NOS` limita backtracking (~600 nós/s) | comentário + constante | 🟢 |
 | Slots pré-computados por disciplina antes da busca | `slots_da_disciplina` | 🟢 |
 | Pares irmãos resolvidos **antes** das turmas individuais | `montar_proposta` | 🟢 |
@@ -80,8 +83,8 @@
 
 | Lacuna | Impacto |
 |---|---|
-| LP/LIT/RED 10 dias antes conselho | Skill PR #14; não no gerador/verificador |
-| Verificação de cores ARGB opacas | Skill pede; verificador só checa texto |
+| ~~LP/LIT/RED 10 dias~~ | ✅ PR #18 |
+| Verificação de cores ARGB opacas | Skill pede; verificador parcial |
 | RBAC por segmento | 🟢 user-requirements 2026-08-09 |
 | Motor regras toggles + IA | 🟢 ADR-006 |
 | `requirements.txt` ausente | Dependências implícitas (openpyxl, fpdf, pymupdf) |

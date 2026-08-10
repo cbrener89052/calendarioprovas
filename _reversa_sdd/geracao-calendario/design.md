@@ -59,7 +59,9 @@
 | Decisão | Evidência no código | Confiança |
 |---------|---------------------|-----------|
 | Apenas Proposta 3 (cessão) | ADR-001, constantes | 🟢 |
-| Seed fixa 7 após testes | `SEED_PROPOSTA_3` | 🟢 |
+| `SEED_PROPOSTA_3 = 3` | PR #18 | 🟢 |
+| `LIMITE_LPLITRED_CONSELHO = 9` | `gerar_calendario.py:386` | 🟢 |
+| `folga_extra` por turma | `montar_proposta` | 🟢 |
 | Slots pré-computados antes da recursão | `slots_da_disciplina` | 🟢 |
 | Pares irmãos resolvidos primeiro | `montar_proposta` ordem | 🟢 |
 | Constantes in-file vs config externa | Sem `requirements.txt`, sem YAML | 🟢 |
@@ -77,7 +79,6 @@
 
 ## Riscos e Lacunas
 
-- 🔴 RN-08 (LP/LIT/RED 10 dias) ausente no solver
 - 🟡 Hardcode impede multi-segmento sem refactor para `RuleContext` + GRUPO
 - 🟡 Acoplamento verificador importa constantes do gerador
 - 🟡 Customização IA (ADR-006) não entra no solver — camada separada

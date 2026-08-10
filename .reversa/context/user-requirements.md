@@ -85,7 +85,7 @@ Hoje as regras estão **hardcoded** em `gerar_calendario.py` e na skill. Na plat
 
 ### PR #14 mergeada em `main`
 
-Regra **LP/LIT/RED ≥10 dias antes do conselho** — na skill ✅; implementação no gerador/verificador 🔴 pendente → **Must antes deploy** (Brener 2026-08-09). Claude Code agendado para implementar.
+Regra **LP/LIT/RED ≥10 dias** — skill ✅; código ✅ (PR #18 mergeada em `main`).
 
 ### Pendências resolvidas
 

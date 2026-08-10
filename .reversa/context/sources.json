@@ -1,10 +1,10 @@
 {
   "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
-  "updated_at": "2026-08-09T03:20:00Z",
-  "last_sync_requested_at": "2026-08-09T03:20:00Z",
-  "last_sync_completed_at": "2026-08-09T03:35:00Z",
-  "last_sync_pr": 14,
-  "last_sync_note": "PR14 em main; RBAC segmento + regras toggles + IA (ADR-006)",
+  "updated_at": "2026-08-10T01:45:00Z",
+  "last_sync_requested_at": "2026-08-10T01:45:00Z",
+  "last_sync_completed_at": "2026-08-10T01:50:00Z",
+  "last_sync_pr": 18,
+  "last_sync_note": "PR #18: LP/LIT/RED 10 dias implementado; SEED=3; folga_extra por turma; regras 1/5 aviso",
   "canonical": [
     {
       "id": "skill-calendario-provas",
@@ -17,9 +17,9 @@
         "regras-negocio",
         "exportacao-relatorios"
       ],
-      "content_hash_sha256": "6be51fe2257b2acda97c2c0fbca5158d506e125131280ae627ce6af26fdd838c",
-      "synced_to_reversa_at": "2026-08-09T03:25:00Z",
-      "sync_note": "Inclui PR #14 (LP/LIT/RED 10 dias antes conselho)"
+      "content_hash_sha256": "a010cbea283de85a925b6e6f9331a2453c15d0d0e406f5f5a1db771150987322",
+      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
+      "sync_note": "PR #18: folga por turma; conflito LP/LIT/RED vs rodada documentado"
     },
     {
       "id": "gerador",
@@ -27,8 +27,9 @@
       "role": "Implementação do solver e constantes do semestre",
       "priority": 2,
       "features": ["geracao-calendario"],
-      "content_hash_sha256": "c55c33c61a765b299d4b617ce7a9ffa649d016ebd1ba143da13a944072fa337b",
-      "synced_to_reversa_at": "2026-08-09T03:20:00Z"
+      "content_hash_sha256": "9d8586c7c08b96ef7207270d9b73a59fd1b4d5dd1011de4a9229110405fe174d",
+      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
+      "sync_note": "LIMITE_LPLITRED_CONSELHO=9; SEED=3; folga_extra; posicoes_por_doador"
     },
     {
       "id": "verificador",
@@ -36,16 +37,18 @@
       "role": "Checklist automático espelhando a skill",
       "priority": 2,
       "features": ["verificacao-calendario"],
-      "content_hash_sha256": "0a554995505ce22a3b29c4b14b1eae84f418a45e768b9143c82439da2f4bcc0a",
-      "synced_to_reversa_at": "2026-08-09T03:20:00Z"
+      "content_hash_sha256": "a3c1e5b91bf2ab2f4afff45159df909459758ab6ad1cc84a12d59db5692dbe8d",
+      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
+      "sync_note": "Check 5a-bis LP/LIT/RED; regras 1/5 como AVISO se relaxadas"
     },
     {
       "id": "estado-semestre",
       "path": "referencia/estado_2sem_2026.md",
       "role": "Dados desta rodada (períodos, simulados, exceções)",
       "priority": 2,
-      "content_hash_sha256": "d04c88383dd365c983ec76525437a63c059c069ca8b7d8e0309e8f41d76ddcb3",
-      "synced_to_reversa_at": "2026-08-09T03:20:00Z"
+      "content_hash_sha256": "0b8563ac11fd6a44ee2cde68822c4e9a9e806a3497ffb4df8423154c8ba9676f",
+      "synced_to_reversa_at": "2026-08-10T01:50:00Z",
+      "sync_note": "Rodada PR #18: 10C1 afrouxamento localizado; SEED 3"
     },
     {
       "id": "requisitos-plataforma",
@@ -59,17 +62,18 @@
     {
       "path": "referencia/Regras_Negocio_Calendario_Provas.pdf",
       "generated_by": "python exportar_regras_pdf.py",
-      "source_id": "skill-calendario-provas"
+      "source_id": "skill-calendario-provas",
+      "regenerated_at": "2026-08-10T01:50:00Z"
     },
     {
-      "path": "_reversa_sdd/addenda/skill-calendario-provas-2026-08-09.md",
-      "generated_by": "reversa sync manual",
+      "path": "_reversa_sdd/addenda/sync-skill-2026-08-10.md",
+      "generated_by": "reversa sync",
       "source_id": "skill-calendario-provas"
     },
     {
       "path": "_reversa_sdd/code-analysis.md",
-      "generated_by": "reversa-archaeologist",
-      "note": "Snapshot — pode ficar defasado até re-extração"
+      "generated_by": "reversa-archaeologist + sync",
+      "note": "Atualizado 2026-08-10 pós PR #18"
     }
   ],
   "refresh_instructions": "Leia .reversa/context/sync-regras.md quando o usuário alterar regras pela skill ou pelo código."

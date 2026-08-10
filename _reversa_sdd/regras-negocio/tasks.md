@@ -32,9 +32,8 @@
   - Origem: sync-regras.md
   - Confiança: 🟡
 
-- [ ] T-09 — Implementar RN PR #14 no solver + verificador (**Must deploy**)
-  - Origem: Brener 2026-08-09; Claude agendado
-  - Confiança: 🔴 código; 🟢 requisito
+- [x] T-09 — Implementar RN PR #14/#18 no solver + verificador ✅
+  - Confiança: 🟢
 
 ## Testes
 

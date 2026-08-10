@@ -48,7 +48,7 @@
         "_reversa_sdd/adrs/"
       ],
       "adrs_count": 7,
-      "lacunas": ["PR #14 código (Claude agendado)", "Audit log toggles"]
+      "lacunas": ["Audit log toggles", "Validação ARGB cores"]
     },
     "architect": {
       "completed_at": "2026-08-09T03:30:00Z",
@@ -79,7 +79,9 @@
       "reclassifications": 3,
       "questions_generated": 4,
       "questions_answered": 4,
-      "confidence_overall": "82%",
+      "confidence_overall": "85%",
+      "last_sync_at": "2026-08-10T01:50:00Z",
+      "last_sync_pr": 18,
       "discovery_complete": true,
       "cross_review_codex": false,
       "files": [

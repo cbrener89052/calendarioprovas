@@ -31,7 +31,7 @@ Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espe
 2. **RN-02:** Cessão antes ou no dia da prova = **falha**, mesmo com regra 4 relaxada 🟢
 3. **RN-03:** Regra 4 relaxada documentada = **aviso**, não erro 🟢
 4. **RN-04:** Verificador opera sobre **arquivo xlsx**, não estado do gerador 🟢
-5. **RN-05:** LP/LIT/RED ≥10 dias antes conselho — must quando implementado 🔴
+5. **RN-05:** LP/LIT/RED ≥10 dias antes conselho 🟢 (PR #18)
 
 ## 5. Requisitos Funcionais
 
@@ -44,7 +44,7 @@ Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espe
 | RF-05 | Validar cessões vs grade-base | Must | Detecta tempo de outra disciplina usado | 🟢 |
 | RF-06 | Validar simulados (2º–7º tempo, datas fixas) | Must | Erro se fora do slot esperado | 🟢 |
 | RF-07 | Emitir ProblemaValidacao (turma, regra, msg, severidade) | Must | Lista agrupada por turma | 🟢 |
-| RF-08 | Check LP/LIT/RED 10 dias conselho | Must | Erro se violação; **bloqueia publish** | 🔴 código; 🟢 Must |
+| RF-08 | Check LP/LIT/RED 10 dias conselho | Must | Check 5a-bis; semana ≤9 | 🟢 |
 | RF-09 | Validar cores ARGB (destaque laranja recreio) | Could | Aviso se skill pede e cor ausente | 🔴 |
 | RF-10 | Endpoint automático pós-job (plataforma) | Should | 422 se erros críticos | 🟡 |
 | RF-11 | Checks IA a partir de CUSTOMIZACAO_IA | Must | Avisos interpretados por IA; não substituem checks codificados | 🟢 |
@@ -98,7 +98,6 @@ Cenário: Check IA por customização
 
 ## 10. Lacunas
 
-- 🟡 Check LP/LIT/RED 10 dias — Must deploy; Claude agendado
 - 🔴 Validação ARGB de cores
 
 ## 11. Histórico
