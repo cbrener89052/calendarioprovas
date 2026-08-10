@@ -1,10 +1,10 @@
 {
   "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
-  "updated_at": "2026-08-10T22:30:00Z",
-  "last_sync_requested_at": "2026-08-10T22:30:00Z",
-  "last_sync_completed_at": "2026-08-10T22:30:00Z",
-  "last_sync_pr": 23,
-  "last_sync_note": "PR #23: LP/LIT/RED por grupo CC; escada 7→4; 9C sem 12–14; Mat/Fis 10C",
+  "updated_at": "2026-08-10T22:55:00Z",
+  "last_sync_requested_at": "2026-08-10T22:44:00Z",
+  "last_sync_completed_at": "2026-08-10T22:55:00Z",
+  "last_sync_commit": "677cec0",
+  "last_sync_note": "Regra PRIORIDADE 1: professor presente na aplicação da prova",
   "canonical": [
     {
       "id": "skill-calendario-provas",
@@ -17,9 +17,9 @@
         "regras-negocio",
         "exportacao-relatorios"
       ],
-      "content_hash_sha256": "23e9b720effd6a255b01d4b7f25d7ba070eb44ceb53de07ed355af5250ce80a0",
-      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
-      "sync_note": "PR #23: escada distância; 9C sem 12–14; CC 10,12 reconciliado"
+      "content_hash_sha256": "18e2960c3afadc165c9cbfd2a3ab6ba492eb503ec66019ee71b4fc1e0630f833",
+      "synced_to_reversa_at": "2026-08-10T22:55:00Z",
+      "sync_note": "677cec0: PRIORIDADE 1 professor presente no bloco"
     },
     {
       "id": "gerador",
@@ -27,9 +27,9 @@
       "role": "Implementação do solver e constantes do semestre",
       "priority": 2,
       "features": ["geracao-calendario"],
-      "content_hash_sha256": "fd7a1de713b0a68b08b0fe92d52cb0112e94bbde06e1479768a6fc37086764ec",
-      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
-      "sync_note": "LIMITE_LPLITRED_CONSELHO dict por grupo; carregar_ocupadas CC"
+      "content_hash_sha256": "a112a5de5a10a6c583ba34d9172506d3fd8d98494a53e51c61ee0e13848f7f2d",
+      "synced_to_reversa_at": "2026-08-10T22:55:00Z",
+      "sync_note": "professor_presente_no_bloco(); checagem em _tentar_par"
     },
     {
       "id": "verificador",
@@ -37,18 +37,18 @@
       "role": "Checklist automático espelhando a skill",
       "priority": 2,
       "features": ["verificacao-calendario"],
-      "content_hash_sha256": "6fddb051e63bacd92454f8208380abb359962e0d2b8b62189bd267c95f002910",
-      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
-      "sync_note": "Check LP/LIT/RED por grupo CC"
+      "content_hash_sha256": "3ddf7d614ea7f08ca6ab256783b5c46d0e686c7934ed091d33b4e2bf929ca0a0",
+      "synced_to_reversa_at": "2026-08-10T22:55:00Z",
+      "sync_note": "Check presença professor no bloco de aplicação"
     },
     {
       "id": "estado-semestre",
       "path": "referencia/estado_2sem_2026.md",
       "role": "Dados desta rodada (períodos, simulados, exceções)",
       "priority": 2,
-      "content_hash_sha256": "34535dc833346d750a90dbb9dea5f07be62742f8df9f48c9c399540922b83683",
-      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
-      "sync_note": "Proposta 3 pós PR #23 ajustes manuais"
+      "content_hash_sha256": "26e04608887ba5d2fd0b8930113c9711526aed82e0c8d834e7f7e64aba908e08",
+      "synced_to_reversa_at": "2026-08-10T22:55:00Z",
+      "sync_note": "Regra prioridade 1 documentada; Proposta 3 pós correções"
     },
     {
       "id": "requisitos-plataforma",
@@ -66,14 +66,14 @@
       "regenerated_at": "2026-08-10T01:50:00Z"
     },
     {
-      "path": "_reversa_sdd/addenda/sync-skill-2026-08-10-pr23.md",
+      "path": "_reversa_sdd/addenda/sync-skill-2026-08-10-professor-presente.md",
       "generated_by": "reversa sync",
       "source_id": "skill-calendario-provas"
     },
     {
       "path": "_reversa_sdd/code-analysis.md",
       "generated_by": "reversa-archaeologist + sync",
-      "note": "Atualizar pós PR #23 — LIMITE_LPLITRED por grupo"
+      "note": "Atualizar pós 677cec0 — professor_presente_no_bloco"
     }
   ],
   "refresh_instructions": "Leia .reversa/context/sync-regras.md quando o usuário alterar regras pela skill ou pelo código."

@@ -98,6 +98,12 @@ REGRAS: list[dict] = [
         "skill_ref": f"{SKILL}#nunca-cruzar-o-intervalo-do-recreio",
     },
     {
+        "codigo": "professor_presente_aplicacao_prova",
+        "descricao": "PRIORIDADE 1: ≥1 professor citado presente no bloco (tempo próprio turma/irmã); nunca relaxa.",
+        "implementada_solver": True,
+        "skill_ref": f"{SKILL}#regras-de-distribuição-das-provas",
+    },
+    {
         "codigo": "turmas_irmaas_mesmo_professor",
         "descricao": "Coordenar provas simultâneas quando mesmo professor leciona turmas irmãs em horários diferentes.",
         "implementada_solver": True,

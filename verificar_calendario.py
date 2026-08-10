@@ -70,6 +70,30 @@ def main():
             pre = f"P{prop}/{turma}"
             grupo = G.grupo_turma(turma)
 
+            # 0. REGRA PRIORIDADE 1: o professor tem que estar presente na
+            #    aplicacao da propria prova (aula propria da familia da
+            #    disciplina, na propria turma OU na turma irma), em pelo
+            #    menos 1 tempo do bloco de aplicacao -- nao precisa ter os
+            #    2 tempos. Quando a prova cita mais de um professor (grupo
+            #    paralelo / professor comum), basta 1 deles bater.
+            for (_dt, w, d, disc, txt, t_ini, n_t, _ds) in provas:
+                if SIM_COD.match(disc) or t_ini is None or n_t is None:
+                    continue
+                cabeca = txt.split("\n")[0]
+                if " - " not in cabeca:
+                    continue
+                prof_txt = cabeca.split(" - ", 1)[1].strip()
+                chave = [k for k, v in G.NOME.items() if v == disc]
+                if not chave:
+                    continue
+                if not G.professor_presente_no_bloco(
+                        turma, chave[0], prof_txt, d, t_ini, n_t):
+                    problemas.append(
+                        f"{pre}: semana {w} {disc}/{prof_txt} -- nenhum "
+                        f"professor citado tem aula própria (turma ou "
+                        f"turma irmã) nesse dia/bloco (tempos "
+                        f"{t_ini}-{t_ini + n_t - 1})")
+
             # 1. max 3 avaliacoes por semana (simulado de 2 dias conta 1x)
             por_sem = collections.defaultdict(set)
             for (dt, w, d, disc, _tx, _ti, _nt, _ds) in provas:

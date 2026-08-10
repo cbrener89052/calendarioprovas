@@ -90,6 +90,44 @@ Nunca comece a montar o calendário sem antes:
 
 ## Regras de distribuição das provas
 
+- **Presença do professor na aplicação (PRIORIDADE 1 — nunca relaxa)**:
+  todo professor tem que estar **presente** na aplicação da própria prova
+  — ou seja, ter aula normal (da família da disciplina) com aquela turma
+  **ou** com a turma irmã, em **pelo menos 1 dos tempos** do bloco de
+  aplicação, naquele dia da semana. Não precisa dos 2 tempos: se só 1 é
+  próprio, o outro pode ser cedido normalmente por outra disciplina — o
+  que importa é que o professor esteja por perto para acompanhar a prova.
+  Quando a prova cita **mais de um professor** (disciplina com professor
+  comum entre turmas irmãs em grupo paralelo, ex.: GL, DaF), **basta 1
+  dos professores citados** satisfazer a regra — não é preciso que todos
+  estejam presentes. Esta é a restrição de **maior prioridade** de todas
+  (inclusive acima do intervalo do recreio, do grupo 1 e dos limites de
+  cessão): nunca aceitar um bloco onde nenhum dos professores citados
+  tenha tempo próprio ali, mesmo que isso force outra regra a relaxar
+  primeiro. Pedido do usuário, 08/2026, depois de uma revisão manual ter
+  encontrado provas de GL, Física e Redação aplicadas em blocos sem
+  nenhum professor citado presente (efeito colateral de edições manuais
+  na Proposta 3, não do gerador — ver correção abaixo).
+  **Implementado**: `professor_presente_no_bloco(turma, disc, prof_txt,
+  d, t_ini, n)` em `gerar_calendario.py` é a checagem central (usa
+  `familia_de` para a família da disciplina — trio inteiro no caso de
+  LP/LIT/RED — e `IRMA` para olhar a turma e a turma irmã juntas,
+  dividindo o texto de professores por `/` ou `-`). No caminho de
+  resolução por professor comum entre turmas irmãs (`_tentar_par`), essa
+  checagem substitui, na montagem dos blocos candidatos (`BLOCOS`), o
+  filtro antigo que só olhava se **alguma** das duas turmas tinha algum
+  tempo próprio no bloco (implícito, correto só enquanto vale a premissa
+  de 1 professor por disciplina por turma nesse caminho) — agora é uma
+  checagem explícita, por professor citado, robusta mesmo se essa
+  premissa mudar. No caminho de resolução individual por turma
+  (`_tentar`/`slots_da_disciplina`), a regra já é garantida por
+  construção: o tempo-âncora do candidato é sempre um tempo próprio da
+  disciplina (ou, no caso do LP/LIT/RED, exige `proprios >= 1` no trio),
+  então nenhuma mudança foi necessária ali. `verificar_calendario.py`
+  roda essa mesma checagem (item "0." do checklist, antes de qualquer
+  outro) contra a planilha final, turma por turma — falha do checklist
+  (PROBLEMA), não aviso, se algum professor citado não estiver presente.
+
 - **Disciplina com professor comum entre turmas irmãs**: antes de alocar,
   confira nas siglas **e nas posições (dia/tempo)** do horário-base se a
   mesma pessoa leciona aquela disciplina nas duas turmas, e distinga dois
@@ -654,6 +692,9 @@ gravados (sem confiar na memória do gerador) e cheque cada item abaixo.
 Erros silenciosos são o risco principal aqui: prova descartada por célula
 ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 
+- [ ] **PRIORIDADE 1**: em toda prova, pelo menos 1 dos professores citados
+      tem aula própria (turma ou turma irmã) em algum tempo do bloco de
+      aplicação — checagem via `G.professor_presente_no_bloco(...)`
 - [ ] Nenhuma turma ultrapassa 3 avaliações na mesma semana (simulado de 2
       dias conta 1)
 - [ ] Nenhum dia com mais de uma prova
