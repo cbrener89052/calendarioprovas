@@ -298,16 +298,19 @@ ordem, sempre **avisando o usuário** do que foi relaxado:
    por vez.
 
 Os tetos (regras 1, 2 e 5) são limites duros que a escola deu em
-**número** — relaxá-los primeiro é a troca errada: uma folga vale para
-as 8 turmas de uma vez e pode estourar dezenas de tetos só para salvar
-a regra 4 em uma única turma. Relaxar a regra 4 (ou a 3) primeiro, e
-**por turma** — só nas turmas que não fecham, nunca nas 8 de uma vez —
-custa muito menos: normalmente resolve 1 ou 2 turmas sem tocar nas
-outras 6 ou 7, que continuam cumprindo tudo. As datas exigidas pela
-coordenação **nunca** são relaxadas, em nenhuma etapa. Nunca entregar
-em silêncio uma proposta que violou os limites: o script de verificação
-deve separar **falhas** (regras que valiam) de **avisos** (regras que
-foram explicitamente relaxadas, e em quais turmas).
+**número** — relaxá-los primeiro é a troca errada: regra 4 (ou 3) custa
+menos porque normalmente resolve a turma sem exigir mais cessões dela.
+Por isso a ordem acima. Mas quando mesmo assim não fecha, o passo 3
+(subir o teto) também é **por turma** — só na(s) turma(s) que não
+fecharam, nunca nas 8 de uma vez: subir o teto de uma turma nunca deve
+estourar o teto de outra que já fechava com as regras integrais. As
+datas exigidas pela coordenação **nunca** são relaxadas, em nenhuma
+etapa. Nunca entregar em silêncio uma proposta que violou os limites: o
+script de verificação deve separar **falhas** (regras que valiam) de
+**avisos** (regras que foram explicitamente relaxadas, e em quais
+turmas) — isso vale também para os tetos (regras 1 e 5): se uma turma
+teve o teto elevado, a violação do teto original nela é aviso, não
+falha; nas demais turmas, sem essa exceção, continua sendo falha.
 
 **No solver de provas coordenadas entre turmas irmãs, evite tomar tempo
 de disciplinas cuja prova ainda será alocada depois** (ex.: o Inglês das

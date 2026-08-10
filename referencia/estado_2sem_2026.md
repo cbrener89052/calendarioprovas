@@ -83,13 +83,35 @@ sem eles, para comparação). Ver a mecânica na skill:
 4. Não ceder na semana da própria prova nem na anterior.
 5. Teto de 11% das aulas programadas no semestre (alvo 10%).
 
-**Resultado desta rodada**: fechou com **as cinco regras integrais, sem
+**Resultado original desta rodada** (antes da regra de LP/LIT/RED ≥10 dias
+do conselho, ver abaixo): fechou com **as cinco regras integrais, sem
 nenhuma exceção**. Pior caso de cessão: 10,7% (contra 23,1% na Proposta 1).
+
+**Atualização (08/2026, regra do LP/LIT/RED ≥10 dias do conselho)**: essa
+nova exigência de data (ver skill) apertou demais a 10C1 especificamente —
+sem nenhum limite de cessão ela fecha na hora, mas com os cinco limites
+estritos não fecha de jeito nenhum, mesmo relaxando a regra 4 sozinha.
+A **10C1 passou a precisar de um afrouxamento localizado**: regra 4 e
+regra 3 relaxadas nela, mais o teto de cessão elevado em +1 (só nela —
+as outras sete turmas continuam cumprindo as cinco regras integrais).
+Pior caso de cessão na 10C1 com o afrouxamento: 14,3% (GL) — acima do
+teto de 11% pedido pela escola, mas é o preço da nova exigência de data
+combinada com os limites de cessão; sem a folga localizada a 10C1 não
+fecha. `verificar_calendario.py` já trata isso como aviso esperado, não
+como falha do checklist (mesmo tratamento que já dava à regra 4).
 
 A semente da busca importa: com restrições tão apertadas, ela decide se há
 ou não solução dentro do orçamento de nós. A semente 20261107 deixava a
-11C1 sem solução (obrigando a relaxar a regra 4 nela); a **semente 7**
-fecha as oito turmas. Está fixada em `SEED_PROPOSTA_3`.
+11C1 sem solução (obrigando a relaxar a regra 4 nela). A semente 7 (usada
+até esta atualização) fechava as oito turmas integralmente sob as regras
+antigas, mas com a nova regra do LP/LIT/RED ela não fecha a 10C1 nem com
+tudo relaxado — a **semente 3** fecha, com o afrouxamento localizado
+descrito acima. Está fixada em `SEED_PROPOSTA_3`.
+
+O afrouxamento do teto de cessão passou a ser **por turma**
+(`folga_extra` em `montar_proposta`/`main()`), não mais global: antes,
+subir o teto para fechar uma turma difícil estourava a folga de todas as
+outras também, mesmo as que já fechavam com as regras integrais.
 
 ## Datas de simulados/AG (fixas, contam como avaliação, não podem ser movidas)
 
