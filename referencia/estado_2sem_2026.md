@@ -245,12 +245,13 @@ Inglês").
    relevante para a 10C é o conselho final (17/11, marcação "CC 10,12"),
    não o do meio do semestre (semana 11); a regra de 10 dias antes do
    conselho, portanto, não bloqueia a semana 13 nessa turma (07/11, data
-   limite pelos 10 dias, é bem depois do fim da semana 13). **Efeito
-   colateral aceito**: `verificar_calendario.py` ainda acusa "depois do
-   limite de 9 semanas" porque o código (`LIMITE_LPLITRED_CONSELHO`) só
-   conhece o conselho do meio do semestre — é falso positivo, não uma
-   falha real; corrigir isso no gerador para ele reconhecer o conselho
-   certo por grupo de turma é uma melhoria pendente (ver skill).
+   limite pelos 10 dias, é bem depois do fim da semana 13). **Corrigido
+   no código** (mesmo dia): `LIMITE_LPLITRED_CONSELHO` deixou de ser um
+   número único e virou um limite por grupo de turma, calculado a partir
+   da marcação "CC <séries>" do modelo — usa o maior entre o limite do
+   conselho do meio do semestre e o do conselho final do grupo. Resultado
+   nesta rodada: `10_12` → semana 14; `9_11` → semana 17.
+   `verificar_calendario.py` não acusa mais nada para a semana 13.
 10. **9C1/9C2**: Biologia, Química e Física (1 única ocorrência cada,
     já que são de prova única nessas turmas) movidas para as semanas
     12-14 — Biologia p/ semana 13 (segunda), Química p/ semana 13
@@ -266,9 +267,9 @@ Inglês").
     único tempo" acima).
 
 Todos os efeitos colaterais de grupo 1 e distância mínima dessa rodada
-foram corrigidos nos próprios itens acima — `verificar_calendario.py`
-só acusa os 2 falsos positivos do item 9 (LP/LIT/RED da 10C1/10C2
-contra o conselho errado), nada além disso.
+foram corrigidos nos próprios itens acima, e o item 9 deixou de ser um
+falso positivo depois da correção no código — `verificar_calendario.py`
+fecha sem nenhum PROBLEMA nesta versão da Proposta 3.
 
 ## Limite de data da série 9/11 estendido (08/2026)
 

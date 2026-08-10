@@ -166,12 +166,15 @@ Nunca comece a montar o calendário sem antes:
   vale para essas turmas, não contra o do meio do semestre (confirmado
   pelo usuário, 08/2026, para a 10C: conselho em 17/11 → LP/LIT/RED pode
   cair até 07/11 nessa turma, mesmo depois da semana vetada do meio do
-  semestre). **Ainda não implementado assim no gerador** — o código hoje
-  (`LIMITE_LPLITRED_CONSELHO`) só conhece o conselho do meio do
-  semestre, então pode acusar falso positivo para 10C/12C; checar contra
-  o conselho certo por turma é uma melhoria pendente. Normalmente só a
-  ocorrência mais próxima do conselho relevante chega perto o suficiente
-  para a checagem importar. Se esta regra entrar em conflito com a da
+  semestre). **Implementado**: `LIMITE_LPLITRED_CONSELHO` (em
+  `gerar_calendario.py`) é calculado **por grupo de turma**, a partir da
+  marcação `"CC <séries>"` do modelo, e usa o **maior** entre o limite do
+  conselho do meio do semestre e o do conselho final daquele grupo — se
+  a prova já passou do conselho do meio do semestre, o que importa é não
+  passar do final. `verificar_calendario.py` faz a mesma conta (chama
+  `carregar_ocupadas()` antes de checar). Normalmente só a ocorrência
+  mais próxima do conselho relevante chega perto o suficiente para a
+  checagem importar. Se esta regra entrar em conflito com a da
   "1ª ou 2ª semana da rodada" acima, as duas precisam ser checadas
   juntas — avisar o usuário se não houver combinação de semana que
   atenda as duas ao mesmo tempo.
