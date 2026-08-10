@@ -167,6 +167,22 @@ Nunca comece a montar o calendário sem antes:
   perto do conselho), as duas precisam ser checadas juntas — avisar o
   usuário se não houver combinação de semana que atenda as duas ao mesmo
   tempo.
+- **Véspera de 2ª chamada (turmas 9C)**: nenhuma prova no dia anterior à
+  data de 2ª chamada marcada no modelo (`"2CH <séries>"`) para a série 9.
+  Pedido do usuário (08/2026), só para as turmas 9C1/9C2 — não se estende
+  às demais turmas da mesma série (9/11), mesmo que compartilhem a data
+  de 2ª chamada. **É a primeira regra a relaxar** se o horário não
+  fechar (antes da regra 4, regra 3 e do teto de cessões da Proposta 3)
+  — ainda não implementada no gerador, só documentada aqui; ver
+  `referencia/estado_2sem_2026.md` para a data concreta desta rodada.
+- **12C — distância mínima do conselho de classe final**: as provas das
+  turmas 12C1/12C2 precisam cair com pelo menos 6 dias de antecedência
+  do último conselho de classe da série (marcação `"CC 10,12"` no
+  modelo — não confundir com a semana vetada de conselho de classe do
+  meio do semestre, que vale para todas as séries). Motivado por provas
+  caindo na véspera da 2ª chamada dessas turmas. Pode ser relaxada se o
+  horário não fechar de outra forma — ainda não implementada no
+  gerador, só documentada aqui.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -177,17 +193,29 @@ Nunca comece a montar o calendário sem antes:
   provas ficaram à tarde e por quê.
 - **Disciplinas com 1 prova no semestre** (1 tempo semanal na grade, ou
   exceção de série confirmada): alocar em apenas um dos períodos.
-- **Distância mínima de 4 semanas entre as 2 provas da mesma disciplina/
-  professor** no semestre (quando a turma tem 1 prova por período — a
-  maioria das disciplinas). Não se aplica às disciplinas de prova única
-  (Fil/Soc e as exceções de série), que só têm 1 ocorrência. Checar pela
-  **diferença entre os números das semanas** (não pela data corrida) —
-  ex.: prova de P1 na semana 6 e prova de P2 na semana 9 tem distância 3,
-  viola a regra; semana 6 e semana 10 tem distância 4, ok. Vale tanto
-  para as provas resolvidas por turma quanto para as coordenadas entre
-  turmas irmãs (mesmo professor, tempos diferentes) — nesse segundo caso
-  a distância é conferida **por turma**, comparando as duas ocorrências
-  daquela disciplina especificamente naquela turma.
+- **Distância entre as 2 provas da mesma disciplina/professor** no
+  semestre (quando a turma tem 1 prova por período — a maioria das
+  disciplinas): **idealmente 7 semanas**; se não for possível, ficar o
+  **mais distante possível dentro do que fechar**, mas **nunca menos que
+  4 semanas** — esse piso de 4 é rígido, não relaxa (pedido do usuário,
+  08/2026; antes disso o alvo único era 4). Não se aplica às disciplinas
+  de prova única (Fil/Soc e as exceções de série), que só têm 1
+  ocorrência. Checar pela **diferença entre os números das semanas**
+  (não pela data corrida) — ex.: semana 6 e semana 9 tem distância 3,
+  viola o piso de 4; semana 6 e semana 10 tem distância 4, cumpre o piso
+  mas não o ideal; semana 6 e semana 13 tem distância 7, ideal. Vale
+  tanto para as provas resolvidas por turma quanto para as coordenadas
+  entre turmas irmãs (mesmo professor, tempos diferentes) — nesse
+  segundo caso a distância é conferida **por turma**, comparando as duas
+  ocorrências daquela disciplina especificamente naquela turma.
+- **Semana 17 das turmas 9C/11C precisa ter pelo menos 1 prova até
+  quarta-feira** (pedido do usuário, 08/2026). Motivo: as aulas normais
+  da série 9/11 seguem até 27/11 (sexta da semana 17, mesma data da 2ª
+  chamada "2CH 9,11"), então a semana 17 é letiva e não deve ficar sem
+  nenhuma prova só porque é a última do semestre. **Já implementada**:
+  o limite de data para provas da série 9/11 (`LIMITE_DIA`/`LIMITE`) foi
+  estendido até quinta da semana 17 (26/11) para comportar isso — ver
+  `referencia/estado_2sem_2026.md`.
 - **Simulados/AG**: entram nas datas informadas, são fixos, não podem ser
   movidos para encaixar outras provas.
 - **Tempo de aplicação**: preferencialmente no(s) tempo(s) da própria
@@ -622,13 +650,19 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
       prova foi descartada silenciosamente na escrita
 - [ ] Nas disciplinas com 2 provas no semestre, a distância entre as
-      semanas das duas é de **pelo menos 4**
+      semanas das duas é, idealmente, de **7**, e nunca menos que **4**
+      (piso rígido)
+- [ ] Turmas 9C1/9C2 e 11C1/11C2 têm pelo menos 1 prova até quarta-feira
+      da semana 17
 - [ ] Provas combinadas (LP/LIT/RED) usam o número certo de tempos e não
       aparecem como disciplinas separadas
 - [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada
       rodada (P1 e P2), nas duas turmas irmãs
 - [ ] Todas as ocorrências de LP/LIT/RED estão pelo menos **10 dias
       corridos** antes do início da semana vetada de conselho de classe
+- [ ] Turmas 9C1/9C2: nenhuma prova no dia anterior à 2ª chamada da série
+- [ ] Turmas 12C1/12C2: todas as provas estão pelo menos **6 dias**
+      antes do último conselho de classe da série (marcação "CC 10,12")
 - [ ] Disciplinas de prova única usam apenas 1 tempo
 - [ ] Nenhuma prova para disciplinas sem avaliação
 - [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
