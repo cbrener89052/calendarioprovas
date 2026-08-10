@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-10T02:15:00Z",
+  "legacyPlatform": "cli-python",
+  "targetPlatform": "web-spa-react",
+  "mode": "modernizado",
+  "screens": [
+    {"id": "SCR-01", "name": "Login", "route": "/login", "source": "greenfield"},
+    {"id": "SCR-02", "name": "Dashboard", "route": "/dashboard", "source": "greenfield"},
+    {"id": "SCR-03", "name": "GRUPOS", "route": "/grupos", "source": "greenfield"},
+    {"id": "SCR-04", "name": "Upload entradas", "route": "/semestres/:id/entradas", "source": "greenfield"},
+    {"id": "SCR-05", "name": "Toggles regras", "route": "/semestres/:id/regras", "source": "greenfield"},
+    {"id": "SCR-06", "name": "Customizações IA", "route": "/customizacoes-ia", "source": "greenfield"},
+    {"id": "SCR-07", "name": "Gerar calendário", "route": "/semestres/:id/gerar", "source": "greenfield"},
+    {"id": "SCR-08", "name": "Verificação + Downloads", "route": "/calendarios/:id", "source": "greenfield"},
+    {"id": "SCR-09", "name": "Admin catálogo", "route": "/admin/regras", "source": "greenfield"}
+  ]
+}

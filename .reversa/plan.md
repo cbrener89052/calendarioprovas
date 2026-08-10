@@ -78,11 +78,21 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ---
 
+## Fase 6: Migração 🚀
+
+- [x] **Paradigm Advisor** — `paradigm_decision.md` (híbrido pragmático)
+- [x] **Curator** — `target_business_rules.md`, `discard_log.md`
+- [x] **Strategist** — Strangler Fig + Parallel Run; riscos e cutover
+- [x] **Designer** — topologia moderna + arquitetura/dados alvo
+- [x] **Screen Translator** — 9 telas MVP (modo modernizado)
+- [x] **Inspector** — `parity_specs.md` + 5 cenários Gherkin
+- [x] **Handoff** — `_reversa_sdd/migration/handoff.md`
+
 ## Próximo passo
 
-**Time de Descoberta concluído** — 4/4 perguntas respondidas. PR #14 Must deploy; Claude agendado.
+**Time de Migração concluído** (2026-08-10, modo `--auto`).
 
 Fluxos disponíveis:
 
-- `/reversa-migrate`: orquestrador do **Time de Migração** (Paradigm Advisor → Curator → Strategist → Designer → Screen Translator → Inspector). Gera as specs do sistema novo. Saída em `_reversa_sdd/migration/` e `_reversa_sdd/screens/`.
-- `/reversa-reconstructor`: gera plano bottom-up para reimplementar o software a partir das specs do legado (uma tarefa por sessão).
+- `/reversa-reconstructor`: implementar sistema novo — fonte **migração** (`_reversa_sdd/reconstruction-plan.md`, 14 tarefas).
+- Revisar itens auto-decididos em `_reversa_sdd/migration/ambiguity_log.md` antes do cutover.

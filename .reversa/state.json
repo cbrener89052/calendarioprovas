@@ -8,8 +8,8 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "revisao",
-  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao"],
+  "phase": "migracao",
+  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao", "migracao"],
   "pending": [],
   "checkpoints": {
     "scout": {
@@ -88,6 +88,18 @@
         "_reversa_sdd/confidence-report.md",
         "_reversa_sdd/questions.md",
         "_reversa_sdd/gaps.md"
+      ]
+    },
+    "migrate": {
+      "completed_at": "2026-08-10T02:25:00Z",
+      "mode": "auto",
+      "agents": 6,
+      "artifacts_count": 22,
+      "strategy": "strangler_parallel_run",
+      "files": [
+        "_reversa_sdd/migration/handoff.md",
+        "_reversa_sdd/migration/.state.json",
+        "_reversa_sdd/reconstruction-plan.md"
       ]
     }
   },

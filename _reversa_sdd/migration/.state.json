@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "startedAt": "2026-08-10T01:55:00Z",
+  "completedAt": "2026-08-10T02:25:00Z",
+  "lastCheckpoint": "2026-08-10T02:25:00Z",
+  "completedAgents": [
+    "paradigm_advisor",
+    "curator",
+    "strategist",
+    "designer",
+    "screen_translator",
+    "inspector"
+  ],
+  "pendingAgents": [],
+  "currentAgent": {
+    "agent": null,
+    "phase": null,
+    "status": "complete",
+    "topologyApproved": true,
+    "screenModeApproved": true
+  },
+  "pendingDecisions": [],
+  "artifacts": {
+    "migration_brief.md": "3f06e3d960a3ee6c879468fe1c7b363c0436162251f6e90ed8074f3b0202f7d5",
+    "paradigm_decision.md": "e00c2827b598a90ab5f69075b6b92d4b56ca89b2117b89fd271243516dd6eb5b",
+    "target_business_rules.md": "b809ef38456b7ec1b6d1e02c19a24051f6ae86cf447d22d85e5ecdb2ed616370",
+    "discard_log.md": "ba7c7cc1faf4e5f9c20bd663b5ec5f5611363d8880c3f01b59979c8d00a1503e",
+    "migration_strategy.md": "85fd677719e3b7055fe6f6011a299479a85fa398b7135547f8f3621b3b47a3c1",
+    "risk_register.md": "9f9273e786fc6e75222781c4348eccb365e08083ef3b8f60fde27cac9183c6df",
+    "cutover_plan.md": "2e0c1cd276ad6910444ba886d657b831e7277a8e8c1be3c80c490610342040a8",
+    "topology_decision.md": "bdfa04b9391965807d03b2f78422d9778550abeb8ecd7fdaba4e871ff5c3023e",
+    "target_architecture.md": "72379cba23f2a84aaacd11f63eff1c23b8e0de2979b602c781ceceb0af7d2450",
+    "target_domain_model.md": "8ef796c1258ccb46943bf07a11337afb4778c2fd3b944034bce534ee2b3ee833",
+    "target_data_model.md": "c107f0ed0ccbee1c3d36605162dc2da84cd5397429611eacf67fd2f509bc6923",
+    "data_migration_plan.md": "8db4233fa186d982bac433d5c608112368b8851d3bf4cc6c5301cab36eafcc7d",
+    "screen_modernization_decision.md": "f14954e8679004a3e118d6c59e54d49fcdb6e756460689244e041ce8828049c2",
+    "target_screens.md": "44edf0e1f3089beb949025e02d195098f68622c70eb227f25fd84f60562a42c8",
+    "screen_deviation_log.md": "183cd97e9ace1bdc99e0152959b92d70a7026bcae03beab3452e5bb0adac8fce",
+    "parity_specs.md": "5dc23355bd346b16c952791d05e639bdd75a300cb14b90a3dc96bc60f4c57135",
+    "handoff.md": "6e3ff24951a32278ac8ca7cbe2d7904cf019cfee7f1c16234d016eb63c1204c9",
+    "ambiguity_log.md": "c7e7d22c3fe41e79c04d18e608aeae992a5bb03dc1b14308979f742e27abc5aa"
+  },
+  "auto": true,
+  "engine": "cursor-cloud",
+  "reversaVersion": "1.2.58",
+  "briefPath": "_reversa_sdd/migration/migration_brief.md",
+  "expectedLegacyArtifacts": "references/expected_legacy_artifacts.yaml"
+}

@@ -98,4 +98,4 @@ Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizaç�
 
 - 🟡 Refactor constantes hardcoded — blocker para multi-segmento
 - 🟡 Escolha Context vs Redux — decidir na implementação T-13
-- 🔴 PR #14 no código — Must deploy; Claude agendado (implementação em andamento)
+- 🟡 Context vs Redux (decisão implementação)
