@@ -1,0 +1,80 @@
+{
+  "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
+  "updated_at": "2026-08-10T22:30:00Z",
+  "last_sync_requested_at": "2026-08-10T22:30:00Z",
+  "last_sync_completed_at": "2026-08-10T22:30:00Z",
+  "last_sync_pr": 23,
+  "last_sync_note": "PR #23: LP/LIT/RED por grupo CC; escada 7→4; 9C sem 12–14; Mat/Fis 10C",
+  "canonical": [
+    {
+      "id": "skill-calendario-provas",
+      "path": ".claude/skills/calendario-provas/SKILL.md",
+      "role": "Regras de negócio (fonte humana principal)",
+      "priority": 1,
+      "features": [
+        "geracao-calendario",
+        "verificacao-calendario",
+        "regras-negocio",
+        "exportacao-relatorios"
+      ],
+      "content_hash_sha256": "23e9b720effd6a255b01d4b7f25d7ba070eb44ceb53de07ed355af5250ce80a0",
+      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
+      "sync_note": "PR #23: escada distância; 9C sem 12–14; CC 10,12 reconciliado"
+    },
+    {
+      "id": "gerador",
+      "path": "gerar_calendario.py",
+      "role": "Implementação do solver e constantes do semestre",
+      "priority": 2,
+      "features": ["geracao-calendario"],
+      "content_hash_sha256": "fd7a1de713b0a68b08b0fe92d52cb0112e94bbde06e1479768a6fc37086764ec",
+      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
+      "sync_note": "LIMITE_LPLITRED_CONSELHO dict por grupo; carregar_ocupadas CC"
+    },
+    {
+      "id": "verificador",
+      "path": "verificar_calendario.py",
+      "role": "Checklist automático espelhando a skill",
+      "priority": 2,
+      "features": ["verificacao-calendario"],
+      "content_hash_sha256": "6fddb051e63bacd92454f8208380abb359962e0d2b8b62189bd267c95f002910",
+      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
+      "sync_note": "Check LP/LIT/RED por grupo CC"
+    },
+    {
+      "id": "estado-semestre",
+      "path": "referencia/estado_2sem_2026.md",
+      "role": "Dados desta rodada (períodos, simulados, exceções)",
+      "priority": 2,
+      "content_hash_sha256": "34535dc833346d750a90dbb9dea5f07be62742f8df9f48c9c399540922b83683",
+      "synced_to_reversa_at": "2026-08-10T22:30:00Z",
+      "sync_note": "Proposta 3 pós PR #23 ajustes manuais"
+    },
+    {
+      "id": "requisitos-plataforma",
+      "path": ".reversa/context/user-requirements.md",
+      "role": "Evolução futura multi-coordenador",
+      "priority": 3,
+      "features": ["plataforma-multi-coordenador"]
+    }
+  ],
+  "derived_artifacts": [
+    {
+      "path": "referencia/Regras_Negocio_Calendario_Provas.pdf",
+      "generated_by": "python exportar_regras_pdf.py",
+      "source_id": "skill-calendario-provas",
+      "regenerated_at": "2026-08-10T01:50:00Z"
+    },
+    {
+      "path": "_reversa_sdd/addenda/sync-skill-2026-08-10-pr23.md",
+      "generated_by": "reversa sync",
+      "source_id": "skill-calendario-provas"
+    },
+    {
+      "path": "_reversa_sdd/code-analysis.md",
+      "generated_by": "reversa-archaeologist + sync",
+      "note": "Atualizar pós PR #23 — LIMITE_LPLITRED por grupo"
+    }
+  ],
+  "refresh_instructions": "Leia .reversa/context/sync-regras.md quando o usuário alterar regras pela skill ou pelo código."
+}

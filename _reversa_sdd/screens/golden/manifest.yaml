@@ -1,0 +1,28 @@
+# Golden files manifest — calendarioprovas
+# Captura manual: legado CLI sem UI; golden funcional = xlsx gerado
+
+schemaVersion: 1
+generatedAt: "2026-08-10T02:15:00Z"
+captureAutomated: false
+reason: "Legado CLI — golden files são xlsx/relatórios, não telas"
+
+commands:
+  - name: gerar_calendario_cli
+    description: Gera xlsx referência para Parallel Run
+    cmd: "python legacy/gerar_calendario.py --semestre 2026-2"
+    output: "legacy/output/calendario_2026-2.xlsx"
+  - name: verificar_calendario_cli
+    description: Verificador referência
+    cmd: "python legacy/verificar_calendario.py legacy/output/calendario_2026-2.xlsx"
+    output: "stdout JSON or exit 0"
+
+goldenFiles: []
+
+normalizationRules:
+  xlsx:
+    - ignore: ["metadata.created", "metadata.modified"]
+    - compare: cell_values_and_formulas
+
+notes:
+  - "Após implementação plataforma, adicionar golden xlsx em screens/golden/"
+  - "Inspector usa parity_tests para equivalência funcional"

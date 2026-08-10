@@ -14,6 +14,8 @@ simulados, siglas) e saídas (calendários, relatórios) **por coordenador**.
 
 Detalhes em `.reversa/context/user-requirements.md`.
 
+**Sincronização de regras (skill ↔ Reversa):** enquanto Brener atualiza a skill no Claude Code, seguir `.reversa/context/sync-regras.md`. Fontes vivas listadas em `.reversa/context/sources.json`.
+
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
 individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
@@ -27,41 +29,41 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Decisão de organização das specs 🗂️
 
-> Entre o Scout e o Arqueólogo, o Reversa pergunta como você quer organizar as specs (por módulo, caso de uso, endpoint, híbrida, por features ou customizada). A escolha fica persistida em `.reversa/config.toml` na seção `[specs]` e não será reperguntada em execuções futuras. Para reapresentar o menu, remova manualmente a seção.
+- [x] **Organização por features** — escolha 5, persistida em `.reversa/config.toml` (`layout = "feature-folder"`)
 
 ## Fase 2: Escavação 🏗️
 
 > O Reversa preenche esta seção com os módulos reais após o Scout concluir o reconhecimento.
 
-- [ ] **Arqueólogo** — Análise do módulo `geracao-calendario`
-- [ ] **Arqueólogo** — Análise do módulo `verificacao-calendario`
-- [ ] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
-- [ ] **Arqueólogo** — Análise do módulo `extracao-grade`
-- [ ] **Arqueólogo** — Análise do módulo `analise-historica`
-- [ ] **Arqueólogo** — Análise do módulo `regras-negocio`
-- [ ] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
+- [x] **Arqueólogo** — Análise do módulo `geracao-calendario`
+- [x] **Arqueólogo** — Análise do módulo `verificacao-calendario`
+- [x] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
+- [x] **Arqueólogo** — Análise do módulo `extracao-grade`
+- [x] **Arqueólogo** — Análise do módulo `analise-historica`
+- [x] **Arqueólogo** — Análise do módulo `regras-negocio`
+- [x] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
 
 ## Fase 3: Interpretação 🧠
 
-- [ ] **Detetive** — Arqueologia Git e ADRs retroativos
-- [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado
-- [ ] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
-- [ ] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
-- [ ] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
-- [ ] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
+- [x] **Detetive** — Arqueologia Git e ADRs retroativos
+- [x] **Detetive** — Regras de negócio implícitas e máquinas de estado
+- [x] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
+- [x] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
+- [x] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
+- [x] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
 
 ## Fase 4: Geração 📝
 
-- [ ] **Redator** — Specs SDD por componente
-- [ ] **Redator** — OpenAPI (se aplicável)
-- [ ] **Redator** — User Stories (se aplicável)
-- [ ] **Redator** — Code/Spec Matrix
+- [x] **Redator** — Specs SDD por componente (7 features × requirements/design/tasks)
+- [x] **Redator** — OpenAPI (`_reversa_sdd/openapi/calendarioprovas.yaml`)
+- [x] **Redator** — User Stories (`_reversa_sdd/user-stories/fluxo-calendario-semestre.md`)
+- [x] **Redator** — Code/Spec Matrix (`_reversa_sdd/traceability/code-spec-matrix.md`)
 
 ## Fase 5: Revisão ✅
 
-- [ ] **Revisor** — Revisão cruzada de specs
-- [ ] **Revisor** — Resolução de lacunas com o usuário
-- [ ] **Revisor** — Relatório de confiança final
+- [x] **Revisor** — Revisão cruzada de specs (7 features, 0 contradições críticas)
+- [x] **Revisor** — Lacunas documentadas (`questions.md` — 4 perguntas para Brener)
+- [x] **Revisor** — Relatório de confiança final (`confidence-report.md` — 77,5%)
 
 ---
 
@@ -76,9 +78,21 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ---
 
+## Fase 6: Migração 🚀
+
+- [x] **Paradigm Advisor** — `paradigm_decision.md` (híbrido pragmático)
+- [x] **Curator** — `target_business_rules.md`, `discard_log.md`
+- [x] **Strategist** — Strangler Fig + Parallel Run; riscos e cutover
+- [x] **Designer** — topologia moderna + arquitetura/dados alvo
+- [x] **Screen Translator** — 9 telas MVP (modo modernizado)
+- [x] **Inspector** — `parity_specs.md` + 5 cenários Gherkin
+- [x] **Handoff** — `_reversa_sdd/migration/handoff.md`
+
 ## Próximo passo
 
-Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
+**Time de Migração concluído** (2026-08-10, modo `--auto`).
 
-- `/reversa-migrate`: orquestrador do **Time de Migração** (Paradigm Advisor → Curator → Strategist → Designer → Screen Translator → Inspector). Gera as specs do sistema novo. Saída em `_reversa_sdd/migration/` e `_reversa_sdd/screens/`.
-- `/reversa-reconstructor`: gera plano bottom-up para reimplementar o software a partir das specs do legado (uma tarefa por sessão).
+Fluxos disponíveis:
+
+- `/reversa-reconstructor`: implementar sistema novo — fonte **migração** (`_reversa_sdd/reconstruction-plan.md`, 14 tarefas).
+- Revisar itens auto-decididos em `_reversa_sdd/migration/ambiguity_log.md` antes do cutover.
