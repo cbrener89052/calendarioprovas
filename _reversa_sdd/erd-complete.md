@@ -133,6 +133,24 @@ erDiagram
         enum tipo
         string blob_path
     }
+    INGEST_SNAPSHOT {
+        uuid id PK
+        uuid semestre_id FK
+        uuid arquivo_entrada_id FK
+        enum status
+        enum source_format
+        string checksum
+        jsonb warnings
+    }
+    GRADE_CELULA {
+        uuid id PK
+        uuid ingest_snapshot_id FK
+        uuid turma_id FK
+        int dia
+        int tempo
+        string disciplina
+        string professor
+    }
     CALENDARIO_GERADO {
         uuid id PK
         uuid semestre_id FK
@@ -156,6 +174,8 @@ erDiagram
 | `arquivo_tipo` | grade, modelo, simulados, siglas, referencia |
 | `relatorio_tipo` | trocas, tabela_turma, tempos_cedidos |
 | `calendario_status` | pending, running, validating, completed, failed |
+| `ingest_snapshot_status` | draft, pending_review, approved, rejected |
+| `ingest_source_format` | pdf, xlsx, legacy_py |
 
 ---
 
@@ -178,6 +198,6 @@ erDiagram
 
 ## Lacunas 🔴
 
-- Normalização grade (por semestre vs snapshot imutável)
+- ~~Normalização grade (por semestre vs snapshot imutável)~~ → ADR-008 snapshot aprovado
 - Versionamento de propostas (histórico de reruns)
 - Audit trail de quem relaxou regra 4

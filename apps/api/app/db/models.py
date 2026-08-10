@@ -20,6 +20,8 @@ from app.db.base import Base
 from app.db.enums import (
     ArquivoTipo,
     CalendarioStatus,
+    IngestSnapshotStatus,
+    IngestSourceFormat,
     JobStatus,
     PapelCoordenador,
     RelatorioTipo,
@@ -104,6 +106,7 @@ class Turma(Base):
     codigo: Mapped[str] = mapped_column(String(16), unique=True, nullable=False)
 
     grupo: Mapped["Grupo"] = relationship(back_populates="turmas")
+    celulas_grade: Mapped[list["GradeCelula"]] = relationship(back_populates="turma")
 
 
 class Semestre(Base):
@@ -128,6 +131,7 @@ class Semestre(Base):
     calendarios: Mapped[list["CalendarioGerado"]] = relationship(back_populates="semestre")
     regras_config: Mapped[list["RegraConfig"]] = relationship(back_populates="semestre")
     customizacoes_ia: Mapped[list["CustomizacaoIA"]] = relationship(back_populates="semestre")
+    ingest_snapshots: Mapped[list["IngestSnapshot"]] = relationship(back_populates="semestre")
 
 
 class RegraCatalogo(Base):
@@ -212,6 +216,68 @@ class ArquivoEntrada(Base):
     uploaded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     semestre: Mapped["Semestre"] = relationship(back_populates="arquivos")
+    ingest_snapshots: Mapped[list["IngestSnapshot"]] = relationship(back_populates="arquivo_entrada")
+
+
+class IngestSnapshot(Base):
+    __tablename__ = "ingest_snapshot"
+    __table_args__ = (
+        Index("ix_ingest_snapshot_semestre_status", "semestre_id", "status"),
+        {"schema": "calendario"},
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    semestre_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("calendario.semestre.id"), nullable=False
+    )
+    arquivo_entrada_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("calendario.arquivo_entrada.id"), nullable=True
+    )
+    status: Mapped[IngestSnapshotStatus] = mapped_column(nullable=False, default=IngestSnapshotStatus.draft)
+    source_format: Mapped[IngestSourceFormat] = mapped_column(nullable=False)
+    extracted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    approved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    approved_by_id: Mapped[uuid.UUID | None] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("calendario.coordenador.id"), nullable=True
+    )
+    warnings: Mapped[list] = mapped_column(JSONB, nullable=False, default=list)
+    metadata_: Mapped[dict] = mapped_column("metadata", JSONB, nullable=False, default=dict)
+    checksum: Mapped[str] = mapped_column(String(64), nullable=False)
+
+    semestre: Mapped["Semestre"] = relationship(back_populates="ingest_snapshots")
+    arquivo_entrada: Mapped["ArquivoEntrada | None"] = relationship(back_populates="ingest_snapshots")
+    approved_by: Mapped["Coordenador | None"] = relationship()
+    celulas: Mapped[list["GradeCelula"]] = relationship(back_populates="ingest_snapshot")
+
+
+class GradeCelula(Base):
+    __tablename__ = "grade_celula"
+    __table_args__ = (
+        UniqueConstraint(
+            "ingest_snapshot_id",
+            "turma_id",
+            "dia",
+            "tempo",
+            name="uq_grade_celula_snapshot_turma_slot",
+        ),
+        Index("ix_grade_celula_snapshot_id", "ingest_snapshot_id"),
+        {"schema": "calendario"},
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    ingest_snapshot_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("calendario.ingest_snapshot.id"), nullable=False
+    )
+    turma_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("calendario.turma.id"), nullable=False
+    )
+    dia: Mapped[int] = mapped_column(Integer, nullable=False)
+    tempo: Mapped[int] = mapped_column(Integer, nullable=False)
+    disciplina: Mapped[str] = mapped_column(String(32), nullable=False)
+    professor: Mapped[str] = mapped_column(String(128), nullable=False)
+
+    ingest_snapshot: Mapped["IngestSnapshot"] = relationship(back_populates="celulas")
+    turma: Mapped["Turma"] = relationship()
 
 
 class Job(Base):

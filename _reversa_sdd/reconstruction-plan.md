@@ -3,7 +3,7 @@
 **Fonte:** migração  
 **Gerado:** 2026-08-10  
 **Projeto:** calendarioprovas  
-**Stack:** FastAPI + PostgreSQL + React Vite + packages/solver  
+**Stack:** FastAPI + PostgreSQL + React Vite + packages/solver + packages/ingest  
 **Estratégia:** Strangler Fig + Parallel Run  
 
 > Plano bottom-up derivado de `_reversa_sdd/migration/handoff.md`. Execute uma tarefa por sessão via `/reversa-reconstructor`.
@@ -12,7 +12,7 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 3 | 11 | 14 |
+| 6 | 11 | 17 |
 
 ---
 
@@ -38,79 +38,110 @@
 - **Lê:** `migration/data_migration_plan.md`, `regras-negocio/requirements.md`, `.claude/skills/calendario-provas/SKILL.md` (seções regras)
 - **Entrega:** `scripts/seed_catalogo_regras.py`
 - **Critério:** ≥30 regras em regra_catalogo
-- **Concluída:** 2026-08-10 — 37 regras seed (idempotente)
+- **Concluída:** 2026-08-10 — 38 regras seed (idempotente)
 
-## Tarefa 4 — Extrair packages/solver
+## Tarefa 3b — Schema ingestão (grade_celula + ingest_snapshot)
+
+- **Status:** done
+- **Lê:** `adrs/008-ingestao-snapshot-aprovado.md`, `erd-complete.md`
+- **Entrega:** Migration Alembic `a1b2c3d4e5f6`; models SQLAlchemy; enums status/formato
+- **Critério:** migrate up/down OK; FK semestre→snapshot→celula
+- **Concluída:** 2026-08-10 — ADR-008 + revision `a1b2c3d4e5f6`
+
+## Tarefa 3c — Pacote packages/ingest
+
+- **Status:** done
+- **Lê:** `extracao-grade/design.md`, `extrair_grade_2025.py`, ADR-008
+- **Entrega:** `packages/ingest` com models (`GradeSnapshot`), extract_pdf/xlsx (stub), normalize, validate
+- **Critério:** importável; contrato `to_grades_dict()` compatível com legado
+- **Concluída:** 2026-08-10 — esqueleto T3c
+
+## Tarefa 3d — CLI check-in revisor
+
+- **Status:** done
+- **Lê:** ADR-008, `extracao-grade/requirements.md` (RN-03 avisos)
+- **Entrega:** `python -m ingest.checkin` (--legacy-py, --snapshot, --approve)
+- **Critério:** bloqueia aprovação com avisos críticos; imprime relatório
+- **Concluída:** 2026-08-10 — CLI T3d
+
+## Tarefa 4 — API upload grade + persist snapshot
 
 - **Status:** pending
-- **Lê:** `migration/paradigm_decision.md`, `gerar_calendario.py`, `verificar_calendario.py`
-- **Entrega:** Refactor solver importável; constantes parametrizáveis via RuleContext stub
+- **Lê:** `extracao-grade/design.md`, `plataforma-multi-coordenador/contracts.md`
+- **Entrega:** POST upload → job extração → snapshot `pending_review`; GET preview avisos
+- **Critério:** upload PDF persiste ingest_snapshot + grade_celula
+
+## Tarefa 5 — Extrair packages/solver
+
+- **Status:** pending
+- **Lê:** `migration/paradigm_decision.md`, `gerar_calendario.py`, `verificar_calendario.py`, ADR-008
+- **Entrega:** Refactor solver importável; lê `GradeSnapshot` aprovado (nunca re-parse PDF)
 - **Critério:** pytest import solver; CLI legado ainda funciona em `legacy/`
 
-## Tarefa 5 — Worker pipeline
+## Tarefa 6 — Worker pipeline
 
 - **Status:** pending
 - **Lê:** `migration/target_domain_model.md`, `geracao-calendario/design.md`, `verificacao-calendario/design.md`
-- **Entrega:** Job consumer: carregar blobs → solver → verificador → persistir
+- **Entrega:** Job consumer: carregar snapshot aprovado → solver → verificador → persistir
 - **Critério:** job manual com entradas locais completa
 
-## Tarefa 6 — API auth + tenant
+## Tarefa 7 — API auth + tenant
 
 - **Status:** pending
 - **Lê:** `permissions.md`, `openapi/calendarioprovas.yaml`, `migration/target_architecture.md`
 - **Entrega:** JWT login, segmento/me, RLS ou filtro segmento_id
 - **Critério:** parity test 03 isolamento passa (manual)
 
-## Tarefa 7 — API CRUD GRUPOS + semestres
+## Tarefa 8 — API CRUD GRUPOS + semestres
 
 - **Status:** pending
 - **Lê:** `plataforma-multi-coordenador/design.md`, `migration/target_screens.md` SCR-03/04
 - **Entrega:** Endpoints CRUD + upload blob
 - **Critério:** upload grade + modelo OK
 
-## Tarefa 8 — API regras + RuleContext
+## Tarefa 9 — API regras + RuleContext
 
 - **Status:** pending
 - **Lê:** `regras-negocio/design.md`, `migration/target_business_rules.md` BR-MIGRAR-015
 - **Entrega:** toggles PATCH; RuleContextBuilder
 - **Critério:** parity test 04 toggles
 
-## Tarefa 9 — API jobs + calendários
+## Tarefa 10 — API jobs + calendários
 
 - **Status:** pending
 - **Lê:** `plataforma-multi-coordenador/contracts.md`, `migration/parity_tests/01-geracao-proposta3.feature`
 - **Entrega:** POST gerar, GET jobs, GET calendarios download
 - **Critério:** job async end-to-end
 
-## Tarefa 10 — Exportadores + relatórios
+## Tarefa 11 — Exportadores + relatórios
 
 - **Status:** pending
 - **Lê:** `exportacao-relatorios/requirements.md`, `migration/parity_tests/05-export-relatorios.feature`
 - **Entrega:** blobs trocas, cessoes, tabela
 - **Critério:** paridade com CLI exportadores
 
-## Tarefa 11 — Frontend scaffold + auth
+## Tarefa 12 — Frontend scaffold + auth
 
 - **Status:** pending
 - **Lê:** `migration/target_screens.md` SCR-01/02, `migration/screen_modernization_decision.md`
 - **Entrega:** Vite React TS Tailwind; login + dashboard
 - **Critério:** login JWT funcional
 
-## Tarefa 12 — Frontend GRUPOS + uploads + regras
+## Tarefa 13 — Frontend GRUPOS + uploads + regras + check-in grade
 
 - **Status:** pending
-- **Lê:** `migration/target_screens.md` SCR-03/04/05/06
-- **Entrega:** Telas CRUD + toggles + IA
-- **Critério:** fluxo config semestre completo UI
+- **Lê:** `migration/target_screens.md` SCR-03/04/05/06, ADR-008
+- **Entrega:** Telas CRUD + toggles + IA + revisor avisos OCR
+- **Critério:** fluxo config semestre + aprovar snapshot completo UI
 
-## Tarefa 13 — Frontend gerar + verificação
+## Tarefa 14 — Frontend gerar + verificação
 
 - **Status:** pending
 - **Lê:** `migration/target_screens.md` SCR-07/08, `user-stories/fluxo-calendario-semestre.md`
 - **Entrega:** Job polling, downloads, publish gate
 - **Critério:** E2E feliz path
 
-## Tarefa 14 — Parallel Run + testes paridade
+## Tarefa 15 — Parallel Run + testes paridade
 
 - **Status:** pending
 - **Lê:** `migration/cutover_plan.md`, `migration/parity_specs.md`, `migration/parity_tests/*.feature`
@@ -121,6 +152,7 @@
 
 ## Lacunas conhecidas (não bloqueiam T1)
 
-- AMB-C01 Context vs Redux — decidir em T11
-- AMB-C02 ARGB validation — T5/T10
-- AMB-C03 Audit log — T8 Should
+- AMB-C01 Context vs Redux — decidir em T12
+- AMB-C02 ARGB validation — T6/T11
+- AMB-C03 Audit log — T9 Should
+- extract_pdf/xlsx completos — migrar lógica legado em T4/T5

@@ -2,7 +2,7 @@
 
 ## Pré-requisitos
 
-- [ ] Grade-base disponível (dict ou tabela BD por turma)
+- [ ] **GradeSnapshot aprovado** por semestre (`ingest_snapshot.status = approved`) — ver ADR-008
 - [ ] Modelo xlsx do semestre com células de ocupação
 - [ ] openpyxl instalado (adicionar `requirements.txt`)
 - [ ] Catálogo de simulados, feriados e semanas vetadas (hoje constantes; futuro GRUPO)
@@ -10,7 +10,8 @@
 ## Tarefas
 
 - [ ] T-01 — Extrair constantes para módulo `config/` ou tabela BD
-  - Origem: `gerar_calendario.py` (FERIADOS, SIMULADOS, GRADES, etc.)
+  - Origem: `gerar_calendario.py` (FERIADOS, SIMULADOS, etc.)
+  - **GRADES:** migrar para leitura de `GradeSnapshot.to_grades_dict()` (não hardcode)
   - Critério de pronto: Gerador lê parâmetros de arquivo/BD sem alterar lógica
   - Confiança: 🟢
 
@@ -58,7 +59,7 @@
 
 ## Tarefas de Migração de Dados
 
-- [ ] TM-01 — Importar grades de `extrair_grade_*.py` para tabela `grade_celula`
+- [ ] TM-01 — Importar grades de `extrair_grade_*.py` → `ingest_snapshot` + `grade_celula` via check-in
 - [ ] TM-02 — Mapear “grupos de viagem” hardcoded → entidade GRUPO (ADR-006)
 
 ## Ordem Sugerida

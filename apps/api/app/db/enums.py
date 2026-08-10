@@ -31,3 +31,16 @@ class RelatorioTipo(str, enum.Enum):
     cessoes = "cessoes"
     tabela = "tabela"
     auxiliar_ia = "auxiliar_ia"
+
+
+class IngestSnapshotStatus(str, enum.Enum):
+    draft = "draft"
+    pending_review = "pending_review"
+    approved = "approved"
+    rejected = "rejected"
+
+
+class IngestSourceFormat(str, enum.Enum):
+    pdf = "pdf"
+    xlsx = "xlsx"
+    legacy_py = "legacy_py"

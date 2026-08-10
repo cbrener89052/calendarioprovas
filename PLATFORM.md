@@ -8,7 +8,8 @@ apps/
   worker/   Pipeline solver + verificador
   web/      React Vite + Tailwind
 packages/
-  solver/   Lógica Proposta 3 (T4)
+  solver/   Lógica Proposta 3 (T5)
+  ingest/   Extração grade + check-in (T3c–T3d, ADR-008)
 infra/
   docker-compose.yml
 legacy/     Referência CLI durante Strangler
