@@ -224,9 +224,52 @@ manualmente. Estado **final**, já com as correções de espaçamento da
 **Regra conscientemente quebrada** por causa do item 1 (usuário pediu
 para não se preocupar): duas disciplinas do grupo 1 na mesma semana em
 9C1/9C2 (semana 5: Port + Ing, aceitável pela exceção "uma delas é
-Inglês"). Todos os demais efeitos colaterais (grupo 1 repetido em
-10C1/10C2, distâncias abaixo do piso) foram corrigidos nos itens acima
-— `verificar_calendario.py` fecha sem nenhum PROBLEMA nesta versão.
+Inglês").
+
+### 3ª rodada de ajustes (mesmo dia, 08/2026)
+
+8. **10C1/10C2**: Matemática ↔ Física, troca completa — não deu pra
+   trocar só a 1ª ocorrência de cada (o pedido original): a semana 5 já
+   tinha LP/LIT/RED + Inglês (2 disciplinas do grupo 1, no limite da
+   exceção "uma delas é Inglês"), então colocar a Matemática lá criaria
+   3 disciplinas do grupo 1 na mesma semana, que a regra nunca permite
+   (mesmo com Inglês no meio). Resultado: **Física** vai para as semanas
+   7 e 12 (onde a Matemática estava); **Matemática** vai para as semanas
+   10 e 15 (a 15 é nova — a semana 12 sozinha ficava a só 3 semanas da
+   semana 15... na verdade a semana 12 ficou livre pra Física porque a
+   Matemática saiu de lá; a nova 2ª ocorrência da Matemática foi para a
+   semana 15 pra manter as 4 semanas mínimas da 1ª, que ficou na semana
+   10). Ambas as trocas mantêm o piso de 4 semanas (ambas com gap de 5).
+9. **10C1/10C2**: LP/LIT/RED, 2ª ocorrência, movida da semana 9 para a
+   **semana 13** — confirmado pelo usuário que o conselho de classe
+   relevante para a 10C é o conselho final (17/11, marcação "CC 10,12"),
+   não o do meio do semestre (semana 11); a regra de 10 dias antes do
+   conselho, portanto, não bloqueia a semana 13 nessa turma (07/11, data
+   limite pelos 10 dias, é bem depois do fim da semana 13). **Corrigido
+   no código** (mesmo dia): `LIMITE_LPLITRED_CONSELHO` deixou de ser um
+   número único e virou um limite por grupo de turma, calculado a partir
+   da marcação "CC <séries>" do modelo — usa o maior entre o limite do
+   conselho do meio do semestre e o do conselho final do grupo. Resultado
+   nesta rodada: `10_12` → semana 14; `9_11` → semana 17.
+   `verificar_calendario.py` não acusa mais nada para a semana 13.
+10. **9C1/9C2**: Biologia, Química e Física (1 única ocorrência cada,
+    já que são de prova única nessas turmas) movidas para as semanas
+    12-14 — Biologia p/ semana 13 (segunda), Química p/ semana 13
+    (sexta), Física p/ semana 14 (quinta).
+11. **9C1/9C2**: Redação, 2ª ocorrência, movida de 19/11 para 23/11
+    (semana 17, segunda) — repõe a prova que a semana 17 perdeu quando a
+    Física saiu de lá para o item 10 (mantém "semana 17 precisa de prova
+    até quarta"). Usa os tempos 3-4 dessa segunda-feira, não 1-2: o 2º
+    tempo de segunda é a única aula semanal de Física na grade da 9C2 e
+    não pode ceder (regra 2).
+12. **12C1/12C2**: Sociologia movida de 23/09 para 07/10 (pedido
+    específico do usuário, dentro do espírito do item "disciplina de 1
+    único tempo" acima).
+
+Todos os efeitos colaterais de grupo 1 e distância mínima dessa rodada
+foram corrigidos nos próprios itens acima, e o item 9 deixou de ser um
+falso positivo depois da correção no código — `verificar_calendario.py`
+fecha sem nenhum PROBLEMA nesta versão da Proposta 3.
 
 ## Limite de data da série 9/11 estendido (08/2026)
 
