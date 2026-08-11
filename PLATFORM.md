@@ -30,6 +30,9 @@ cd apps/api && ./scripts/migrate.sh upgrade head
 # Seed catálogo de regras (após migrate)
 python3 scripts/seed_catalogo_regras.py
 
+# Dev: semestre + turmas para testar upload/ingest (T4)
+cd apps/api && python3 scripts/seed_dev_semestre.py
+
 # API: http://localhost:8000/health
 # Web: http://localhost:8080
 ```

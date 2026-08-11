@@ -34,13 +34,16 @@ services:
 
   api:
     build:
-      context: ../apps/api
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: apps/api/Dockerfile
     ports:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://calendario:calendario@postgres:5432/calendario
       BLOB_ENDPOINT: http://minio:9000
+      BLOB_ROOT: /data/blobs
+    volumes:
+      - apiblobs:/data/blobs
     depends_on:
       postgres:
         condition: service_healthy
@@ -69,3 +72,4 @@ services:
 volumes:
   pgdata:
   miniodata:
+  apiblobs:

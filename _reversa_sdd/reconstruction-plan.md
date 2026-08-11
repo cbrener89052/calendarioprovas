@@ -12,7 +12,7 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 6 | 13 | 19 |
+| 7 | 12 | 19 |
 
 ---
 
@@ -66,10 +66,11 @@
 
 ## Tarefa 4 — API upload grade + persist snapshot
 
-- **Status:** pending
+- **Status:** done
 - **Lê:** `extracao-grade/design.md`, `plataforma-multi-coordenador/contracts.md`
-- **Entrega:** POST upload → job extração → snapshot `pending_review`; GET preview avisos
-- **Critério:** upload PDF persiste ingest_snapshot + grade_celula
+- **Entrega:** POST upload → ingest → snapshot `pending_review`; GET preview avisos; POST approve
+- **Critério:** upload `.py` persiste ingest_snapshot + grade_celula
+- **Concluída:** 2026-08-11 — `/api/v1/semestres/{id}/upload/grade`, `/ingest/grade`, `/ingest-snapshots/*`
 
 ## Tarefa 5 — Extrair packages/solver
 

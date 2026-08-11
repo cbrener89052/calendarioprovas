@@ -3,11 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from sqlalchemy import text
 
+from app.api.v1.router import api_router
 from app.db.session import engine
 
 app = FastAPI(
     title="calendarioprovas API",
-    version="0.1.0",
+    version="0.2.0",
     description="Plataforma multi-coordenador — calendário de provas",
 )
 
@@ -18,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(api_router)
 
 
 @app.get("/health")
@@ -34,4 +37,4 @@ def health() -> dict[str, str]:
 
 @app.get("/")
 def root() -> dict[str, str]:
-    return {"message": "calendarioprovas API — scaffold T1"}
+    return {"message": "calendarioprovas API — T4 upload + ingest grade"}
