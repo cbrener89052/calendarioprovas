@@ -617,6 +617,19 @@ escolher uma a uma — garante que fiquem sempre distintas entre si.
    precisou ser relaxada, a seção pode ser omitida ou dizer
    explicitamente "nenhuma regra de cessão precisou ser relaxada nesta
    rodada" — nunca ficar em silêncio sobre o que foi ou não relaxado.
+
+   **Como regenerar sem risco**: `main()` grava este relatório
+   (`Horario desenvolvido/Relatorio_trocas_de_tempo.md`) a partir das
+   alocações do backtracking em memória — rodá-lo de novo **sobrescreve
+   também o calendário** com uma solução nova do solver, descartando
+   qualquer edição manual já feita na Proposta 3. Depois de qualquer
+   edição manual (mover prova de tempo/dia), use em vez disso
+   `exportar_relatorio_trocas.py`, que relê a planilha final já gravada
+   (mesmo princípio dos itens 3 e 4 abaixo) e chama a mesma função
+   `gerar_calendario.relatorio()` — o relatório sai idêntico em formato,
+   mas sempre fiel ao que está de fato na planilha, sem tocar no
+   calendário. Rodar esse script depois de toda rodada de edição manual
+   (mesmo hábito de rodar `verificar_calendario.py`).
 3. **Tabela-resumo por turma** (uma aba por turma, em arquivo separado),
    em formato de lista ordenada por data — é a visão que a coordenação usa
    para conferir e divulgar. Colunas:
