@@ -698,6 +698,32 @@ escolher uma a uma — garante que fiquem sempre distintas entre si.
      disciplina (ver o caso de referência da Profa. Luiza/Biologia, que deu
      origem à regra de alternância de doador, abaixo).
 
+## Depois de QUALQUER edição manual na Proposta 3 — sempre rodar os 4 scripts
+
+Toda vez que uma célula da Proposta 3 for editada manualmente (mover prova
+de dia/tempo, trocar disciplina, etc.), os 4 scripts abaixo **têm que ser
+rodados de novo, nesta ordem**, antes de considerar o trabalho pronto —
+nenhum deles é opcional nem "só se der tempo". Nenhum deles roda `main()`
+nem toca no calendário: todos releem a planilha final já gravada (mesmo
+princípio em todos — não confiar na memória do gerador).
+
+1. `python3 verificar_calendario.py` — checklist de PROBLEMA/AVISO (só
+   imprime no terminal, não grava arquivo). Zero PROBLEMA é obrigatório
+   antes de entregar.
+2. `python3 exportar_tempos_cedidos.py` — grava
+   `Relatorio_Tempos_Cedidos_Proposta_3.xlsx` (percentual de cessão por
+   disciplina/professor/turma — ver item 4 de "Entregáveis finais").
+3. `python3 exportar_tabelas_turma.py` — grava
+   `Tabela_Provas_por_Turma_Proposta_3.xlsx` (ver item 3 de "Entregáveis
+   finais").
+4. `python3 exportar_relatorio_trocas.py` — grava
+   `Relatorio_trocas_de_tempo.md` e `Relatorio_trocas_de_tempo.xlsx` (ver
+   item 2 de "Entregáveis finais").
+
+Commitar os 4 arquivos de saída junto com a edição que os motivou, no
+mesmo PR — nunca deixar a planilha do calendário à frente dos relatórios
+derivados dela.
+
 ## Verificação obrigatória antes de entregar
 
 Escreva um **script de verificação separado** que releia os arquivos .xlsx
