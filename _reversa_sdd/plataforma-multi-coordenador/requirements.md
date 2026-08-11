@@ -57,9 +57,10 @@ Plataforma web para 5 coordenadores gerarem calendários de provas com dados iso
 | RF-13 | Docker Compose (API + Postgres + worker + frontend) | Must | `docker compose up` on-prem | 🟢 |
 | RF-14 | Frontend web React Vite + Tailwind | Must | ADR-007; toggles e job solver na UI | 🟢 |
 | RF-15 | Persistência automática de cada calendário gerado (xlsx + relatórios) | Must | Novo `calendario_gerado` por job OK; blobs imutáveis | 🟢 |
-| RF-16 | Histórico de versões por semestre na UI | Must | Lista transparente; abrir versão antiga = SCR-08 | 🟢 |
+| RF-16 | Histórico de versões por semestre na UI | Must | Dentro da SCR-10 unificada; abrir versão = SCR-08 | 🟢 |
 | RF-17 | Download de arquivos de qualquer versão não apagada | Must | xlsx, tabela, cessões, trocas, IA | 🟢 |
 | RF-18 | Apagar versão (confirmação) + restaurar referência ativa | Must | Soft-delete; “Usar esta versão” no semestre | 🟢 |
+| RF-19 | Tela única consulta períodos + calendários gerados | Must | SCR-10 `/calendarios`; filtros ano/período; master-detail | 🟢 |
 
 ## 6. RNFs
 
@@ -90,15 +91,21 @@ Cenário: GRUPO define conselho
 
 Cenário: Histórico de calendários gerados
   Dado coordenador gerou calendário duas vezes no mesmo semestre
-  Quando abre histórico do semestre
+  Quando abre a tela Calendários e seleciona esse período
   Então vê duas versões com data e pode baixar xlsx de cada uma
   E pode apagar a versão mais antiga após confirmação
   E a versão restante permanece disponível
+
+Cenário: Consulta de períodos anteriores
+  Dado coordenador tem semestres 2025/2 e 2026/2 com calendários gerados
+  Quando abre a tela Calendários e filtra ano 2025
+  Então vê o período 2025/2 na lista
+  E ao selecioná-lo acessa as versões geradas daquele semestre na mesma tela
 ```
 
 ## 8. MoSCoW
 
-RF-01–RF-06, RF-08, RF-09, RF-12–RF-18 Must; RF-07, RF-11 Should.
+RF-01–RF-06, RF-08, RF-09, RF-12–RF-19 Must; RF-07, RF-11 Should.
 
 ## 10. Lacunas
 
@@ -108,6 +115,7 @@ RF-01–RF-06, RF-08, RF-09, RF-12–RF-18 Must; RF-07, RF-11 Should.
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-11 | RF-19 tela única consulta períodos + calendários (SCR-10) | reversa (Brener) |
 | 2026-08-11 | RF-15–18 histórico calendários; ADR-009 | reversa (Brener) |
 | 2026-08-09 | IA verificador+relatório; admin Brener | reversa-reviewer |
 | 2026-08-09 | Versão inicial Fase 4 | reversa-writer |

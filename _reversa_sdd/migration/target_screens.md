@@ -57,7 +57,7 @@ eventos:
 componentes:
   - Header: nome segmento, logout
   - Card: semestre ativo
-  - Nav: GRUPOS, Semestres, Regras, IA, Gerar, Histórico
+  - Nav: GRUPOS, Semestres, Regras, IA, Gerar, Calendários
 estados:
   idle: dados segmento carregados
   loading: skeleton cards
@@ -202,33 +202,45 @@ eventos:
 
 ---
 
-## SCR-10 — Histórico de calendários gerados
+## SCR-10 — Consulta de períodos e calendários gerados
 
-**Rota**: `/semestres/:id/historico`  
+**Rota**: `/calendarios`  
 **Atores**: coordenador  
-**Origem**: ADR-009, RF-15–RF-18 (pedido Brener 2026-08-11)
+**Origem**: ADR-009, RF-15–RF-19 (Brener 2026-08-11)
+
+> **Tela única:** consulta de **períodos letivos anteriores** e acesso aos **calendários já gerados** em cada período. Não existe rota separada de “histórico”.
 
 ```yaml
+layout: master-detail
 componentes:
-  - Breadcrumb: semestre ano/periodo
-  - Table: versao, rotulo, gerado_em, status verificação, badge referencia_ativa, publicado
-  - Row actions: Abrir (→ SCR-08), Download xlsx, Restaurar referência, Apagar
-  - Modal confirmar apagar: "Esta ação não pode ser desfeita"
-  - Empty state: "Nenhum calendário gerado ainda — Gerar Proposta 3"
+  painel_periodos:
+    - Filtros: ano (select), periodo (1|2|todos), ordenar (recente|antigo)
+    - Lista/table: ano/periodo, inicio-fim, total_versoes, ultima_geracao, badge referencia_ativa
+    - Empty: "Nenhum período com calendário — configure semestre e gere Proposta 3"
+  painel_versoes:
+    - Visível ao selecionar período (mesmo layout que antes era /semestres/:id/historico)
+    - Table: versao, rotulo, gerado_em, status verificação, publicado
+    - Row actions: Abrir (→ SCR-08), Download xlsx, Restaurar referência, Apagar
+    - Modal confirmar apagar: "Esta ação não pode ser desfeita"
 estados:
-  idle: lista versões (exclui deleted_at)
-  loading: table skeleton
-  error: toast "Falha ao carregar histórico"
+  idle: períodos carregados; versões vazias até seleção
+  loading: skeleton em painel ativo
+  error: toast por painel
   success: toast "Referência atualizada" / "Versão apagada"
 eventos:
-  list: GET /semestres/{id}/calendarios
-  open: navigate /calendarios/{id}
+  list_periodos: GET /calendarios/consulta?ano=&periodo=&ordenar=
+  select_periodo: GET /semestres/{id}/calendarios
+  open: navigate /calendarios/{id}  # alias SCR-08 detalhe
   download: GET /calendarios/{id}/download
   restore: POST /calendarios/{id}/restaurar-referencia
   delete: DELETE /calendarios/{id} body { confirm: true }
+navegacao:
+  - Dashboard → Calendários
+  - Pós-geração SCR-07 → redirect /calendarios?semestre={id} (período pré-selecionado)
+  - Deep link SCR-08 → breadcrumb volta para /calendarios?semestre={id}
 ```
 
-**Transparência:** após job OK em SCR-07, nova linha aparece automaticamente no histórico (sem botão "Salvar").
+**Transparência:** após job OK em SCR-07, nova versão aparece no painel de versões do período (sem botão "Salvar").
 
 ---
 
@@ -252,6 +264,6 @@ eventos:
 | Tela | Origem spec |
 |------|-------------|
 | SCR-01–08 | plataforma-multi-coordenador/design.md |
-| SCR-10 | ADR-009, RF-15–RF-18 |
+| SCR-10 | ADR-009, RF-15–RF-19 — consulta períodos + calendários |
 | SCR-09 | permissions.md, RF-12 |
 | Fluxo | user-stories/fluxo-calendario-semestre.md |

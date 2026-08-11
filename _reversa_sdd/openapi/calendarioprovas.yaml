@@ -327,6 +327,41 @@ paths:
         '204':
           description: Removido
 
+  /calendarios/consulta:
+    get:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      summary: Consulta períodos letivos e resumo de calendários gerados (SCR-10)
+      parameters:
+        - name: ano
+          in: query
+          schema:
+            type: integer
+        - name: periodo
+          in: query
+          schema:
+            type: integer
+            enum: [1, 2]
+        - name: ordenar
+          in: query
+          schema:
+            type: string
+            enum: [desc, asc]
+            default: desc
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PeriodoCalendariosConsulta'
+
   /semestres/{semestre_id}/calendarios:
     get:
       tags: [calendarios]
@@ -698,6 +733,38 @@ components:
           nullable: true
         verificacao_ok:
           type: boolean
+
+    PeriodoCalendariosConsulta:
+      type: object
+      description: Período letivo com resumo de calendários gerados (SCR-10)
+      properties:
+        semestre:
+          $ref: '#/components/schemas/Semestre'
+        total_versoes:
+          type: integer
+        referencia_ativa:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/CalendarioVersaoResumo'
+        ultima_geracao_em:
+          type: string
+          format: date-time
+          nullable: true
+
+    CalendarioVersaoResumo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        versao:
+          type: integer
+        rotulo:
+          type: string
+          nullable: true
+        gerado_em:
+          type: string
+          format: date-time
 
     VerificacaoResult:
       type: object

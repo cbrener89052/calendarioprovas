@@ -93,19 +93,20 @@
 
 ---
 
-## US-08 — Histórico e recuperação de calendários gerados
+## US-08 — Consulta de períodos e calendários gerados
 
 **Como** coordenador  
-**Quero** que cada geração seja salva automaticamente e consultar versões anteriores  
-**Para** recuperar um calendário antigo se algo for apagado ou substituído por engano
+**Quero** uma única tela para consultar períodos letivos anteriores e acessar os calendários gerados em cada um  
+**Para** recuperar ou comparar horários de semestres passados sem navegar em menus diferentes
 
 **Critérios:**
-- Gero calendário duas vezes → histórico mostra 2 versões com data
-- Abro versão antiga → mesmos downloads e verificação da época
-- Restauro referência → semestre passa a destacar essa versão
-- Apago versão com confirmação → some da lista; as demais permanecem
+- Abro **Calendários** (`/calendarios`) e filtro por ano/período
+- Seleciono 2025/2 → vejo versões geradas naquele semestre na mesma tela
+- Gero calendário duas vezes no semestre atual → ambas versões aparecem ao selecionar o período
+- Baixo, apago ou restauro referência sem sair do fluxo
+- Após gerar (SCR-07), sou redirecionado para esta tela com o período pré-selecionado
 
-**Rastreio:** ADR-009, RF-15–RF-18, SCR-10
+**Rastreio:** ADR-009, RF-15–RF-19, SCR-10
 
 ---
 

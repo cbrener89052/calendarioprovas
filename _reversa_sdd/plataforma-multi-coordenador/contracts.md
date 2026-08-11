@@ -108,10 +108,34 @@
 
 | Método | Path | Response |
 |--------|------|----------|
+| GET | `/api/v1/calendarios/consulta` | `PeriodoCalendariosConsulta[]` — períodos do segmento + resumo versões |
 | GET | `/api/v1/semestres/{id}/calendarios` | `CalendarioVersao[]` (exclui `deleted_at` preenchido) |
 | GET | `/api/v1/calendarios/{id}` | `CalendarioVersao` + metadados verificação |
 | DELETE | `/api/v1/calendarios/{id}` | `204` — soft-delete + purge blob (confirmação no body `{ confirm: true }`) |
 | POST | `/api/v1/calendarios/{id}/restaurar-referencia` | `{ referencia_ativa: true }` |
+
+**Query params `GET /calendarios/consulta`:** `ano` (int), `periodo` (1|2), `ordenar` (`desc`|`asc`), `limit` (default 20)
+
+**PeriodoCalendariosConsulta:**
+```json
+{
+  "semestre": {
+    "id": "uuid",
+    "ano": 2026,
+    "periodo": 2,
+    "inicio": "2026-08-04",
+    "fim": "2026-11-28"
+  },
+  "total_versoes": 3,
+  "referencia_ativa": {
+    "id": "uuid",
+    "versao": 3,
+    "rotulo": "Proposta 3 — 11/08/2026",
+    "gerado_em": "2026-08-11T09:15:00Z"
+  },
+  "ultima_geracao_em": "2026-08-11T09:15:00Z"
+}
+```
 
 **CalendarioVersao:**
 ```json

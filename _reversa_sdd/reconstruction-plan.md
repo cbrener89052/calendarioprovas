@@ -12,7 +12,7 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 6 | 12 | 18 |
+| 6 | 13 | 19 |
 
 ---
 
@@ -124,8 +124,8 @@
 
 - **Status:** pending
 - **Lê:** ADR-009, `plataforma-multi-coordenador/contracts.md`
-- **Entrega:** GET `/semestres/{id}/calendarios`, DELETE, POST restaurar-referencia; migration colunas versao/deleted_at
-- **Critério:** coordenador lista e apaga versão via API
+- **Entrega:** GET `/calendarios/consulta` (períodos + resumo); GET `/semestres/{id}/calendarios`; DELETE; POST restaurar-referencia
+- **Critério:** coordenador consulta períodos anteriores e versões via API
 
 ## Tarefa 12 — Frontend scaffold + auth
 
@@ -141,12 +141,12 @@
 - **Entrega:** Telas CRUD + toggles + IA + revisor avisos OCR
 - **Critério:** fluxo config semestre + aprovar snapshot completo UI
 
-## Tarefa 13b — Frontend histórico calendários (SCR-10)
+## Tarefa 13b — Frontend consulta períodos e calendários (SCR-10)
 
 - **Status:** pending
-- **Lê:** ADR-009, SCR-10, RF-15–RF-18
-- **Entrega:** Lista versões, download, apagar, restaurar referência
-- **Critério:** pós-geração nova versão visível sem ação manual
+- **Lê:** ADR-009, SCR-10, RF-15–RF-19
+- **Entrega:** Tela `/calendarios` master-detail; filtros período; versões; download/apagar/restaurar
+- **Critério:** mesma tela para períodos anteriores e calendários gerados; pós-geração redirect com período selecionado
 
 ## Tarefa 14 — Frontend gerar + verificação
 

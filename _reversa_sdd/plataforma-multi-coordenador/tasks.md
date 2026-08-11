@@ -47,7 +47,8 @@
   - Origem: user-requirements 2026-08-11, RF-15–RF-18
   - Confiança: 🟢
 
-- [ ] T-10c — UI SCR-10 histórico (lista, download, apagar, restaurar)
+- [ ] T-10c — UI SCR-10 consulta unificada (períodos + versões; download, apagar, restaurar)
+  - Rota: `/calendarios` — master-detail; mesma tela para períodos anteriores e calendários gerados
   - Confiança: 🟢
 
 ## Fase 4 — Regras e IA
@@ -78,7 +79,8 @@
 - [ ] TT-01 — Isolamento tenant A vs B
 - [ ] TT-02 — GRUPO conselho refletido no solver
 - [ ] TT-03 — E2E upload → gerar → verificar → download
-- [ ] TT-05 — Gerar 2× mesmo semestre → histórico lista 2 versões; apagar 1; download da restante
+- [ ] TT-05 — Gerar 2× mesmo semestre → SCR-10 lista 2 versões; apagar 1; download da restante
+- [ ] TT-06 — Filtrar ano 2025 na SCR-10 → período 2025/2 listado; versões acessíveis na mesma tela
 - [ ] TT-04 — Admin Brener lê segmento alheio; coordenador não
 
 ## Ordem

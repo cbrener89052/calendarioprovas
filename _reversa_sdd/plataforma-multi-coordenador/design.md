@@ -35,7 +35,7 @@ Ver `contracts.md` para OpenAPI detalhado.
 | Regras | GET/PATCH `/semestres/{id}/regras` |
 | IA | CRUD `/segmento/customizacoes-ia` |
 | Saídas | GET `/calendarios/{id}/download`, `/relatorios/*` |
-| Histórico | GET `/semestres/{id}/calendarios`, DELETE `/calendarios/{id}`, POST `/calendarios/{id}/restaurar-referencia` |
+| Histórico | GET `/calendarios/consulta`, GET `/semestres/{id}/calendarios`, DELETE `/calendarios/{id}`, POST `/calendarios/{id}/restaurar-referencia` |
 
 ## Modelo GRUPO 🟢
 
@@ -60,8 +60,9 @@ Substitui hardcode `10_12` / `9_11` legado.
 6. Worker: monta RuleContext → `montar_proposta` → xlsx 🟢
 7. Verificador automático 🟡
 8. Persistir **nova versão** `calendario_gerado` + blobs relatórios (INSERT-only, ADR-009) 🟢
-9. Coordenador consulta histórico, baixa, restaura referência ou apaga versão 🟢
-10. Publicar versão de referência (bloqueado se erro crítico) 🟡
+9. Coordenador abre **SCR-10** (`/calendarios`): consulta períodos anteriores e acessa versões geradas na mesma tela 🟢
+10. Baixa, restaura referência ou apaga versão; detalhe em SCR-08 🟢
+11. Publicar versão de referência (bloqueado se erro crítico) 🟡
 
 ## Dependências
 
@@ -84,7 +85,7 @@ Substitui hardcode `10_12` / `9_11` legado.
 | Estado | Context ou Redux — stores: `regras` (toggles), `solverJob`, `segmento` |
 | API | Client OpenAPI/fetch → FastAPI |
 
-Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizações IA, gerar (progress), verificação, downloads, **histórico de calendários (SCR-10)**.
+Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizações IA, gerar (progress), verificação, downloads, **consulta períodos e calendários (SCR-10 `/calendarios`)**.
 
 ## Decisões
 

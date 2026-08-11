@@ -22,9 +22,17 @@ Cada geração de calendário deve ser **persistida automaticamente** (BD + blob
 
 ## Implementação (reconstruction-plan)
 
-- Worker/API: estender T6/T10 — INSERT-only em `calendario_gerado`
-- Frontend: T13 — SCR-10 Histórico
+- Worker/API: estender T6/T11 — INSERT-only em `calendario_gerado`; `GET /calendarios/consulta`
+- Frontend: T13b — SCR-10 `/calendarios` (master-detail)
 - Migration futura: colunas ADR-009 em `calendario_gerado`
+
+## Atualização 2026-08-11 (tela única)
+
+Brener pediu que a **consulta de períodos anteriores** seja a **mesma tela** de acesso aos calendários gerados:
+
+- Rota unificada `/calendarios` (substitui `/semestres/:id/historico`)
+- RF-19; OpenAPI `PeriodoCalendariosConsulta`
+- US-08 reescrita para refletir master-detail
 
 ## Confiança
 

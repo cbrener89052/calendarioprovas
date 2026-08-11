@@ -119,4 +119,14 @@ O coordenador deve poder, **pela interface web**, de forma transparente:
 
 **Princípio:** persistência automática no fim de cada job OK; nenhum passo manual de “salvar backup”.
 
-Ver ADR-009 e `plataforma-multi-coordenador/requirements.md` RF-15–RF-18.
+### Tela única de consulta (2026-08-11)
+
+A **mesma tela** de acesso aos calendários gerados serve também para **consultar períodos anteriores** (semestres letivos do segmento). Fluxo master-detail:
+
+1. Filtros: ano, período (1º/2º semestre), ordenação (mais recente primeiro)
+2. Lista de semestres que possuem (ou possam possuir) calendários gerados
+3. Ao selecionar um período → lista de versões geradas (download, apagar, restaurar referência, abrir detalhe)
+
+Rota UI: `/calendarios` (SCR-10). Não duplicar em “Histórico” separado.
+
+Ver ADR-009 e `plataforma-multi-coordenador/requirements.md` RF-15–RF-19.
