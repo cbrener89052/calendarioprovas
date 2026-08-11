@@ -347,6 +347,71 @@ Já extraído e conferido (sem ambiguidade de siglas, todas batem com
 Faltam extrair (imagens já renderizadas em alta resolução, prontas para
 leitura visual): 9C2, 10C1, 10C2, 11C1, 11C2, 12C1, 12C2.
 
+## 7ª rodada de ajustes manuais na Proposta 3 (08/2026, a pedido do usuário)
+
+Todos os alvos foram conferidos contra `G.GRADES` (presença do professor,
+cruzamento de intervalo, conflitos de dia/semana, grupo 1, distância
+mínima e regra 4 de cessão) antes de aplicar, com `verificar_calendario.py`
+fechando em 0 PROBLEMA ao final de cada etapa.
+
+1. **12C1/12C2**: permuta entre LP/LIT/RED (01/09, sem5) e GL (25/08,
+   sem4) — mesmo dia (terça) e mesmos tempos de cada uma, só trocaram de
+   semana.
+2. **12C1/12C2**: Soc e Fil movidas para a janela semana 12-14 pedida
+   (Fil → sem12, quarta, 10º tempo; Soc → sem13, quarta, 2º tempo).
+   Não precisou "subir" nenhuma outra prova (sem12/sem13 tinham espaço).
+   Um detalhe corrigido no meio do caminho: a 1ª tentativa (Fil→sem13,
+   Soc→sem12, ambas nos tempos originais) criava cessão de Fis/Cadu e
+   Hist/Wag exatamente na véspera/semana da prova própria deles — trocado
+   o bloco de tempo do Fil (10º em vez de 4º) e invertidas as semanas
+   para eliminar os dois casos.
+3. **11C1/11C2**: LP/LIT/RED (2ª ocorrência) sem9 → sem14, em bloco NOVO
+   (quinta, 9º ao 11º tempos, doadores Inglês/Bea e Ed.Física) em vez de
+   manter o bloco antigo (terça, 8º-10º, doador Biologia) — Bio tem
+   prova própria na semana 15, doar na semana 14 violaria a regra 4.
+   Matemática (2ª) sem14 → sem16, mesmo dia/tempo (quarta, 2º-3º tempos).
+   Efeito colateral aceito: Ed.Física/- passa de 2 para 4 cessões no
+   semestre (12,5%, acima da meta de 11%) — foi o único bloco sem cruzar
+   o intervalo do recreio nem violar a véspera da prova de Biologia
+   (checados todos os blocos válidos, um por um, antes de escolher).
+4. **10C2**: Inglês (2ª ocorrência) sem15 (quarta) → sem12 (terça),
+   tempo próprio de Inglês nessa turma.
+5. **10C1/10C2**: Matemática (2ª ocorrência) tirada da véspera da 2ª
+   chamada (quinta, 12/11, sem15) → mesma semana 15, mas terça (10/11),
+   10º-11º tempos — dentro do limite de 6 dias do conselho final (17/11)
+   e longe da véspera. **Nova regra na skill**: turmas 10 não devem ter
+   prova na véspera da 2ª chamada (marcação `"2CH 10,12"`), flexibilizável
+   se não houver outra forma de fechar o horário — ainda não implementada
+   no gerador, só documentada e aplicada manualmente aqui.
+6. **9C1/9C2**: Inglês (2ª ocorrência) sem12 (23/10) → sem10 (09/10),
+   mesmo dia (sexta) e mesmo tempo. Hist e Port não precisaram de ajuste
+   — já estavam a 7-8 semanas de distância entre as duas ocorrências
+   (dentro do ideal).
+7. **9C1/9C2**: Biologia (única ocorrência) sem13 → sem15 (09/11);
+   Redação (2ª ocorrência) sem17 → sem16 (16/11) — consolida as duas na
+   semana 16 (antes vazia) em vez de manter cada uma isolada. Efeito: a
+   semana 17 da 9C ficou sem nenhuma prova regular (só a marcação de 2ª
+   chamada) — aceito conscientemente, ver a nova regra de "consolidação
+   de semanas" na skill, que passa a ter prioridade sobre a regra antiga
+   de "semana 17 sempre com 1 prova" quando as duas entrarem em conflito.
+   Um detalhe corrigido no meio do caminho: o bloco original de Biologia
+   (segunda, 1º tempo) doava de Redação/Raf na 9C2 — como a própria
+   Redação passou a cair na semana seguinte (16), isso violaria a regra
+   4 (véspera). Trocado o bloco de Biologia para terça/1º tempo (doador
+   Português/Jana) para eliminar o conflito.
+
+**Nova regra na skill (consolidação de semanas)**: quando houver a opção
+de encaixar 2 provas numa semana já usada por outra, em vez de gastar uma
+semana a mais só para mantê-las separadas, isso é preferível — é uma
+checagem de revisão pós-horário-fechado (não faz parte do algoritmo de
+busca), motivada pela 9C ter a semana 16 inteira livre enquanto a Redação
+e a 2ª chamada empurravam a semana 17 para o limite.
+
+Relatórios regenerados ao final: `Relatorio_Tempos_Cedidos_Proposta_3.xlsx`,
+`Tabela_Provas_por_Turma_Proposta_3.xlsx`, `Relatorio_trocas_de_tempo.md`
+e `.xlsx`. `verificar_calendario.py` fecha em 0 PROBLEMA, 45 AVISOs (todos
+de regras já documentadas como relaxamento conhecido).
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
