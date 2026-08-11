@@ -455,6 +455,28 @@ de antes (45). Os 4 relatórios foram regenerados.
 `verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
 de antes (45). Os 4 relatórios foram regenerados.
 
+## 5º relatório: Provas por Professor (08/2026, a pedido do usuário)
+
+Formalizados na skill os 4 relatórios já entregues até aqui (trocas de
+tempo, tabela-resumo por turma, tempos cedidos) como a rotina obrigatória
+de 5 scripts após qualquer edição manual (o 4º já era `verificar_
+calendario.py`), e adicionado um **5º relatório novo**: `Provas_por_
+Professor_Proposta_3.xlsx`, gerado por `exportar_provas_por_professor.py`.
+
+- Tabela única (não uma aba por turma), organizada por professor: cada
+  linha é uma prova que aquele professor precisa acompanhar, com data,
+  dia da semana, tempos e turma(s).
+- Quando a mesma prova é professor comum entre turmas irmãs (mesma
+  data/tempos, aplicada simultaneamente), vira 1 linha só com as turmas
+  juntas na coluna "Turma(s)" — não duplica.
+- Não inclui simulados/AG (não têm 1 professor responsável específico).
+- Reaproveita `carregar_siglas` de `exportar_tabelas_turma.py` para
+  nome completo dos professores.
+
+`verificar_calendario.py` continua em 0 PROBLEMA (o relatório novo é só
+leitura da planilha final, não muda o calendário). Todos os 5 relatórios
+regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

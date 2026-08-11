@@ -1,6 +1,6 @@
 ---
 name: "calendario-provas"
-description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, provas coordenadas entre turmas irmãs quando o professor é o mesmo, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Com limites de cessão de aula: teto de cessões por disciplina no semestre, percentual máximo da carga, proibição de ceder às vésperas da própria prova e de ficar duas semanas sem contato com a turma. Lê o horário-base (planilha, PDF ou imagem) e gera o calendário de provas, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos) e o relatório de tempos cedidos por disciplina/professor (aulas semanais, aulas programadas no semestre, aulas cedidas e percentual). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas com proteção de carga horária dos professores."
+description: "Monta calendário de provas para turmas da escola: distribuição entre disciplinas, limite semanal de avaliações, períodos por turma/grupo (turmas que viajam terminam mais cedo), feriados e semanas vetadas, preferência por provas nos primeiros tempos do dia, datas de simulados por série, provas combinadas no mesmo dia (Português+Redação+Gramática em 3 tempos), disciplinas com só 1 prova no semestre conforme a série, grupos paralelos com prova simultânea, provas coordenadas entre turmas irmãs quando o professor é o mesmo, e uso de tempos de outros professores quando a prova precisa de tempos seguidos. Com limites de cessão de aula: teto de cessões por disciplina no semestre, percentual máximo da carga, proibição de ceder às vésperas da própria prova e de ficar duas semanas sem contato com a turma. Lê o horário-base (planilha, PDF ou imagem) e gera o calendário de provas, o relatório de trocas de tempo entre professores, a tabela-resumo por turma (disciplina, professor, dia e tempos, nº de tempos), o relatório de tempos cedidos por disciplina/professor (aulas semanais, aulas programadas no semestre, aulas cedidas e percentual) e a tabela de provas por professor (todas as provas de cada professor, com data, tempos e turmas, mesmo quando leciona em mais de uma). Usar sempre que o usuário pedir para montar, gerar, revisar, ajustar ou exportar um calendário/plano de provas com proteção de carga horária dos professores."
 ---
 
 # Calendário de Provas
@@ -19,8 +19,8 @@ Montar um calendário de provas a partir de:
 5. A planilha de siglas de professores (sigla → nome completo).
 
 O resultado final é o **calendário de provas**, um **relatório de trocas de
-tempo entre professores**, uma **tabela-resumo por turma** e um **relatório
-de tempos cedidos**.
+tempo entre professores**, uma **tabela-resumo por turma**, um **relatório
+de tempos cedidos** e uma **tabela de provas por professor**.
 
 ## Passo 0 — Perguntas obrigatórias antes de começar
 
@@ -713,6 +713,32 @@ escolher uma a uma — garante que fiquem sempre distintas entre si.
      vezes no semestre (uma por período) conta 2.
    - **% de aulas cedidas no semestre**: aulas cedidas ÷ aulas programadas
      no semestre. Formatar como percentual (ex.: 18,5%).
+5. **Provas por professor** (tabela única, arquivo separado — pedido do
+   usuário, 08/2026): para o professor achar de uma vez todas as provas
+   que precisa acompanhar, mesmo quando dá aula em mais de uma turma.
+   Diferente da tabela-resumo (item 3, organizada por turma), esta é
+   organizada por professor. Colunas:
+
+   | Professor | Disciplina | Data | Dia da semana | Tempos | Turma(s) |
+   |---|---|---|---|---|---|
+
+   - **Professor**: sigla e nome completo (mesmo padrão dos demais
+     relatórios). Uma linha por professor **citado** na prova — uma
+     disciplina com vários professores (grupo paralelo, professor comum
+     entre turmas irmãs) gera uma linha para cada um.
+   - **Turma(s)**: quando a mesma prova (mesmo professor, disciplina,
+     data e tempos) é aplicada simultaneamente em mais de uma turma
+     (professor comum entre turmas irmãs), uma linha só, com as turmas
+     juntas nesta coluna (ex.: "12C1, 12C2") — não duplicar a linha.
+     Quando o mesmo professor dá a mesma disciplina em turmas com datas
+     diferentes (ex.: LP/LIT/RED de um professor que também dá aula na
+     outra série), continuam linhas separadas, uma por data.
+   - **Não inclui simulados/AG**: eles não têm um professor específico
+     responsável (são aplicados por vários fiscais), então não cabem
+     numa tabela organizada por professor.
+   - Ordenar por nome do professor, depois por data.
+   - Gerar a partir das planilhas de calendário já gravadas, mesmo
+     princípio dos itens 3 e 4 (não confiar na memória do gerador).
    - Gerar a partir das planilhas de calendário já gravadas cruzadas com a
      grade-base, em script separado — mesmo princípio da tabela-resumo:
      não confiar na memória do gerador.
@@ -722,10 +748,10 @@ escolher uma a uma — garante que fiquem sempre distintas entre si.
      disciplina (ver o caso de referência da Profa. Luiza/Biologia, que deu
      origem à regra de alternância de doador, abaixo).
 
-## Depois de QUALQUER edição manual na Proposta 3 — sempre rodar os 4 scripts
+## Depois de QUALQUER edição manual na Proposta 3 — sempre rodar os 5 scripts
 
 Toda vez que uma célula da Proposta 3 for editada manualmente (mover prova
-de dia/tempo, trocar disciplina, etc.), os 4 scripts abaixo **têm que ser
+de dia/tempo, trocar disciplina, etc.), os 5 scripts abaixo **têm que ser
 rodados de novo, nesta ordem**, antes de considerar o trabalho pronto —
 nenhum deles é opcional nem "só se der tempo". Nenhum deles roda `main()`
 nem toca no calendário: todos releem a planilha final já gravada (mesmo
@@ -743,8 +769,11 @@ princípio em todos — não confiar na memória do gerador).
 4. `python3 exportar_relatorio_trocas.py` — grava
    `Relatorio_trocas_de_tempo.md` e `Relatorio_trocas_de_tempo.xlsx` (ver
    item 2 de "Entregáveis finais").
+5. `python3 exportar_provas_por_professor.py` — grava
+   `Provas_por_Professor_Proposta_3.xlsx` (ver item 5 de "Entregáveis
+   finais").
 
-Commitar os 4 arquivos de saída junto com a edição que os motivou, no
+Commitar os 5 arquivos de saída junto com a edição que os motivou, no
 mesmo PR — nunca deixar a planilha do calendário à frente dos relatórios
 derivados dela.
 
@@ -821,6 +850,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Todo tempo emprestado de outro professor está no relatório de trocas
 - [ ] A tabela-resumo tem o mesmo número de linhas que o calendário tem de
       avaliações, e todas as siglas foram traduzidas em nomes
+- [ ] A tabela de provas por professor não tem nenhuma linha duplicada
+      (mesma prova em turmas diferentes deve virar 1 linha com as turmas
+      juntas, não 1 linha por turma) e nenhum simulado/AG aparece nela
 - [ ] O relatório de tempos cedidos bate com o relatório de trocas de
       tempo: toda cedência de um está refletida no outro
 - [ ] Nos **limites de cessão de aula**: nenhuma disciplina de 1 aula
