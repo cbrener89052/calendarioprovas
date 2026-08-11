@@ -427,6 +427,18 @@ de regras já documentadas como relaxamento conhecido).
 `verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
 de antes (45). Os 4 relatórios foram regenerados.
 
+## 9ª rodada de ajustes manuais na Proposta 3 (08/2026, a pedido do usuário)
+
+- **12C1/12C2**: LP/LIT/RED (2ª ocorrência) movida de 02/10 (semana9,
+  sexta) para 09/10 (semana10, sexta) — mesmo dia da semana e mesmo
+  bloco de tempos (1º ao 3º), só trocou de semana. Semana10 já tinha
+  só GL (quinta) para as duas turmas, sem conflito de dia nem de limite
+  de 3 avaliações. Efeito colateral positivo: a distância até a 1ª
+  ocorrência (semana4) sobe de 5 para 6 semanas, mais perto do ideal de 7.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
+de antes (45). Os 4 relatórios foram regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
