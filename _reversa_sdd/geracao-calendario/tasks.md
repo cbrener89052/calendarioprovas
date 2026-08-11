@@ -46,7 +46,7 @@
 
 - [ ] T-08 — Worker assíncrono FastAPI
   - Origem: `plataforma-multi-coordenador/design.md`
-  - Critério de pronto: POST gera job; GET retorna status e blob xlsx
+  - Critério de pronto: POST gera job; GET retorna status e blob xlsx; **nova versão** em histórico (ADR-009)
   - Confiança: 🟡
 
 ## Tarefas de Teste

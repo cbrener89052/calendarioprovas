@@ -93,6 +93,22 @@
 
 ---
 
+## US-08 — Histórico e recuperação de calendários gerados
+
+**Como** coordenador  
+**Quero** que cada geração seja salva automaticamente e consultar versões anteriores  
+**Para** recuperar um calendário antigo se algo for apagado ou substituído por engano
+
+**Critérios:**
+- Gero calendário duas vezes → histórico mostra 2 versões com data
+- Abro versão antiga → mesmos downloads e verificação da época
+- Restauro referência → semestre passa a destacar essa versão
+- Apago versão com confirmação → some da lista; as demais permanecem
+
+**Rastreio:** ADR-009, RF-15–RF-18, SCR-10
+
+---
+
 ## US-07 — Benchmark histórico (opcional v2)
 
 **Como** coordenador  

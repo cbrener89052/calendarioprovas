@@ -327,6 +327,94 @@ paths:
         '204':
           description: Removido
 
+  /semestres/{semestre_id}/calendarios:
+    get:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      summary: Histórico de calendários gerados do semestre (ADR-009)
+      parameters:
+        - name: semestre_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CalendarioVersao'
+
+  /calendarios/{calendario_id}:
+    get:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      summary: Detalhe de uma versão de calendário
+      parameters:
+        - name: calendario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarioVersao'
+        '404':
+          description: Não encontrado ou apagado
+    delete:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      summary: Apagar versão (soft-delete + purge blob)
+      parameters:
+        - name: calendario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [confirm]
+              properties:
+                confirm:
+                  type: boolean
+                  enum: [true]
+      responses:
+        '204':
+          description: Versão apagada
+        '404':
+          description: Não encontrado
+
+  /calendarios/{calendario_id}/restaurar-referencia:
+    post:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      summary: Define versão como referência ativa do semestre
+      parameters:
+        - name: calendario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarioVersao'
+
   /calendarios/{calendario_id}/download:
     get:
       tags: [calendarios]
@@ -575,6 +663,41 @@ components:
         params:
           type: object
           additionalProperties: true
+
+    CalendarioVersao:
+      type: object
+      description: Versão imutável de calendário gerado (ADR-009)
+      properties:
+        id:
+          type: string
+          format: uuid
+        semestre_id:
+          type: string
+          format: uuid
+        job_id:
+          type: string
+          format: uuid
+        versao:
+          type: integer
+          description: Sequencial por semestre (1, 2, 3…)
+        rotulo:
+          type: string
+          nullable: true
+        status:
+          type: string
+          enum: [verified, published, failed]
+        referencia_ativa:
+          type: boolean
+          description: Versão de referência exibida por padrão no semestre
+        gerado_em:
+          type: string
+          format: date-time
+        publicado_em:
+          type: string
+          format: date-time
+          nullable: true
+        verificacao_ok:
+          type: boolean
 
     VerificacaoResult:
       type: object

@@ -14,6 +14,9 @@ simulados, siglas) e saídas (calendários, relatórios) **por coordenador**.
 
 Detalhes em `.reversa/context/user-requirements.md`.
 
+**Histórico de calendários (2026-08-11):** cada geração persiste automaticamente;
+coordenador consulta, baixa, restaura referência e apaga versões pela UI (ADR-009).
+
 **Sincronização de regras (skill ↔ Reversa):** enquanto Brener atualiza a skill no Claude Code, seguir `.reversa/context/sync-regras.md`. Fontes vivas listadas em `.reversa/context/sources.json`.
 
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login

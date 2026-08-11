@@ -35,6 +35,8 @@ Plataforma web para 5 coordenadores gerarem calendários de provas com dados iso
 6. **RN-06:** Worker Python reutiliza lógica `gerar_calendario.py` 🟢
 7. **RN-07:** Verificação automática pós-job 🟡
 8. **RN-08:** Versionamento entradas/saídas por semestre 🟡
+9. **RN-09:** Cada geração bem-sucedida persiste nova versão de calendário + blobs; nunca sobrescreve versão anterior 🟢
+10. **RN-10:** Exclusão de versão só por ação explícita do coordenador, com confirmação 🟢
 
 ## 5. Requisitos Funcionais
 
@@ -54,6 +56,10 @@ Plataforma web para 5 coordenadores gerarem calendários de provas com dados iso
 | RF-12 | Admin catálogo regras + leitura cross-segmento (Brener) | Must | Papel `admin_instituicao`; coords isolados | 🟢 |
 | RF-13 | Docker Compose (API + Postgres + worker + frontend) | Must | `docker compose up` on-prem | 🟢 |
 | RF-14 | Frontend web React Vite + Tailwind | Must | ADR-007; toggles e job solver na UI | 🟢 |
+| RF-15 | Persistência automática de cada calendário gerado (xlsx + relatórios) | Must | Novo `calendario_gerado` por job OK; blobs imutáveis | 🟢 |
+| RF-16 | Histórico de versões por semestre na UI | Must | Lista transparente; abrir versão antiga = SCR-08 | 🟢 |
+| RF-17 | Download de arquivos de qualquer versão não apagada | Must | xlsx, tabela, cessões, trocas, IA | 🟢 |
+| RF-18 | Apagar versão (confirmação) + restaurar referência ativa | Must | Soft-delete; “Usar esta versão” no semestre | 🟢 |
 
 ## 6. RNFs
 
@@ -81,11 +87,18 @@ Cenário: GRUPO define conselho
   Dado GRUPO com conselho_inicio 2026-11-24
   Quando solver aloca provas
   Então semana vetada reflete datas do GRUPO, não constante hardcoded
+
+Cenário: Histórico de calendários gerados
+  Dado coordenador gerou calendário duas vezes no mesmo semestre
+  Quando abre histórico do semestre
+  Então vê duas versões com data e pode baixar xlsx de cada uma
+  E pode apagar a versão mais antiga após confirmação
+  E a versão restante permanece disponível
 ```
 
 ## 8. MoSCoW
 
-RF-01–RF-06, RF-08, RF-09, RF-12–RF-14 Must; RF-07, RF-11 Should.
+RF-01–RF-06, RF-08, RF-09, RF-12–RF-18 Must; RF-07, RF-11 Should.
 
 ## 10. Lacunas
 
@@ -95,5 +108,6 @@ RF-01–RF-06, RF-08, RF-09, RF-12–RF-14 Must; RF-07, RF-11 Should.
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-11 | RF-15–18 histórico calendários; ADR-009 | reversa (Brener) |
 | 2026-08-09 | IA verificador+relatório; admin Brener | reversa-reviewer |
 | 2026-08-09 | Versão inicial Fase 4 | reversa-writer |

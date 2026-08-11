@@ -12,7 +12,7 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 6 | 11 | 17 |
+| 6 | 12 | 18 |
 
 ---
 
@@ -116,9 +116,16 @@
 ## Tarefa 11 — Exportadores + relatórios
 
 - **Status:** pending
-- **Lê:** `exportacao-relatorios/requirements.md`, `migration/parity_tests/05-export-relatorios.feature`
-- **Entrega:** blobs trocas, cessoes, tabela
-- **Critério:** paridade com CLI exportadores
+- **Lê:** `exportacao-relatorios/requirements.md`, `migration/parity_tests/05-export-relatorios.feature`, ADR-009
+- **Entrega:** blobs trocas, cessoes, tabela; INSERT-only nova versão `calendario_gerado` por job
+- **Critério:** paridade com CLI exportadores; histórico acumula versões
+
+## Tarefa 11b — API histórico calendários
+
+- **Status:** pending
+- **Lê:** ADR-009, `plataforma-multi-coordenador/contracts.md`
+- **Entrega:** GET `/semestres/{id}/calendarios`, DELETE, POST restaurar-referencia; migration colunas versao/deleted_at
+- **Critério:** coordenador lista e apaga versão via API
 
 ## Tarefa 12 — Frontend scaffold + auth
 
@@ -133,6 +140,13 @@
 - **Lê:** `migration/target_screens.md` SCR-03/04/05/06, ADR-008
 - **Entrega:** Telas CRUD + toggles + IA + revisor avisos OCR
 - **Critério:** fluxo config semestre + aprovar snapshot completo UI
+
+## Tarefa 13b — Frontend histórico calendários (SCR-10)
+
+- **Status:** pending
+- **Lê:** ADR-009, SCR-10, RF-15–RF-18
+- **Entrega:** Lista versões, download, apagar, restaurar referência
+- **Critério:** pós-geração nova versão visível sem ação manual
 
 ## Tarefa 14 — Frontend gerar + verificação
 

@@ -35,6 +35,7 @@ Ver `contracts.md` para OpenAPI detalhado.
 | Regras | GET/PATCH `/semestres/{id}/regras` |
 | IA | CRUD `/segmento/customizacoes-ia` |
 | Saídas | GET `/calendarios/{id}/download`, `/relatorios/*` |
+| Histórico | GET `/semestres/{id}/calendarios`, DELETE `/calendarios/{id}`, POST `/calendarios/{id}/restaurar-referencia` |
 
 ## Modelo GRUPO 🟢
 
@@ -58,8 +59,9 @@ Substitui hardcode `10_12` / `9_11` legado.
 5. POST gerar → job worker 🟢
 6. Worker: monta RuleContext → `montar_proposta` → xlsx 🟢
 7. Verificador automático 🟡
-8. Persistir `calendario_gerado` + blobs relatórios 🟢
-9. Coordenador publica ou baixa 🟡
+8. Persistir **nova versão** `calendario_gerado` + blobs relatórios (INSERT-only, ADR-009) 🟢
+9. Coordenador consulta histórico, baixa, restaura referência ou apaga versão 🟢
+10. Publicar versão de referência (bloqueado se erro crítico) 🟡
 
 ## Dependências
 
@@ -82,7 +84,7 @@ Substitui hardcode `10_12` / `9_11` legado.
 | Estado | Context ou Redux — stores: `regras` (toggles), `solverJob`, `segmento` |
 | API | Client OpenAPI/fetch → FastAPI |
 
-Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizações IA, gerar (progress), verificação, downloads.
+Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizações IA, gerar (progress), verificação, downloads, **histórico de calendários (SCR-10)**.
 
 ## Decisões
 
@@ -91,6 +93,7 @@ Telas MVP: login, segmento/GRUPOS, upload entradas, toggles regras, customizaç�
 | FastAPI + Postgres | 005 | 🟢 |
 | Segmento + toggles + IA | 006 | 🟢 |
 | React Vite + Tailwind | 007 | 🟢 |
+| Versionamento calendários | 009 | 🟢 |
 | Brener = admin_instituicao | permissions 2026-08-09 | 🟢 |
 | Manter Python solver | user-requirements | 🟢 |
 

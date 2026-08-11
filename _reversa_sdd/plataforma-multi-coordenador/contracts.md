@@ -104,6 +104,31 @@
 | POST | `/api/v1/calendarios/{id}/verificar` | `{ ok, problemas[] }` |
 | POST | `/api/v1/calendarios/{id}/publicar` | `{ publicado_at }` |
 
+### Histórico de calendários (ADR-009)
+
+| Método | Path | Response |
+|--------|------|----------|
+| GET | `/api/v1/semestres/{id}/calendarios` | `CalendarioVersao[]` (exclui `deleted_at` preenchido) |
+| GET | `/api/v1/calendarios/{id}` | `CalendarioVersao` + metadados verificação |
+| DELETE | `/api/v1/calendarios/{id}` | `204` — soft-delete + purge blob (confirmação no body `{ confirm: true }`) |
+| POST | `/api/v1/calendarios/{id}/restaurar-referencia` | `{ referencia_ativa: true }` |
+
+**CalendarioVersao:**
+```json
+{
+  "id": "uuid",
+  "semestre_id": "uuid",
+  "job_id": "uuid",
+  "versao": 3,
+  "rotulo": "Proposta 3 — 11/08/2026 09:15",
+  "status": "verified|published|failed",
+  "referencia_ativa": true,
+  "gerado_em": "2026-08-11T09:15:00Z",
+  "publicado_em": null,
+  "verificacao_ok": true
+}
+```
+
 ## Códigos de erro
 
 | Status | Uso |

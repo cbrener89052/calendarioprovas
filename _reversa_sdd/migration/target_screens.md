@@ -57,7 +57,7 @@ eventos:
 componentes:
   - Header: nome segmento, logout
   - Card: semestre ativo
-  - Nav: GRUPOS, Semestres, Regras, IA, Gerar
+  - Nav: GRUPOS, Semestres, Regras, IA, Gerar, Histórico
 estados:
   idle: dados segmento carregados
   loading: skeleton cards
@@ -202,6 +202,36 @@ eventos:
 
 ---
 
+## SCR-10 — Histórico de calendários gerados
+
+**Rota**: `/semestres/:id/historico`  
+**Atores**: coordenador  
+**Origem**: ADR-009, RF-15–RF-18 (pedido Brener 2026-08-11)
+
+```yaml
+componentes:
+  - Breadcrumb: semestre ano/periodo
+  - Table: versao, rotulo, gerado_em, status verificação, badge referencia_ativa, publicado
+  - Row actions: Abrir (→ SCR-08), Download xlsx, Restaurar referência, Apagar
+  - Modal confirmar apagar: "Esta ação não pode ser desfeita"
+  - Empty state: "Nenhum calendário gerado ainda — Gerar Proposta 3"
+estados:
+  idle: lista versões (exclui deleted_at)
+  loading: table skeleton
+  error: toast "Falha ao carregar histórico"
+  success: toast "Referência atualizada" / "Versão apagada"
+eventos:
+  list: GET /semestres/{id}/calendarios
+  open: navigate /calendarios/{id}
+  download: GET /calendarios/{id}/download
+  restore: POST /calendarios/{id}/restaurar-referencia
+  delete: DELETE /calendarios/{id} body { confirm: true }
+```
+
+**Transparência:** após job OK em SCR-07, nova linha aparece automaticamente no histórico (sem botão "Salvar").
+
+---
+
 ## SCR-09 — Admin catálogo regras (Brener)
 
 **Rota**: `/admin/regras`  
@@ -222,5 +252,6 @@ eventos:
 | Tela | Origem spec |
 |------|-------------|
 | SCR-01–08 | plataforma-multi-coordenador/design.md |
+| SCR-10 | ADR-009, RF-15–RF-18 |
 | SCR-09 | permissions.md, RF-12 |
 | Fluxo | user-stories/fluxo-calendario-semestre.md |

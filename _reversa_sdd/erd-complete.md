@@ -154,8 +154,15 @@ erDiagram
     CALENDARIO_GERADO {
         uuid id PK
         uuid semestre_id FK
+        uuid job_id FK
+        int versao
+        string rotulo
         enum status
+        bool referencia_ativa
         string xlsx_blob_path
+        jsonb verificacao_result
+        timestamptz publicado_em
+        timestamptz deleted_at
     }
     RELATORIO {
         uuid id PK
@@ -199,5 +206,5 @@ erDiagram
 ## Lacunas 🔴
 
 - ~~Normalização grade (por semestre vs snapshot imutável)~~ → ADR-008 snapshot aprovado
-- Versionamento de propostas (histórico de reruns)
+- ~~Versionamento de propostas (histórico de reruns)~~ → ADR-009 histórico calendários
 - Audit trail de quem relaxou regra 4

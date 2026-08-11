@@ -100,3 +100,23 @@ Regra **LP/LIT/RED ≥10 dias** — skill ✅; código ✅ (PR #18 mergeada em `
 - Mesma aplicação empacotada em **Docker Compose**: API Python + Postgres + **frontend Vite** + worker
 - Na nuvem: serviços gerenciados (ex.: Vercel/Railway/Fly + Neon Postgres + S3)
 - On-prem: `docker compose up` em servidor local da escola, sem dependência de internet para operação diária
+
+## Histórico de calendários gerados (2026-08-11 — Brener)
+
+À medida que os calendários forem **gerados**, o sistema deve **gravar automaticamente**
+na base de dados (metadados + blobs de arquivo) cada versão produzida, para evitar
+perda por exclusão ou sobrescrita acidental.
+
+O coordenador deve poder, **pela interface web**, de forma transparente:
+
+| Ação | Comportamento |
+|------|----------------|
+| **Consultar histórico** | Listar versões anteriores do semestre (data, status, verificação) |
+| **Abrir versão antiga** | Ver detalhes, verificação e downloads como na geração atual |
+| **Restaurar referência** | Marcar uma versão antiga como referência ativa do semestre (sem apagar as mais novas) |
+| **Download** | Baixar xlsx e relatórios de qualquer versão não apagada |
+| **Apagar** | Excluir versão escolhida, com confirmação; some da lista padrão |
+
+**Princípio:** persistência automática no fim de cada job OK; nenhum passo manual de “salvar backup”.
+
+Ver ADR-009 e `plataforma-multi-coordenador/requirements.md` RF-15–RF-18.
