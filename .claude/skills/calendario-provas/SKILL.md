@@ -277,6 +277,30 @@ Nunca comece a montar o calendário sem antes:
   o limite de data para provas da série 9/11 (`LIMITE_DIA`/`LIMITE`) foi
   estendido até quinta da semana 17 (26/11) para comportar isso — ver
   `referencia/estado_2sem_2026.md`.
+  - **Superada pela regra de consolidação de semanas, quando as duas
+    entrarem em conflito** (08/2026): se mover a prova que ocuparia a
+    semana 17 para uma semana vizinha já ocupada consolida melhor o
+    calendário (ver regra abaixo), é aceitável a semana 17 ficar sem
+    nenhuma prova regular — só com a marcação de 2ª chamada. Caso
+    concreto desta rodada: a Redação (2ª ocorrência) da 9C1/9C2 saiu da
+    semana 17 (única prova de lá) para a semana 16, junto com a
+    Biologia — a semana 17 ficou vazia de propósito.
+- **Consolidar provas na mesma semana em vez de espalhar por mais
+  semanas** (pedido do usuário, 08/2026): quando houver a opção de
+  encaixar 2 provas numa mesma semana já usada por outra prova, sem
+  violar nenhuma outra regra, isso é preferível a usar uma semana a mais
+  só para mantê-las separadas — melhora a distribuição geral do
+  calendário (menos semanas "de prova avulsa", mais semanas totalmente
+  livres para o resto do conteúdo). **Não é uma regra do algoritmo de
+  busca em si** — é uma checagem a ser feita **depois que o horário já
+  está fechado**: revisar se há semanas do período com 0 provas ao lado
+  de semanas com só 1, e se alguma prova isolada pode ser movida para
+  perto de outra sem infringir as demais regras (distância mínima,
+  grupo 1, cessão de tempo, vésperas de prova/2ª chamada etc.). Caso
+  concreto desta rodada: a 9C tinha a semana 16 inteira livre de provas
+  — Biologia (09/11) e a 2ª ocorrência de Redação (16/11) foram movidas
+  para as semanas 15 e 16, consolidando as provas do fim do período em
+  vez de deixá-las espalhadas com uma semana inteira vazia no meio.
 - **Simulados/AG**: entram nas datas informadas, são fixos, não podem ser
   movidos para encaixar outras provas.
 - **Tempo de aplicação**: preferencialmente no(s) tempo(s) da própria
@@ -756,7 +780,11 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       semanas das duas é, idealmente, de **7**, e nunca menos que **4**
       (piso rígido)
 - [ ] Turmas 9C1/9C2 e 11C1/11C2 têm pelo menos 1 prova até quarta-feira
-      da semana 17
+      da semana 17 — **salvo quando consolidar numa semana vizinha já
+      ocupada for melhor** (ver regra de consolidação de semanas acima)
+- [ ] Revisão de consolidação: nenhuma semana do período ficou vazia
+      "à toa" ao lado de uma semana com só 1 prova isolada que poderia
+      ter sido movida para lá sem violar outra regra
 - [ ] Provas combinadas (LP/LIT/RED) usam o número certo de tempos e não
       aparecem como disciplinas separadas
 - [ ] LP/LIT/RED (turmas 10, 11 e 12) caiu na 1ª ou 2ª semana de cada
