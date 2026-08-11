@@ -13,6 +13,7 @@
     {"id": "SCR-06", "name": "Customizações IA", "route": "/customizacoes-ia", "source": "greenfield"},
     {"id": "SCR-07", "name": "Gerar calendário", "route": "/semestres/:id/gerar", "source": "greenfield"},
     {"id": "SCR-08", "name": "Verificação + Downloads", "route": "/calendarios/:id", "source": "greenfield"},
+    {"id": "SCR-10", "name": "Consulta períodos e calendários", "route": "/calendarios", "source": "greenfield", "note": "Tela única: filtros de períodos anteriores + versões geradas (ADR-009, RF-19)"},
     {"id": "SCR-09", "name": "Admin catálogo", "route": "/admin/regras", "source": "greenfield"}
   ]
 }
