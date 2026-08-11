@@ -38,6 +38,7 @@
 5. **Cessão** — Para cada slot, `Cessoes.pode_ceder` → `aplicar`; backtrack com `desfazer` se falhar 🟢
 6. **Afrouxamento** — Se falhar: relaxar regra 4 → regra 3 → tetos; reiniciar `montar_proposta` 🟢
 7. **Saída** — `escrever` xlsx 8 abas + relatório trocas + `detectar_regras_relaxadas` 🟢
+8. **Verificação downstream** — `verificar_calendario.py` audita o xlsx gravado (ADR-010); gerador não substitui verificador 🟢
 
 ## Fluxos Alternativos
 
@@ -52,7 +53,7 @@
 - **openpyxl** — Leitura modelo, escrita calendário 🟢
 - **Grade-base** — Dict Python (hoje em arquivo; futuro BD/blob) 🟢
 - **SKILL.md / RuleContext** — Fonte de regras; futuro toggles ADR-006 🟡
-- **verificar_calendario** — Consumidor downstream do xlsx gerado 🟢
+- **verificar_calendario** — Auditor independente do **xlsx gravado** (ADR-010); não usa memória do solver 🟢
 
 ## Decisões de Design Identificadas
 

@@ -17,6 +17,8 @@ Detalhes em `.reversa/context/user-requirements.md`.
 **Histórico de calendários (2026-08-11):** cada geração persiste automaticamente;
 tela única **Calendários** (`/calendarios`) consulta períodos anteriores e acessa versões geradas (ADR-009, RF-19).
 
+**Verificação (2026-08-11):** `verificar_calendario.py` audita xlsx gravado (PROBLEMA vs AVISO); worker plataforma deve replicar (ADR-010).
+
 **Sincronização de regras (skill ↔ Reversa):** enquanto Brener atualiza a skill no Claude Code, seguir `.reversa/context/sync-regras.md`. Fontes vivas listadas em `.reversa/context/sources.json`.
 
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login

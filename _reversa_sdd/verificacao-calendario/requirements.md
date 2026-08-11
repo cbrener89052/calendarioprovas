@@ -6,7 +6,14 @@
 
 ## 1. Resumo executivo
 
-Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espelhando a skill `calendario-provas`. Produz relatório de problemas por turma com severidade (erro/aviso). É o gate de qualidade pós-geração antes de publicar o calendário.
+**Script de auditoria** do calendário: **nunca confia na memória do gerador** — relê o `.xlsx` já gravado (`Proposta_3_Calendario_Provas_2026_2SEM.xlsx`), **célula por célula**, e confere se o conteúdo obedece à skill `calendario-provas`. Roda as **8 turmas** (8 abas).
+
+Saída em dois grupos:
+
+- **PROBLEMA** — falha real do checklist; **impede** publicação/entrega
+- **AVISO** — regra relaxada por inviabilidade (documentada como aceitável); **não impede** entrega
+
+Ver ADR-010. Gate de qualidade pós-geração antes de publicar o calendário.
 
 ## 2. Contexto a partir do legado
 
@@ -30,8 +37,10 @@ Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espe
 1. **RN-01:** Checklist espelha skill calendario-provas (~30 itens) 🟢
 2. **RN-02:** Cessão antes ou no dia da prova = **falha**, mesmo com regra 4 relaxada 🟢
 3. **RN-03:** Regra 4 relaxada documentada = **aviso**, não erro 🟢
-4. **RN-04:** Verificador opera sobre **arquivo xlsx**, não estado do gerador 🟢
+4. **RN-04:** Verificador opera sobre **arquivo xlsx gravado**, nunca estado in-memory do gerador 🟢
 5. **RN-05:** LP/LIT/RED ≥10 dias antes conselho 🟢 (PR #18)
+6. **RN-06:** Saída bifurcada **PROBLEMA** (erro) vs **AVISO** (relaxamento aceitável); só PROBLEMA bloqueia entrega 🟢
+7. **RN-07:** Iteração obrigatória das **8 turmas** C (8 abas do xlsx) 🟢
 
 ## 5. Requisitos Funcionais
 
@@ -43,7 +52,8 @@ Valida planilhas xlsx de calendário geradas contra checklist de ~30 regras espe
 | RF-04 | Validar distância 4 semanas entre mesma disciplina | Must | Erro se <4 semanas | 🟢 |
 | RF-05 | Validar cessões vs grade-base | Must | Detecta tempo de outra disciplina usado | 🟢 |
 | RF-06 | Validar simulados (2º–7º tempo, datas fixas) | Must | Erro se fora do slot esperado | 🟢 |
-| RF-07 | Emitir ProblemaValidacao (turma, regra, msg, severidade) | Must | Lista agrupada por turma | 🟢 |
+| RF-07 | Emitir ProblemaValidacao (turma, regra, msg, severidade) | Must | `erro` ↔ PROBLEMA; `aviso` ↔ AVISO | 🟢 |
+| RF-07b | Imprimir/resumir PROBLEMA e AVISO separados | Must | Paridade stdout legado | 🟢 |
 | RF-08 | Check LP/LIT/RED 10 dias conselho | Must | Check 5a-bis; semana ≤9 | 🟢 |
 | RF-09 | Validar cores ARGB (destaque laranja recreio) | Could | Aviso se skill pede e cor ausente | 🔴 |
 | RF-10 | Endpoint automático pós-job (plataforma) | Should | 422 se erros críticos | 🟡 |
@@ -74,7 +84,13 @@ Cenário: Violação cessão véspera
 Cenário: Regra relaxada documentada
   Dado calendário com regra 3 relaxada conforme relatório gerador
   Quando verificador encontra gap de 2 semanas sem contato
-  Então emite aviso, não erro
+  Então emite AVISO, não PROBLEMA
+  E publicação permanece permitida se não houver PROBLEMA
+
+Cenário: Auditoria independente do xlsx
+  Dado calendário xlsx editado manualmente após geração
+  Quando verificador relê células do arquivo gravado
+  Então detecta violação mesmo que memória do gerador estivesse OK
 
 Cenário: Check IA por customização
   Dado customização IA "evitar provas Geo às segundas" ativa no segmento
@@ -104,4 +120,5 @@ Cenário: Check IA por customização
 
 | Data | Alteração | Autor |
 |------|-----------|-------|
+| 2026-08-11 | RN-06/07, RF-07b; auditoria xlsx (ADR-010, Brener) | reversa |
 | 2026-08-09 | Versão inicial Fase 4 | reversa-writer |

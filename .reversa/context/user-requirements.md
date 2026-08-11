@@ -129,4 +129,13 @@ A **mesma tela** de acesso aos calendários gerados serve também para **consult
 
 Rota UI: `/calendarios` (SCR-10). Não duplicar em “Histórico” separado.
 
+## Verificação como auditoria do xlsx (2026-08-11)
+
+`verificar_calendario.py` **não testa a memória do gerador** — relê o xlsx gravado célula a célula (8 turmas) e classifica:
+
+- **PROBLEMA** → falha real; bloqueia publicação
+- **AVISO** → regra relaxada por inviabilidade; não bloqueia entrega
+
+Na plataforma, o worker **sempre** roda o verificador sobre o blob xlsx após gravação (ADR-010).
+
 Ver ADR-009 e `plataforma-multi-coordenador/requirements.md` RF-15–RF-19.

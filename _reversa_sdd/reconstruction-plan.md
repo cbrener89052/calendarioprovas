@@ -82,9 +82,9 @@
 ## Tarefa 6 — Worker pipeline
 
 - **Status:** pending
-- **Lê:** `migration/target_domain_model.md`, `geracao-calendario/design.md`, `verificacao-calendario/design.md`
-- **Entrega:** Job consumer: carregar snapshot aprovado → solver → verificador → persistir
-- **Critério:** job manual com entradas locais completa
+- **Lê:** `migration/target_domain_model.md`, `geracao-calendario/design.md`, `verificacao-calendario/design.md`, ADR-010
+- **Entrega:** Job consumer: snapshot aprovado → solver → **write xlsx** → **verifier(blob)** → persistir
+- **Critério:** job manual completa; `verificacao_result` distingue PROBLEMA vs AVISO
 
 ## Tarefa 7 — API auth + tenant
 
