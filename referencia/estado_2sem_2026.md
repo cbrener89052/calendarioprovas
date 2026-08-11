@@ -439,6 +439,22 @@ de antes (45). Os 4 relatórios foram regenerados.
 `verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
 de antes (45). Os 4 relatórios foram regenerados.
 
+## 10ª rodada de ajustes manuais na Proposta 3 (08/2026, a pedido do usuário)
+
+- **12C2**: Inglês (2ª ocorrência) movida de 28/09 (semana9, segunda)
+  para 05/10 (semana10, segunda) — mesmo dia da semana e mesmo bloco de
+  tempos (4º-5º), só trocou de semana. (12C1 não tinha prova em 28/09 —
+  o pedido "turmas 12C" só se aplicava à 12C2 nesse caso, já que o
+  Inglês da 12C1 tem professor diferente e datas próprias.) Semana10 já
+  cria a combinação Inglês + LP/LIT/RED (grupo 1) na mesma semana, que é
+  a exceção permitida (uma delas é Inglês).
+- **12C1/12C2**: GL movida de 08/10 (semana10, quinta) para 01/10
+  (semana9, quinta) — mesmo dia da semana e mesmo bloco de tempos
+  (9º-10º), só trocou de semana.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
+de antes (45). Os 4 relatórios foram regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
