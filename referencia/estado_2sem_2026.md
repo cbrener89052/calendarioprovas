@@ -412,6 +412,21 @@ Relatórios regenerados ao final: `Relatorio_Tempos_Cedidos_Proposta_3.xlsx`,
 e `.xlsx`. `verificar_calendario.py` fecha em 0 PROBLEMA, 45 AVISOs (todos
 de regras já documentadas como relaxamento conhecido).
 
+## 8ª rodada de ajustes manuais na Proposta 3 (08/2026, a pedido do usuário)
+
+- **12C1/12C2**: simulado S4-12 movido de 16-17/09 (semana7, quarta+quinta)
+  para 23-24/09 (semana8, quarta+quinta) — mesmos dias da semana, só
+  trocou de semana. Semana8 estava totalmente livre para as duas turmas
+  (0 provas), sem conflito de dia nem de limite de 3 avaliações.
+  **Implementado no código**: `SIMULADOS["12C1"]`/`SIMULADOS["12C2"]`
+  em `gerar_calendario.py` atualizados para `(8, 3, ...)`/`(8, 4, ...)`
+  — necessário porque `verificar_calendario.py` (item 8 do checklist)
+  compara as datas gravadas na planilha contra `G.SIMULADOS` e acusaria
+  PROBLEMA se só a planilha fosse editada sem atualizar essa constante.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
+de antes (45). Os 4 relatórios foram regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
