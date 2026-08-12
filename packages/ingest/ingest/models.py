@@ -33,8 +33,8 @@ class GradeCell:
     def __post_init__(self) -> None:
         if not 1 <= self.dia <= 5:
             raise ValueError(f"dia fora do intervalo 1-5: {self.dia}")
-        if not 1 <= self.tempo <= 11:
-            raise ValueError(f"tempo fora do intervalo 1-11: {self.tempo}")
+        if not 1 <= self.tempo <= 13:
+            raise ValueError(f"tempo fora do intervalo 1-13: {self.tempo}")
 
 
 @dataclass(frozen=True)

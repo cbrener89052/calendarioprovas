@@ -1,1 +1,2 @@
-# Worker deps — solver package wired in T4/T5
+# Worker deps — solver + ingest wired in T5/T6
+openpyxl>=3.1.0

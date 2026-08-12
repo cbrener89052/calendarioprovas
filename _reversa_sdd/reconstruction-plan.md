@@ -12,7 +12,7 @@
 
 | Concluídas | Pendentes | Total |
 |------------|-----------|-------|
-| 7 | 12 | 19 |
+| 8 | 11 | 19 |
 
 ---
 
@@ -74,10 +74,11 @@
 
 ## Tarefa 5 — Extrair packages/solver
 
-- **Status:** pending
+- **Status:** done
 - **Lê:** `migration/paradigm_decision.md`, `gerar_calendario.py`, `verificar_calendario.py`, ADR-008
 - **Entrega:** Refactor solver importável; lê `GradeSnapshot` aprovado (nunca re-parse PDF)
 - **Critério:** pytest import solver; CLI legado ainda funciona em `legacy/`
+- **Concluída:** 2026-08-12 — `generate_proposta3`, `verify_xlsx`, `legacy_bridge`, testes pytest
 
 ## Tarefa 6 — Worker pipeline
 

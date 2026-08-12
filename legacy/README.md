@@ -8,8 +8,29 @@ Durante a fase **Strangler Fig**, os scripts operacionais permanecem na **raiz d
 | `verificar_calendario.py` | Checklist pós-geração |
 | `exportar_*.py` | Relatórios |
 
-A extração para `packages/solver/` ocorre na **Tarefa 4** do `reconstruction-plan.md`. Até lá, use os scripts da raiz para Parallel Run.
+A extração para `packages/solver/` foi concluída na **Tarefa 5** (`reconstruction-plan.md`).
+
+## API importável (plataforma)
+
+```python
+from ingest.models import GradeSnapshot
+from solver import generate_proposta3, verify_xlsx
+
+result = generate_proposta3(snapshot, modelo_xlsx=..., output_dir=...)
+verification = verify_xlsx(result.xlsx_path)
+# verification.problemas → bloqueia entrega (ADR-010)
+# verification.avisos → informativo
+```
+
+Para paridade com o CLI hardcoded:
+
+```python
+from solver import generate_proposta3_legacy
+result = generate_proposta3_legacy()
+```
 
 ## Paridade
 
 Comparar saídas CLI vs plataforma conforme `cutover_plan.md` e `parity_tests/`.
+
+Testes: `pytest packages/solver/tests -m "not slow"` (rápido). Smoke completo: `RUN_SLOW=1 pytest packages/solver/tests -m slow`.

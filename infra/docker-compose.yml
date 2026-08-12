@@ -50,8 +50,8 @@ services:
 
   worker:
     build:
-      context: ../apps/worker
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: apps/worker/Dockerfile
     environment:
       DATABASE_URL: postgresql://calendario:calendario@postgres:5432/calendario
       BLOB_ENDPOINT: http://minio:9000
