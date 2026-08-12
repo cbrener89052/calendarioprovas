@@ -135,8 +135,11 @@ def main():
             cont = collections.Counter(
                 disc for (_, _, _, disc, _tx, _ti, _nt, _ds) in provas if not SIM_COD.match(disc))
             for disc, c in cont.items():
+                _chave = [k for k, v in G.NOME.items() if v == disc]
+                _codigo = _chave[0] if _chave else None
                 esperado = 1 if disc in ("Fil", "Soc") or \
-                    (turma.startswith("9") and disc in ("Bio", "Fis", "Qui")) else 2
+                    (turma.startswith("9") and disc in ("Bio", "Fis", "Qui")) or \
+                    (_codigo and _codigo in G.UMA_PROVA_POR_TURMA.get(turma, ())) else 2
                 if disc in ("Port", "Redação", "Gram") and not turma.startswith("9"):
                     problemas.append(f"{pre}: {disc} separado (deveria ser LP/LIT/RED)")
                 if c != esperado:

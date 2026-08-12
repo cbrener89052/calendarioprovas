@@ -561,6 +561,40 @@ a mesma disciplina examinada. Hoje só tem `{"11C1": {"soc"}, "11C2":
 (43). Os 5 relatórios regenerados. O slot vago (semana 12, sexta) ficou
 livre, sem nada alocado nele por enquanto.
 
+## Inglês (12C1/12C2): 2ª prova removida (08/2026, a pedido do usuário)
+
+"Pode retirar a segunda prova de inglês do calendário tanto da turma
+12c1 quanto da turma 12c2." Removida a 2ª ocorrência de Inglês da
+12C1 (semana 14, quinta) e da 12C2 (semana 10, segunda). A 1ª ocorrência
+de cada turma permanece (12C1: semana 5, quinta; 12C2: semana 4,
+segunda/24-08). Cada turma tem professor diferente (PaH/12C1, Isb/12C2,
+não é professor comum), então a mudança é independente entre as duas.
+
+**Implementado no código**: novo dict `UMA_PROVA_POR_TURMA` em
+`gerar_calendario.py`, consultado por `montar_exames()` — quando a
+disciplina está em `DOIS_TEMPOS` mas a turma tem exceção registrada
+aqui, só a 1ª ocorrência é gerada. `verificar_calendario.py` (item 5,
+número de provas por disciplina) também consulta esse dict, para não
+acusar falsamente "Ing tem 1 prova, esperado 2" nas turmas com a
+exceção. Mesmo princípio do `SEM_PROVA_POR_TURMA` (Sociologia/11C) --
+fato concreto deste semestre, não regra geral da escola, então **não**
+documentado como regra na skill.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
+(43). Os 5 relatórios regenerados.
+
+**Atualização**: usuário confirmou seguir com os tempos 5º-6º, mantendo
+a data real 24/08 (a 25/08 mencionada originalmente não tem aula de
+Inglês na 12C2 -- confirmado como engano). Aplicado: 12C2, 1ª prova de
+Inglês, 24/08, tempos 4º-5º → **5º-6º** (célula destacada por cruzar o
+intervalo do recreio -- é o único bloco que cobre os 2 tempos próprios
+de Inglês nesse dia; o bloco anterior, 4º-5º, emprestava 1 tempo de
+Alemão). Efeito colateral positivo: elimina a cessão de Alemão que
+existia nesse bloco. `verificar_calendario.py` fecha em 0 PROBLEMA,
+mesma contagem de AVISOs (43). Confirmado a pedido do usuário: **este
+fato (e a remoção da 2ª prova, acima) não entra na skill como regra**
+-- é um pedido específico deste semestre, registrado só aqui.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

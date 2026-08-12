@@ -209,6 +209,16 @@ SEM_PROVA_POR_TURMA = {
     "11C2": {"soc"},
 }
 
+# excecoes de DOIS_TEMPOS por turma especifica: a disciplina tem so 1
+# prova no semestre (a 1a ocorrencia, nao as 2 normais), so NESSA turma.
+# Ex.: Ingles nas turmas 12C (pedido do usuario, 08/2026: "pode retirar
+# a segunda prova de ingles do calendario tanto da turma 12c1 quanto da
+# turma 12c2").
+UMA_PROVA_POR_TURMA = {
+    "12C1": {"ing"},
+    "12C2": {"ing"},
+}
+
 GRADES = {
     turma: {(d, t): tuple(v.split("/"))
             for d, tempos in dias.items() for t, v in tempos.items()}
@@ -564,7 +574,8 @@ def montar_exames(turma):
             e.append((disc, prof, 1, None))                # 9C: bio/fis/qui 1x, 1 tempo
         elif disc in DOIS_TEMPOS:
             e.append((disc, prof, 2, 1))
-            e.append((disc, prof, 2, 2))
+            if disc not in UMA_PROVA_POR_TURMA.get(turma, ()):
+                e.append((disc, prof, 2, 2))
     return e
 
 
