@@ -22,6 +22,45 @@ O resultado final é o **calendário de provas**, um **relatório de trocas de
 tempo entre professores**, uma **tabela-resumo por turma** e um **relatório
 de tempos cedidos**.
 
+## Fonte da verdade — GitHub
+
+**O repositório remoto no GitHub é a fonte da verdade** de regras, scripts e
+artefatos deste projeto. Nenhuma cópia local (Windows, Cursor, agente cloud)
+prevalece sobre o que está em `origin/main` sem sincronização explícita.
+
+| Camada | Onde | Papel |
+|---|---|---|
+| **1. GitHub** | `https://github.com/cbrener89052/calendarioprovas` | **Canônico** — skill, código Python, referência do semestre, specs Reversa |
+| **2. Branch `main`** | Desenvolvimento contínuo | Versão de trabalho que todos devem puxar antes de gerar ou editar |
+| **3. Branch `producao`** | Versão validada | Só após `verificar_calendario.py` OK (ou pedido explícito) |
+| **4. Cópia local** | Pasta da máquina / VM do agente | Rascunho até `commit` + `push`; **nunca** assumir que está atualizada |
+| **5. `_reversa_sdd/`** | Specs Reversa | Documentação **derivada** — consulta útil, mas **não** substitui GitHub |
+| **6. Plataforma (futuro)** | PostgreSQL + blobs | Estado operacional por coordenador; catálogo de regras **seeded** do Git |
+
+### Regra para humanos e agentes de IA
+
+1. **Antes de montar, revisar ou exportar calendário:** garantir `main` atualizada
+   (`git pull origin main` ou `atualizar_do_github.bat` no Windows).
+2. **Depois de alterar skill, scripts ou referência:** enviar para GitHub
+   (`commit_github.bat` ou `git push origin main`) — a escola e outros
+   coordenadores só veem o que foi publicado no remoto.
+3. **Em sessão Cursor / agente cloud:** o agente parte do GitHub; se o usuário
+   editou regras no Windows, ele deve puxar **antes** de continuar.
+4. **Conflito local vs GitHub:** prevalece **GitHub `main`** (salvo merge
+   deliberado acordado com o usuário).
+5. **Specs em `_reversa_sdd/`:** úteis para arquitetura e migração; se
+   divergirem da skill ou do código em `main`, **corrija a spec ou re-sincronize
+   via Reversa** — não trate a spec como verdade operacional.
+
+Arquivos canônicos (hashes em `.reversa/context/sources.json`):
+
+- `.claude/skills/calendario-provas/SKILL.md` (regras em linguagem humana)
+- `gerar_calendario.py`, `verificar_calendario.py` (implementação + checklist)
+- `referencia/estado_*.md` (dados da rodada em andamento)
+
+Fluxo detalhado: `referencia/fluxo-git-main-producao.md` e
+`.reversa/context/sync-regras.md`.
+
 ## Passo 0 — Perguntas obrigatórias antes de começar
 
 Nunca comece a montar o calendário sem antes:

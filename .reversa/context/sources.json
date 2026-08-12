@@ -1,6 +1,9 @@
 {
-  "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
-  "updated_at": "2026-08-10T22:55:00Z",
+  "description": "Fontes canônicas versionadas no GitHub (origin/main). Agentes Reversa devem git pull ANTES de ler estes arquivos; _reversa_sdd/ é derivado e não prevalece sobre o remoto.",
+  "github_repo": "https://github.com/cbrener89052/calendarioprovas",
+  "source_of_truth_branch": "main",
+  "validated_branch": "producao",
+  "updated_at": "2026-08-12T15:10:00Z",
   "last_sync_requested_at": "2026-08-10T22:44:00Z",
   "last_sync_completed_at": "2026-08-10T22:55:00Z",
   "last_sync_commit": "677cec0",
@@ -76,5 +79,5 @@
       "note": "Atualizar pós 677cec0 — professor_presente_no_bloco"
     }
   ],
-  "refresh_instructions": "Leia .reversa/context/sync-regras.md quando o usuário alterar regras pela skill ou pelo código."
+  "refresh_instructions": "1) git pull origin main. 2) Leia .reversa/context/sync-regras.md. 3) Compare hashes — GitHub prevalece sobre _reversa_sdd/."
 }

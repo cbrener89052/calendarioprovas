@@ -10,6 +10,10 @@ Durante a fase **Strangler Fig**, os scripts operacionais permanecem na **raiz d
 
 A extração para `packages/solver/` foi concluída na **Tarefa 5** (`reconstruction-plan.md`).
 
+**Fonte da verdade:** scripts canônicos permanecem na **raiz do repositório GitHub
+`main`**. `packages/solver/` é wrapper importável — sincronize sempre com `git pull`
+antes de comparar paridade.
+
 ## API importável (plataforma)
 
 ```python

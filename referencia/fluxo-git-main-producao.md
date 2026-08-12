@@ -1,5 +1,20 @@
 # Fluxo Git — main vs producao
 
+## Fonte da verdade
+
+**GitHub** (`https://github.com/cbrener89052/calendarioprovas`) é a **fonte da
+verdade**. Nenhuma pasta local — Windows, Cursor ou agente cloud — prevalece
+sobre o remoto sem `git pull` / `git push` explícitos.
+
+| Onde | Papel |
+|---|---|
+| **`origin/main` no GitHub** | Canônico — skill, scripts, referência, specs |
+| Pasta local | Cópia de trabalho; pode estar defasada |
+| **`origin/producao`** | Release validada (pós-verificador) |
+
+**Regra:** conflito entre local e GitHub → **prevalece GitHub `main`**, salvo
+merge deliberado acordado.
+
 ## Duas branches
 
 | Branch | Papel | Quem usa |
@@ -84,12 +99,15 @@ git pull origin main
 
 ## Regra para o agente Cursor
 
-A cada evolucao concluida:
+**GitHub é a fonte da verdade.** A cada evolução concluída:
 
-1. **Commit + push em `main`** (sempre)
-2. **Promover para `producao`** somente quando:
+1. **`git pull origin main`** no início da sessão (ou confirmar que o usuário
+   puxou no Windows).
+2. **Commit + push em `main`** (ou PR mergeado em `main`) ao concluir.
+3. **Promover para `producao`** somente quando:
    - `verificar_calendario.py` passou com OK, ou
    - voce pedir explicitamente
+4. **Nunca** tratar `_reversa_sdd/` como verdade se divergir de skill/código em `main`.
 
 ## Quando NAO promover
 

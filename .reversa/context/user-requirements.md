@@ -28,6 +28,19 @@ precisa existir um **banco de dados** para armazenar:
 - Autenticação e controle de acesso (a confirmar)
 - Migração do fluxo atual (git + arquivos locais) para plataforma compartilhada
 
+## GitHub como fonte da verdade (2026-08-12)
+
+Durante e após a migração para plataforma:
+
+- **Regras institucionais** continuam originando no repositório GitHub
+  (`origin/main`: skill + scripts). O catálogo PostgreSQL é **seed/sync** desse conteúdo.
+- **Dados por coordenador** (grades, calendários gerados, uploads) vivem no BD/blobs —
+  não no Git — mas **não substituem** a skill/código canônico no GitHub.
+- Agentes e devs: `git pull origin main` antes de implementar; push/PR ao concluir.
+- `_reversa_sdd/` permanece documentação derivada; GitHub prevalece em conflito.
+
+Ver: `.reversa/context/sync-regras.md`, ADR-004.
+
 ## Pendências para o usuário confirmar
 
 - [x] Cada coordenador vê **só os seus dados** ou há templates/regras compartilhadas? → **A definir no Arquiteto** (provável: dados isolados por coordenador + templates institucionais compartilhados)

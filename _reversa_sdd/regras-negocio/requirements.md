@@ -29,7 +29,7 @@ Centraliza o catálogo vivo de regras de calendário de provas: fonte primária 
 
 ## 4. Regras de negócio
 
-1. **RN-01:** SKILL.md é fonte de verdade para regras de domínio 🟢
+1. **RN-01:** SKILL.md em **GitHub `main`** é fonte de verdade para regras de domínio 🟢 (ver ADR-004, addenda github-fonte-verdade-2026-08-12)
 2. **RN-02:** PDF é snapshot; não substitui skill 🟢
 3. **RN-03:** Regra codificada = implementada no solver; toggle on/off 🟢
 4. **RN-04:** Regra só na skill sem código = lacuna documentada (ex. PR #14) 🔴

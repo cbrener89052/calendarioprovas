@@ -3,6 +3,28 @@
 Estrutura, dados e scripts para montar o calendário de provas das turmas C
 a cada semestre.
 
+## Fonte da verdade — GitHub
+
+**O repositório remoto é a fonte da verdade.** Tudo que importa para regras,
+scripts e referência do semestre deve estar em:
+
+**https://github.com/cbrener89052/calendarioprovas**
+
+| Branch | Papel |
+|---|---|
+| **`main`** | Desenvolvimento — skill, código, specs Reversa (sempre sincronizar aqui) |
+| **`producao`** | Versão validada para a escola (após verificador OK) |
+
+- **Antes de gerar calendário ou continuar trabalho:** puxe `main` do GitHub
+  (`atualizar_do_github.bat` no Windows ou `git pull origin main`).
+- **Depois de editar:** envie para GitHub (`commit_github.bat` ou `git push`).
+- **Cópia local sem push** = rascunho; **não** use como referência para a escola.
+- **`_reversa_sdd/`** = documentação derivada (Reversa); se divergir do código
+  em `main`, **GitHub prevalece**.
+
+Detalhes: `referencia/fluxo-git-main-producao.md` e
+`.reversa/context/sync-regras.md`.
+
 ## Pastas
 
 | Pasta | Conteúdo |
