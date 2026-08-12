@@ -241,7 +241,7 @@ aula em horários diferentes em cada turma.
 | 12C1 | Qui / CAl/Fab | 4º tempo(s) (Sex, semana 14) | Wag | Hist | Solicitar ao prof. Wag a cessão do(s) tempo(s) 4º de Hist para a prova de Qui | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Qui / CAl/Fab | 5º tempo(s) (Sex, semana 14) | AMu | Redação | Solicitar ao prof. AMu a cessão do(s) tempo(s) 5º de Redação para a prova de Qui | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Mat / Bre/JJ | 2º tempo(s) (Ter, semana 15) | Ale | Bio | Solicitar ao prof. Ale a cessão do(s) tempo(s) 2º de Bio para a prova de Mat | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
-| 12C2 | Ing / Isb | 4º tempo(s) (Seg, semana 4) | CBu-EFr-Eth | DaF | Solicitar ao prof. CBu-EFr-Eth a cessão do(s) tempo(s) 4º de DaF para a prova de Ing |  |
+| 12C2 | Ing / Isb | — | — | — | — | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube |
 | 12C2 | LP/LIT/RED / AMu/Deb | 9º, 10º tempo(s) (Ter, semana 4) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 9º, 10º de Aprof. para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | LP/LIT/RED / AMu/Deb | 11º tempo(s) (Ter, semana 4) | Wag | Hist | Solicitar ao prof. Wag a cessão do(s) tempo(s) 11º de Hist para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Fis / Cadu | 2º tempo(s) (Qui, semana 4) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 2º de Artes para a prova de Fis | Prova conjunta com 12C1 (professor comum, tempos coordenados) |

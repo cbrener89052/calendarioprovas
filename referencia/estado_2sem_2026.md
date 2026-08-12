@@ -583,11 +583,17 @@ documentado como regra na skill.
 `verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
 (43). Os 5 relatórios regenerados.
 
-**Pendente de confirmação do usuário**: pedido de mudar a 1ª prova de
-Inglês da 12C2 para os tempos 5º-6º no dia 25/08 -- a data 25/08 não
-tem nenhuma aula de Inglês na 12C2 (a prova atual é 24/08); e o par
-5º-6º cruza o intervalo do recreio, diferente do bloco atual (4º-5º),
-que não cruza. Nada aplicado ainda nessa parte.
+**Atualização**: usuário confirmou seguir com os tempos 5º-6º, mantendo
+a data real 24/08 (a 25/08 mencionada originalmente não tem aula de
+Inglês na 12C2 -- confirmado como engano). Aplicado: 12C2, 1ª prova de
+Inglês, 24/08, tempos 4º-5º → **5º-6º** (célula destacada por cruzar o
+intervalo do recreio -- é o único bloco que cobre os 2 tempos próprios
+de Inglês nesse dia; o bloco anterior, 4º-5º, emprestava 1 tempo de
+Alemão). Efeito colateral positivo: elimina a cessão de Alemão que
+existia nesse bloco. `verificar_calendario.py` fecha em 0 PROBLEMA,
+mesma contagem de AVISOs (43). Confirmado a pedido do usuário: **este
+fato (e a remoção da 2ª prova, acima) não entra na skill como regra**
+-- é um pedido específico deste semestre, registrado só aqui.
 
 ## Próximos passos
 
