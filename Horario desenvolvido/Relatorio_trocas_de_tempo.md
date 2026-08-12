@@ -45,7 +45,6 @@ aula em horários diferentes em cada turma.
 | 11C1/11C2 | Hist | Coordenada (professor comum, tempos diferentes) |
 | 11C1/11C2 | Mat | Coordenada (professor comum, tempos diferentes) |
 | 11C1/11C2 | Qui | Coordenada (professor comum, tempos diferentes) |
-| 11C1/11C2 | Soc | Coordenada (professor comum, tempos diferentes) |
 | 12C1/12C2 | DaF | Já combinada (grupo paralelo) |
 | 12C1/12C2 | GL | Já combinada (grupo paralelo) |
 | 12C1/12C2 | LP/LIT/RED | Coordenada (professor comum, tempos diferentes) |
@@ -180,7 +179,6 @@ aula em horários diferentes em cada turma.
 | 11C1 | Geo / Mar | 1º tempo(s) (Qua, semana 10) | Ver | Hist | Solicitar ao prof. Ver a cessão do(s) tempo(s) 1º de Hist para a prova de Geo | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Geo / Mar | 2º tempo(s) (Qua, semana 10) | ClaMe | Mat | Solicitar ao prof. ClaMe a cessão do(s) tempo(s) 2º de Mat para a prova de Geo | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Hist / Ver | 2º tempo(s) (Qua, semana 12) | ClaMe | Mat | Solicitar ao prof. ClaMe a cessão do(s) tempo(s) 2º de Mat para a prova de Hist | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
-| 11C1 | Soc / Kle | 4º tempo(s) (Sex, semana 12) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 4º de Geo para a prova de Soc | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | DaF / CBu-SGa-Swa | 7º tempo(s) (Qua, semana 13) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 7º de Aprof. para a prova de DaF | Grupo paralelo já combinado com 11C2 |
 | 11C1 | LP/LIT/RED / ACo/AMu/Raf | 9º tempo(s) (Qui, semana 14) | Bea | Ing | Solicitar ao prof. Bea a cessão do(s) tempo(s) 9º de Ing para a prova de LP/LIT/RED | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | LP/LIT/RED / ACo/AMu/Raf | 10º, 11º tempo(s) (Qui, semana 14) | - | Ed.Física | Solicitar ao prof. - a cessão do(s) tempo(s) 10º, 11º de Ed.Física para a prova de LP/LIT/RED | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
@@ -205,7 +203,6 @@ aula em horários diferentes em cada turma.
 | 11C2 | Geo / Mar | 2º tempo(s) (Qua, semana 10) | Ver | Hist | Solicitar ao prof. Ver a cessão do(s) tempo(s) 2º de Hist para a prova de Geo | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Ing / PaH | 5º tempo(s) (Seg, semana 12) | CBu-Swa-SGa | GL | Solicitar ao prof. CBu-Swa-SGa a cessão do(s) tempo(s) 5º de GL para a prova de Ing |  |
 | 11C2 | Hist / Ver | 1º tempo(s) (Qua, semana 12) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 1º de Geo para a prova de Hist | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
-| 11C2 | Soc / Kle | — | — | — | — | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | DaF / CBu-SGa-Swa | 7º tempo(s) (Qua, semana 13) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 7º de Aprof. para a prova de DaF | Grupo paralelo já combinado com 11C1 |
 | 11C2 | LP/LIT/RED / ACo/AMu/Raf | 10º, 11º tempo(s) (Qui, semana 14) | - | Ed.Física | Solicitar ao prof. - a cessão do(s) tempo(s) 10º, 11º de Ed.Física para a prova de LP/LIT/RED | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Bio / Ale | 9º tempo(s) (Ter, semana 15) | ACo | Redação | Solicitar ao prof. ACo a cessão do(s) tempo(s) 9º de Redação para a prova de Bio | Prova conjunta com 11C1 (professor comum, tempos coordenados) |

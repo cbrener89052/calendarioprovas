@@ -542,6 +542,25 @@ dela) — trocado para a semana 10, que não tem nenhum vizinho assim.
 45 anteriores — a mudança até resolveu 2 avisos pré-existentes). Os 5
 relatórios regenerados.
 
+## Sociologia removida das turmas 11C (08/2026, a pedido do usuário)
+
+"Nas turmas 11C não haverá prova de sociologia" — removida a prova de
+Sociologia (semana 12, sexta, 4º tempo) da 11C1/11C2. A aula normal de
+Sociologia continua na grade dessas turmas (pode seguir sendo doadora de
+tempo); só a avaliação saiu. Sociologia continua com prova normalmente
+nas demais séries (ex.: 12C).
+
+**Implementado no código** (não só a planilha): novo dict
+`SEM_PROVA_POR_TURMA` em `gerar_calendario.py`, consultado por
+`montar_exames()` além do `SEM_PROVA` global — permite exceções de
+"sem prova" por turma específica, sem afetar as demais turmas que têm
+a mesma disciplina examinada. Hoje só tem `{"11C1": {"soc"}, "11C2":
+{"soc"}}`, mas o mecanismo serve para qualquer exceção futura do tipo.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
+(43). Os 5 relatórios regenerados. O slot vago (semana 12, sexta) ficou
+livre, sem nada alocado nele por enquanto.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

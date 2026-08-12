@@ -200,6 +200,15 @@ GRADE_TXT = {
 SEM_PROVA = {"esp", "art", "tec", "finan", "socem", "apoio", "proj",
              "apr", "elet", "prve"}
 
+# excecoes de SEM_PROVA por turma especifica (a disciplina continua tendo
+# aula normal -- e pode ser doadora -- so nao gera prova NESSA turma,
+# mesmo que gere nas demais). Ex.: Sociologia nas turmas 11C (pedido do
+# usuario, 08/2026: "nas turmas 11C nao havera prova de sociologia").
+SEM_PROVA_POR_TURMA = {
+    "11C1": {"soc"},
+    "11C2": {"soc"},
+}
+
 GRADES = {
     turma: {(d, t): tuple(v.split("/"))
             for d, tempos in dias.items() for t, v in tempos.items()}
@@ -544,7 +553,7 @@ def montar_exames(turma):
             e.append(("LPLITRED", nome, 3, 2))
 
     for disc, profs in sorted(discs.items()):
-        if disc in SEM_PROVA:
+        if disc in SEM_PROVA or disc in SEM_PROVA_POR_TURMA.get(turma, ()):
             continue
         if combina and disc in COMBINA_PORT:
             continue                                       # ja entrou combinada
