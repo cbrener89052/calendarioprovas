@@ -477,6 +477,33 @@ Professor_Proposta_3.xlsx`, gerado por `exportar_provas_por_professor.py`.
 leitura da planilha final, não muda o calendário). Todos os 5 relatórios
 regenerados.
 
+## Definição geral de turma irmã (08/2026, a pedido do usuário)
+
+`PARES_IRMAS` (e `IRMA`, derivado dele) deixou de ser uma lista fixa
+mantida à mão (`[("9C1","9C2"), ("10C1","10C2"), ("11C1","11C2"),
+("12C1","12C2")]`) e passou a ser **calculado a partir do nome de cada
+turma**: duas turmas são irmãs quando têm a mesma série e a mesma letra,
+diferindo só no número final (ex.: "11C1"/"11C2"; **não** "11C1"/"11R1",
+mesmo com a mesma série 11). Motivo: a escola pode ter turmas de outra
+letra além de "C" no futuro (o usuário deu o exemplo de uma turma "R"),
+e a regra precisa valer automaticamente para elas sem precisar editar
+`gerar_calendario.py` cada vez.
+
+- Nova função `calcular_pares_irmas(turmas)` em `gerar_calendario.py`,
+  chamada com `GRADES.keys()`. Só pareia prefixos (série+letra) com
+  exatamente 2 turmas.
+- Conferido que reproduz **exatamente** os 4 pares antigos (mesmo
+  conjunto, mesma ordem — via ordenação por série numérica, não por
+  texto, para não inverter "10C" antes de "9C").
+- `verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de
+  AVISOs. Os 5 relatórios regenerados saíram **byte a byte idênticos**
+  aos anteriores (confirma que a mudança é 100% transparente para a
+  Proposta 3 atual, só muda como o código descobre os pares, não o
+  resultado).
+- Regra documentada na skill, na seção "Regras de distribuição das
+  provas", como base tanto da regra de presença do professor (prioridade
+  1) quanto da regra de professor comum entre turmas irmãs.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
