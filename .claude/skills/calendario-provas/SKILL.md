@@ -66,7 +66,11 @@ Nunca comece a montar o calendário sem antes:
 8. **Confirmar quais disciplinas NÃO têm prova.** Nesta escola: Educação
    Física ("esp"/"Spo"), Artes/Música/Teatro, Técnicas, Finanças,
    Socioemocional, aulas de apoio/aprofundamento ("ap...", "apr..."),
-   eletivas e Projeto Vestibular. Confirmar sempre.
+   eletivas e Projeto Vestibular. Confirmar sempre. Exceções de "sem
+   prova" válidas só para uma turma específica (não a disciplina toda)
+   ficam registradas em `SEM_PROVA_POR_TURMA` (`gerar_calendario.py`) e
+   em `referencia/estado_2sem_2026.md` — são fatos concretos do semestre
+   corrente, não regras gerais da escola, então não entram aqui.
 9. **Confirmar a estrutura de saída** (quantos arquivos/abas, layout de
    célula) olhando o arquivo-modelo mais recente.
 10. **Confirmar a leitura do horário-base** em caso de ambiguidade. Cuidado
