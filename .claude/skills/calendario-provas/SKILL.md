@@ -63,6 +63,18 @@ Nunca comece a montar o calendário sem antes:
    semestre inteiro (1 tempo cada) nas turmas do 9º ano, mas 1 prova por
    período nas demais séries. Filosofia e Sociologia têm 1 tempo semanal na
    grade e por isso 1 prova no semestre, de 1 tempo.
+   - **Exceção de número de tempos por turma (não de nº de provas)**:
+     GL nas turmas 9C1/9C2 é aplicada em **apenas 1 tempo de aula** (não
+     os 2 tempos normais de GL nas demais turmas) — a disciplina nunca
+     tem aula dupla nessas turmas (só tempos únicos: segunda, quarta e
+     sexta), então a prova segue o mesmo tempo da aula. Continua com as
+     **2 ocorrências normais no semestre** (1 por período) — só o número
+     de tempos por prova muda, não o número de provas. **Implementado**:
+     `UM_TEMPO_POR_TURMA` em `gerar_calendario.py`, consultado por
+     `montar_exames()` — reduz `n_tempos` de 2 para 1 quando a
+     disciplina está em `DOIS_TEMPOS` mas a turma tem a exceção
+     registrada, sem afetar o número de ocorrências (isso é
+     `UMA_PROVA_POR_TURMA`, mecanismo separado).
 8. **Confirmar quais disciplinas NÃO têm prova.** Nesta escola: Educação
    Física ("esp"/"Spo"), Artes/Música/Teatro, Técnicas, Finanças,
    Socioemocional, aulas de apoio/aprofundamento ("ap...", "apr..."),

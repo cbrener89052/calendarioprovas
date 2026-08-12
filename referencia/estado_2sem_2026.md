@@ -595,6 +595,56 @@ mesma contagem de AVISOs (43). Confirmado a pedido do usuário: **este
 fato (e a remoção da 2ª prova, acima) não entra na skill como regra**
 -- é um pedido específico deste semestre, registrado só aqui.
 
+## GL (9C1/9C2): 1 tempo por prova + repositionamento (08/2026, a pedido do usuário)
+
+### Parte 1: Correção de número de tempos
+
+"A prova de GL das turmas 9C1 e 9C2 são aplicadas em apenas um tempo de
+aula" — a disciplina GL nunca tem aula dupla nessas turmas (só tempos
+únicos: segunda t6, quarta t6, sexta t5), diferente de outras turmas
+onde GL é 2 tempos. As provas de GL estavam erroneamente lançadas como
+2 tempos (4º e 5º tempos) em ambas as ocorrências.
+
+**Implementado no código**: novo dict `UM_TEMPO_POR_TURMA` em
+`gerar_calendario.py`, mecanismo separado do `UMA_PROVA_POR_TURMA`
+(aquele muda o Nº de provas, este muda o Nº de tempos por prova).
+Consultado por `montar_exames()` — quando a disciplina está em
+`DOIS_TEMPOS` mas a turma tem exceção registrada em `UM_TEMPO_POR_TURMA`,
+o valor de `n_tempos` é reduzido de 2 para 1, mantendo as 2 ocorrências
+normais do semestre (1 por período), só o número de tempos muda.
+
+**Skill**: adicionada documentação completa em "Passo 0", item 7, como
+uma regra geral estrutural (não apenas exceção deste semestre). Texto
+documenta o motivo (aulas nessas turmas são só tempos únicos) e a
+implementação técnica.
+
+### Parte 2: Repositionamento das duas ocorrências
+
+Após a documentação acima, usuário pediu:
+1. "Modifique a segunda prova de GL das turmas 9C coloque no dia 13/11"
+   — 2ª ocorrência de GL de semana 8 (25/09) para semana 15 (13/11).
+2. "Troque a primeira prova de GL das turmas 9C para o dia 18/09"
+   — 1ª ocorrência de GL de semana 4 (28/08) para semana 7 (18/09).
+
+**Aplicado ao calendário**:
+- 9C1/9C2 — GL **1ª prova**: semana 4 (28/08) → **semana 7 (18/09, sexta)** —
+  última sexta de P1.
+- 9C1/9C2 — GL **2ª prova**: semana 8 (25/09) → **semana 15 (13/11, sexta)** —
+  fim de P2.
+
+Todas as células foram corrigidas com 1 tempo (5º tempo, sexta).
+Distância entre as 2 ocorrências: semana 7 → semana 15 = **8 semanas**
+(satisfaz DISTANCIA_MIN_MESMA_DISC=4 e ≥7 desejável).
+
+Nenhuma outra disciplina foi alterada. Os slots de semana 4 e semana 8
+(sexta) ficaram vazios; semana 7 e semana 15 (sexta) receberam as provas
+de GL.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, 45 AVISOs (2 AVISOs novos
+de GL cedendo em week 6 antes da prova de week 7 — soft relaxations
+esperadas, não falhas de regra). Os 5 relatórios regenerados com as
+mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

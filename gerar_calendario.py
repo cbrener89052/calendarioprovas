@@ -219,6 +219,17 @@ UMA_PROVA_POR_TURMA = {
     "12C2": {"ing"},
 }
 
+# excecoes de DOIS_TEMPOS por turma especifica: a prova usa 1 tempo em
+# vez dos 2 normais, mas continua com as 2 ocorrencias no semestre (1 por
+# periodo) -- diferente de UMA_PROVA_POR_TURMA, que muda o Nº de provas,
+# nao o Nº de tempos. Ex.: GL nas turmas 9C1/9C2 (pedido do usuario,
+# 08/2026: a disciplina nunca tem aula dupla nessas turmas, so tempos
+# unicos, entao a prova segue o mesmo tempo da aula).
+UM_TEMPO_POR_TURMA = {
+    "9C1": {"GL"},
+    "9C2": {"GL"},
+}
+
 GRADES = {
     turma: {(d, t): tuple(v.split("/"))
             for d, tempos in dias.items() for t, v in tempos.items()}
@@ -573,9 +584,10 @@ def montar_exames(turma):
         elif turma.startswith("9") and disc in NOVE_UM_TEMPO:
             e.append((disc, prof, 1, None))                # 9C: bio/fis/qui 1x, 1 tempo
         elif disc in DOIS_TEMPOS:
-            e.append((disc, prof, 2, 1))
+            n = 1 if disc in UM_TEMPO_POR_TURMA.get(turma, ()) else 2
+            e.append((disc, prof, n, 1))
             if disc not in UMA_PROVA_POR_TURMA.get(turma, ()):
-                e.append((disc, prof, 2, 2))
+                e.append((disc, prof, n, 2))
     return e
 
 
