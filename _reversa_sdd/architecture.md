@@ -69,7 +69,7 @@ Organização specs: **feature-folder** (`_reversa_sdd/<feature>/` na fase Redat
 | Excel (.xlsx) | Arquivo | Entrada/saída principal |
 | PDF Untis | Arquivo | Horário-base |
 | Tesseract OCR | CLI | Grade 2025 sem texto |
-| GitHub | Git | Sync dev (main/producao) |
+| GitHub | Git | **Fonte da verdade** — skill, código, specs (`main` / `producao`) |
 | PostgreSQL | 🔴 futuro | Metadados multi-coord |
 | S3 / filesystem | 🔴 futuro | Blobs |
 
