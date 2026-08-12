@@ -561,6 +561,34 @@ a mesma disciplina examinada. Hoje só tem `{"11C1": {"soc"}, "11C2":
 (43). Os 5 relatórios regenerados. O slot vago (semana 12, sexta) ficou
 livre, sem nada alocado nele por enquanto.
 
+## Inglês (12C1/12C2): 2ª prova removida (08/2026, a pedido do usuário)
+
+"Pode retirar a segunda prova de inglês do calendário tanto da turma
+12c1 quanto da turma 12c2." Removida a 2ª ocorrência de Inglês da
+12C1 (semana 14, quinta) e da 12C2 (semana 10, segunda). A 1ª ocorrência
+de cada turma permanece (12C1: semana 5, quinta; 12C2: semana 4,
+segunda/24-08). Cada turma tem professor diferente (PaH/12C1, Isb/12C2,
+não é professor comum), então a mudança é independente entre as duas.
+
+**Implementado no código**: novo dict `UMA_PROVA_POR_TURMA` em
+`gerar_calendario.py`, consultado por `montar_exames()` — quando a
+disciplina está em `DOIS_TEMPOS` mas a turma tem exceção registrada
+aqui, só a 1ª ocorrência é gerada. `verificar_calendario.py` (item 5,
+número de provas por disciplina) também consulta esse dict, para não
+acusar falsamente "Ing tem 1 prova, esperado 2" nas turmas com a
+exceção. Mesmo princípio do `SEM_PROVA_POR_TURMA` (Sociologia/11C) --
+fato concreto deste semestre, não regra geral da escola, então **não**
+documentado como regra na skill.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de AVISOs
+(43). Os 5 relatórios regenerados.
+
+**Pendente de confirmação do usuário**: pedido de mudar a 1ª prova de
+Inglês da 12C2 para os tempos 5º-6º no dia 25/08 -- a data 25/08 não
+tem nenhuma aula de Inglês na 12C2 (a prova atual é 24/08); e o par
+5º-6º cruza o intervalo do recreio, diferente do bloco atual (4º-5º),
+que não cruza. Nada aplicado ainda nessa parte.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
