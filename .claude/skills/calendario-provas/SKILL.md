@@ -266,20 +266,27 @@ Nunca comece a montar o calendário sem antes:
   exceção de série confirmada): alocar em apenas um dos períodos.
 - **Distância entre as 2 provas da mesma disciplina/professor** no
   semestre (quando a turma tem 1 prova por período — a maioria das
-  disciplinas): a busca **tenta primeiro fechar com 7 semanas** de
-  distância; **só se isso não deixar o horário fechar** é que flexibiliza,
-  procurando o mais distante possível dentro do que fechar, mas **nunca
-  menos que 4 semanas** — esse piso de 4 é rígido, não relaxa (pedido do
-  usuário, 08/2026; antes disso o alvo único, sem escada, era 4). Não se
-  aplica às disciplinas de prova única (Fil/Soc e as exceções de série),
-  que só têm 1 ocorrência. Checar pela **diferença entre os números das
-  semanas** (não pela data corrida) — ex.: semana 6 e semana 9 tem
-  distância 3, viola o piso de 4; semana 6 e semana 10 tem distância 4,
-  cumpre o piso mas não o ideal; semana 6 e semana 13 tem distância 7,
-  ideal. Vale tanto para as provas resolvidas por turma quanto para as
-  coordenadas entre turmas irmãs (mesmo professor, tempos diferentes) —
-  nesse segundo caso a distância é conferida **por turma**, comparando as
-  duas ocorrências daquela disciplina especificamente naquela turma.
+  disciplinas): a busca **tenta primeiro fechar com pelo menos 7
+  semanas** de distância — **7 é um piso desejável, não um alvo exato**;
+  distância de 8, 9, 10 ou mais semanas é igualmente válida e não precisa
+  ser "corrigida" de volta para 7 (pedido do usuário, 08/2026: "o
+  distanciamento de 7 semanas não é mandatório ser de 7 semanas, mas no
+  mínimo 7 semanas"). **Só se não houver como fechar o horário com pelo
+  menos 7** é que flexibiliza, procurando o mais distante possível dentro
+  do que fechar, mas **nunca menos que 4 semanas** — esse piso de 4 é
+  rígido, não relaxa (pedido do usuário, 08/2026; antes disso o alvo
+  único, sem escada, era 4). Não se aplica às disciplinas de prova única
+  (Fil/Soc e as exceções de série), que só têm 1 ocorrência. Checar pela
+  **diferença entre os números das semanas** (não pela data corrida) —
+  ex.: semana 6 e semana 9 tem distância 3, viola o piso de 4; semana 6 e
+  semana 10 tem distância 4, cumpre o piso rígido mas fica abaixo do piso
+  desejável de 7; semana 6 e semana 13 tem distância 7, cumpre o piso
+  desejável; semana 6 e semana 16 tem distância 10, também cumpre (e não
+  é pior que 7, só maior). Vale tanto para as provas resolvidas por turma
+  quanto para as coordenadas entre turmas irmãs (mesmo professor, tempos
+  diferentes) — nesse segundo caso a distância é conferida **por turma**,
+  comparando as duas ocorrências daquela disciplina especificamente
+  naquela turma.
 - **Química, Física e Biologia das turmas 9C entre as semanas 12 e 14**
   do 2º semestre (pedido do usuário, 08/2026) — cerca de 3 a 4 semanas
   antes da 2ª chamada da série 9/11. Cada uma tem só 1 prova no semestre
@@ -827,8 +834,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       para as de prova única) — se aparecer 1 onde deveria haver 2, alguma
       prova foi descartada silenciosamente na escrita
 - [ ] Nas disciplinas com 2 provas no semestre, a distância entre as
-      semanas das duas é, idealmente, de **7**, e nunca menos que **4**
-      (piso rígido)
+      semanas das duas é, idealmente, de **pelo menos 7** (7 é piso
+      desejável, não alvo exato — mais que 7 também cumpre), e nunca
+      menos que **4** (piso rígido)
 - [ ] Turmas 9C1/9C2 e 11C1/11C2 têm pelo menos 1 prova até quarta-feira
       da semana 17 — **salvo quando consolidar numa semana vizinha já
       ocupada for melhor** (ver regra de consolidação de semanas acima)
