@@ -1260,7 +1260,37 @@ def resolver(turma, seed, preocupado_dia=None, pre_por_semana=None, excluir=None
 # (Alemao/DaF, GL, Ingles em algumas series): mesmo la, a SEMANA da prova
 # ainda e uma escolha unica que tem que ser igual nas duas abas. Ver a
 # regra "Disciplina com professor comum entre turmas irmas" na skill.
-PARES_IRMAS = [("9C1", "9C2"), ("10C1", "10C2"), ("11C1", "11C2"), ("12C1", "12C2")]
+#
+# Definicao de turma irma (pedido do usuario, 08/2026): duas turmas sao
+# irmas quando o nome tem a MESMA serie e a MESMA letra, diferindo so no
+# numero final -- ex.: "11C1" e "11C2" sao irmas (mesmo prefixo "11C");
+# "11C1" NAO e irma de "11R1" nem de "11R2" (letra diferente, mesmo com a
+# mesma serie). Os pares sao derivados do NOME da turma em vez de uma
+# lista fixa mantida a mao, para que uma letra nova (ex.: uma turma "R"
+# alem da "C" de hoje) ja vire par de turmas irmas automaticamente, sem
+# precisar editar este arquivo.
+def calcular_pares_irmas(turmas):
+    """[(a, b), ...] com os pares de turmas irmas, derivados do nome.
+
+    So agrupa prefixos (serie+letra) com EXATAMENTE 2 turmas -- um
+    prefixo com so 1 turma fica sem irma (ok, e o caso normal de uma
+    serie sem par); um prefixo com 3+ turmas fica de fora do pareamento
+    automatico (nao ha como inferir sozinho qual par com qual -- avisar
+    quem estiver adicionando turmas nessa situacao)."""
+    padrao = re.compile(r"^(\d+)([A-Za-zÀ-ÿ]+)(\d+)$")
+    grupos = collections.defaultdict(list)
+    for turma in turmas:
+        m = padrao.match(turma)
+        if not m:
+            continue
+        serie, letra, _numero = m.groups()
+        grupos[(int(serie), letra)].append(turma)
+    # ordena por serie numerica (9 antes de 10), nao por texto ("10" < "9")
+    return [tuple(sorted(membros)) for _chave, membros in sorted(grupos.items())
+            if len(membros) == 2]
+
+
+PARES_IRMAS = calcular_pares_irmas(GRADES.keys())
 IRMA = {a: b for a, b in PARES_IRMAS}
 IRMA.update({b: a for a, b in PARES_IRMAS})
 

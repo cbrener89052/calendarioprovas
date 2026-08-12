@@ -477,6 +477,71 @@ Professor_Proposta_3.xlsx`, gerado por `exportar_provas_por_professor.py`.
 leitura da planilha final, não muda o calendário). Todos os 5 relatórios
 regenerados.
 
+## Definição geral de turma irmã (08/2026, a pedido do usuário)
+
+`PARES_IRMAS` (e `IRMA`, derivado dele) deixou de ser uma lista fixa
+mantida à mão (`[("9C1","9C2"), ("10C1","10C2"), ("11C1","11C2"),
+("12C1","12C2")]`) e passou a ser **calculado a partir do nome de cada
+turma**: duas turmas são irmãs quando têm a mesma série e a mesma letra,
+diferindo só no número final (ex.: "11C1"/"11C2"; **não** "11C1"/"11R1",
+mesmo com a mesma série 11). Motivo: a escola pode ter turmas de outra
+letra além de "C" no futuro (o usuário deu o exemplo de uma turma "R"),
+e a regra precisa valer automaticamente para elas sem precisar editar
+`gerar_calendario.py` cada vez.
+
+- Nova função `calcular_pares_irmas(turmas)` em `gerar_calendario.py`,
+  chamada com `GRADES.keys()`. Só pareia prefixos (série+letra) com
+  exatamente 2 turmas.
+- Conferido que reproduz **exatamente** os 4 pares antigos (mesmo
+  conjunto, mesma ordem — via ordenação por série numérica, não por
+  texto, para não inverter "10C" antes de "9C").
+- `verificar_calendario.py` fecha em 0 PROBLEMA, mesma contagem de
+  AVISOs. Os 5 relatórios regenerados saíram **byte a byte idênticos**
+  aos anteriores (confirma que a mudança é 100% transparente para a
+  Proposta 3 atual, só muda como o código descobre os pares, não o
+  resultado).
+- Regra documentada na skill, na seção "Regras de distribuição das
+  provas", como base tanto da regra de presença do professor (prioridade
+  1) quanto da regra de professor comum entre turmas irmãs.
+
+## Isonomia História/Geografia — 11C1/11C2 (08/2026, a pedido do usuário/Profa. Verena)
+
+Origem: a Profa. Verena (História) reclamou que a 1ª prova de História
+(01/09, 11º-12º tempos) usava sempre a aula dupla própria da 11C2 (nunca
+a da 11C1) como âncora — checado contra a grade, a queixa procedia, e o
+mesmo padrão se repetia na 2ª prova (20/10). O pedido literal dela (mover
+para os tempos 2º-3º, aula dupla da 11C1) esbarrava em Química cedendo na
+véspera da própria prova (11C2). Depois de várias rodadas de análise
+(mover só a Geografia, tentar datas específicas como 16/11), a solução
+final, sem perder nenhuma aula de Química, foi:
+
+1. **Geografia (2ª ocorrência)**: 05/10 → **16/11** (semana 10 → semana
+   16), mesmo dia/tempos (segunda, 6º-7º). Motivo: espaçar as 2 provas de
+   Geografia para o ideal de pelo menos 7 semanas (antes eram só 5).
+2. **História (2ª ocorrência)**: 20/10, terça 9º-10º → **20/10, quarta,
+   1º-2º tempos** (mesma semana 12, só muda o dia/bloco). Bloco 50/50: a
+   11C1 cede 1 tempo próprio de História, a 11C2 também — nenhuma cede
+   os 2 tempos inteiros como antes.
+3. **Geografia (1ª ocorrência)**: 31/08 → **05/10** (semana 5 → semana
+   10), mesmo dia/tempos (segunda, 2º-3º). Só foi possível **depois** do
+   item 1 abrir espaço: com a 2ª ocorrência da Geografia lá na semana 16,
+   a 1ª pôde se mover livremente dentro do piso de 4 semanas.
+4. **História (1ª ocorrência)**: 01/09, terça 11º-12º → **01/09, quarta,
+   1º-2º tempos** (mesma semana 5, só muda o dia/bloco). Só ficou
+   possível **depois** do item 3 tirar a Geografia da semana 5 — sem
+   isso, o bloco de quarta doaria Geografia bem na semana da prova
+   própria dela.
+
+Efeito colateral corrigido no meio do caminho: a 1ª tentativa de mover a
+Geografia (1ª ocorrência) usou a semana 9, que ficou colada na véspera de
+uma cessão de Matemática que já existia há tempos (prova de Matemática
+da semana 8 sempre cedeu um tempo de Geografia dentro do próprio bloco
+dela) — trocado para a semana 10, que não tem nenhum vizinho assim.
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, 43 AVISOs (menos que os
+45 anteriores — a mudança até resolveu 2 avisos pré-existentes). Os 5
+relatórios regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

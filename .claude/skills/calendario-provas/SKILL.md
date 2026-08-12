@@ -128,6 +128,27 @@ Nunca comece a montar o calendário sem antes:
   outro) contra a planilha final, turma por turma — falha do checklist
   (PROBLEMA), não aviso, se algum professor citado não estiver presente.
 
+- **Definição de turma irmã** (pedido do usuário, 08/2026) — base tanto
+  da regra de "Presença do professor" acima (PRIORIDADE 1, nunca relaxa)
+  quanto da regra logo abaixo sobre professor comum: duas turmas são
+  irmãs quando o nome tem a **mesma série e a mesma letra**, diferindo
+  só no **número final** — ex.: "11C1" e "11C2" são irmãs (mesmo
+  prefixo "11C"); "11C1" **não** é irmã de "11R1" nem de "11R2" (letra
+  diferente, mesmo com a mesma série). A letra identifica o grupo/turno,
+  não a série sozinha.
+  **Implementado**: `calcular_pares_irmas(turmas)` em `gerar_calendario.py`
+  deriva os pares automaticamente do **nome** de cada turma (regex sobre
+  série+letra+número) em vez de depender de uma lista fixa mantida à
+  mão — assim, se a escola adicionar uma turma de letra nova (ex.: uma
+  turma "R" além da "C" de hoje), ela já vira par de turma irmã
+  automaticamente, sem precisar editar código. Só agrupa pares de
+  **exatamente 2** turmas por série+letra; um prefixo com 1 turma só
+  fica sem irmã (normal), e um prefixo com 3+ fica de fora do pareamento
+  automático (avisar quem estiver adicionando turmas nessa situação,
+  porque não há como inferir sozinho qual junta com qual). `PARES_IRMAS`
+  e `IRMA` (usados em todo o resto do gerador e dos scripts de relatório)
+  continuam com a mesma forma de sempre — só passaram a ser calculados,
+  não escritos à mão.
 - **Disciplina com professor comum entre turmas irmãs**: antes de alocar,
   confira nas siglas **e nas posições (dia/tempo)** do horário-base se a
   mesma pessoa leciona aquela disciplina nas duas turmas, e distinga dois
