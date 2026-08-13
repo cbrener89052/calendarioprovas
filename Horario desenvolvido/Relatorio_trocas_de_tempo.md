@@ -70,9 +70,9 @@ aula em horários diferentes em cada turma.
 | 9C1 | Geo / Mar | 6º tempo(s) (Qua, semana 6) | Caro-EFr-Eth | GL | Solicitar ao prof. Caro-EFr-Eth a cessão do(s) tempo(s) 6º de GL para a prova de Geo | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Geo / Mar | 7º tempo(s) (Qua, semana 6) | Jana | Port | Solicitar ao prof. Jana a cessão do(s) tempo(s) 7º de Port para a prova de Geo | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Ing / APa-PaH-Velo | — | — | — | — | Grupo paralelo já combinado com 9C2 |
-| 9C1 | Redação / Raf | 1º tempo(s) (Seg, semana 12) | Ale | Bio | Solicitar ao prof. Ale a cessão do(s) tempo(s) 1º de Bio para a prova de Redação | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
-| 9C1 | Redação / Raf | 2º tempo(s) (Seg, semana 12) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 2º de Geo para a prova de Redação | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Port / Jana | 4º, 5º tempo(s) (Qua, semana 12) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 4º, 5º de Mat para a prova de Port | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
+| 9C1 | Redação / Raf | 4º tempo(s) (Qui, semana 12) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Redação | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
+| 9C1 | Redação / Raf | 5º tempo(s) (Qui, semana 12) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 5º de Mat para a prova de Redação | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | DaF / Caro-SGa-EFr | 4º tempo(s) (Ter, semana 13) | JuLa | Hist | Solicitar ao prof. JuLa a cessão do(s) tempo(s) 4º de Hist para a prova de DaF | Grupo paralelo já combinado com 9C2 |
 | 9C1 | Geo / Mar | 6º tempo(s) (Qua, semana 13) | Caro-EFr-Eth | GL | Solicitar ao prof. Caro-EFr-Eth a cessão do(s) tempo(s) 6º de GL para a prova de Geo | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Geo / Mar | 7º tempo(s) (Qua, semana 13) | Jana | Port | Solicitar ao prof. Jana a cessão do(s) tempo(s) 7º de Port para a prova de Geo | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
@@ -89,8 +89,8 @@ aula em horários diferentes em cada turma.
 | 9C2 | Mat / BrSa | 9º tempo(s) (Ter, semana 6) | JuLa | Hist | Solicitar ao prof. JuLa a cessão do(s) tempo(s) 9º de Hist para a prova de Mat | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Geo / Mar | 6º tempo(s) (Qua, semana 6) | Caro-EFr-Eth | GL | Solicitar ao prof. Caro-EFr-Eth a cessão do(s) tempo(s) 6º de GL para a prova de Geo | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Ing / APa-PaH-Velo | — | — | — | — | Grupo paralelo já combinado com 9C1 |
-| 9C2 | Redação / Raf | 2º tempo(s) (Seg, semana 12) | VSi | Fis | Solicitar ao prof. VSi a cessão do(s) tempo(s) 2º de Fis para a prova de Redação | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Port / Jana | — | — | — | — | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
+| 9C2 | Redação / Raf | 4º tempo(s) (Qui, semana 12) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Redação | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | DaF / Caro-SGa-EFr | 4º tempo(s) (Ter, semana 13) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 4º de Mat para a prova de DaF | Grupo paralelo já combinado com 9C1 |
 | 9C2 | Geo / Mar | 6º tempo(s) (Qua, semana 13) | Caro-EFr-Eth | GL | Solicitar ao prof. Caro-EFr-Eth a cessão do(s) tempo(s) 6º de GL para a prova de Geo | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | GL / Caro-EFr-Eth | — | — | — | — | Grupo paralelo já combinado com 9C1 |
@@ -299,10 +299,8 @@ Limites de cessão de aula que precisaram ser afrouxados para fechar o calendár
 | 12C1 | Regra 4 (não ceder às vésperas da própria prova) | Redação / AMu | cedeu aula na semana 4 tendo prova própria na semana 4 |
 | 9C1 | Regra 1 (teto de cessões por disciplina no semestre) | Port / Jana | tem 2 aulas semanais e cedeu 3 (meta: no máximo 2) |
 | 9C1 | Regra 4 (não ceder às vésperas da própria prova) | GL / Caro-EFr-Eth | cedeu aula na semana 13 tendo prova própria na semana 13 |
-| 9C1 | Regra 4 (não ceder às vésperas da própria prova) | Geo / Mar | cedeu aula na semana 12 tendo prova própria na semana 13 |
 | 9C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / BrSa | cedeu aula na semana 5 tendo prova própria na semana 6 |
 | 9C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / BrSa | cedeu aula na semana 5 tendo prova própria na semana 6 |
-| 9C2 | Regra 3 (nunca 2 semanas seguidas sem contato) | Fis / VSi | fica sem contato com a turma nas semanas 11 e 12 por causa das cessões |
 | 9C2 | Regra 4 (não ceder às vésperas da própria prova) | GL / Caro-EFr-Eth | cedeu aula na semana 13 tendo prova própria na semana 13 |
 | 9C2 | Regra 4 (não ceder às vésperas da própria prova) | Mat / BrSa | cedeu aula na semana 13 tendo prova própria na semana 14 |
 | 9C2 | Regra 4 (não ceder às vésperas da própria prova) | Mat / BrSa | cedeu aula na semana 14 tendo prova própria na semana 14 |
