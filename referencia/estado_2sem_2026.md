@@ -855,6 +855,50 @@ Mudança feita **apenas em 10C1** (10C2 não foi tocada).
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## História (11C1/11C2): quarta → terça, 01/09 e 03/11 (08/2026)
+
+Usuário pediu para verificar a possibilidade de colocar História (11C)
+em "01/09/2026, 2º e 3º tempos" e "03/11/2026, 2º e 3º tempos".
+
+**Verificado com `G.professor_presente_no_bloco()` e aprovado**: terça,
+2º e 3º tempos, é a **aula dupla real** do prof. Ver de História em
+11C1 (11C2 coberta por coordenação entre turmas irmãs, mesmo
+professor). Melhor que a posição anterior (quarta, 1º-2º tempos, que
+usava 1 tempo emprestado em cada turma, não era aula dupla real em
+nenhuma delas).
+
+**Aplicado**:
+- 1ª prova: semana 5 quarta (02/09) → semana 5 **terça (01/09)**,
+  2º-3º tempos.
+- 2ª prova: semana 12 quarta (21/10) → semana 14 **terça (03/11)**,
+  2º-3º tempos.
+
+Distância entre as 2 ocorrências: semana 14 − semana 5 = 9 semanas
+(antes era 7, exatamente no piso desejável).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Novos AVISOs leves
+surgiram em 11C2 (Mat/JJ e Qui/CAl cedendo tempo, já que 11C2 não tem
+aula própria de História nesse horário — só 11C1 tem a aula dupla
+real) — são cessões esperadas do mecanismo de coordenação entre
+turmas irmãs, não falhas de regra. Os 5 relatórios regenerados.
+
+**Por que essa solução não apareceu antes**: os reposicionamentos
+anteriores desta rodada (Mat/Port/Redação, Geografia, Inglês) foram
+todos motivados por pedidos específicos do usuário sobre datas
+exatas — nenhum deles pediu para revisar a posição de História. O
+processo de geração original (`montar_exames()`) resolve o
+posicionamento buscando viabilidade e distância mínima entre as duas
+provas da mesma disciplina, mas **não otimiza qual bloco de tempos usar
+dentro do dia escolhido** — ele aceita o primeiro bloco viável
+(incluindo bloco com 1 tempo emprestado) sem comparar contra outras
+combinações de dia/tempo que eliminariam a cessão por completo. Ou
+seja, a "quarta, 1º-2º tempos" passou no checklist (0 PROBLEMA) porque
+cumpre todas as regras obrigatórias — só não é o **ótimo** entre todas
+as opções viáveis. Encontrar a alternativa sem nenhuma cessão (terça,
+aula dupla real) exige comparar explicitamente os dias da semana em
+que o professor dá aula dupla de fato, o que só acontece quando
+alguém pede essa avaliação pontual — como nesta rodada.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
