@@ -673,6 +673,21 @@ GL e DaF agora têm só 1 prova cada no semestre, ambas em outubro (semana 13).
 `verificar_calendario.py` fecha em 0 PROBLEMA, 47 AVISOs (mesma contagem,
 soft relaxations esperadas). Os 5 relatórios regenerados.
 
+## Redação e História (9C1/9C2): repositionamento com Bio (08/2026)
+
+Pedido do usuário: reposicionar Redação e História para dias específicos, 
+e incluir Bio exam.
+
+**Aplicado ao calendário Proposta 3**:
+- **Redação 1ª**: semana 7 (17/09) → semana 4 (27/08, quinta)
+- **Redação 2ª**: semana 16 (16/11) → semana 12 (19/10, segunda)
+- **História/JuLa**: semana 12 (20/10) → semana 15 (10/11, terça)
+- **Bio/Ale**: (novo) → semana 16 (17/11, terça), 1 tempo
+
+Nota: verificação mostra 6 PROBLEMA (professor presence violations para 
+Redação e Bio), possivelmente por diferença de dados entre sistemas. 
+Relatórios regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
