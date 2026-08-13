@@ -31,11 +31,25 @@ Nunca comece a montar o calendário sem antes:
    diferentes podem ter datas de término diferentes (ex.: turmas que viajam
    ao exterior terminam o ano letivo mais cedo). Perguntar explicitamente
    quais turmas pertencem a cada grupo e a data-limite de cada um.
-2. **Perguntar os dias que NÃO podem ser usados**: feriados nacionais,
-   semanas inteiras vetadas (ex.: semana de conselho de classe), dias
-   letivos especiais. Depois de receber a lista, **conferir também o
-   calendário civil**: o usuário pode esquecer algum feriado nacional.
-   Listar para ele os feriados que você encontrou no período antes de gerar.
+2. **Perguntar os dias OU PERÍODOS de aula que não terão aula** — os
+   "dias bloqueados": feriados nacionais, semanas inteiras vetadas (ex.:
+   semana de conselho de classe), dias letivos especiais, e também
+   bloqueios **parciais** (ex.: só a manhã sem aula, um dia de saída
+   antecipada) — não é só o dia inteiro que pode ficar sem aula. Depois
+   de receber a lista, **conferir também o calendário civil**: o usuário
+   pode esquecer algum feriado nacional. Listar para ele os feriados que
+   você encontrou no período antes de gerar.
+   - **Registrar em cadastro único, usado pelos dois lados**: cada dia
+     bloqueado precisa entrar tanto em `BLOQUEIOS`/`SEMANA_BLOQUEADA`
+     (`gerar_calendario.py`, usado na geração) quanto em `FERIADOS`
+     (`verificar_calendario.py`, usado na checagem) — **os dois
+     precisam ficar em sincronia**. Ex. concreto desta rodada (08/2026):
+     `gerar_calendario.py` já bloqueava 02/11 (Finados) via
+     `BLOQUEIOS = {(14, 1), ...}`, mas `FERIADOS` em
+     `verificar_calendario.py` não tinha essa data — se uma prova
+     tivesse sido colocada ali por engano, o checklist não teria
+     detectado o erro. Ao cadastrar um novo dia bloqueado, sempre
+     atualizar os dois arquivos juntos, nunca só um.
 3. **Perguntar até que tempo do dia as provas podem ser aplicadas.** Nesta
    escola a preferência é evitar ao máximo os **tempos 7 a 11** (o 7º tempo
    começa 12h45). Não é proibição: algumas disciplinas só têm aula nesses
