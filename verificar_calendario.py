@@ -25,15 +25,16 @@ SIM_COD_OFICIAL = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+)")
 
 # excecoes a regra 11 (provas de professor comum entre turmas irmas
 # precisam coincidir em dia/tempo): pares (turma_a, turma_b, nome da
-# disciplina em G.NOME) que ficam de fora dessa exigencia. Ex.:
-# Sociologia/Kle em 10C1-10C2 (pedido do usuario, 08/2026: "o professor
-# excepcionalmente, fora da regra, decidiu usar o seu tempo de aula em
-# cada turma para aplicar a sua prova" -- cada turma usa o tempo
-# proprio do prof. Kle nela, em vez de exigir a mesma data nas duas).
-# Estendida a Filosofia/LAn (todas as turmas) e Sociologia/Kle em
-# 12C1-12C2 (pedido do usuario, 08/2026: "para FILOSOFIA e SOCIOLOGIA
-# abriremos essa excecao") -- mesma logica, cada turma no tempo real do
-# professor nela, datas/tempos podem nao coincidir entre as duas.
+# disciplina em G.NOME) que ficam de fora dessa exigencia.
+# Regra fixa desta escola (pedido do usuario, 08/2026: "os professores
+# de filosofia e de sociologia aplicam provas nos seus tempos de aula e
+# nao simultaneamente em turmas irmas"): Filosofia e Sociologia, mesmo
+# com professor comum entre turmas irmas, NUNCA precisam coincidir --
+# cada turma usa o tempo proprio do professor nela. Nao vale para
+# nenhuma outra disciplina com professor comum (essas continuam exigindo
+# coincidencia, ver skill). Ao configurar um novo semestre, adicionar
+# aqui automaticamente todo par turma-irma cuja disciplina comum seja
+# Filosofia ou Sociologia.
 COORDENACAO_EXCECAO = {
     ("10C1", "10C2", "Soc"),
     ("12C1", "12C2", "Soc"),
