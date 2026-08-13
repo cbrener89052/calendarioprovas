@@ -191,23 +191,47 @@ Nunca comece a montar o calendário sem antes:
     conta como 1 avaliação em cada turma.
   - **Mesmo professor, mas em tempos DIFERENTES em cada turma** (ex.:
     Biologia, Física, Geografia, História, Matemática, Português, Redação,
-    Química, Sociologia, Filosofia — o professor dá aula de fato em dois
-    horários separados, um por turma): é o caso real que precisa de
-    coordenação — o professor não pode estar em dois lugares ao mesmo
-    tempo, então **priorize aplicar a prova simultaneamente nas duas
-    turmas** (mesmo dia, mesmo(s) tempo(s)), escolhido a partir de um
-    tempo **próprio da disciplina em pelo menos uma das duas turmas**
-    (nunca um horário que não seja tempo próprio em nenhuma das duas). Na
-    turma onde esse horário **não** é tempo próprio da disciplina, o(s)
-    tempo(s) são cedidos pela disciplina que normalmente ocupa aquele
-    horário nela — é uma troca de tempo entre turmas, e entra no
-    relatório de trocas do mesmo jeito que uma troca entre disciplinas.
+    Química — o professor dá aula de fato em dois horários separados, um
+    por turma): é o caso real que precisa de coordenação — o professor
+    não pode estar em dois lugares ao mesmo tempo, então **priorize
+    aplicar a prova simultaneamente nas duas turmas** (mesmo dia,
+    mesmo(s) tempo(s)), escolhido a partir de um tempo **próprio da
+    disciplina em pelo menos uma das duas turmas** (nunca um horário que
+    não seja tempo próprio em nenhuma das duas). Na turma onde esse
+    horário **não** é tempo próprio da disciplina, o(s) tempo(s) são
+    cedidos pela disciplina que normalmente ocupa aquele horário nela —
+    é uma troca de tempo entre turmas, e entra no relatório de trocas do
+    mesmo jeito que uma troca entre disciplinas. **Filosofia e Sociologia
+    NÃO entram nesse caso** — ver regra específica abaixo.
   - **Se forem professores diferentes**: as provas das duas turmas são
     **independentes**. Isso não é uma obrigação de ocorrerem em dias
     diferentes — apenas não há necessidade de coincidirem. Cada uma
     aloca normalmente pelo tempo próprio daquela turma (a prioridade de
     "tempo de aplicação preferencialmente no tempo da própria disciplina",
     já definida abaixo, vale igual aqui).
+  - **Regra específica desta escola — Filosofia e Sociologia**: mesmo
+    com professor comum entre turmas irmãs, **os professores de
+    Filosofia e Sociologia aplicam a prova no próprio tempo de aula em
+    CADA turma, e não simultaneamente entre turmas irmãs** — ou seja,
+    essas duas disciplinas são tratadas como o caso "professores
+    diferentes" acima (cada turma independente, tempo próprio dela),
+    mesmo sendo o mesmo professor. Não se aplica a nenhuma outra
+    disciplina com professor comum — só Filosofia e Sociologia (pedido
+    do usuário, 08/2026: "os professores de filosofia e de sociologia
+    aplicam provas nos seus tempos de aula e não simultaneamente em
+    turmas irmãs"). **Implementado**: dict `COORDENACAO_EXCECAO` em
+    `verificar_calendario.py`, consultado pela regra 11 do checklist
+    (provas de professor comum precisam coincidir) — pares
+    `(turma_a, turma_b, nome_da_disciplina)` nessa lista ficam de fora
+    da exigência de coincidência. Cobre hoje: Sociologia/Kle
+    (10C1-10C2, 12C1-12C2) e Filosofia/LAn (10C1-10C2, 11C1-11C2,
+    12C1-12C2). Ao configurar um novo semestre, adicionar aqui
+    automaticamente qualquer par turma-irmã em que a disciplina comum
+    seja Filosofia ou Sociologia, sem precisar perguntar de novo — é
+    regra fixa desta escola para essas duas disciplinas. Na prática,
+    como as duas já caem no mesmo dia da semana em todas as turmas, a
+    mudança costuma ser só de **tempo** (o número do tempo na célula),
+    sem precisar mudar de dia nem de semana.
 
 - **Nunca cruzar o intervalo do recreio**: uma prova de tempos seguidos não
   pode usar o par 3º+4º tempos nem o par 5º+6º tempos, pois isso obrigaria a

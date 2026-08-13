@@ -899,6 +899,156 @@ aula dupla real) exige comparar explicitamente os dias da semana em
 que o professor dá aula dupla de fato, o que só acontece quando
 alguém pede essa avaliação pontual — como nesta rodada.
 
+## 9C: permuta Hist/Bio + Inglês reposicionado; 10C: Sociologia bloqueada (08/2026)
+
+Usuário pediu 4 mudanças em uma única rodada; 3 aplicadas, 1 bloqueada
+por conflito estrutural (ver abaixo).
+
+### Aplicado: 9C1/9C2 — permuta das 2ªs provas de Hist e Bio
+
+"Permutar as segundas provas de HIST e Bio, ou seja, Biologia vai para
+10/11 e história vai para 17/11" — troca direta das datas mantendo os
+blocos de tempo de cada disciplina:
+- Bio (2ª prova): semana 16 terça (17/11) → semana 15 terça (10/11),
+  1º-2º tempos.
+- Hist (2ª prova): semana 15 terça (10/11) → semana 16 terça (17/11),
+  4º-5º tempos.
+
+### Aplicado: 9C1/9C2 — Inglês de 09/10 para 06/11
+
+Semana 10 sexta (09/10) → semana 14 sexta (06/11), mesmo bloco 2º-3º
+tempos (mesmo dia da semana, só a semana mudou).
+
+### Bloqueado: 10C1/10C2 — Sociologia (Soc/Kle)
+
+"Nas turmas 10c1 leve a prova de Soc de 2/10 para 23/10 e na turma
+10c2 leve a prova de Soc de 02/10 para uma data possível posterior a
+semana 11 considerando que essa prova seja aplicada no tempo do
+professor da disciplina."
+
+**Testado e revertido**: `verificar_calendario.py` acusou PROBLEMA —
+"Soc tem professor comum mas as provas não coincidem" — Sociologia é
+lecionada pelo mesmo prof. Kle em 10C1 (quarta, 5º tempo) e 10C2
+(sexta, 5º tempo), e o checklist **exige que provas de professor comum
+entre turmas irmãs caiam exatamente no mesmo dia e tempo nas duas
+turmas** (regra 11 do verificador) — não é permitido dar datas
+diferentes a cada turma quando o professor é o mesmo.
+
+Além disso, ao tentar uma data única na sexta-feira (tempo próprio do
+prof. Kle em 10C2, conforme pedido), **todas as sextas-feiras
+disponíveis depois da semana 11 esbarraram em outro limite**: o
+máximo de 3 avaliações por semana por turma. Levantamento semana a
+semana (10C1 / 10C2, contagem antes de somar Soc):
+- Semana 12 (23/10): 2 / **3** (10C2 já no teto)
+- Semana 13 (30/10): **3** / **3** (as duas já no teto)
+- Semana 14 (06/11): **3** / 2 (10C1 já no teto, por causa do Inglês
+  de 10C1 que já tinha sido movido para cá numa rodada anterior)
+- Semana 15 (13/11): sexta bloqueada nas duas turmas pela marcação fixa
+  "2CH 10,12"
+- Semana 16 (20/11): sexta é "unterrichtsfrei" (sem aula) nas duas
+  turmas
+- Semana 17 (27/11): livre em 10C1, mas bloqueada em 10C2 pela
+  marcação "2CH 9,11"
+
+Ou seja, **não existe nenhuma sexta-feira depois da semana 11** que
+sirva simultaneamente para as duas turmas sem violar o teto semanal ou
+cair em dia bloqueado. **Sociologia foi revertida para a posição
+original (semana 9, sexta, 02/10)** nas duas turmas, aguardando decisão
+do usuário: (a) aceitar um dia que não seja sexta-feira, com 10C2
+coberta por coordenação entre turmas irmãs em vez de tempo próprio
+(ex.: semana 16 quarta, 18/11, ambas as turmas com 0 avaliações antes
+de somar Soc); (b) aceitar estourar o teto de 3/semana em alguma das
+turmas como exceção pontual; ou (c) manter a data atual (02/10).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA (com Soc revertida). Os
+5 relatórios regenerados com as 3 mudanças aplicadas (Hist/Bio/Ing).
+
+## Sociologia (10C1/10C2): exceção à coordenação entre turmas irmãs (08/2026)
+
+Depois do bloqueio documentado na seção anterior, usuário esclareceu:
+"no caso de sociologia o professor excepcionalmente fora da regra
+decidiu usar o seu tempo de aula em cada turma para aplicar a sua
+prova. Faça a mudança."
+
+**Implementada a exceção**: novo dict `COORDENACAO_EXCECAO` em
+`verificar_calendario.py`, consultado pela regra 11 do checklist
+(provas de professor comum entre turmas irmãs precisam coincidir em
+dia/tempo) — `{("10C1", "10C2", "Soc")}` fica de fora dessa exigência.
+Documentado também na skill (Passo 0, seção de professor comum entre
+turmas irmãs).
+
+**Aplicado, cada turma no tempo real do prof. Kle nela** (sem cessão de
+tempo de nenhuma disciplina em nenhuma das duas):
+- 10C1: semana 9 sexta (02/10) → semana 15 **quarta (11/11)**, 5º tempo
+  (tempo próprio do Kle em 10C1).
+- 10C2: semana 9 sexta (02/10) → semana 14 **sexta (06/11)**, 5º tempo
+  (tempo próprio do Kle em 10C2).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+### Pesquisa à parte: Filosofia usa tempo de outro professor?
+
+Usuário perguntou, em todas as turmas, se o professor de Filosofia
+(LAn) usa horário de outro professor. Resposta levantada na grade
+(`GRADE_TXT`) e nas provas atuais:
+
+Filosofia é lecionada pelo mesmo prof. LAn em todas as 6 turmas
+(10C1/10C2/11C1/11C2/12C1/12C2), sempre às quartas-feiras, mas em
+**tempos diferentes por turma**: 10C1 tempo1, 10C2 tempo7, 11C1
+tempo9, 11C2 tempo11, 12C1 tempo10, 12C2 tempo4. As provas hoje seguem
+o padrão normal de coordenação entre pares de turmas irmãs (regra 11,
+sem exceção como a de Sociologia): em cada par, a prova cai no tempo
+próprio de UMA das turmas, e a outra usa esse mesmo tempo **emprestado
+de outra disciplina**, já que não é o tempo real do LAn lá:
+- 10C1-10C2: prova no 1º tempo (tempo próprio de 10C1); em 10C2 esse
+  horário é normalmente de Geografia/Mlo — é ela quem cede.
+- 11C1-11C2: prova no 9º tempo (tempo próprio de 11C1); em 11C2 esse
+  horário é normalmente de Física/Cadu — é ela quem cede.
+- 12C1-12C2: prova no 10º tempo (tempo próprio de 12C1); em 12C2 esse
+  horário é normalmente de Português/Deb — é ela quem cede.
+
+Ou seja: **sim, em metade das turmas (10C2, 11C2, 12C2) a prova de
+Filosofia usa o tempo de outra disciplina**, não o tempo real do LAn
+lá — diferente do que passou a valer para Sociologia (exceção pontual
+pedida pelo usuário). Nenhuma mudança foi feita a partir dessa
+pesquisa; é só informativo.
+
+## Filosofia e Sociologia: exceção de coordenação estendida a todas as turmas (08/2026)
+
+Depois da pesquisa sobre Filosofia (seção anterior), usuário pediu:
+"verifique se as provas de sociologia [e filosofia] podem ser
+executadas na própria aula do professor [de cada disciplina], esse
+pedido contraria o pedido sobre turmas irmãs, porém para FILOSOFIA e
+SOCIOLOGIA abriremos essa exceção."
+
+**Estendida a exceção `COORDENACAO_EXCECAO`** (já criada para
+Sociologia 10C1-10C2) para mais 4 pares: Sociologia 12C1-12C2,
+Filosofia 10C1-10C2, Filosofia 11C1-11C2, Filosofia 12C1-12C2.
+
+**Aplicado — sem mudar nenhuma outra prova do calendário.** Em todos
+os 4 casos a disciplina já caía no mesmo dia da semana em todas as
+turmas (Filosofia sempre quarta; Sociologia 12C sempre quarta) — só o
+**tempo** mudou, na mesma célula (mesma semana, mesmo dia), para
+refletir o tempo real do professor em cada turma:
+- **Filosofia/LAn 10C2**: 1º tempo → **7º tempo** (semana 13, quarta).
+- **Filosofia/LAn 11C2**: 9º tempo → **11º tempo** (semana 8, quarta).
+- **Filosofia/LAn 12C2**: 10º tempo → **4º tempo** (semana 12, quarta).
+- **Sociologia/Kle 12C2**: 2º tempo → **6º tempo** (semana 13, quarta).
+
+(10C1, 11C1, 12C1 já usavam o tempo próprio do professor — não
+precisaram de ajuste.)
+
+Efeito colateral positivo: as cessões de tempo que essas 3 provas de
+Filosofia exigiam de Geografia/Mlo (10C2), Física/Cadu (11C2) e
+Português/Deb (12C2) — por estarem usando o tempo de 10C1/11C1/12C1 em
+vez do próprio — deixaram de existir, já que agora cada prova usa
+exclusivamente o tempo do próprio professor da disciplina.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças. Skill atualizada (Passo 0, professor
+comum entre turmas irmãs).
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
