@@ -1014,6 +1014,41 @@ lá — diferente do que passou a valer para Sociologia (exceção pontual
 pedida pelo usuário). Nenhuma mudança foi feita a partir dessa
 pesquisa; é só informativo.
 
+## Filosofia e Sociologia: exceção de coordenação estendida a todas as turmas (08/2026)
+
+Depois da pesquisa sobre Filosofia (seção anterior), usuário pediu:
+"verifique se as provas de sociologia [e filosofia] podem ser
+executadas na própria aula do professor [de cada disciplina], esse
+pedido contraria o pedido sobre turmas irmãs, porém para FILOSOFIA e
+SOCIOLOGIA abriremos essa exceção."
+
+**Estendida a exceção `COORDENACAO_EXCECAO`** (já criada para
+Sociologia 10C1-10C2) para mais 4 pares: Sociologia 12C1-12C2,
+Filosofia 10C1-10C2, Filosofia 11C1-11C2, Filosofia 12C1-12C2.
+
+**Aplicado — sem mudar nenhuma outra prova do calendário.** Em todos
+os 4 casos a disciplina já caía no mesmo dia da semana em todas as
+turmas (Filosofia sempre quarta; Sociologia 12C sempre quarta) — só o
+**tempo** mudou, na mesma célula (mesma semana, mesmo dia), para
+refletir o tempo real do professor em cada turma:
+- **Filosofia/LAn 10C2**: 1º tempo → **7º tempo** (semana 13, quarta).
+- **Filosofia/LAn 11C2**: 9º tempo → **11º tempo** (semana 8, quarta).
+- **Filosofia/LAn 12C2**: 10º tempo → **4º tempo** (semana 12, quarta).
+- **Sociologia/Kle 12C2**: 2º tempo → **6º tempo** (semana 13, quarta).
+
+(10C1, 11C1, 12C1 já usavam o tempo próprio do professor — não
+precisaram de ajuste.)
+
+Efeito colateral positivo: as cessões de tempo que essas 3 provas de
+Filosofia exigiam de Geografia/Mlo (10C2), Física/Cadu (11C2) e
+Português/Deb (12C2) — por estarem usando o tempo de 10C1/11C1/12C1 em
+vez do próprio — deixaram de existir, já que agora cada prova usa
+exclusivamente o tempo do próprio professor da disciplina.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças. Skill atualizada (Passo 0, professor
+comum entre turmas irmãs).
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

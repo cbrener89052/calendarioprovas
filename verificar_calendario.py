@@ -30,7 +30,17 @@ SIM_COD_OFICIAL = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+)")
 # excepcionalmente, fora da regra, decidiu usar o seu tempo de aula em
 # cada turma para aplicar a sua prova" -- cada turma usa o tempo
 # proprio do prof. Kle nela, em vez de exigir a mesma data nas duas).
-COORDENACAO_EXCECAO = {("10C1", "10C2", "Soc")}
+# Estendida a Filosofia/LAn (todas as turmas) e Sociologia/Kle em
+# 12C1-12C2 (pedido do usuario, 08/2026: "para FILOSOFIA e SOCIOLOGIA
+# abriremos essa excecao") -- mesma logica, cada turma no tempo real do
+# professor nela, datas/tempos podem nao coincidir entre as duas.
+COORDENACAO_EXCECAO = {
+    ("10C1", "10C2", "Soc"),
+    ("12C1", "12C2", "Soc"),
+    ("10C1", "10C2", "Fil"),
+    ("11C1", "11C2", "Fil"),
+    ("12C1", "12C2", "Fil"),
+}
 
 
 SEMANA1 = datetime.date(2026, 8, 3)

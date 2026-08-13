@@ -211,17 +211,24 @@ Nunca comece a montar o calendário sem antes:
   - **Exceção pontual à obrigação de coincidir**: com professor comum e
     tempos diferentes por turma, o professor pode decidir, por conta
     própria, abrir mão da coincidência e aplicar a prova no tempo real
-    dele em CADA turma separadamente (datas diferentes, sem cessão de
-    tempo de nenhuma disciplina em nenhuma das duas). Caso registrado:
-    Sociologia/Kle em 10C1-10C2 (pedido do usuário, 08/2026: "o
-    professor excepcionalmente, fora da regra, decidiu usar o seu tempo
-    de aula em cada turma para aplicar a sua prova"). **Implementado**:
+    dele em CADA turma separadamente (datas/tempos diferentes, sem
+    cessão de tempo de nenhuma disciplina em nenhuma das duas). Casos
+    registrados (pedido do usuário, 08/2026): **Sociologia/Kle** em
+    10C1-10C2 e 12C1-12C2 ("o professor excepcionalmente, fora da
+    regra, decidiu usar o seu tempo de aula em cada turma para aplicar
+    a sua prova"), e depois estendida a **Filosofia/LAn em todas as
+    turmas onde há prova** — 10C1-10C2, 11C1-11C2, 12C1-12C2 ("para
+    FILOSOFIA e SOCIOLOGIA abriremos essa exceção"). **Implementado**:
     dict `COORDENACAO_EXCECAO` em `verificar_calendario.py`, consultado
     pela regra 11 do checklist (provas de professor comum precisam
     coincidir) — pares `(turma_a, turma_b, nome_da_disciplina)` nessa
     lista ficam de fora da exigência de coincidência. Não confundir com
     o caso "professores diferentes" acima: aqui o professor é o mesmo,
     só a exigência de mesma data é que foi dispensada por decisão dele.
+    Na prática, para Fil/Soc a mudança costuma ser só de **tempo** (a
+    disciplina já cai no mesmo dia da semana em todas as turmas — só o
+    número do tempo varia), então normalmente não precisa mudar semana
+    nem dia, só o rótulo do tempo na célula já existente.
 
 - **Nunca cruzar o intervalo do recreio**: uma prova de tempos seguidos não
   pode usar o par 3º+4º tempos nem o par 5º+6º tempos, pois isso obrigaria a
