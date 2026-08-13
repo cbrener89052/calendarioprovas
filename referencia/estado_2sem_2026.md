@@ -1049,6 +1049,49 @@ exclusivamente o tempo do próprio professor da disciplina.
 regenerados com as mudanças. Skill atualizada (Passo 0, professor
 comum entre turmas irmãs).
 
+## 12C: Química e Biologia divididas entre semanas 12 e 15 (08/2026)
+
+Usuário pediu: "nas turmas 12c analise a possibilidade de colocar
+química ou biologia nas semana 15, uma delas entra na semana 15 e
+outra entra na semana 12 mesmo que para isso a filosofia passe para a
+semana 14 (utilize essa possibilidade)."
+
+Antes da mudança, Química (2ª prova) e Biologia (2ª prova) estavam as
+duas na semana 14 (06/11 e 03/11), e Filosofia estava na semana 12
+(21/10).
+
+**Aplicado**:
+1. **Filosofia**: semana 12 quarta (21/10) → semana 14 **quarta
+   (04/11)**, mantendo o tempo próprio de cada turma (10º em 12C1, 4º
+   em 12C2 — já não precisa coincidir, é regra fixa desde a rodada
+   anterior).
+2. **Química (2ª prova)**: semana 14 sexta (06/11) → semana 12
+   **quarta (21/10)**, 1º tempo (tempo próprio de 12C2; 12C1 coberta
+   por coordenação entre turmas irmãs — Química não tem a exceção de
+   Fil/Soc, então as duas turmas precisam coincidir no mesmo tempo).
+3. **Biologia (2ª prova)**: semana 14 terça (03/11) → semana 15
+   **quinta (12/11)**, 5º-6º tempos.
+
+**2 problemas encontrados e corrigidos antes de fechar**:
+- Tentativa inicial colocou Química em tempos diferentes por turma
+  (6º em 12C1, 1º em 12C2) — `verificar_calendario.py` acusou "provas
+  não coincidem", porque Química não está na exceção
+  `COORDENACAO_EXCECAO` (só Filosofia/Sociologia têm essa liberdade).
+  Corrigido para 1º tempo nas duas turmas.
+- Tentativa inicial colocou Biologia na quarta-feira da semana 15,
+  tempos 1º-2º — o 2º tempo doaria a única aula semanal de Sociologia
+  em 12C1 (Sociologia não pode doar, é disciplina de 1 aula/semana).
+  Corrigido para quinta-feira, tempos 5º-6º (doadores: Português e
+  Matemática/JJ, nenhum de aula única).
+
+Distância entre as 2 provas de cada disciplina depois da mudança:
+Química 1ª(semana6)→2ª(semana12) = 6 semanas (abaixo do piso desejável
+de 7, mas acima do mínimo rígido de 4); Biologia 1ª(semana7)→2ª(semana15)
+= 8 semanas (acima do piso desejável).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
