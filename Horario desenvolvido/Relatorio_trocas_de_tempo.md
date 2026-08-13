@@ -229,16 +229,16 @@ aula em horários diferentes em cada turma.
 | 12C1 | LP/LIT/RED / AMu/Deb | 3º tempo(s) (Sex, semana 10) | Fab | Qui | Solicitar ao prof. Fab a cessão do(s) tempo(s) 3º de Qui para a prova de LP/LIT/RED | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Hist / Wag | 10º tempo(s) (Ter, semana 12) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 10º de Aprof. para a prova de Hist | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Hist / Wag | 11º tempo(s) (Ter, semana 12) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 11º de Port para a prova de Hist | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
-| 12C1 | Fil / LAn | — | — | — | — | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
+| 12C1 | Qui / CAl/Fab | 1º tempo(s) (Qua, semana 12) | Ale | Bio | Solicitar ao prof. Ale a cessão do(s) tempo(s) 1º de Bio para a prova de Qui | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Soc / Kle | — | — | — | — | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Fis / Cadu | 2º tempo(s) (Qui, semana 13) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 2º de Artes para a prova de Fis | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Fis / Cadu | 3º tempo(s) (Qui, semana 13) | AMu | Redação | Solicitar ao prof. AMu a cessão do(s) tempo(s) 3º de Redação para a prova de Fis | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | DaF / CBu-EFr-Eth | — | — | — | — | Grupo paralelo já combinado com 12C2 |
-| 12C1 | Bio / Ale | 1º tempo(s) (Ter, semana 14) | Bre | Mat | Solicitar ao prof. Bre a cessão do(s) tempo(s) 1º de Mat para a prova de Bio | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
-| 12C1 | Qui / CAl/Fab | 4º tempo(s) (Sex, semana 14) | Wag | Hist | Solicitar ao prof. Wag a cessão do(s) tempo(s) 4º de Hist para a prova de Qui | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
-| 12C1 | Qui / CAl/Fab | 5º tempo(s) (Sex, semana 14) | AMu | Redação | Solicitar ao prof. AMu a cessão do(s) tempo(s) 5º de Redação para a prova de Qui | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
+| 12C1 | Fil / LAn | — | — | — | — | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Geo / Mar | — | — | — | — | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Mat / Bre/JJ | 2º tempo(s) (Ter, semana 15) | Ale | Bio | Solicitar ao prof. Ale a cessão do(s) tempo(s) 2º de Bio para a prova de Mat | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
+| 12C1 | Bio / Ale | 5º tempo(s) (Qui, semana 15) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 5º de Port para a prova de Bio | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 12C2 (professor comum, tempos coordenados) |
+| 12C1 | Bio / Ale | 6º tempo(s) (Qui, semana 15) | JJ | Mat | Solicitar ao prof. JJ a cessão do(s) tempo(s) 6º de Mat para a prova de Bio | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C2 | Ing / Isb | — | — | — | — | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube |
 | 12C2 | LP/LIT/RED / AMu/Deb | 9º, 10º tempo(s) (Ter, semana 4) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 9º, 10º de Aprof. para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | LP/LIT/RED / AMu/Deb | 11º tempo(s) (Ter, semana 4) | Wag | Hist | Solicitar ao prof. Wag a cessão do(s) tempo(s) 11º de Hist para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
@@ -256,16 +256,15 @@ aula em horários diferentes em cada turma.
 | 12C2 | LP/LIT/RED / AMu/Deb | 1º tempo(s) (Sex, semana 10) | Wag | Hist | Solicitar ao prof. Wag a cessão do(s) tempo(s) 1º de Hist para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | LP/LIT/RED / AMu/Deb | 3º tempo(s) (Sex, semana 10) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 3º de Geo para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Hist / Wag | 10º tempo(s) (Ter, semana 12) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 10º de Aprof. para a prova de Hist | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
-| 12C2 | Fil / LAn | — | — | — | — | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
+| 12C2 | Qui / CAl/Fab | — | — | — | — | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Soc / Kle | — | — | — | — | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Fis / Cadu | 2º tempo(s) (Qui, semana 13) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 2º de Artes para a prova de Fis | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | DaF / CBu-EFr-Eth | — | — | — | — | Grupo paralelo já combinado com 12C1 |
-| 12C2 | Bio / Ale | 1º tempo(s) (Ter, semana 14) | Cadu | Fis | Solicitar ao prof. Cadu a cessão do(s) tempo(s) 1º de Fis para a prova de Bio | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
-| 12C2 | Bio / Ale | 2º tempo(s) (Ter, semana 14) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 2º de Port para a prova de Bio | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
-| 12C2 | Qui / CAl/Fab | 4º tempo(s) (Sex, semana 14) | AMu | Redação | Solicitar ao prof. AMu a cessão do(s) tempo(s) 4º de Redação para a prova de Qui | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
+| 12C2 | Fil / LAn | — | — | — | — | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Geo / Mar | 5º, 6º tempo(s) (Seg, semana 15) | Isb | Ing | Solicitar ao prof. Isb a cessão do(s) tempo(s) 5º, 6º de Ing para a prova de Geo | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Mat / Bre/JJ | 1º tempo(s) (Ter, semana 15) | Cadu | Fis | Solicitar ao prof. Cadu a cessão do(s) tempo(s) 1º de Fis para a prova de Mat | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Mat / Bre/JJ | 2º tempo(s) (Ter, semana 15) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 2º de Port para a prova de Mat | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
+| 12C2 | Bio / Ale | 5º tempo(s) (Qui, semana 15) | JJ | Mat | Solicitar ao prof. JJ a cessão do(s) tempo(s) 5º de Mat para a prova de Bio | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 
 ### Proposta 3 — Regras relaxadas
 
@@ -297,10 +296,11 @@ Limites de cessão de aula que precisaram ser afrouxados para fechar o calendár
 | 11C2 | Regra 4 (não ceder às vésperas da própria prova) | Qui / CAl | cedeu aula na semana 5 tendo prova própria na semana 6 |
 | 11C2 | Regra 5 (teto de 11% das aulas programadas no semestre) | Ed.Física / - | cedeu 4 de 32 aulas (12.5%) — acima do teto de 11% |
 | 11C2 | Regra 5 (teto de 11% das aulas programadas no semestre) | Mat / JJ | cedeu 4 de 32 aulas (12.5%) — acima do teto de 11% |
-| 12C1 | Regra 1 (teto de cessões por disciplina no semestre) | Redação / AMu | tem 2 aulas semanais e cedeu 3 (meta: no máximo 2) |
-| 12C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / Bre | cedeu aula na semana 14 tendo prova própria na semana 15 |
+| 12C1 | Regra 4 (não ceder às vésperas da própria prova) | Bio / Ale | cedeu aula na semana 15 tendo prova própria na semana 15 |
+| 12C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / JJ | cedeu aula na semana 15 tendo prova própria na semana 15 |
 | 12C1 | Regra 4 (não ceder às vésperas da própria prova) | Redação / AMu | cedeu aula na semana 4 tendo prova própria na semana 4 |
 | 12C2 | Regra 1 (teto de cessões por disciplina no semestre) | Ing / Isb | tem 3 aulas semanais e cedeu 4 (meta: no máximo 2) |
+| 12C2 | Regra 4 (não ceder às vésperas da própria prova) | Mat / JJ | cedeu aula na semana 15 tendo prova própria na semana 15 |
 | 9C1 | Regra 1 (teto de cessões por disciplina no semestre) | Port / Jana | tem 2 aulas semanais e cedeu 4 (meta: no máximo 2) |
 | 9C1 | Regra 4 (não ceder às vésperas da própria prova) | Port / Jana | cedeu aula na semana 6 tendo prova própria na semana 6 |
 | 9C1 | Regra 5 (teto de 11% das aulas programadas no semestre) | Port / Jana | cedeu 4 de 32 aulas (12.5%) — acima do teto de 11% |

@@ -114,6 +114,17 @@ Nunca comece a montar o calendário sem antes:
     semestre — é o que define até quando contar aulas programadas. E
     confirmar se a semana vetada para provas tem alguma aula normal ou é
     zero aula (padrão: zero).
+15. **Perguntar as datas das duas provas do ENEM** (sempre em domingo).
+    Cada uma restringe **quais disciplinas podem ter prova na semana
+    anterior** (os 6 dias corridos antes daquele domingo, ou seja,
+    segunda a sábado):
+    - **Semana da 1ª data do ENEM**: só pode entrar prova de **Língua
+      Portuguesa, Redação, Inglês, História, Geografia, Sociologia e
+      Filosofia**.
+    - **Semana da 2ª data do ENEM**: só pode entrar prova de
+      **Matemática, Física, Química e Biologia**.
+    - Nenhuma outra disciplina pode ter prova nessas duas semanas
+      (respectivamente). Ver regra completa abaixo.
 
 ## Regras de distribuição das provas
 
@@ -305,6 +316,28 @@ Nunca comece a montar o calendário sem antes:
   Motivado por provas caindo na véspera da 2ª chamada dessas turmas.
   Pode ser relaxada se o horário não fechar de outra forma — ainda não
   implementada no gerador, só documentada aqui.
+- **Semanas do ENEM — disciplina restrita por prova** (pedido do
+  usuário, 08/2026): as duas provas do ENEM caem sempre num domingo. A
+  "semana da data" é definida como **os 6 dias corridos imediatamente
+  anteriores** àquele domingo (segunda a sábado) — não a semana civil
+  padrão do calendário (que aqui começa na segunda também, então na
+  prática coincide, mas o critério é sempre "6 dias antes", não "o
+  número da semana no calendário"). Nessas duas janelas, só um
+  subconjunto de disciplinas pode ter prova:
+  - **Semana da 1ª prova do ENEM** (linguagens e ciências humanas):
+    Português (LP/LIT/RED inclusive), Redação, Inglês, História,
+    Geografia, Sociologia, Filosofia. Nenhuma outra disciplina pode
+    cair nessa janela.
+  - **Semana da 2ª prova do ENEM** (matemática e ciências da natureza):
+    Matemática, Física, Química, Biologia. Nenhuma outra disciplina
+    pode cair nessa janela.
+  - Vale para todas as turmas/séries que tenham prova das disciplinas
+    restringidas (não é regra específica de uma série). **Ainda não
+    implementada no gerador** — perguntar as duas datas do ENEM a cada
+    semestre (item 15 do Passo 0) e, ao aplicar, tratar como um bloqueio
+    seletivo por disciplina nas duas janelas de 6 dias: ao alocar
+    qualquer prova nessas semanas, checar se a disciplina está na lista
+    permitida daquela janela antes de aceitar a data.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -931,6 +964,9 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
       6 dígitos, que grava a cor mas fica invisível no Excel)
 - [ ] Nenhuma prova em feriado, na semana vetada, antes do início do
       período ou depois da data-limite do grupo daquela turma
+- [ ] Nas semanas do ENEM (6 dias antes de cada data), só as disciplinas
+      permitidas daquela janela têm prova (Port/Redação/Ing/Hist/Geo/
+      Soc/Fil na semana da 1ª data; Mat/Fis/Qui/Bio na semana da 2ª)
 - [ ] Todo tempo emprestado de outro professor está no relatório de trocas
 - [ ] A tabela-resumo tem o mesmo número de linhas que o calendário tem de
       avaliações, e todas as siglas foram traduzidas em nomes
