@@ -802,6 +802,32 @@ aplicar"):
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## Geografia (2ª prova, 12C1/12C2): 23/10 → 09/11 (08/2026)
+
+Usuário pediu avaliação: "avaliar a possibilidade de colocar a segunda
+prova de geografia das turmas 12C no dia 09.11 ou 13.11 pela manhã".
+
+**Avaliação apresentada e aprovada** ("sim"):
+
+- **13/11 descartado**: esse dia (semana 15, sexta) já tem a marcação
+  fixa "2CH 10,12" (2ª chamada da série 10/12) — não é slot livre para
+  prova regular. Mesmo se estivesse livre, ficaria a só 4 dias do CC
+  10,12 (17/11), violando o mínimo de 6 dias exigido para turmas
+  10C/12C.
+- **09/11 escolhido**: semana 15, segunda — livre nas duas turmas.
+  12C1 tem aula dupla real de Geografia com o prof. Mar às segundas,
+  5º e 6º tempos (ainda manhã, já que o 7º tempo é o primeiro da
+  tarde) — sem cessão de tempo de nenhuma disciplina; 12C2 coberta por
+  coordenação entre turmas irmãs. Distância da 1ª prova (semana 5,
+  31/08): 10 semanas. Distância do CC 10,12 (17/11): 8 dias — cumpre
+  o mínimo de 6.
+
+**Aplicado**: Geo (2ª prova) de semana 12 sexta (23/10) → semana 15
+segunda (09/11), 5º-6º tempos, nas duas turmas.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
