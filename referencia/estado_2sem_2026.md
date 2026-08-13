@@ -1092,6 +1092,37 @@ de 7, mas acima do mínimo rígido de 4); Biologia 1ª(semana7)→2ª(semana15)
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## 12C: Geografia e DaF reposicionadas + correção de feriado faltante (08/2026)
+
+Usuário pediu para avaliar mover a 2ª prova de Geografia (12C) de
+09/11 para a semana 14 ou 13. Na análise, sugeri **semana 14, segunda
+(02/11)**, mesmo tempo (5º-6º) já usado hoje — mas o usuário corrigiu:
+**02/11 é feriado de Finados**, e a proposta caía justamente nesse dia.
+
+**Bug encontrado e corrigido**: `gerar_calendario.py` já bloqueava
+02/11 corretamente via `BLOQUEIOS = {(14, 1), ...}` (usado na geração),
+mas `verificar_calendario.py` só cruza contra seu próprio `FERIADOS`
+(por data), que tinha só 07/09 e 20/11 — **02/11 estava faltando**. Ou
+seja, se a proposta de semana 14 tivesse sido aplicada, o checklist
+não teria pego o erro. Corrigido: `FERIADOS` agora inclui
+`datetime.date(2026, 11, 2)`.
+
+**Aplicado, seguindo a instrução do usuário** ("mova a prova de
+geografia das 12c para 26/10 e a prova de DAF para 23/10"):
+- **DaF (2ª prova)**: semana 13 sexta (30/10) → semana 12 **sexta
+  (23/10)**, mesmo bloco 6º-7º tempos (aula dupla real do grupo DaF
+  nas duas turmas — só a semana mudou, slot ficou livre).
+- **Geografia (2ª prova)**: semana 15 segunda (09/11) → semana 13
+  **segunda (26/10)**, mesmo bloco 5º-6º tempos (aula dupla real do
+  prof. Mar em 12C1 — slot liberado pela saída do DaF daquela semana).
+
+Resultado: semana 12 ganhou DaF (2 → 3 avaliações, no teto); semana 13
+trocou DaF por Geo (permanece com 3, no teto); semana 15 perdeu Geo
+(3 → 2 avaliações).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

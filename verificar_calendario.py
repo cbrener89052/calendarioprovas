@@ -13,7 +13,13 @@ COLS = {"E": 1, "F": 2, "G": 3, "H": 4, "I": 5}
 LIMITE = {"10_12": datetime.date(2026, 11, 12),
           "9_11": datetime.date(2026, 11, 26)}
 INICIO_P1 = datetime.date(2026, 8, 17)
-FERIADOS = {datetime.date(2026, 9, 7), datetime.date(2026, 11, 20)}
+FERIADOS = {datetime.date(2026, 9, 7), datetime.date(2026, 11, 2),
+            datetime.date(2026, 11, 20)}
+# 02/11 (Finados) faltava aqui -- gerar_calendario.py ja bloqueava esse dia
+# via BLOQUEIOS = {(14, 1), ...}, mas o checklist so cruzava contra este
+# FERIADOS (por data), nao contra o BLOQUEIOS do gerador (por semana/dia).
+# Descoberto ao avaliar mover Geografia (12C) para 02/11 -- o usuario
+# pegou o erro antes do checklist (08/2026).
 SEMANA_VETADA = (datetime.date(2026, 10, 12), datetime.date(2026, 10, 16))
 
 SIM_COD = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+|DSD\d+)")
