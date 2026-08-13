@@ -899,6 +899,70 @@ aula dupla real) exige comparar explicitamente os dias da semana em
 que o professor dá aula dupla de fato, o que só acontece quando
 alguém pede essa avaliação pontual — como nesta rodada.
 
+## 9C: permuta Hist/Bio + Inglês reposicionado; 10C: Sociologia bloqueada (08/2026)
+
+Usuário pediu 4 mudanças em uma única rodada; 3 aplicadas, 1 bloqueada
+por conflito estrutural (ver abaixo).
+
+### Aplicado: 9C1/9C2 — permuta das 2ªs provas de Hist e Bio
+
+"Permutar as segundas provas de HIST e Bio, ou seja, Biologia vai para
+10/11 e história vai para 17/11" — troca direta das datas mantendo os
+blocos de tempo de cada disciplina:
+- Bio (2ª prova): semana 16 terça (17/11) → semana 15 terça (10/11),
+  1º-2º tempos.
+- Hist (2ª prova): semana 15 terça (10/11) → semana 16 terça (17/11),
+  4º-5º tempos.
+
+### Aplicado: 9C1/9C2 — Inglês de 09/10 para 06/11
+
+Semana 10 sexta (09/10) → semana 14 sexta (06/11), mesmo bloco 2º-3º
+tempos (mesmo dia da semana, só a semana mudou).
+
+### Bloqueado: 10C1/10C2 — Sociologia (Soc/Kle)
+
+"Nas turmas 10c1 leve a prova de Soc de 2/10 para 23/10 e na turma
+10c2 leve a prova de Soc de 02/10 para uma data possível posterior a
+semana 11 considerando que essa prova seja aplicada no tempo do
+professor da disciplina."
+
+**Testado e revertido**: `verificar_calendario.py` acusou PROBLEMA —
+"Soc tem professor comum mas as provas não coincidem" — Sociologia é
+lecionada pelo mesmo prof. Kle em 10C1 (quarta, 5º tempo) e 10C2
+(sexta, 5º tempo), e o checklist **exige que provas de professor comum
+entre turmas irmãs caiam exatamente no mesmo dia e tempo nas duas
+turmas** (regra 11 do verificador) — não é permitido dar datas
+diferentes a cada turma quando o professor é o mesmo.
+
+Além disso, ao tentar uma data única na sexta-feira (tempo próprio do
+prof. Kle em 10C2, conforme pedido), **todas as sextas-feiras
+disponíveis depois da semana 11 esbarraram em outro limite**: o
+máximo de 3 avaliações por semana por turma. Levantamento semana a
+semana (10C1 / 10C2, contagem antes de somar Soc):
+- Semana 12 (23/10): 2 / **3** (10C2 já no teto)
+- Semana 13 (30/10): **3** / **3** (as duas já no teto)
+- Semana 14 (06/11): **3** / 2 (10C1 já no teto, por causa do Inglês
+  de 10C1 que já tinha sido movido para cá numa rodada anterior)
+- Semana 15 (13/11): sexta bloqueada nas duas turmas pela marcação fixa
+  "2CH 10,12"
+- Semana 16 (20/11): sexta é "unterrichtsfrei" (sem aula) nas duas
+  turmas
+- Semana 17 (27/11): livre em 10C1, mas bloqueada em 10C2 pela
+  marcação "2CH 9,11"
+
+Ou seja, **não existe nenhuma sexta-feira depois da semana 11** que
+sirva simultaneamente para as duas turmas sem violar o teto semanal ou
+cair em dia bloqueado. **Sociologia foi revertida para a posição
+original (semana 9, sexta, 02/10)** nas duas turmas, aguardando decisão
+do usuário: (a) aceitar um dia que não seja sexta-feira, com 10C2
+coberta por coordenação entre turmas irmãs em vez de tempo próprio
+(ex.: semana 16 quarta, 18/11, ambas as turmas com 0 avaliações antes
+de somar Soc); (b) aceitar estourar o teto de 3/semana em alguma das
+turmas como exceção pontual; ou (c) manter a data atual (02/10).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA (com Soc revertida). Os
+5 relatórios regenerados com as 3 mudanças aplicadas (Hist/Bio/Ing).
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
