@@ -828,6 +828,33 @@ segunda (09/11), 5º-6º tempos, nas duas turmas.
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com a mudança.
 
+## Inglês (10C1 apenas): 02/09 → 03/09 e 19/10 → 05/11 (08/2026)
+
+Usuário pediu para verificar (só em 10C1, não mexer em 10C2): "colocar a
+prova de inglês de 02/09 para 04/09 e a segunda prova que está 19/10
+colocar em 05/11".
+
+**04/09 (sexta) testado e rejeitado**: o prof. APa não dá nenhuma aula
+de Inglês na sexta-feira em 10C1, em nenhum tempo — verificado com
+`G.professor_presente_no_bloco('10C1', 'ing', 'APa', 5, t, n)` para
+todos os tempos, todos `False`. Diferente de outras trocas nesta
+rodada, aqui não existe cobertura por turma irmã: o Inglês de 10C2 é
+com outra professora (Vir), datas e horários totalmente diferentes.
+Usuário corrigiu: a intenção era **quinta-feira, 03/09** (não 04/09).
+
+**Aplicado**:
+- **1ª prova**: semana 5 quarta (02/09) → semana 5 **quinta (03/09)**,
+  2º-3º tempos — aula dupla real do prof. APa em 10C1 às quintas
+  (verificado `True`), sem cessão de tempo de nenhuma disciplina.
+- **2ª prova**: semana 12 segunda (19/10) → semana 14 **quinta
+  (05/11)**, mesmo bloco 2º-3º tempos — mesma aula dupla real.
+  Distância entre as 2 ocorrências: semana 14 − semana 5 = 9 semanas,
+  acima do piso desejável de 7.
+
+Mudança feita **apenas em 10C1** (10C2 não foi tocada).
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
