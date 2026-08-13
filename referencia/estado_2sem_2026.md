@@ -752,6 +752,56 @@ sem precisar de nova alteração no código de verificação.
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## Reposicionamento coordenado Mat/Port/Redação — semanas 4 a 7 (08/2026)
+
+Usuário pediu avaliação antes de executar: "avalie a possibilidade
+necessária de nas turmas 9C colocar a primeira prova de matemática no
+dia 16.09, ou no dia 15.09 trocando biologia, ou um dia melhor na
+sétima semana. [...] mude a prova de língua portuguesa que está no
+02.09 para outro dia nessa semana ou na semana seguinte e para isso a
+redação ocorra uma semana antes ou na mesma semana que a prova de
+língua portuguesa."
+
+**Avaliação apresentada e aprovada pelo usuário** ("continue, pode
+aplicar"):
+
+1. **Matemática (1ª prova)**: rejeitada a opção de trocar com Biologia
+   em 15/09 (nenhuma das duas tem aula dupla nesse dia/tempo, não traria
+   vantagem). Escolhido **16/09 (semana 7, quarta), 4º e 5º tempos** —
+   dia real de aula dupla do prof. BrSa em 9C1 às quartas, sem cessão de
+   tempo de nenhuma disciplina; 9C2 coberta por coordenação entre turmas
+   irmãs. Slot antigo (semana 6 terça, 08/09) liberado.
+
+2. **Português (1ª prova)**: avaliados todos os dias da semana 5 antes
+   de decidir mudar de semana — segunda/terça tomadas pelo DSD1 (dia
+   inteiro), quinta sem aula de Português da profa. Jana em nenhuma das
+   duas turmas (violaria presença do professor), sexta já tem prova de
+   Inglês. Nenhum dia da própria semana 5 é viável. Movido para
+   **semana 6, terça (08/09), 1º e 2º tempos** — slot liberado pela
+   saída da Matemática; tempo próprio da profa. Jana em 9C1 às terças
+   (9C2 coberta por coordenação entre turmas irmãs).
+
+3. **Redação (1ª prova)**: como o Português saiu da semana 5 para a
+   semana 6, a Redação (que estava na semana 4) ficaria 2 semanas antes
+   do Português, violando a regra "1 semana antes ou mesma semana".
+   Movida de **semana 4 quinta (27/08) para semana 5 quinta (03/09)**,
+   mesmo bloco de 4º e 5º tempos já usado — dia real de aula do prof.
+   Raf nas duas turmas (tempo6 em 9C1, tempo5 em 9C2). Fica exatamente
+   1 semana antes da nova data do Português (semana 6) — cumpre a regra.
+   A 2ª ocorrência (semana 12 quinta, 22/10) já cumpria a regra por estar
+   na mesma semana que o Português (semana 12 quarta, 21/10) — não foi
+   alterada.
+
+**Resultado (semanas 4 a 7)**:
+- Semana 4: só Hist (terça, 25/08) — Redação saiu de lá.
+- Semana 5: DSD1 (seg+ter), Redação (qui, 03/09), Ing (sex, 04/09) —
+  quarta (02/09) ficou livre.
+- Semana 6: Português (ter, 08/09), Geo (qua, 09/09).
+- Semana 7: Bio (ter, 15/09, já da rodada anterior), Mat (qua, 16/09).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
