@@ -23,6 +23,15 @@ SIM_COD = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+|DSD\d+)")
 # do calendario gerado por gerar_calendario.py.
 SIM_COD_OFICIAL = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+)")
 
+# excecoes a regra 11 (provas de professor comum entre turmas irmas
+# precisam coincidir em dia/tempo): pares (turma_a, turma_b, nome da
+# disciplina em G.NOME) que ficam de fora dessa exigencia. Ex.:
+# Sociologia/Kle em 10C1-10C2 (pedido do usuario, 08/2026: "o professor
+# excepcionalmente, fora da regra, decidiu usar o seu tempo de aula em
+# cada turma para aplicar a sua prova" -- cada turma usa o tempo
+# proprio do prof. Kle nela, em vez de exigir a mesma data nas duas).
+COORDENACAO_EXCECAO = {("10C1", "10C2", "Soc")}
+
 
 SEMANA1 = datetime.date(2026, 8, 3)
 
@@ -382,6 +391,8 @@ def main():
                 pb.setdefault(disc, []).append((w, d, t_ini, n_t))
             for disc, (_tipo, _profs) in comuns.items():
                 nome = G.NOME.get(disc, disc)
+                if (a, b, nome) in COORDENACAO_EXCECAO:
+                    continue
                 if sorted(pa.get(nome, [])) != sorted(pb.get(nome, [])):
                     problemas.append(
                         f"P{prop}/{a}-{b}: {nome} tem professor comum mas as "

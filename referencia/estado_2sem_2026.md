@@ -963,6 +963,57 @@ turmas como exceção pontual; ou (c) manter a data atual (02/10).
 `verificar_calendario.py` fechou em 0 PROBLEMA (com Soc revertida). Os
 5 relatórios regenerados com as 3 mudanças aplicadas (Hist/Bio/Ing).
 
+## Sociologia (10C1/10C2): exceção à coordenação entre turmas irmãs (08/2026)
+
+Depois do bloqueio documentado na seção anterior, usuário esclareceu:
+"no caso de sociologia o professor excepcionalmente fora da regra
+decidiu usar o seu tempo de aula em cada turma para aplicar a sua
+prova. Faça a mudança."
+
+**Implementada a exceção**: novo dict `COORDENACAO_EXCECAO` em
+`verificar_calendario.py`, consultado pela regra 11 do checklist
+(provas de professor comum entre turmas irmãs precisam coincidir em
+dia/tempo) — `{("10C1", "10C2", "Soc")}` fica de fora dessa exigência.
+Documentado também na skill (Passo 0, seção de professor comum entre
+turmas irmãs).
+
+**Aplicado, cada turma no tempo real do prof. Kle nela** (sem cessão de
+tempo de nenhuma disciplina em nenhuma das duas):
+- 10C1: semana 9 sexta (02/10) → semana 15 **quarta (11/11)**, 5º tempo
+  (tempo próprio do Kle em 10C1).
+- 10C2: semana 9 sexta (02/10) → semana 14 **sexta (06/11)**, 5º tempo
+  (tempo próprio do Kle em 10C2).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+### Pesquisa à parte: Filosofia usa tempo de outro professor?
+
+Usuário perguntou, em todas as turmas, se o professor de Filosofia
+(LAn) usa horário de outro professor. Resposta levantada na grade
+(`GRADE_TXT`) e nas provas atuais:
+
+Filosofia é lecionada pelo mesmo prof. LAn em todas as 6 turmas
+(10C1/10C2/11C1/11C2/12C1/12C2), sempre às quartas-feiras, mas em
+**tempos diferentes por turma**: 10C1 tempo1, 10C2 tempo7, 11C1
+tempo9, 11C2 tempo11, 12C1 tempo10, 12C2 tempo4. As provas hoje seguem
+o padrão normal de coordenação entre pares de turmas irmãs (regra 11,
+sem exceção como a de Sociologia): em cada par, a prova cai no tempo
+próprio de UMA das turmas, e a outra usa esse mesmo tempo **emprestado
+de outra disciplina**, já que não é o tempo real do LAn lá:
+- 10C1-10C2: prova no 1º tempo (tempo próprio de 10C1); em 10C2 esse
+  horário é normalmente de Geografia/Mlo — é ela quem cede.
+- 11C1-11C2: prova no 9º tempo (tempo próprio de 11C1); em 11C2 esse
+  horário é normalmente de Física/Cadu — é ela quem cede.
+- 12C1-12C2: prova no 10º tempo (tempo próprio de 12C1); em 12C2 esse
+  horário é normalmente de Português/Deb — é ela quem cede.
+
+Ou seja: **sim, em metade das turmas (10C2, 11C2, 12C2) a prova de
+Filosofia usa o tempo de outra disciplina**, não o tempo real do LAn
+lá — diferente do que passou a valer para Sociologia (exceção pontual
+pedida pelo usuário). Nenhuma mudança foi feita a partir dessa
+pesquisa; é só informativo.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
