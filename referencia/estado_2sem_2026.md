@@ -645,6 +645,34 @@ de GL cedendo em week 6 antes da prova de week 7 — soft relaxations
 esperadas, não falhas de regra). Os 5 relatórios regenerados com as
 mudanças.
 
+## GL e DaF (9C1/9C2): apenas 2ª prova, em outubro (semana 13) — 08/2026
+
+Pedido do usuário: "nas turmas 9C não teremos a primeira prova de GL e de
+DAF" + "A segunda PROVA DE GL e DaF das turmas 9C devem estar no mês de
+outubro".
+
+**Implementado no código**: adicionado GL e DaF ao dict `UMA_PROVA_POR_TURMA`
+(que muda Nº de provas, não Nº de tempos):
+```python
+"9C1": {"GL", "DaF"},
+"9C2": {"GL", "DaF"},
+```
+
+`montar_exames()` agora gera só 1 ocorrência de GL e DaF para essas turmas
+(sem as 2 ocorrências normais de 1 por período). Assim o verificador não
+acusa "GL/DaF tem 1 prova, esperado 2" quando a exceção está registrada.
+
+**Aplicado ao calendário Proposta 3**:
+- **GL 1ª**: semana 7 (18/09) → **removida**
+- **GL 2ª**: semana 15 (13/11) → **semana 13, sexta (26/10)**, 5º tempo
+- **DaF 1ª**: semana 7 (15/09, terça) → **removida**
+- **DaF 2ª**: semana 15 (12/11, quinta) → **semana 13, terça (24/10)**, 4º-5º tempos
+
+GL e DaF agora têm só 1 prova cada no semestre, ambas em outubro (semana 13).
+
+`verificar_calendario.py` fecha em 0 PROBLEMA, 47 AVISOs (mesma contagem,
+soft relaxations esperadas). Os 5 relatórios regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
