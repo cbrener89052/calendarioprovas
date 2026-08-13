@@ -59,10 +59,21 @@ Nunca comece a montar o calendário sem antes:
    anterior, use-o como ponto de partida, mas confirme quando os dados
    forem inconsistentes entre turmas.
 7. **Perguntar sobre exceções de "1 prova só no semestre" por série**:
-   ex.: nesta escola, Biologia, Química e Física têm apenas 1 prova no
-   semestre inteiro (1 tempo cada) nas turmas do 9º ano, mas 1 prova por
-   período nas demais séries. Filosofia e Sociologia têm 1 tempo semanal na
+   ex.: nesta escola, Química e Física têm apenas 1 prova no semestre
+   inteiro (1 tempo cada) nas turmas do 9º ano, mas 1 prova por período
+   nas demais séries. Filosofia e Sociologia têm 1 tempo semanal na
    grade e por isso 1 prova no semestre, de 1 tempo.
+   - **Biologia nas turmas 9C1/9C2 NÃO entra nessa exceção** (correção do
+     usuário, 08/2026): a prova de Biologia é aplicada em **2 tempos**,
+     igual às demais disciplinas de `DOIS_TEMPOS`, com as 2 ocorrências
+     normais no semestre (1 por período) — mesmo a disciplina não tendo
+     aula dupla nessas turmas (só tempos únicos: 9C1 segunda 1º tempo e
+     quarta 3º tempo; 9C2 terça 1º e 8º tempos), a prova toma emprestado
+     o tempo vizinho de outra disciplina para fechar o bloco de 2 tempos
+     — igual ao mecanismo já usado em Redação e outras provas sem aula
+     dupla. **Implementado**: `bio` foi removida de `NOVE_UM_TEMPO` em
+     `gerar_calendario.py` (que continua valendo só para `fis` e `qui`
+     nas turmas 9C).
    - **Exceção de número de tempos por turma (não de nº de provas)**:
      GL nas turmas 9C1/9C2 é aplicada em **apenas 1 tempo de aula** (não
      os 2 tempos normais de GL nas demais turmas) — a disciplina nunca
@@ -303,11 +314,14 @@ Nunca comece a montar o calendário sem antes:
   diferentes) — nesse segundo caso a distância é conferida **por turma**,
   comparando as duas ocorrências daquela disciplina especificamente
   naquela turma.
-- **Química, Física e Biologia das turmas 9C entre as semanas 12 e 14**
-  do 2º semestre (pedido do usuário, 08/2026) — cerca de 3 a 4 semanas
-  antes da 2ª chamada da série 9/11. Cada uma tem só 1 prova no semestre
+- **Química e Física das turmas 9C entre as semanas 12 e 14** do 2º
+  semestre (pedido do usuário, 08/2026) — cerca de 3 a 4 semanas antes
+  da 2ª chamada da série 9/11. Cada uma tem só 1 prova no semestre
   nessas turmas (ver "disciplinas com 1 prova no semestre" acima), então
-  a regra é sobre essa única ocorrência.
+  a regra é sobre essa única ocorrência. **Biologia saiu dessa exceção**
+  (08/2026: agora tem 2 ocorrências normais, 1 por período — ver item 7
+  do Passo 0), então segue a regra padrão de distância mínima entre as
+  duas provas, não essa regra de semana fixa de 1 ocorrência única.
 - **A regra acima vale para qualquer disciplina de 1 único tempo de
   aula** (Fil/Soc, em qualquer turma/série) — não é exclusiva da 9C:
   a prova única dessas disciplinas também deve cair terminando 3 a 4
@@ -871,9 +885,10 @@ ocupada, marcação herdada de outra turma, disciplina sem slot possível.
 - [ ] Turmas 10C1/10C2/12C1/12C2: todas as provas estão pelo menos
       **6 dias** antes do conselho de classe final da série
       (marcação "CC 10,12")
-- [ ] Química, Física e Biologia da 9C1/9C2, e qualquer disciplina de 1
+- [ ] Química e Física da 9C1/9C2, e qualquer disciplina de 1
       único tempo em qualquer turma (Fil/Soc), caem entre as semanas
-      12 e 14 do 2º semestre
+      12 e 14 do 2º semestre (Biologia da 9C1/9C2 não entra mais nessa
+      exceção — tem 2 ocorrências normais, 1 por período, ver Passo 0)
 - [ ] Disciplinas de prova única usam apenas 1 tempo
 - [ ] Nenhuma prova para disciplinas sem avaliação
 - [ ] Toda prova nos tempos 7 a 11 é inevitável — a disciplina não tem
