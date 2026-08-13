@@ -16,7 +16,12 @@ INICIO_P1 = datetime.date(2026, 8, 17)
 FERIADOS = {datetime.date(2026, 9, 7), datetime.date(2026, 11, 20)}
 SEMANA_VETADA = (datetime.date(2026, 10, 12), datetime.date(2026, 10, 16))
 
-SIM_COD = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+)")
+SIM_COD = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+|DSD\d+)")
+# subconjunto reconhecido pela regra oficial de simulados (G.SIMULADOS) --
+# DSD fica de fora de proposito: e uma avaliacao externa pontual (pedido
+# do usuario, 08/2026: "nao colocar na regra"), nao um simulado recorrente
+# do calendario gerado por gerar_calendario.py.
+SIM_COD_OFICIAL = re.compile(r"^(AG9|AG10|S\d-\d\d|EX\S+)")
 
 
 SEMANA1 = datetime.date(2026, 8, 3)
@@ -138,7 +143,7 @@ def main():
                 _chave = [k for k, v in G.NOME.items() if v == disc]
                 _codigo = _chave[0] if _chave else None
                 esperado = 1 if disc in ("Fil", "Soc") or \
-                    (turma.startswith("9") and disc in ("Bio", "Fis", "Qui")) or \
+                    (turma.startswith("9") and disc in ("Fis", "Qui")) or \
                     (_codigo and _codigo in G.UMA_PROVA_POR_TURMA.get(turma, ())) else 2
                 if disc in ("Port", "Redação", "Gram") and not turma.startswith("9"):
                     problemas.append(f"{pre}: {disc} separado (deveria ser LP/LIT/RED)")
@@ -186,7 +191,7 @@ def main():
             # 6. disciplinas de 1 tempo usam 1 tempo
             for (_, _, _, disc, txt, _ti, _nt, _ds) in provas:
                 um_tempo = disc in ("Fil", "Soc") or \
-                    (turma.startswith("9") and disc in ("Bio", "Fis", "Qui"))
+                    (turma.startswith("9") and disc in ("Fis", "Qui"))
                 if um_tempo and " e " in txt.split("\n")[-1]:
                     problemas.append(f"{pre}: {disc} com 2 tempos ({txt.split(chr(10))[-1]})")
 
@@ -261,7 +266,7 @@ def main():
 
             # 8. simulados nas datas oficiais
             oficiais = {(w, d) for (w, d, c, l) in G.SIMULADOS[turma]}
-            achados = {(w, d) for (_, w, d, disc, _tx, _ti, _nt, _ds) in provas if SIM_COD.match(disc)}
+            achados = {(w, d) for (_, w, d, disc, _tx, _ti, _nt, _ds) in provas if SIM_COD_OFICIAL.match(disc)}
             if oficiais != achados:
                 problemas.append(f"{pre}: simulados {sorted(achados)} != "
                                  f"oficiais {sorted(oficiais)}")

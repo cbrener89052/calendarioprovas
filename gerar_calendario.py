@@ -398,7 +398,12 @@ GRUPO1 = {"mat", "DaF", "port", "LPLITRED", "ing"}
 PRIMEIRO_TEMPO_TARDE = 7         # nao podem coincidir na mesma semana
 DOIS_TEMPOS = {"mat", "DaF", "GL", "port", "ing", "pred", "his", "geo", "bio", "fis", "qui"}
 UM_TEMPO = {"fil", "soc"}                       # 1 tempo, 1 prova no semestre
-NOVE_UM_TEMPO = {"bio", "fis", "qui"}           # nas turmas 9C: 1 tempo, 1 prova no semestre
+# nas turmas 9C: 1 tempo, 1 prova no semestre inteiro -- Biologia SAIU
+# dessa excecao (pedido do usuario, 08/2026: "a prova de biologia das
+# turmas 9C sao dois tempos de aplicacao"), agora segue o tratamento
+# normal de DOIS_TEMPOS (2 tempos por prova, 1 prova por periodo).
+# Fisica e Quimica continuam na excecao de 1 tempo/1 prova no semestre.
+NOVE_UM_TEMPO = {"fis", "qui"}
 
 # Quando a turma tem 2 provas no semestre da mesma disciplina/professor
 # (uma por periodo), a distancia entre as duas datas tem que ser de pelo

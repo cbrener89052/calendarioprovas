@@ -645,6 +645,113 @@ de GL cedendo em week 6 antes da prova de week 7 — soft relaxations
 esperadas, não falhas de regra). Os 5 relatórios regenerados com as
 mudanças.
 
+## Redação (2ª prova, 9C1/9C2): 19/10 → 22/10, tempos 1-2 → 4-5 (08/2026)
+
+"Coloque a redação das turmas 9C que está no dia 19.10 para 22.10 (4º e
+5º tempos)". 2ª ocorrência de Redação movida de semana 12 segunda (19/10,
+1º e 2º tempos) para semana 12 quinta (22/10, 4º e 5º tempos). Mesma
+semana, dia diferente. `verificar_calendario.py` fechou em 0 PROBLEMA.
+
+## GL, Matemática, Biologia e DSD1 (9C1/9C2) — rodada de 08/2026
+
+### 1. GL: semana 13 sexta (30/10) → semana 15 sexta (13/11)
+
+Mesmo dia da semana e mesmo tempo (5º tempo) — só a semana mudou, sem
+risco de violar presença do professor.
+
+### 2. Matemática: semana 14 quarta (04/11) → semana 16 quarta (18/11)
+
+2ª ocorrência de Mat/BrSa. Mesmo dia da semana e mesmos tempos (4º e 5º)
+— só a semana mudou. Distância da 1ª ocorrência (semana 6, 08/09):
+semana 16 − semana 6 = 10 semanas, cumpre o piso.
+
+### 3. Biologia (9C1/9C2): correção de 1 para 2 tempos + nova prova em P1
+
+Usuário corrigiu a documentação anterior: "a prova de biologia das
+turmas 9C são dois tempos de aplicação" — Biologia **não** pertence mais
+à exceção de "1 tempo, 1 prova no semestre" que ainda vale para Química
+e Física no 9º ano. Passa a seguir o tratamento normal de `DOIS_TEMPOS`:
+2 tempos por prova, 2 ocorrências no semestre (1 por período) — mesmo
+sem aula dupla nessas turmas (Bio só tem tempos únicos: 9C1 segunda 1º e
+quarta 3º; 9C2 terça 1º e 8º), a prova toma emprestado o tempo vizinho,
+igual a outras provas sem aula dupla nessas turmas (Redação, GL antes).
+
+**Implementado no código**: `bio` removida de `NOVE_UM_TEMPO` em
+`gerar_calendario.py` (que agora só vale para `fis`/`qui` no 9º ano).
+Também corrigidas 2 referências hard-coded em `verificar_calendario.py`
+que ainda tratavam Bio como exceção de 1 tempo/1 prova nas turmas 9C
+(linhas do cálculo de `esperado` e do check "disciplinas de 1 tempo
+usam 1 tempo") — sem essa correção o checklist reprovava com falsos
+PROBLEMA. Skill atualizada (Passo 0 item 7 e checklist final).
+
+**Proposta aplicada ao calendário** (sem alterar nenhuma outra prova):
+- Prova existente (2ª ocorrência): semana 16 terça (17/11) — 1º tempo →
+  **1º e 2º tempos**.
+- Prova nova (1ª ocorrência, período 1): **semana 7 terça (15/09), 1º e
+  2º tempos** — dia escolhido porque é a terça livre mais próxima dentro
+  de P1 (semanas 4-7) coincidindo com o tempo próprio do professor Ale
+  em 9C2 (terça 1º tempo); em 9C1 a presença do professor fica coberta
+  pela coordenação entre turmas irmãs (mesmo professor). Distância entre
+  as 2 ocorrências: semana 7 → semana 16 = 9 semanas (cumpre o piso
+  desejável de 7).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA após as correções acima.
+
+### 4. DSD1 (Deutsches Sprachdiplom) — avaliação externa, NÃO é regra
+
+"Colocar nos dias 19 de agosto (parte escrita) e 31 de agosto e 01 de
+setembro (parte oral) DSD1, não colocar na regra" — usuário confirmou
+que se aplica a 9C1 e 9C2. Por pedido explícito, **não** foi adicionado
+a `SIMULADOS` em `gerar_calendario.py` nem à skill — é um evento pontual
+deste semestre, não uma regra recorrente de geração de calendário.
+
+**Escrito diretamente na planilha** (mesmo padrão visual dos simulados,
+preenchimento amarelo, bloco "2º ao 7º tempos"):
+- 19/08 (semana 3, quarta): "DSD1 — Parte escrita".
+- 31/08 (semana 5, segunda) e 01/09 (semana 5, terça): "DSD1 — Parte
+  oral" (2 dias).
+
+**Ajuste mínimo em `verificar_calendario.py`** (só classificação, não
+regra de geração): `SIM_COD` passou a reconhecer o prefixo `DSD` para
+não contar DSD1 como se fosse uma disciplina normal (evita falso
+PROBLEMA de "Nº de provas" e de tempo único). Criado `SIM_COD_OFICIAL`
+(sem DSD) para o check separado que compara os simulados encontrados
+contra a lista oficial `G.SIMULADOS` — assim DSD1 não precisa constar
+nessa lista oficial, respeitando o pedido de não virar regra.
+
+`exportar_tempos_cedidos.py` já ignora graciosamente códigos não
+reconhecidos (mensagem informativa, sem erro), então DSD1 não afeta a
+contagem de cedências de nenhum professor.
+
+## DSD2 (12C1/12C2) — avaliação externa, NÃO é regra (08/2026)
+
+"Colocar nas turmas 12C: nos dias 18 de agosto (parte escrita) e 3 de
+setembro (parte oral) serão realizados os exames DSD2" — aplicado às
+duas turmas (12C1 e 12C2), mesmo padrão do DSD1 (9C): escrito
+diretamente na planilha, **não** entrou em `SIMULADOS` nem na skill.
+
+**Conflito identificado e resolvido**: em 12C1, 03/09 já tinha a
+(única) prova de Inglês/PaH (4º e 5º tempos) — `UMA_PROVA_POR_TURMA`
+faz Inglês ter só 1 ocorrência no semestre nessa turma, então não dava
+para simplesmente apagar. Usuário confirmou: "nesse dia não terá outra
+prova a não ser DSD2". A prova de Inglês foi **remanejada para 24/08
+(semana 4, segunda, 1º e 2º tempos)** — dia em que o prof. PaH já tem
+aula dupla de Inglês na grade normal de 12C1, sem necessidade de doação
+de tempo de outra disciplina. Em 12C2 não havia conflito (a prova única
+de Inglês já está em 24/08).
+
+**Escrito diretamente na planilha** (mesmo padrão visual dos simulados):
+- 18/08 (semana 3, terça): "DSD2 — Parte escrita".
+- 03/09 (semana 5, quinta): "DSD2 — Parte oral" (dia exclusivo, sem
+  nenhuma outra prova).
+
+`SIM_COD` em `verificar_calendario.py` já usava o padrão genérico
+`DSD\d+` (criado para o DSD1), então reconheceu "DSD2" automaticamente,
+sem precisar de nova alteração no código de verificação.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
