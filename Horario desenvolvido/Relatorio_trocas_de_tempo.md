@@ -148,7 +148,6 @@ aula em horários diferentes em cada turma.
 | 10C2 | Mat / BrSa/FBri | 5º tempo(s) (Qui, semana 10) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 5º de DaF para a prova de Mat | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | Geo / Mlo | 2º tempo(s) (Sex, semana 10) | Vir | Ing | Solicitar ao prof. Vir a cessão do(s) tempo(s) 2º de Ing para a prova de Geo | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | Geo / Mlo | 3º tempo(s) (Sex, semana 10) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 3º de DaF para a prova de Geo | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
-| 10C2 | Ing / Vir | 4º tempo(s) (Ter, semana 12) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Ing |  |
 | 10C2 | GL / EFr-Car-Swa | 2º tempo(s) (Qua, semana 12) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de GL | Grupo paralelo já combinado com 10C1 |
 | 10C2 | Fis / VSi | 9º tempo(s) (Qui, semana 12) | - | Ed.Física | Solicitar ao prof. - a cessão do(s) tempo(s) 9º de Ed.Física para a prova de Fis | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | LP/LIT/RED / BPad/MFo/SMo | 2º tempo(s) (Seg, semana 13) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de LP/LIT/RED | Prova conjunta com 10C1 (professor comum, tempos coordenados) |

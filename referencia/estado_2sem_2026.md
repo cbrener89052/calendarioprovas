@@ -1188,6 +1188,24 @@ Geografia tinha saído de lá para a semana 13 numa rodada anterior).
 bloco 6º-7º) — soft, esperados, não são falhas do checklist. Os 5
 relatórios regenerados.
 
+## 10C2: Inglês (2ª prova) movida de 20/10 para 11/11 (08/2026)
+
+Usuário pediu para avaliar mover a 2ª prova de Inglês de 10C2 (20/10)
+para novembro. Avaliação: bloco atual (terça, 4º-5º tempos) usa o 5º
+tempo próprio da profa. Vir + o 4º emprestado de Artes; a aula dupla
+real dela nessa turma é **quarta-feira, 4º-5º tempos** (sem cessão).
+Novembro só tem uma quarta-feira livre dentro do limite de 6 dias
+antes do CC final (17/11): **11/11 (semana 15)** — as quartas de
+18/11 e 25/11 já ficam depois do limite.
+
+**Aplicado, conforme aprovado pelo usuário**: 2ª prova de Inglês
+(10C2) movida de semana 12 terça (20/10) para semana 15 **quarta
+(11/11)**, 4º-5º tempos — zero cessão de tempo (bloco 100% próprio da
+Vir). Distância da 1ª prova (semana 5): 10 semanas.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
