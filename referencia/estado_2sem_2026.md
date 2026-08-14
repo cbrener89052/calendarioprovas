@@ -1123,6 +1123,51 @@ trocou DaF por Geo (permanece com 3, no teto); semana 15 perdeu Geo
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## 9C: prova de Química faltando — encontrada e adicionada (08/2026)
+
+Usuário pediu para verificar: "verifique que no calendario das turmas
+9C a prova de quimica não consta". Confirmado — busca em todas as 17
+semanas das duas turmas não encontrou nenhuma célula de Química.
+
+**Causa raiz**: Química é lecionada nas duas turmas (`qui/Fab`, 1 aula
+semanal cada) e segue a mesma regra de Física para o 9º ano
+(`NOVE_UM_TEMPO`: 1 tempo, 1 prova no semestre inteiro) — Física está
+corretamente no calendário (05/11, 7º tempo), mas Química nunca foi
+inserida.
+
+**Bug de checklist encontrado**: `verificar_calendario.py` não acusou
+nada (nem PROBLEMA nem AVISO). A regra 5 ("número de provas por
+disciplina") só itera sobre disciplinas que **já aparecem** no
+calendário — se uma disciplina tem zero provas, ela nunca entra na
+contagem, então nunca é comparada com o esperado (1). Mesma categoria
+do bug do feriado de Finados (checklist detecta "número errado", não
+"disciplina inteira faltando") — **ainda não corrigido**, fica como
+pendência.
+
+**Aplicado** (pedido do usuário: "seguindo o padrão de Física (1 tempo,
+tempo próprio do prof. Fab) — e tentando ter uma única prova para as
+duas turmas"): adicionada Química em **semana 14, quarta-feira (04/11),
+2º tempo** — tempo próprio da profa. Fab em 9C2 às quartas (9C1 coberta
+por coordenação entre turmas irmãs, já que o tempo real dela em 9C1 é
+sexta 7º tempo). Mesma semana que Física, dentro da faixa esperada
+(semanas 12 a 14) documentada na skill para Química/Física do 9º ano.
+Célula estava vazia antes — nenhuma outra prova foi alterada, movida
+ou removida (confirmado célula a célula).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+### Pendência relacionada, ainda NÃO aplicada: Química (12C) precisa de 2 tempos
+
+Usuário identificou que a 2ª prova de Química das turmas 12C (semana
+12, quarta, 21/10) está com **apenas 1 tempo**, mas deveria ter 2 —
+bug introduzido na rodada anterior (quando a Química foi movida para a
+semana 12, usei `n_tempos=1` por engano; deveria seguir o padrão
+normal de `DOIS_TEMPOS`, igual à 1ª prova de Química, que já está
+correta com 2 tempos em 11/09). Usuário pediu só para propor solução,
+sem executar — análise em andamento, nenhuma mudança aplicada nas
+turmas 12C ainda.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

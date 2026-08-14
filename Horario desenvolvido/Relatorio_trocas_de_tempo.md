@@ -77,6 +77,7 @@ aula em horários diferentes em cada turma.
 | 9C1 | DaF / Caro-SGa-EFr | 4º tempo(s) (Ter, semana 13) | JuLa | Hist | Solicitar ao prof. JuLa a cessão do(s) tempo(s) 4º de Hist para a prova de DaF | Grupo paralelo já combinado com 9C2 |
 | 9C1 | Geo / Mar | 6º tempo(s) (Qua, semana 13) | Caro-EFr-Eth | GL | Solicitar ao prof. Caro-EFr-Eth a cessão do(s) tempo(s) 6º de GL para a prova de Geo | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Geo / Mar | 7º tempo(s) (Qua, semana 13) | Jana | Port | Solicitar ao prof. Jana a cessão do(s) tempo(s) 7º de Port para a prova de Geo | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
+| 9C1 | Qui / Fab | 2º tempo(s) (Qua, semana 14) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 2º de Geo para a prova de Qui | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Fis / VSi | — | — | — | — | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
 | 9C1 | Ing / APa-PaH-Velo | — | — | — | — | Grupo paralelo já combinado com 9C2 |
 | 9C1 | Bio / Ale | 1º tempo(s) (Ter, semana 15) | Jana | Port | Solicitar ao prof. Jana a cessão do(s) tempo(s) 1º de Port para a prova de Bio | Prova conjunta com 9C2 (professor comum, tempos coordenados) |
@@ -97,6 +98,7 @@ aula em horários diferentes em cada turma.
 | 9C2 | Redação / Raf | 4º tempo(s) (Qui, semana 12) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Redação | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | DaF / Caro-SGa-EFr | 4º tempo(s) (Ter, semana 13) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 4º de Mat para a prova de DaF | Grupo paralelo já combinado com 9C1 |
 | 9C2 | Geo / Mar | 6º tempo(s) (Qua, semana 13) | Caro-EFr-Eth | GL | Solicitar ao prof. Caro-EFr-Eth a cessão do(s) tempo(s) 6º de GL para a prova de Geo | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
+| 9C2 | Qui / Fab | — | — | — | — | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Fis / VSi | 7º tempo(s) (Qui, semana 14) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 7º de Mat para a prova de Fis | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Ing / APa-PaH-Velo | — | — | — | — | Grupo paralelo já combinado com 9C1 |
 | 9C2 | Bio / Ale | 2º tempo(s) (Ter, semana 15) | Caro-SGa-EFr | DaF | Solicitar ao prof. Caro-SGa-EFr a cessão do(s) tempo(s) 2º de DaF para a prova de Bio | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
