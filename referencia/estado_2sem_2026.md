@@ -1157,16 +1157,36 @@ ou removida (confirmado célula a célula).
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com a mudança.
 
-### Pendência relacionada, ainda NÃO aplicada: Química (12C) precisa de 2 tempos
+### Resolvido: Química (12C) corrigida para 2 tempos, movida para 09/11
 
 Usuário identificou que a 2ª prova de Química das turmas 12C (semana
-12, quarta, 21/10) está com **apenas 1 tempo**, mas deveria ter 2 —
-bug introduzido na rodada anterior (quando a Química foi movida para a
-semana 12, usei `n_tempos=1` por engano; deveria seguir o padrão
-normal de `DOIS_TEMPOS`, igual à 1ª prova de Química, que já está
-correta com 2 tempos em 11/09). Usuário pediu só para propor solução,
-sem executar — análise em andamento, nenhuma mudança aplicada nas
-turmas 12C ainda.
+12, quarta, 21/10) estava com **apenas 1 tempo** — bug introduzido na
+rodada anterior (quando a Química foi movida para a semana 12, usei
+`n_tempos=1` por engano; deveria seguir o padrão normal de
+`DOIS_TEMPOS`, igual à 1ª prova de Química, que já está correta com 2
+tempos em 11/09).
+
+**Avaliação apresentada** (pedido pelo usuário, sem executar):
+testadas todas as combinações de 2 tempos possíveis na quarta-feira
+(posição atual) — 1º-2º tempos doaria a única aula semanal de
+Sociologia em 12C1 (não pode doar); 5º-6º tempos cruza o intervalo do
+recreio; 6º-7º tempos é bloco inválido (7º tempo não existe na grade
+de quarta-feira). Nenhuma opção cabe na quarta-feira. Proposta inicial:
+segunda-feira da própria semana 12 (19/10), 6º-7º tempos — tempo
+próprio da profa. Fab em 12C1 (12C2 coberta por coordenação entre
+turmas irmãs).
+
+**Aplicado, com a data ajustada pelo usuário** ("coloque a prova de
+quimica das turmas 12c no dia 09/11 no 6 e 7 tempos"): 2ª prova de
+Química movida de semana 12 quarta (21/10, 1 tempo, com bug) para
+**semana 15 segunda (09/11), 6º-7º tempos** — mesmo bloco da proposta,
+só a semana mudou (09/11 já estava livre nas duas turmas, pois a
+Geografia tinha saído de lá para a semana 13 numa rodada anterior).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Novos AVISOs leves
+(Geo/Mar e Ing/Isb cedendo 1 aula a mais que a meta, por causa do
+bloco 6º-7º) — soft, esperados, não são falhas do checklist. Os 5
+relatórios regenerados.
 
 ## Próximos passos
 
