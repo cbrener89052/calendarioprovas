@@ -1206,6 +1206,37 @@ Vir). Distância da 1ª prova (semana 5): 10 semanas.
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com a mudança.
 
+## 10C1/10C2: cadeia de 5 reposicionamentos (08/2026)
+
+Usuário pediu uma cadeia de trocas encadeadas, cada uma liberando o
+slot da próxima, com dois passos exclusivos por turma. Todas mantêm o
+mesmo dia da semana e bloco de tempos — só a semana muda:
+
+1. **LP/LIT/RED** (10C1+10C2): semana 13 segunda (26/10) → semana 12
+   segunda (19/10), 1º ao 3º tempos.
+2. **Química** (10C1+10C2): semana 15 segunda (09/11) → semana 13
+   segunda (26/10), 4º-5º tempos — ocupa o slot liberado pela
+   Língua Portuguesa.
+3. **GL** (10C1+10C2): semana 12 quarta (21/10) → semana 10 quarta
+   (07/10), 2º-3º tempos.
+4. **Sociologia (10C1 apenas)**: semana 15 quarta (11/11) → semana 12
+   quarta (21/10), 5º tempo — ocupa o slot liberado pelo GL.
+5. **Sociologia (10C2 apenas)**: semana 14 sexta (06/11) → semana 12
+   sexta (23/10), 5º tempo.
+
+Os passos 4 e 5 usam a exceção `COORDENACAO_EXCECAO` (Sociologia não
+precisa coincidir entre 10C1/10C2), por isso puderam ir para dias
+diferentes (quarta em 10C1, sexta em 10C2) sem violar regra.
+
+Verificação de teto semanal antes de aplicar (nenhuma semana passou de
+3 avaliações): semana 10 (2→3), semana 12 (2→3 nas duas, trocando GL
+por LP+Soc), semana 13 (3→3, trocando LP por Química), semana 14
+(3→2 em 10C2), semana 15 (3→1 em 10C1, 3→2 em 10C2).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças. Nenhuma outra prova foi tocada, conforme
+pedido pelo usuário.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
