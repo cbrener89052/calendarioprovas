@@ -1237,6 +1237,16 @@ por LP+Soc), semana 13 (3→3, trocando LP por Química), semana 14
 regenerados com as mudanças. Nenhuma outra prova foi tocada, conforme
 pedido pelo usuário.
 
+## 12C1/12C2: Biologia (2ª prova) movida de 12/11 para 22/10 (08/2026)
+
+Usuário pediu: "mude a prova de biologia de 12/11 dsa turmas 12c para
+22/10". 2ª prova de Biologia movida de semana 15 quinta (12/11) para
+semana 12 **quinta (22/10)**, mesmo bloco 5º-6º tempos — mesmo dia da
+semana, só a semana mudou (slot já estava livre, sem cessão adicional).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
