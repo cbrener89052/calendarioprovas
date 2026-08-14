@@ -106,10 +106,10 @@ aula em horários diferentes em cada turma.
 | 9C2 | Hist / JuLa | 4º tempo(s) (Ter, semana 16) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 4º de Mat para a prova de Hist | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Hist / JuLa | 5º tempo(s) (Ter, semana 16) | Caro-SGa-EFr | DaF | Solicitar ao prof. Caro-SGa-EFr a cessão do(s) tempo(s) 5º de DaF para a prova de Hist | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Mat / BrSa | 4º, 5º tempo(s) (Qua, semana 16) | Jana | Port | Solicitar ao prof. Jana a cessão do(s) tempo(s) 4º, 5º de Port para a prova de Mat | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
-| 10C1 | Qui / CAl | 4º tempo(s) (Seg, semana 4) | VSi | Fis | Solicitar ao prof. VSi a cessão do(s) tempo(s) 4º de Fis para a prova de Qui | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
-| 10C1 | Qui / CAl | 5º tempo(s) (Seg, semana 4) | APa | Ing | Solicitar ao prof. APa a cessão do(s) tempo(s) 5º de Ing para a prova de Qui | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | Bio / Lza | 6º tempo(s) (Ter, semana 4) | CAl | Qui | Solicitar ao prof. CAl a cessão do(s) tempo(s) 6º de Qui para a prova de Bio | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | GL / EFr-Car-Swa | 2º tempo(s) (Qua, semana 4) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de GL | Grupo paralelo já combinado com 10C2 |
+| 10C1 | Qui / CAl | 3º tempo(s) (Sex, semana 4) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 3º de DaF para a prova de Qui | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 10C2 (professor comum, tempos coordenados) |
+| 10C1 | Qui / CAl | 4º tempo(s) (Sex, semana 4) | MFo | Port | Solicitar ao prof. MFo a cessão do(s) tempo(s) 4º de Port para a prova de Qui | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | LP/LIT/RED / BPad/MFo/SMo | 1º tempo(s) (Seg, semana 5) | FBri | Mat | Solicitar ao prof. FBri a cessão do(s) tempo(s) 1º de Mat para a prova de LP/LIT/RED | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | LP/LIT/RED / BPad/MFo/SMo | 2º tempo(s) (Seg, semana 5) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de LP/LIT/RED | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | DaF / Eth-EFr-Swa | 3º tempo(s) (Qua, semana 6) | EFr-Car-Swa | GL | Solicitar ao prof. EFr-Car-Swa a cessão do(s) tempo(s) 3º de GL para a prova de DaF | Grupo paralelo já combinado com 10C2 |
@@ -134,9 +134,9 @@ aula em horários diferentes em cada turma.
 | 10C1 | Bio / Lza | 11º tempo(s) (Ter, semana 14) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 11º de Mat para a prova de Bio | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | DaF / Eth-EFr-Swa | 3º tempo(s) (Qua, semana 14) | EFr-Car-Swa | GL | Solicitar ao prof. EFr-Car-Swa a cessão do(s) tempo(s) 3º de GL para a prova de DaF | Grupo paralelo já combinado com 10C2 |
 | 10C1 | Mat / BrSa/FBri | 10º tempo(s) (Ter, semana 15) | ALu | Hist | Solicitar ao prof. ALu a cessão do(s) tempo(s) 10º de Hist para a prova de Mat | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
-| 10C2 | Qui / CAl | 5º tempo(s) (Seg, semana 4) | BPad | Redação | Solicitar ao prof. BPad a cessão do(s) tempo(s) 5º de Redação para a prova de Qui | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | Bio / Lza | 6º, 7º tempo(s) (Ter, semana 4) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 6º, 7º de Mat para a prova de Bio | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | GL / EFr-Car-Swa | 2º tempo(s) (Qua, semana 4) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de GL | Grupo paralelo já combinado com 10C1 |
+| 10C2 | Qui / CAl | 3º tempo(s) (Sex, semana 4) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 3º de DaF para a prova de Qui | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | LP/LIT/RED / BPad/MFo/SMo | 2º tempo(s) (Seg, semana 5) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de LP/LIT/RED | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | LP/LIT/RED / BPad/MFo/SMo | 3º tempo(s) (Seg, semana 5) | FBri | Mat | Solicitar ao prof. FBri a cessão do(s) tempo(s) 3º de Mat para a prova de LP/LIT/RED | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | Ing / Vir | 4º tempo(s) (Ter, semana 5) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Ing |  |
@@ -279,13 +279,11 @@ Limites de cessão de aula que precisaram ser afrouxados para fechar o calendár
 | 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Ing / APa | cedeu aula na semana 13 tendo prova própria na semana 14 |
 | 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Ing / APa | cedeu aula na semana 13 tendo prova própria na semana 14 |
 | 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Ing / APa | cedeu aula na semana 13 tendo prova própria na semana 14 |
-| 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Ing / APa | cedeu aula na semana 4 tendo prova própria na semana 5 |
 | 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / BrSa | cedeu aula na semana 14 tendo prova própria na semana 15 |
+| 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Port / MFo | cedeu aula na semana 4 tendo prova própria na semana 5 |
 | 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Redação / BPad | cedeu aula na semana 12 tendo prova própria na semana 12 |
 | 10C1 | Regra 4 (não ceder às vésperas da própria prova) | Qui / CAl | cedeu aula na semana 4 tendo prova própria na semana 4 |
-| 10C1 | Regra 5 (teto de 11% das aulas programadas no semestre) | Ing / APa | cedeu 6 de 54 aulas (11.1%) — acima do teto de 11% |
 | 10C2 | Regra 4 (não ceder às vésperas da própria prova) | DaF / Eth-EFr-Swa | cedeu aula na semana 5 tendo prova própria na semana 6 |
-| 10C2 | Regra 4 (não ceder às vésperas da própria prova) | Redação / BPad | cedeu aula na semana 4 tendo prova própria na semana 5 |
 | 11C1 | Regra 1 (teto de cessões por disciplina no semestre) | Ed.Física / - | tem 2 aulas semanais e cedeu 4 (meta: no máximo 2) |
 | 11C1 | Regra 1 (teto de cessões por disciplina no semestre) | Hist / Ver | tem 3 aulas semanais e cedeu 4 (meta: no máximo 3) |
 | 11C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / ClaMe | cedeu aula na semana 7 tendo prova própria na semana 8 |
