@@ -1123,6 +1123,120 @@ trocou DaF por Geo (permanece com 3, no teto); semana 15 perdeu Geo
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## 9C: prova de Química faltando — encontrada e adicionada (08/2026)
+
+Usuário pediu para verificar: "verifique que no calendario das turmas
+9C a prova de quimica não consta". Confirmado — busca em todas as 17
+semanas das duas turmas não encontrou nenhuma célula de Química.
+
+**Causa raiz**: Química é lecionada nas duas turmas (`qui/Fab`, 1 aula
+semanal cada) e segue a mesma regra de Física para o 9º ano
+(`NOVE_UM_TEMPO`: 1 tempo, 1 prova no semestre inteiro) — Física está
+corretamente no calendário (05/11, 7º tempo), mas Química nunca foi
+inserida.
+
+**Bug de checklist encontrado**: `verificar_calendario.py` não acusou
+nada (nem PROBLEMA nem AVISO). A regra 5 ("número de provas por
+disciplina") só itera sobre disciplinas que **já aparecem** no
+calendário — se uma disciplina tem zero provas, ela nunca entra na
+contagem, então nunca é comparada com o esperado (1). Mesma categoria
+do bug do feriado de Finados (checklist detecta "número errado", não
+"disciplina inteira faltando") — **ainda não corrigido**, fica como
+pendência.
+
+**Aplicado** (pedido do usuário: "seguindo o padrão de Física (1 tempo,
+tempo próprio do prof. Fab) — e tentando ter uma única prova para as
+duas turmas"): adicionada Química em **semana 14, quarta-feira (04/11),
+2º tempo** — tempo próprio da profa. Fab em 9C2 às quartas (9C1 coberta
+por coordenação entre turmas irmãs, já que o tempo real dela em 9C1 é
+sexta 7º tempo). Mesma semana que Física, dentro da faixa esperada
+(semanas 12 a 14) documentada na skill para Química/Física do 9º ano.
+Célula estava vazia antes — nenhuma outra prova foi alterada, movida
+ou removida (confirmado célula a célula).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+### Resolvido: Química (12C) corrigida para 2 tempos, movida para 09/11
+
+Usuário identificou que a 2ª prova de Química das turmas 12C (semana
+12, quarta, 21/10) estava com **apenas 1 tempo** — bug introduzido na
+rodada anterior (quando a Química foi movida para a semana 12, usei
+`n_tempos=1` por engano; deveria seguir o padrão normal de
+`DOIS_TEMPOS`, igual à 1ª prova de Química, que já está correta com 2
+tempos em 11/09).
+
+**Avaliação apresentada** (pedido pelo usuário, sem executar):
+testadas todas as combinações de 2 tempos possíveis na quarta-feira
+(posição atual) — 1º-2º tempos doaria a única aula semanal de
+Sociologia em 12C1 (não pode doar); 5º-6º tempos cruza o intervalo do
+recreio; 6º-7º tempos é bloco inválido (7º tempo não existe na grade
+de quarta-feira). Nenhuma opção cabe na quarta-feira. Proposta inicial:
+segunda-feira da própria semana 12 (19/10), 6º-7º tempos — tempo
+próprio da profa. Fab em 12C1 (12C2 coberta por coordenação entre
+turmas irmãs).
+
+**Aplicado, com a data ajustada pelo usuário** ("coloque a prova de
+quimica das turmas 12c no dia 09/11 no 6 e 7 tempos"): 2ª prova de
+Química movida de semana 12 quarta (21/10, 1 tempo, com bug) para
+**semana 15 segunda (09/11), 6º-7º tempos** — mesmo bloco da proposta,
+só a semana mudou (09/11 já estava livre nas duas turmas, pois a
+Geografia tinha saído de lá para a semana 13 numa rodada anterior).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Novos AVISOs leves
+(Geo/Mar e Ing/Isb cedendo 1 aula a mais que a meta, por causa do
+bloco 6º-7º) — soft, esperados, não são falhas do checklist. Os 5
+relatórios regenerados.
+
+## 10C2: Inglês (2ª prova) movida de 20/10 para 11/11 (08/2026)
+
+Usuário pediu para avaliar mover a 2ª prova de Inglês de 10C2 (20/10)
+para novembro. Avaliação: bloco atual (terça, 4º-5º tempos) usa o 5º
+tempo próprio da profa. Vir + o 4º emprestado de Artes; a aula dupla
+real dela nessa turma é **quarta-feira, 4º-5º tempos** (sem cessão).
+Novembro só tem uma quarta-feira livre dentro do limite de 6 dias
+antes do CC final (17/11): **11/11 (semana 15)** — as quartas de
+18/11 e 25/11 já ficam depois do limite.
+
+**Aplicado, conforme aprovado pelo usuário**: 2ª prova de Inglês
+(10C2) movida de semana 12 terça (20/10) para semana 15 **quarta
+(11/11)**, 4º-5º tempos — zero cessão de tempo (bloco 100% próprio da
+Vir). Distância da 1ª prova (semana 5): 10 semanas.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+## 10C1/10C2: cadeia de 5 reposicionamentos (08/2026)
+
+Usuário pediu uma cadeia de trocas encadeadas, cada uma liberando o
+slot da próxima, com dois passos exclusivos por turma. Todas mantêm o
+mesmo dia da semana e bloco de tempos — só a semana muda:
+
+1. **LP/LIT/RED** (10C1+10C2): semana 13 segunda (26/10) → semana 12
+   segunda (19/10), 1º ao 3º tempos.
+2. **Química** (10C1+10C2): semana 15 segunda (09/11) → semana 13
+   segunda (26/10), 4º-5º tempos — ocupa o slot liberado pela
+   Língua Portuguesa.
+3. **GL** (10C1+10C2): semana 12 quarta (21/10) → semana 10 quarta
+   (07/10), 2º-3º tempos.
+4. **Sociologia (10C1 apenas)**: semana 15 quarta (11/11) → semana 12
+   quarta (21/10), 5º tempo — ocupa o slot liberado pelo GL.
+5. **Sociologia (10C2 apenas)**: semana 14 sexta (06/11) → semana 12
+   sexta (23/10), 5º tempo.
+
+Os passos 4 e 5 usam a exceção `COORDENACAO_EXCECAO` (Sociologia não
+precisa coincidir entre 10C1/10C2), por isso puderam ir para dias
+diferentes (quarta em 10C1, sexta em 10C2) sem violar regra.
+
+Verificação de teto semanal antes de aplicar (nenhuma semana passou de
+3 avaliações): semana 10 (2→3), semana 12 (2→3 nas duas, trocando GL
+por LP+Soc), semana 13 (3→3, trocando LP por Química), semana 14
+(3→2 em 10C2), semana 15 (3→1 em 10C1, 3→2 em 10C2).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças. Nenhuma outra prova foi tocada, conforme
+pedido pelo usuário.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
