@@ -22,6 +22,9 @@ em `user-requirements.md`.
 cedem tempo — ação manual do coordenador após calendário estável, não a
 cada refração — ver `user-requirements.md`.
 
+**Atualização 2026-08-15 (3):** **agente de refração via API** com visões
+analíticas para resolver conflitos — ver `user-requirements.md`.
+
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
 individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 

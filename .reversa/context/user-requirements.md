@@ -141,6 +141,108 @@ permitir **revisar e ajustar** o conjunto de regras:
 
 ---
 
+## Agente de refração conectado via API
+
+> Registrado em 2026-08-15 por Brener, durante fase de Geração do `/reversa`.
+
+### Contexto
+
+Além da **fatoração** automática (solver) e da **refração manual** (edição
+direta do calendário), o coordenador frequentemente precisa **diagnosticar e
+resolver conflitos** envolvendo tempos, cessões, turmas irmãs e regras
+violadas. Hoje isso é feito com planilha + verificador + apoio externo
+(skill/agente de IA fora da plataforma).
+
+Na plataforma futura, deve existir a **possibilidade** de conectar um
+**agente de IA via API** para apoiar a refração — não substituindo o solver
+nem o verificador, mas operando sobre o **mesmo estado** do calendário e
+sobre os **problemas detectados**, com **visões analíticas** que facilitem
+a resolução.
+
+### Comportamento desejado
+
+1. **Conexão via API** — a plataforma expõe endpoints estáveis (REST ou
+   equivalente) para um agente externo ou interno consumir:
+   - estado atual do calendário / proposta em refração;
+   - conjunto de regras ativo (`RuleSetSnapshot`);
+   - saída do verificador (`PROBLEMA` / `AVISO` por item);
+   - metadados de cessões e alocações relevantes.
+2. **Visões para resolução de problemas** — o agente (e/ou a UI que o
+   hospeda) deve poder solicitar **visões** agregadas do calendário, por
+   exemplo:
+   - conflitos por **turma** / **semana** / **dia**;
+   - sobrecarga de **avaliações por semana**;
+   - **cessões** por professor doador ou solicitante;
+   - **coordenação entre turmas irmãs** (professor comum, Fil/Soc);
+   - violações por **regra de domínio** (id R-P1, C4, R-G1, etc.);
+   - slots **candidatos** para mover uma prova sem quebrar regras rígidas.
+3. **Escopo: refração** — o agente atua principalmente no estado
+   `EmRefracao` e em rodadas de **re-fatoração parcial** (re-solver
+   subconjunto de turmas ou re-seed), não no envio de e-mail nem no
+   fechamento/publicação sem confirmação humana.
+4. **Propostas, não mutações silenciosas** — por padrão o agente **propõe**
+   ações estruturadas (ex.: mover prova, trocar doador, marcar regra
+   flexível, pedir nova fatoração com seed X); o **coordenador confirma**
+   antes de persistir. Autonomia total 🔴 a definir.
+5. **Mesmo contrato de regras** — solver, verificador e agente usam o
+   **mesmo** `RuleSetSnapshot` da rodada; o agente não pode flexibilizar
+   regra marcada como inegociável.
+6. **Rastreabilidade** — cada sessão de agente registra: `calendario_id`,
+   `agent_session_id`, propostas, aceites/rejeições, `coordenador_id`,
+   timestamp — auditoria equivalente à edição manual.
+
+### Fluxo provisório na plataforma
+
+```
+PropostaGerada / EmRefracao
+  → Verificador lista PROBLEMA/AVISO
+  → Coordenador abre "Assistente de refração" (chat ou painel)
+  → Frontend chama API da plataforma
+  → Plataforma agrega visões + contexto
+  → Agente (via API) analisa e devolve propostas estruturadas
+  → Coordenador revisa preview (grid + diff)
+  → Aceite → persiste alocação / dispara re-verificação
+  → Repete até Verificado ou Fechado
+```
+
+### Implicações arquiteturais
+
+- **`RefractionAgentGateway`** (ou nome equivalente) na API FastAPI:
+  orquestra contexto, visões, chamada ao provedor de agente e aplicação
+  de propostas aceitas.
+- **Endpoints de visão** (`GET .../views/{tipo}`) retornando JSON
+  normalizado — independentes do LLM, úteis também para UI humana.
+- **Endpoints de sessão de agente** (`POST .../agent/sessions`,
+  `POST .../agent/sessions/{id}/messages`, `POST .../agent/proposals/{id}/apply`).
+- **Integração LLM** desacoplada: chave/API do provedor configurável por
+  deploy (nuvem vs on-prem); fallback **desligado** se agente indisponível
+  (refração manual continua).
+- **OpenAPI** documentando contrato agente ↔ plataforma (feature
+  `plataforma-multi-coordenador` + global `openapi/`).
+- Skill `calendario-provas` permanece **fonte semântica** das regras;
+  o agente recebe resumo/id de regras do catálogo, não texto livre
+  dessincronizado.
+
+### Relação com outros requisitos
+
+| Mecanismo | Papel |
+|---|---|
+| Fatoração (solver) | Geração / regeneração automática global ou parcial |
+| Refração manual | Edição direta célula a célula (grid) |
+| **Agente via API** | Diagnóstico + propostas guiadas por visões e checklist |
+| Verificador | Árbitro objetivo pós-proposta (humana ou agente) |
+| Fechar horário | Sempre ação humana explícita |
+
+### Pendências
+
+- [ ] Agente **interno** (módulo Python) vs **externo** (OpenAI/Anthropic/etc.)
+- [ ] Interface: chat embutido no frontend vs apenas API para ferramenta externa
+- [ ] Lista fechada de **tipos de visão** na v1
+- [ ] Autonomia: só sugestão vs aplicar lote com um clique
+- [ ] Política de dados enviados ao LLM (PII professores, retenção, on-prem)
+
+---
+
 ## Notificação por e-mail aos professores doadores (cessão de tempo)
 
 > Registrado em 2026-08-15 por Brener, durante fase de Interpretação do `/reversa`.

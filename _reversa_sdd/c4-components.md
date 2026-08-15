@@ -17,13 +17,21 @@ C4Component
         Component(export, "ReportExporter", "Python", "Tabelas, cessões, trocas")
         Component(email, "DonorEmailService", "Python", "Preview + envio manual")
         Component(calendar, "CalendarLifecycle", "Python", "Estados fechado/producao")
+        Component(views, "CalendarViewsService", "Python", "Visões analíticas refração")
+        Component(agent, "RefractionAgentGateway", "Python/API", "Sessão agente + propostas")
     }
 
     Rel(auth, rules, "coordenador_id")
     Rel(ingest, solver, "grade + modelo")
     Rel(rules, solver, "perfil regras ativo")
+    Rel(rules, agent, "RuleSetSnapshot")
     Rel(solver, verify, "alocações")
     Rel(verify, calendar, "OK / PROBLEMA")
+    Rel(verify, views, "PROBLEMA/AVISO")
+    Rel(verify, agent, "checklist")
+    Rel(views, agent, "visões JSON")
+    Rel(agent, solver, "re-fatoração parcial 🟡")
+    Rel(agent, calendar, "propostas aceitas")
     Rel(calendar, export, "xlsx fechado")
     Rel(export, email, "lista cessões")
     Rel(email, auth, "auditoria enviado_por")
@@ -71,6 +79,7 @@ flowchart TB
 | `exportar_*` | `ReportExporter` |
 | Skill Passo 0 + regras | `RulesCatalogService` + UI |
 | — | `DonorEmailService` (novo) |
+| Skill + diagnóstico humano hoje | `RefractionAgentGateway` + `CalendarViewsService` (novo 🟡) |
 | `commit_github.bat` | `CalendarLifecycle` + Git opcional |
 
 ## Frontend (alvo) 🟡 — componentes UI
@@ -78,7 +87,9 @@ flowchart TB
 | Componente UI | Feature Reversa |
 |---|---|
 | `RulesSelectionWizard` | Seleção regras Tela 1–2 |
-| `CalendarEditor` | Refração (grid xlsx) |
+| `CalendarEditor` | Refração manual (grid xlsx) |
+| `RefractionAssistant` | Chat/painel agente via API 🟡 |
+| `ProblemViewsPanel` | Visões analíticas (turma, cessão, regra…) 🟡 |
 | `VerificationPanel` | Checklist PROBLEMA/AVISO |
 | `CloseCalendarAction` | Fechar horário |
 | `DonorEmailPanel` | Preview + envio e-mail doadores |

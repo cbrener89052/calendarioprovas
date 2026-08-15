@@ -19,7 +19,9 @@ stateDiagram-v2
     RegrasImplicitas --> PropostaGerada: gerar_calendario.py
     
     PropostaGerada --> EmRefracao: ajustes manuais xlsx
+    PropostaGerada --> EmRefracao: assistente agente via API
     EmRefracao --> EmRefracao: mais edições
+    EmRefracao --> EmRefracao: propostas agente aceitas
     EmRefracao --> Verificado: verificar_calendario OK
     
     Verificado --> Fechado: coordenador aprova
@@ -37,6 +39,7 @@ stateDiagram-v2
 |---|---|---|
 | → PropostaGerada | `python gerar_calendario.py` | 🟢 |
 | → EmRefracao | Edição células Proposta_3 xlsx | 🟢 |
+| → EmRefracao | Assistente agente (API) — propostas aceitas | 🟡 (requisito) |
 | → Verificado | `verificar_calendario.py` sem PROBLEMA | 🟢 |
 | → Fechado | Decisão humana / publicar | 🟡 |
 | → EmProducao | `promover_para_producao.bat` | 🟢 |

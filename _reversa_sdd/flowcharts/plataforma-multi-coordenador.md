@@ -12,7 +12,12 @@ flowchart TD
     T2 --> E{Fixa ou sessão?}
     E --> FAT[Fatoração automática solver]
     FAT --> REF[Refração manual opcional]
-    REF --> GATE[Revisar regras antes de fechar]
+    REF --> AGENT[Assistente agente via API]
+    AGENT --> VIEWS[Visões analíticas conflitos]
+    VIEWS --> PROP[Propostas estruturadas]
+    PROP --> REF
+    REF --> VER[Verificador checklist]
+    VER --> GATE[Revisar regras antes de fechar]
     GATE --> FECHAR[Fechar horário / publicar]
     FECHAR --> EMAIL[Enviar e-mails doadores — manual]
     

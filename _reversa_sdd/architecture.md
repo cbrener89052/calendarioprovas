@@ -14,7 +14,7 @@ O **calendarioprovas** monta calendários de provas para turmas da Escola Alemã
 | Interface | Terminal + planilhas Excel | Web app |
 | Persistência | Pastas + Git (`main`/`producao`) | PostgreSQL + S3/pasta local |
 | Usuários | 1 operador implícito | 5 coordenadores com login |
-| Regras | Skill + hardcode Python | Catálogo configurável + solver |
+| Regras | Skill + hardcode Python | Catálogo configurável + solver + **agente refração (API)** |
 | Comunicação | Relatório manual | E-mail doadores (ação manual) |
 
 Diagramas detalhados: `c4-context.md`, `c4-containers.md`, `c4-components.md`.  
@@ -56,6 +56,7 @@ Frontend Web ──HTTPS──► API FastAPI (Python)
       (metadados)     (xlsx/pdf)        (doadores)
             │
             └── Solver module (extraído de gerar_calendario.py)
+            └── RefractionAgentGateway (API + visões + propostas 🟡)
 ```
 
 **Decisões arquiteturais acordadas** (user-requirements 2026-08-09):
@@ -75,6 +76,7 @@ Frontend Web ──HTTPS──► API FastAPI (Python)
 | Tesseract | OCR grade 2025 | Opcional batch 🟡 | CLI |
 | SMTP | — | E-mail doadores 🔴 | SMTP/API |
 | Skill calendario-provas | Fonte regras | Catálogo BD espelhando skill | — |
+| Provedor LLM / agente | Skill usada fora da plataforma (Claude/Cursor) | API via `RefractionAgentGateway` | HTTPS 🟡 |
 
 ---
 
