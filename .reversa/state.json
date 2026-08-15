@@ -8,9 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "interpretacao",
-  "completed": ["reconhecimento", "escavacao"],
-  "pending": ["interpretacao", "geracao", "revisao"],
+  "phase": "geracao",
+  "completed": ["reconhecimento", "escavacao", "interpretacao"],
+  "pending": ["geracao", "revisao"],
   "checkpoints": {
     "scout": {
       "completed_at": "2026-08-09T03:00:00Z",
@@ -55,7 +55,67 @@
         "_reversa_sdd/addenda/skill-github-sync-2026-08-15.md"
       ],
       "skill_hash_sha256": "ef25d5e824a9bb8a73fd8436d0e2a559faaf77307a94e6e9aa3b21ecfe27d30e"
+    },
+    "detective": {
+      "completed_at": "2026-08-15T21:15:00Z",
+      "files": [
+        "_reversa_sdd/domain.md",
+        "_reversa_sdd/state-machines.md",
+        "_reversa_sdd/permissions.md",
+        "_reversa_sdd/adrs/001-apenas-proposta-3-cessao.md",
+        "_reversa_sdd/adrs/002-relatorios-releem-planilha.md",
+        "_reversa_sdd/adrs/003-professor-presente-prioridade-1.md",
+        "_reversa_sdd/adrs/004-branches-main-producao.md",
+        "_reversa_sdd/adrs/005-skill-fonte-viva-regras.md",
+        "_reversa_sdd/adrs/006-filosofia-sociologia-excecao-coordenacao.md",
+        "_reversa_sdd/adrs/007-email-doadores-manual.md"
+      ],
+      "stats": {
+        "rules_documented": 30,
+        "adrs": 7,
+        "lacunas_red": 5
+      }
+    },
+    "architect": {
+      "completed_at": "2026-08-15T22:10:00Z",
+      "files": [
+        "_reversa_sdd/architecture.md",
+        "_reversa_sdd/c4-context.md",
+        "_reversa_sdd/c4-containers.md",
+        "_reversa_sdd/c4-components.md",
+        "_reversa_sdd/erd-complete.md",
+        "_reversa_sdd/traceability/spec-impact-matrix.md"
+      ],
+      "stats": {
+        "containers_legacy": 1,
+        "containers_target": 6,
+        "erd_entities": 18,
+        "technical_debts": 8
+      }
     }
+  },
+  "redator_progress": {
+    "plan_presented_at": "2026-08-15T22:10:00Z",
+    "units_total": 7,
+    "current_unit": "verificacao-calendario",
+    "completed_files": [
+      "geracao-calendario/requirements.md",
+      "geracao-calendario/design.md",
+      "geracao-calendario/tasks.md"
+    ],
+    "pending_units": [
+      "verificacao-calendario",
+      "exportacao-relatorios",
+      "extracao-grade",
+      "analise-historica",
+      "regras-negocio",
+      "plataforma-multi-coordenador"
+    ],
+    "pending_globals": [
+      "openapi/calendarioprovas.yaml",
+      "user-stories/ciclo-calendario.md",
+      "traceability/code-spec-matrix.md"
+    ]
   },
   "engines": [
     "claude-code",
