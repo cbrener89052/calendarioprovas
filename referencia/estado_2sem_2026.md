@@ -1271,6 +1271,43 @@ mudou. Sexta-feira estava livre; a semana continua com 3 avaliações
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com a mudança.
 
+## 9C2: Matemática (2ª prova) movida para reduzir cessão de Português (08/2026)
+
+Usuário perguntou por que Português/Jana aparecia cedendo 12,5%
+(4 de 32 aulas) no relatório de tempos cedidos, mesmo estando acima do
+teto de 11%. Investigação: em **9C1**, vem de Geografia (2 cessões) +
+Biologia (2 cessões); em **9C2**, vem inteiramente de Matemática
+(2 ocorrências × 2 tempos, quarta-feira 4º-5º tempos).
+
+**Pedido para achar alternativa sem mexer em Geografia.** Busca
+exaustiva de todos os blocos de 2 tempos válidos (presença de
+professor, disciplinas de aula única que não podem doar, sem cruzar o
+recreio):
+- **Biologia (9C1)**: só existe **1 combinação válida no calendário
+  inteiro** — a atual (terça, 1º-2º tempos, doador Português). Todas as
+  outras esbarram em Física ou Química (aula única no 9º ano, não
+  podem doar). **Estruturalmente inevitável, não dá pra evitar.**
+- **Matemática (9C2)**: encontradas 3 alternativas sem Português.
+  Primeira proposta (terça, 4º-5º tempos) foi **rejeitada pelo
+  usuário**: colidiria com a prova de Biologia na semana 7 e,
+  coincidentemente, com a própria prova de História na semana 16 (mesmo
+  bloco de tempos). Segunda proposta, aceita: **quinta-feira, 4º-5º
+  tempos** (doadores: Artes nas duas turmas + Redação em 9C2 — nenhum
+  dos dois com prova nas semanas 7 ou 16).
+
+**Aplicado, só na semana 16** (usuário pediu para deixar a semana 7
+como está): 2ª prova de Matemática (9C1/9C2) movida de quarta (18/11)
+para **quinta (19/11)**, mesmo bloco 4º-5º tempos. Semana 7 permanece
+inalterada.
+
+**Resultado**: Português/Jana em 9C2 caiu de 4 para **2 cessões
+(6,25%)**, dentro da meta. Em 9C1 permanece em 4 (12,5%), pela
+combinação Geografia+Biologia, fora do escopo desta mudança. Novo
+AVISO leve: Artes cedeu 3 (meta 2) nas duas turmas — tradeoff aceito.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
