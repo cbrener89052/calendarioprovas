@@ -53,8 +53,8 @@
       "role": "Evolução futura multi-coordenador e seleção de regras",
       "priority": 3,
       "features": ["plataforma-multi-coordenador"],
-      "content_hash_sha256": "7a34c5e45a6d125b8095d85076d721f6eb22857770834502be2dc24ecd4718c7",
-      "synced_to_reversa_at": "2026-08-15T19:30:00Z"
+      "content_hash_sha256": "7656c8cf1ddcfd5e045bf8e799706a002d32e2242518f20e45f16577a5dffcb9",
+      "synced_to_reversa_at": "2026-08-15T19:32:00Z"
     }
   ],
   "derived_artifacts": [

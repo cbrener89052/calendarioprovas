@@ -215,12 +215,13 @@
       "functions": [],
       "entities": [
         {
-          "name": "PerfilRegras",
+          "name": "EnvioEmailDoador",
           "fields": [
-            { "name": "rule_id", "type": "str", "required": true },
-            { "name": "aplicar", "type": "bool", "required": true },
-            { "name": "flexibilizar", "type": "bool", "required": true },
-            { "name": "escopo", "type": "str", "required": true }
+            { "name": "calendario_id", "type": "uuid", "required": true },
+            { "name": "cessao_id", "type": "str", "required": true },
+            { "name": "professor_doador_email", "type": "str", "required": true },
+            { "name": "enviado_em", "type": "datetime", "required": true },
+            { "name": "enviado_por", "type": "str", "required": true }
           ],
           "confidence": "inferred"
         }
@@ -228,6 +229,11 @@
       "business_rules": [
         {
           "description": "Tela de seleção de regras antes da fatoração; default todas ativas",
+          "location": ".reversa/context/user-requirements.md",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "E-mail aos professores doadores só por ação manual do coordenador, não a cada refração",
           "location": ".reversa/context/user-requirements.md",
           "confidence": "confirmed"
         }
