@@ -138,3 +138,77 @@ permitir **revisar e ajustar** o conjunto de regras:
 - [x] Confirmar se "fechar horário" = publicar na `main` / entregar à escola
 - [x] Definir defaults na 1ª execução (todas as regras ativas após pergunta)
 - [ ] Definir se perfil de regras é por coordenador, por semestre ou ambos
+
+---
+
+## Notificação por e-mail aos professores doadores (cessão de tempo)
+
+> Registrado em 2026-08-15 por Brener, durante fase de Interpretação do `/reversa`.
+
+### Contexto
+
+Quando uma disciplina/professor **cede** tempo de aula para a aplicação de
+prova de **outra** disciplina, o professor doador precisa ser informado. Hoje
+isso é feito manualmente a partir do **relatório de trocas de tempo**
+(`Relatorio_trocas_de_tempo.md` / `.xlsx`, gerado por
+`exportar_relatorio_trocas.py` a partir da planilha final).
+
+### Comportamento desejado na plataforma
+
+1. **Não enviar automaticamente** a cada fatoração ou refração do horário.
+   Gerar ou ajustar o calendário **não dispara** e-mail.
+2. **Ação explícita do coordenador** — funcionalidade dedicada do tipo
+   *"Enviar e-mails aos professores doadores"*, disponível quando o
+   coordenador estiver **seguro** de que o horário (ou trecho relevante)
+   está correto — tipicamente **após fechar** o calendário ou após revisão
+   manual estável.
+3. **Origem dos destinatários:** o sistema identifica, no calendário
+   **fechado/aprovado** da rodada, todas as **cessões de tempo** (mesma
+   lógica do relatório de trocas: turma, disciplina solicitante, professor
+   solicitante, tempo(s), dia/data, disciplina/professor **doador**).
+4. **Conteúdo do e-mail (mínimo):** informar ao professor doador que a
+   disciplina **[nome/código]**, professor(a) **[nome]**, utilizará o
+   **tempo de aula [Nº tempo(s)]** do dia **[data / dia da semana]** para
+   aplicação de prova (turma **[turma]** quando aplicável).
+5. **Um e-mail por cessão** (ou agrupado por professor/dia — 🔴 a definir
+   na fase de design; default sugerido: **um e-mail por linha de cessão**
+   espelhando o relatório de trocas).
+
+### Fluxo na plataforma (provisório)
+
+```
+Calendário fechado/aprovado
+  → Coordenador abre "Comunicação com professores"
+  → Pré-visualiza lista de cessões + e-mails dos doadores
+  → Confirma envio
+  → Sistema registra quem recebeu e quando (auditoria)
+```
+
+### Implicações arquiteturais
+
+- **Cadastro de e-mail** por professor (hoje só sigla + nome em
+  `siglas/siglas_profs_aux_etc.xlsx` — 🔴 confirmar se há coluna de e-mail
+  ou se será novo campo na plataforma).
+- **Serviço de e-mail** (SMTP institucional ou provedor transacional —
+  SendGrid/SES/etc. na nuvem; SMTP local no on-prem).
+- **Estado de envio** persistido: `calendario_id`, `cessao_id`, `enviado_em`,
+  `enviado_por` — permite reenvio se o calendário mudar **depois** do
+  primeiro envio (🔴 política de reenvio a definir).
+- **Reprocessar lista** se o coordenador refizer refração **antes** de enviar;
+  após envio, mudanças no calendário devem **sinalizar** cessões alteradas
+  (novas, removidas, datas mudadas).
+
+### Legado equivalente 🟢
+
+| Legado | Papel |
+|---|---|
+| `exportar_relatorio_trocas.py` | Extrai cessões da planilha final |
+| `Relatorio_trocas_de_tempo.xlsx` | Pré-visualização humana hoje |
+| `gerar_calendario.relatorio()` | Formata trocas a partir de `(doador)` |
+
+### Pendências
+
+- [ ] Existe e-mail dos professores na planilha de siglas ou em outro sistema?
+- [ ] Idioma do e-mail (PT / DE / bilíngue)?
+- [ ] Um e-mail por cessão ou agrupado por professor?
+- [ ] Reenvio automático quando cessão muda após envio, ou só aviso ao coordenador?

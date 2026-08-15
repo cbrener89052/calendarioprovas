@@ -18,6 +18,10 @@ Detalhes em `.reversa/context/user-requirements.md`.
 fatoração/refração do horário e revisão antes de fechar — ver mesma seção
 em `user-requirements.md`.
 
+**Atualização 2026-08-15 (2):** **envio de e-mail** aos professores que
+cedem tempo — ação manual do coordenador após calendário estável, não a
+cada refração — ver `user-requirements.md`.
+
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
 individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 

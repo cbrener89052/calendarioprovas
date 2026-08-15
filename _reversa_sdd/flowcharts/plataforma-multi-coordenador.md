@@ -14,7 +14,11 @@ flowchart TD
     FAT --> REF[Refração manual opcional]
     REF --> GATE[Revisar regras antes de fechar]
     GATE --> FECHAR[Fechar horário / publicar]
+    FECHAR --> EMAIL[Enviar e-mails doadores — manual]
     
     FAT --> PG[(PostgreSQL perfil regras)]
     FECHAR --> PG
+    EMAIL --> AUDIT[(Log envios e-mail)]
 ```
+
+**Nota:** o nó `EMAIL` é **ação explícita** do coordenador, não automática após refração.

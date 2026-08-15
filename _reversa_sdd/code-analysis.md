@@ -142,6 +142,8 @@ Duplicidade intencional hoje: skill (documentação + agente) + código (execuç
 
 **Feature nova (2026-08-15):** tela de seleção de regras antes da fatoração (geração automática), com defaults (todas ativas), regras inegociáveis na mesma tela, regras novas fixas ou por sessão, e revisão antes de fechar o horário.
 
+**Feature nova (2026-08-15):** envio **manual** de e-mail aos professores **doadores** de tempo (cessões), disparado pelo coordenador quando o calendário estiver seguro — **não** a cada refração. Dados espelham `Relatorio_trocas_de_tempo` (`exportar_relatorio_trocas.py`). Ver `.reversa/context/user-requirements.md`.
+
 ---
 
 ## Resumo quantitativo
