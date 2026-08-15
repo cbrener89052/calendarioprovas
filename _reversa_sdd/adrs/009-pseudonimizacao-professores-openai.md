@@ -32,6 +32,14 @@ Implementar camada **`ProfessorPseudonymService`** no backend FastAPI:
 6. **Índice RAG**:
    - armazenar versão **tokenizada** para retrieval enviado ao embedding/chat
    - opcional: manter corpus real criptografado at-rest para reindex local 🟡
+7. **Transparência total para o coordenador (Must)**:
+   - tokenização/de-tokenização **somente** entre backend ↔ OpenAI;
+   - **nenhuma** resposta de API consumida pelo frontend de coordenador
+     contém tokens — chat, diff, verificador, exportações sempre com siglas reais;
+   - mensagens digitadas pelo coordenador usam siglas reais; tokenização
+     automática no servidor antes da chamada OpenAI;
+   - sem telas, toggles ou mensagens sobre pseudonimização no fluxo normal;
+   - modo admin/dev opcional para inspecionar mapa (RBAC) — fora do app do coordenador.
 
 ### Terminologia (precisão)
 
@@ -57,7 +65,7 @@ Coordenador: "quantas cessões MFo?"
 
 - ✅ Siglas/nomes não aparecem em texto enviado à OpenAI (apenas tokens)
 - ✅ Solver/verificador inalterados — dados reais no processo Python
-- ✅ Coordenador vê siglas reais na interface
+- ✅ Coordenador vê siglas reais — **nunca** tokens; UX transparente 🟢
 - ⚠️ Re-identificação ainda possível por padrão do horário (turma + tempo)
 - ⚠️ OpenAI API retention / DPA escola ainda necessários
 - ⚠️ Mapping leak = exposição — proteger tabela + logs (nunca logar prompt real)

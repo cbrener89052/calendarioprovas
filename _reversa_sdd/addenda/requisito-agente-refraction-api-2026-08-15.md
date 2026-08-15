@@ -73,9 +73,10 @@ no backend (tool calling), com confirmação humana.
 |--------|-----------|
 | OpenAI | Token `PROF_*` (sem sigla real) |
 | Python solver/verifier | Sigla real |
-| UI coordenador | Sigla real (pós de-tokenização) |
+| UI coordenador | Sigla real — **transparente**, sem tokens visíveis |
 
-Serviço: `ProfessorPseudonymService` — ADR-009.
+Serviço: `ProfessorPseudonymService` — ADR-009.  
+Regra UX: **Must** — coordenador não vê pseudonimização.
 
 ## Lacunas 🔴
 

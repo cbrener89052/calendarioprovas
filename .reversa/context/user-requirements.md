@@ -342,7 +342,7 @@ Entradas carregadas → Fatoração → PropostaGerada
 - [ ] Lista fechada de **tools** e **tipos de visão** na v1
 - [ ] Autonomia: aplicar lote com um clique vs confirmar ação a ação
 - [ ] Política PII professores enviada à OpenAI (retenção, DPA escola)
-- [x] **Pseudonimização** siglas/nomes antes OpenAI; de-tokenização na UI 🟢 ADR-009
+- [x] Pseudonimização **transparente** para coordenador (nunca vê tokens) 🟢
 - [ ] Criptografia at-rest opcional do mapping (AES) 🟡
 - [ ] Deploy on-prem + OpenAI (internet vs Azure OpenAI)
 - [ ] Copiloto read-only após fechar horário (Should)
@@ -351,7 +351,9 @@ Entradas carregadas → Fatoração → PropostaGerada
 
 ## Privacidade — pseudonimização de professores para OpenAI
 
-> Registrado em 2026-08-15 por Brener.
+> Registrado em 2026-08-15 por Brener.  
+> **Atualizado 2026-08-15:** pseudonimização **transparente** — coordenador
+> nunca vê tokens; experiência idêntica ao uso sem camada OpenAI.
 
 ### Pergunta
 
@@ -390,12 +392,41 @@ nomes** da planilha `siglas_profs_aux_etc.xlsx`.
 7. Logs de auditoria: armazenar tokens + hash; **não** logar prompts com
    siglas reais enviados à OpenAI.
 
+### Transparência para o coordenador — Must 🟢
+
+A pseudonimização é **100% invisível** para quem usa o aplicativo. O
+coordenador **nunca** interage com tokens `PROF_*` nem precisa saber que
+existem.
+
+| Superfície | O que o coordenador vê |
+|---|---|
+| Chat copiloto | Sempre **siglas/nomes reais** (ex.: MFo, Kle) |
+| Grid / refração | Siglas reais — como planilha xlsx hoje |
+| Preview / diff de proposta do copiloto | Siglas reais |
+| Painel verificador | Siglas reais nos PROBLEMA/AVISO |
+| Relatórios (cessões, trocas, e-mail preview) | Siglas reais |
+| Mensagens que **ele digita** | Digita siglas reais; backend tokeniza sozinho |
+
+**Proibido na UI de coordenador:**
+
+- Exibir tokens `PROF_*` ou códigos pseudônimos
+- Pedir ao coordenador para "traduzir" ou escolher código de professor
+- Toggle "modo anonimizado" ou configuração de privacidade visível
+- Erros do copiloto contendo token não de-tokenizado
+
+**Permitido apenas** em ferramentas **admin/dev** (fora do fluxo normal):
+visualizar mapa token↔sigla para suporte — com RBAC restrito 🟡.
+
+A experiência deve ser **indistinguível** de um copiloto que recebesse
+siglas reais, exceto pela proteção de privacidade na fronteira OpenAI.
+
 ### Componente
 
-- **`ProfessorPseudonymService`** — create map, anonymize, deanonymize,
-  rotate tokens se calendário clonado 🟡
+- **`ProfessorPseudonymService`** — create map, anonymize, deanonymize;
+  **garantia:** nenhuma API exposta ao frontend retorna texto com tokens
+  destinado ao coordenador.
 
-### Limites (transparência)
+### Limites (privacidade, não UX)
 
 - Pseudonimização **reduz** PII direta; **não elimina** risco de inferência
   (padrão de horário + turma pequena).
