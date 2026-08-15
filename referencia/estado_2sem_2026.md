@@ -1237,6 +1237,40 @@ por LP+Soc), semana 13 (3→3, trocando LP por Química), semana 14
 regenerados com as mudanças. Nenhuma outra prova foi tocada, conforme
 pedido pelo usuário.
 
+## 12C1/12C2: Biologia (2ª prova) movida de 12/11 para 22/10 (08/2026)
+
+Usuário pediu: "mude a prova de biologia de 12/11 dsa turmas 12c para
+22/10". 2ª prova de Biologia movida de semana 15 quinta (12/11) para
+semana 12 **quinta (22/10)**, mesmo bloco 5º-6º tempos — mesmo dia da
+semana, só a semana mudou (slot já estava livre, sem cessão adicional).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+## 10C1/10C2: Química (1ª prova) — mudança de dia, mesma semana (08/2026)
+
+Pedido repassado do professor de Química: "é possível mudar o dia, não
+a semana, da prova 1 das turmas 10C1 e 10C2, do dia 24/08, segunda-
+feira, para o dia 28/08, sexta-feira, desta mesma semana?"
+
+**Verificado e confirmado possível**: testados todos os blocos de 2
+tempos na sexta-feira (posição real da profa. CAl nas duas turmas —
+10C1 tem Química só na terça e sexta; 10C2 só na segunda e sexta).
+Blocos 1º-2º e 2º-3º não têm presença da professora em nenhuma das
+turmas; 4º-5º e 5º-6º ficam inválidos em 10C2 porque o 5º tempo é
+Sociologia, que só tem 1 aula semanal e não pode doar. **Único bloco
+válido para as duas turmas: 3º-4º tempos** — tempo próprio da profa.
+CAl em 10C2 (4º tempo); 10C1 coberta por coordenação entre turmas
+irmãs.
+
+**Aplicado**: 1ª prova de Química movida de semana 4 segunda (24/08)
+para semana 4 **sexta (28/08)**, tempos 3º-4º — mesma semana, só o dia
+mudou. Sexta-feira estava livre; a semana continua com 3 avaliações
+(Qui, Bio, GL), sem estourar o teto.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
