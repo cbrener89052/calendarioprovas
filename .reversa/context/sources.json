@@ -1,0 +1,73 @@
+{
+  "description": "Fontes vivas do projeto. Agentes Reversa devem ler estes arquivos ANTES de confiar em snapshots em _reversa_sdd/.",
+  "updated_at": "2026-08-15T19:30:00Z",
+  "last_sync_requested_at": "2026-08-15T19:29:00Z",
+  "last_sync_completed_at": "2026-08-15T19:30:00Z",
+  "last_sync_note": "Pull origin/main (PR #47) + hashes atualizados; skill espelhada em .agents/skills/",
+  "canonical": [
+    {
+      "id": "skill-calendario-provas",
+      "path": ".claude/skills/calendario-provas/SKILL.md",
+      "mirror_path": ".agents/skills/calendario-provas/SKILL.md",
+      "role": "Regras de negócio (fonte humana principal)",
+      "priority": 1,
+      "features": [
+        "geracao-calendario",
+        "verificacao-calendario",
+        "regras-negocio",
+        "exportacao-relatorios"
+      ],
+      "content_hash_sha256": "ef25d5e824a9bb8a73fd8436d0e2a559faaf77307a94e6e9aa3b21ecfe27d30e",
+      "synced_to_reversa_at": "2026-08-15T19:30:00Z"
+    },
+    {
+      "id": "gerador",
+      "path": "gerar_calendario.py",
+      "role": "Implementação do solver e constantes do semestre",
+      "priority": 2,
+      "features": ["geracao-calendario"],
+      "content_hash_sha256": "ae5415bfc0b36853e83858c78462663f39ba1943f197fce2bf809f7a6ec58578",
+      "synced_to_reversa_at": "2026-08-15T19:30:00Z"
+    },
+    {
+      "id": "verificador",
+      "path": "verificar_calendario.py",
+      "role": "Checklist automático espelhando a skill",
+      "priority": 2,
+      "features": ["verificacao-calendario"],
+      "content_hash_sha256": "268f9cf15838ac68f6e2f1e09e9ea1ca763cb64a2cd01680ade5a5847fb97187",
+      "synced_to_reversa_at": "2026-08-15T19:30:00Z"
+    },
+    {
+      "id": "estado-semestre",
+      "path": "referencia/estado_2sem_2026.md",
+      "role": "Dados desta rodada (períodos, simulados, exceções, ajustes manuais)",
+      "priority": 2,
+      "features": ["geracao-calendario", "regras-negocio"],
+      "content_hash_sha256": "742d51f01b13a133f2f3c650761ed8e0fc8e778d92feb044e2ac9b2d7b9a96d8",
+      "synced_to_reversa_at": "2026-08-15T19:30:00Z"
+    },
+    {
+      "id": "requisitos-plataforma",
+      "path": ".reversa/context/user-requirements.md",
+      "role": "Evolução futura multi-coordenador e seleção de regras",
+      "priority": 3,
+      "features": ["plataforma-multi-coordenador"],
+      "content_hash_sha256": "7a34c5e45a6d125b8095d85076d721f6eb22857770834502be2dc24ecd4718c7",
+      "synced_to_reversa_at": "2026-08-15T19:30:00Z"
+    }
+  ],
+  "derived_artifacts": [
+    {
+      "path": "referencia/Regras_Negocio_Calendario_Provas.pdf",
+      "generated_by": "python exportar_regras_pdf.py",
+      "source_id": "skill-calendario-provas"
+    },
+    {
+      "path": "_reversa_sdd/code-analysis.md",
+      "generated_by": "reversa-archaeologist",
+      "note": "Snapshot — consultar canonical[] se hash divergir"
+    }
+  ],
+  "refresh_instructions": "Leia .reversa/context/sync-regras.md quando o usuário alterar regras pela skill ou pelo código."
+}

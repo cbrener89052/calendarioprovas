@@ -123,11 +123,14 @@ Todos hardcoded para **Proposta 3**.
 
 ## Módulo: regras-negocio
 
-**Arquivos:** `.claude/skills/calendario-provas/SKILL.md`, constantes em `gerar_calendario.py`, `verificar_calendario.py`
+**Arquivos:** `.claude/skills/calendario-provas/SKILL.md` (espelho: `.agents/skills/calendario-provas/SKILL.md`)  
+**Fonte viva registrada em:** `.reversa/context/sources.json` → `skill-calendario-provas`
 
-**Propósito:** 🟢 Fonte formal das regras de distribuição, cessão e entregáveis.
+**Propósito:** 🟢 Fonte formal das regras de distribuição, cessão e entregáveis (~1010 linhas).
 
-Duplicidade intencional hoje: skill (documentação + agente) + código (execução). Divergências possíveis quando regra está só na skill ou só no código.
+Duplicidade intencional hoje: skill (documentação + agente) + código (execução). **Prioridade de leitura:** skill → código → snapshot `_reversa_sdd/`. Ver `.reversa/context/sync-regras.md`.
+
+**Catálogo para UI futuro (seleção de regras):** seções principais da skill — Passo 0 (15 perguntas), Regras de distribuição, Limites de cessão, Entregáveis, Checklist de verificação.
 
 ---
 

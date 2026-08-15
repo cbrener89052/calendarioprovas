@@ -44,6 +44,17 @@
         "_reversa_sdd/flowcharts/regras-negocio.md",
         "_reversa_sdd/flowcharts/plataforma-multi-coordenador.md"
       ]
+    },
+    "sources_sync": {
+      "completed_at": "2026-08-15T19:30:00Z",
+      "merged_from": "origin/main (9236b4e PR #47)",
+      "files": [
+        ".reversa/context/sources.json",
+        ".reversa/context/sync-regras.md",
+        ".agents/skills/calendario-provas/SKILL.md",
+        "_reversa_sdd/addenda/skill-github-sync-2026-08-15.md"
+      ],
+      "skill_hash_sha256": "ef25d5e824a9bb8a73fd8436d0e2a559faaf77307a94e6e9aa3b21ecfe27d30e"
     }
   },
   "engines": [
