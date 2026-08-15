@@ -22,7 +22,12 @@ C4Component
         Component(docs, "DocumentContextService", "Python", "Ingest blobs → corpus")
         Component(bridge, "PythonActionBridge", "Python", "Tool calls → solver/verify")
         Component(copilot, "ScheduleCopilotService", "Python + OpenAI API", "Chat copiloto")
+        Component(pseudo, "ProfessorPseudonymService", "Python", "Tokeniza siglas p/ OpenAI")
     }
+
+    Rel(copilot, pseudo, "anonymize / deanonymize")
+    Rel(pseudo, rag, "corpus tokenizado")
+    Rel(pseudo, bridge, "tokens → siglas reais antes exec")
 
     Rel(auth, rules, "coordenador_id")
     Rel(ingest, solver, "grade + modelo")

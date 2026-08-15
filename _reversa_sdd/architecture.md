@@ -60,6 +60,7 @@ Frontend Web ──HTTPS──► API FastAPI (Python)
             └── RagIndexService (embeddings + busca documentos/xlsx 🟢)
             └── DocumentContextService (ingest corpus RAG)
             └── PythonActionBridge (tools → solver/verifier/patch 🟢)
+            └── ProfessorPseudonymService (tokeniza siglas p/ OpenAI 🟢)
 ```
 
 **Decisões arquiteturais acordadas** (user-requirements 2026-08-09):

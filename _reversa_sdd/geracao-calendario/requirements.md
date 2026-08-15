@@ -18,7 +18,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `_reversa_sdd/flowcharts/geracao-calendario.md` | Fluxo Mermaid do solver e escada de relaxamento | 🟢 |
 | `_reversa_sdd/adrs/001-apenas-proposta-3-cessao.md` | Apenas Proposta 3 é gerada e mantida | 🟢 |
 | `_reversa_sdd/architecture.md#Arquitetura legada (as-is)` | CLI monolítico openpyxl, seed fixa | 🟢 |
-| `.reversa/context/user-requirements.md#Copiloto de IA` | OpenAI + RAG + ações Python | 🟡 |
+| `.reversa/context/user-requirements.md#Seleção e flexibilização de regras` | RuleSetSnapshot configurável | 🟡 |
+| `.reversa/context/user-requirements.md#Copiloto de IA` | OpenAI + RAG + ações Python | 🟢 |
 | `_reversa_sdd/adrs/008-copilot-openai-rag-python-actions.md` | ADR copiloto | 🟢 |
 
 ## 3. Personas e cenários de uso

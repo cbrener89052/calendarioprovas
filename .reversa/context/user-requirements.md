@@ -342,8 +342,68 @@ Entradas carregadas → Fatoração → PropostaGerada
 - [ ] Lista fechada de **tools** e **tipos de visão** na v1
 - [ ] Autonomia: aplicar lote com um clique vs confirmar ação a ação
 - [ ] Política PII professores enviada à OpenAI (retenção, DPA escola)
+- [x] **Pseudonimização** siglas/nomes antes OpenAI; de-tokenização na UI 🟢 ADR-009
+- [ ] Criptografia at-rest opcional do mapping (AES) 🟡
 - [ ] Deploy on-prem + OpenAI (internet vs Azure OpenAI)
 - [ ] Copiloto read-only após fechar horário (Should)
+
+---
+
+## Privacidade — pseudonimização de professores para OpenAI
+
+> Registrado em 2026-08-15 por Brener.
+
+### Pergunta
+
+É possível usar siglas e horários dos professores enviando à OpenAI apenas
+dados **anonimizados**, atribuindo um **código** por professor no Python e
+**revertendo** ao receber a resposta?
+
+### Resposta 🟢
+
+**Sim.** A abordagem correta é **pseudonimização reversível no backend**
+(não anonimização irreversível):
+
+| Camada | Dados |
+|---|---|
+| OpenAI (prompt, RAG, tools para LLM) | Tokens `PROF_*` — **sem** siglas/nomes reais |
+| Backend Python (solver, verificador, patch) | **Siglas reais** — como hoje |
+| UI do coordenador (chat, grid, relatórios) | **Siglas reais** — após de-tokenização |
+
+Horários (tempos 1–11, semanas, datas, turmas `10C1`) **podem** seguir em
+claro — não identificam professor sozinhos. O que se protege são **siglas e
+nomes** da planilha `siglas_profs_aux_etc.xlsx`.
+
+### Comportamento desejado — Must
+
+1. Ao iniciar rodada/calendário, gerar mapa `sigla_real ↔ token` único por
+   `calendario_id` (persistido PostgreSQL).
+2. **Antes** de cada chamada OpenAI: função `anonymize_for_llm(texto|json)`.
+3. **Depois** de cada resposta OpenAI: `deanonymize_for_ui(texto)` antes de
+   mostrar ao coordenador.
+4. Mensagens do coordenador que mencionem siglas reais são tokenizadas no
+   backend antes do envio ao modelo.
+5. Índice **RAG** indexado/recuperado na forma **tokenizada** para trechos
+   que contenham professores.
+6. **`apply_proposal` / tools Python**: argumentos vindos do LLM usam tokens;
+   backend traduz para siglas reais **antes** de executar código.
+7. Logs de auditoria: armazenar tokens + hash; **não** logar prompts com
+   siglas reais enviados à OpenAI.
+
+### Componente
+
+- **`ProfessorPseudonymService`** — create map, anonymize, deanonymize,
+  rotate tokens se calendário clonado 🟡
+
+### Limites (transparência)
+
+- Pseudonimização **reduz** PII direta; **não elimina** risco de inferência
+  (padrão de horário + turma pequena).
+- Ainda exige **DPA/contrato** com OpenAI ou Azure OpenAI.
+- "Descriptografia" na prática é **lookup seguro** do mapa; criptografia
+  AES adicional no mapa at-rest é opcional 🟡.
+
+Detalhes: `_reversa_sdd/adrs/009-pseudonimizacao-professores-openai.md`
 
 ---
 

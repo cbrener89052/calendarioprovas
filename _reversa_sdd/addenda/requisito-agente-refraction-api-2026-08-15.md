@@ -67,9 +67,20 @@ no backend (tool calling), com confirmação humana.
 | POST | `/api/v1/calendars/{id}/copilot/rag/reindex` | Reindex pós-alteração |
 | POST | `/api/v1/calendars/{id}/copilot/proposals/{pid}/apply` | Confirma + executa Python |
 
+## Privacidade — pseudonimização 🟢
+
+| Camada | Professor |
+|--------|-----------|
+| OpenAI | Token `PROF_*` (sem sigla real) |
+| Python solver/verifier | Sigla real |
+| UI coordenador | Sigla real (pós de-tokenização) |
+
+Serviço: `ProfessorPseudonymService` — ADR-009.
+
 ## Lacunas 🔴
 
 - Modelo OpenAI específico
 - Azure OpenAI para on-prem
-- Política PII / DPA escola
+- DPA escola (pseudonimização reduz mas não elimina risco)
+- AES at-rest opcional no mapping
 - Copiloto read-only pós-fechar

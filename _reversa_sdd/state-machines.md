@@ -25,7 +25,7 @@ stateDiagram-v2
     PropostaGerada --> EmRefracao: propostas copiloto aceitas
     CopilotAtivo --> EmRefracao: alteração via copiloto
     EmRefracao --> EmRefracao: mais edições
-    EmRefracao --> EmRefracao: propostas agente aceitas
+    EmRefracao --> EmRefracao: propostas copiloto aceitas
     EmRefracao --> Verificado: verificar_calendario OK
     
     Verificado --> Fechado: coordenador aprova

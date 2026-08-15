@@ -34,7 +34,8 @@ Brener confirmou:
 - ✅ Segurança: superfície de execução controlada
 - ✅ Rastreabilidade de tools invocadas por sessão
 - ⚠️ Deploy on-prem depende de conectividade OpenAI ou Azure OpenAI
-- ⚠️ Dados de professores/turmas trafegam para OpenAI — exige política PII/DPA
+- ⚠️ Dados de professores/turmas trafegam para OpenAI — **mitigado por
+  pseudonimização ADR-009**; DPA escola ainda necessário
 - ⚠️ Custo tokens + embeddings por rodada
 
 ## Alternativas rejeitadas
