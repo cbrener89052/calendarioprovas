@@ -45,6 +45,7 @@ precisa existir um **banco de dados** para armazenar:
 | Banco | **PostgreSQL** (metadados, regras, versionamento) |
 | Arquivos | Storage de blobs (S3 na nuvem / pasta local no deploy on-prem) |
 | Frontend | A definir na fase de design (provável web app — Next.js ou similar) |
+| Copiloto IA | **OpenAI** (API) + **RAG** sobre documentos e xlsx gerado |
 
 ### Implicação do deploy híbrido
 
@@ -145,7 +146,10 @@ permitir **revisar e ajustar** o conjunto de regras:
 
 > Registrado em 2026-08-15 por Brener.  
 > **Atualizado 2026-08-15:** papel de **copiloto analista** pós-geração
-> (experiência equivalente ao uso da skill no Cursor / Claude Code).
+> (experiência equivalente ao uso da skill no Cursor / Claude Code).  
+> **Atualizado 2026-08-15 (2):** provedor **OpenAI**, grounding **RAG**
+> (documentos + xlsx gerado), orquestração de **ações Python** no backend
+> para refração/refatoração conforme solicitações do coordenador.
 
 ### Contexto
 
@@ -165,9 +169,25 @@ de IA que:
   do verificador, relatório de trocas, visões estatísticas);
 - **sugere alterações** com base em inteligência e estatísticas — como
   analista, não como substituto do coordenador;
-- apoia a **refração** quando o coordenador pede mudanças concretas.
+- apoia a **refração e refatoração** do horário conforme solicitações do
+  coordenador, orientando **comandos executados pelo backend Python**
+  (solver, patch de alocação, re-verificação) — sempre em parceria com o
+  humano, nunca autonomia total.
 
 O agente **não substitui** solver, verificador nem fechamento do horário.
+
+### Decisões confirmadas (2026-08-15)
+
+| Decisão | Valor |
+|---|---|
+| Provedor LLM | **OpenAI** (API oficial; modelo específico 🟡 a definir na implementação) |
+| Grounding | **RAG** sobre documentos de base **e** xlsx gerado (Proposta + derivados) |
+| Papel | **Copiloto** — trabalha **junto** do coordenador na solução de problemas |
+| Execução de alterações | Backend **Python** (FastAPI) via ações estruturadas / tool-calling — **não** `eval` arbitrário no servidor |
+| Confirmação humana | Must antes de aplicar alteração no calendário persistido |
+
+O copiloto **reanalisa** o horário a cada turno relevante usando RAG +
+estado atual + resultado do verificador, para orientar próximos passos.
 
 ### Quando o copiloto fica disponível
 
@@ -195,17 +215,40 @@ base em **evidências rastreáveis** (cita turma/semana/regra/arquivo):
 
 Respostas devem distinguir 🟢 fato extraído dos dados vs 🟡 inferência.
 
-#### 2. Modo copiloto de alteração — Should
+#### 2. Modo copiloto de refração / refatoração — Must
 
-Quando o coordenador pede mudanças ("mova Biologia da semana 9 para 10",
-"reduza cessões do professor X"), o agente:
+Quando o coordenador pede mudanças ou pede ajuda para resolver um problema
+("mova Biologia da semana 9 para 10", "corrija item 10b da turma 10C2",
+"refatore só as turmas irmãs 12C"), o copiloto:
 
-- usa **visões analíticas** e estatísticas do estado atual;
-- devolve **propostas estruturadas** (diff preview), não mutação silenciosa;
-- o coordenador **confirma** antes de persistir;
-- dispara **re-verificação** automática após aceite.
+- reanalisa **RAG + xlsx gerado + verificador + estatísticas**;
+- explica o diagnóstico e o plano em linguagem natural;
+- propõe **ações estruturadas** mapeadas para o **backend Python**
+  (equivalentes operacionais aos scripts legados `gerar_calendario.py`,
+  `verificar_calendario.py`, patch de células);
+- pode exibir ao coordenador a **equivalência legível** do comando Python
+  que será executado (transparência), sem expor execução livre de código;
+- devolve **preview / diff** antes de persistir;
+- o coordenador **confirma** — copiloto e coordenador trabalham **juntos**;
+- após aceite, backend executa, atualiza xlsx e dispara **re-verificação**.
 
-#### 3. Contexto obrigatório da sessão — Must
+#### 3. RAG — documentos e xlsx gerado — Must
+
+Índice RAG **por calendário/rodada** inclui no mínimo:
+
+| Corpus RAG | Formato | Uso |
+|---|---|---|
+| Grade horária | pdf/xlsx/txt parseado | Cruzar professor presente, slots |
+| Modelo calendário | xlsx | Estrutura de abas e simulados |
+| Simulados, siglas, referências | xlsx/md/pdf | Regras e metadados do semestre |
+| **Proposta gerada** | **xlsx** | Estado atual pós-fatoração/refração |
+| Relatório trocas / exports | xlsx/md | Cessões e impacto |
+| Catálogo de regras (skill) | texto indexado | Explicar violações por id |
+| Saída verificador | json/texto | PROBLEMA/AVISO por item |
+
+Reindexar após cada alteração aceita no horário 🟡.
+
+#### 4. Contexto obrigatório da sessão — Must
 
 Cada sessão de chat recebe contexto montado pela plataforma:
 
@@ -221,18 +264,33 @@ Cada sessão de chat recebe contexto montado pela plataforma:
 Equivalente funcional ao workspace que o coordenador monta hoje no
 **Cursor** ou **Claude Code** com a skill e os arquivos do repositório.
 
-#### 4. Conexão via API — Must
+#### 5. OpenAI via API da plataforma — Must
 
-- Chat no **frontend** chama API da plataforma (não expor chave LLM no browser).
-- API orquestra contexto, estatísticas, provedor LLM e propostas.
-- Contrato **OpenAPI** para integração alternativa (ferramenta externa).
+- Chave OpenAI apenas no **backend** (variável de ambiente / secret).
+- Frontend → FastAPI → **OpenAI API** (chat completions + **function/tool
+  calling** para ações Python permitidas).
+- Tools expostas ao modelo 🟡 (lista inicial):
+  - `rag_search` — busca no índice da rodada;
+  - `get_calendar_view` — visão estatística;
+  - `get_verification_report` — checklist;
+  - `propose_allocation_patch` — move/troca prova (preview);
+  - `run_partial_solver` — re-fatoração parcial (turmas/seed);
+  - `apply_proposal` — só após confirmação explícita do coordenador.
+- Deploy on-prem: requer conectividade à API OpenAI ou **Azure OpenAI**
+  equivalente 🔴 detalhar na migração.
 
-#### 5. Mesmo contrato de regras — Must
+#### 6. Conexão via API — Must
+
+- Chat no **frontend** chama API da plataforma (não expor chave OpenAI no browser).
+- API orquestra RAG, estatísticas, OpenAI e execução Python.
+- Contrato **OpenAPI** documentando copiloto + tools.
+
+#### 7. Mesmo contrato de regras — Must
 
 Solver, verificador e copiloto compartilham `RuleSetSnapshot`; regras
 inegociáveis não podem ser flexibilizadas pelo agente.
 
-#### 6. Rastreabilidade — Must
+#### 8. Rastreabilidade — Must
 
 Registrar: `calendario_id`, `copilot_session_id`, mensagens, fontes
 citadas, propostas, aceites/rejeições, `coordenador_id`, timestamps.
@@ -244,46 +302,47 @@ Entradas carregadas → Fatoração → PropostaGerada
   → Verificador (checklist + estatísticas)
   → Coordenador abre Chat Copiloto
   → Perguntas: "por que 10C2 falhou item 10b?", "quantas cessões MFo?"
-  → Agente responde citando planilha + verificador + grade
-  → (Opcional) Pedido de alteração → proposta estruturada → preview
-  → Aceite → EmRefracao → re-verificação
+  → Agente (OpenAI + RAG) responde citando documentos + xlsx + verificador
+  → Pedido de refatoração → plano + tools Python (backend) → preview
+  → Coordenador confirma → backend executa → RAG reindexa → re-verificação
   → Repete até Verificado → Fechar horário (humano)
 ```
 
 ### Implicações arquiteturais
 
-- **`ScheduleCopilotService`** — orquestra chat, contexto, LLM, propostas
-  (evolução do nome provisório `RefractionAgentGateway`).
-- **`CalendarViewsService`** — visões/estatísticas JSON reutilizáveis pela UI
-  e pelo agente.
-- **`DocumentContextService`** — indexação/resumo dos blobs de entrada e
-  saída para grounding do agente (RAG ou leitura estruturada 🟡).
-- Endpoints de visão: `GET .../views/{tipo}`.
-- Endpoints de copiloto: `POST .../copilot/sessions`,
-  `POST .../copilot/sessions/{id}/messages` (pergunta ou instrução),
-  `GET/POST .../copilot/proposals/{id}` (apply/reject).
-- **UI:** painel `ScheduleCopilotChat` + `ProblemViewsPanel` no frontend.
-- Provedor LLM configurável por deploy; **fallback:** chat indisponível,
-  refração manual e verificador seguem funcionando.
+- **`ScheduleCopilotService`** — orquestra chat, **OpenAI**, tools, propostas.
+- **`DocumentContextService`** + **`RagIndexService`** — ingestão, chunking,
+  embedding e busca sobre uploads **e xlsx gerado** (OpenAI embeddings 🟡).
+- **`CalendarViewsService`** — visões/estatísticas JSON.
+- **`PythonActionBridge`** — mapeia tool-calls OpenAI → métodos Python
+  (`CalendarSolver`, patch alocação, `CalendarVerifier`).
+- Endpoints copiloto: `POST .../copilot/sessions`, `.../messages`,
+  `.../proposals/{id}/apply`, `POST .../copilot/rag/reindex`.
+- **UI:** `ScheduleCopilotChat` + `ProblemViewsPanel`.
+- **Fallback:** OpenAI indisponível → refração manual + verificador seguem;
+  chat exibe aviso.
 
 ### Relação com outros requisitos
 
 | Mecanismo | Papel |
 |---|---|
-| Fatoração (solver) | Gera horário automaticamente |
-| Verificador | Objetiva falhas; alimenta respostas do copiloto |
+| Fatoração (solver Python) | Gera horário automaticamente |
+| Verificador (Python) | Objetiva falhas; alimenta copiloto |
 | Refração manual | Edição direta no grid |
-| **Copiloto IA** | Analista + Q&A + sugestões com estatísticas |
+| **Copiloto OpenAI + RAG** | Analista + parceiro na refração/refatoração |
 | Fechar horário | Sempre ação humana explícita |
 
 ### Pendências
 
-- [ ] Agente **interno** vs **externo** (Anthropic/OpenAI — alinhar ao Cursor/Claude)
-- [x] Interface: **chat embutido** no frontend (copiloto) + API para integrações
-- [ ] RAG vs leitura estruturada dos xlsx/pdf de base
-- [ ] Lista fechada de **tipos de visão/estatística** na v1
-- [ ] Autonomia: só sugestão vs aplicar lote com um clique
-- [ ] Política de dados enviados ao LLM (PII, retenção, on-prem sem internet)
+- [x] Provedor LLM → **OpenAI**
+- [x] Grounding → **RAG** (documentos + xlsx gerado)
+- [x] Interface → **chat embutido** + API
+- [x] Execução → **backend Python** via tools (não código arbitrário)
+- [ ] Modelo OpenAI específico (gpt-4o, o1, etc.)
+- [ ] Lista fechada de **tools** e **tipos de visão** na v1
+- [ ] Autonomia: aplicar lote com um clique vs confirmar ação a ação
+- [ ] Política PII professores enviada à OpenAI (retenção, DPA escola)
+- [ ] Deploy on-prem + OpenAI (internet vs Azure OpenAI)
 - [ ] Copiloto read-only após fechar horário (Should)
 
 ---

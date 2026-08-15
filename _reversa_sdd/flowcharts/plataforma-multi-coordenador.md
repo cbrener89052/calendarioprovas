@@ -12,7 +12,7 @@ flowchart TD
     T2 --> E{Fixa ou sessão?}
     E --> FAT[Fatoração automática solver]
     FAT --> VER0[Verificador + estatísticas]
-    VER0 --> COPILOT[Chat Copiloto IA]
+    VER0 --> COPILOT[Chat Copiloto OpenAI + RAG]
     COPILOT --> QA[Perguntas sobre horário gerado]
     COPILOT --> VIEWS[Visões e documentos de base]
     FAT --> REF[Refração manual opcional]

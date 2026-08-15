@@ -56,8 +56,10 @@ Frontend Web ──HTTPS──► API FastAPI (Python)
       (metadados)     (xlsx/pdf)        (doadores)
             │
             └── Solver module (extraído de gerar_calendario.py)
-            └── ScheduleCopilotService (chat copiloto + propostas 🟡)
-            └── DocumentContextService (grounding uploads + saídas 🟡)
+            └── ScheduleCopilotService (OpenAI + tool calling 🟢)
+            └── RagIndexService (embeddings + busca documentos/xlsx 🟢)
+            └── DocumentContextService (ingest corpus RAG)
+            └── PythonActionBridge (tools → solver/verifier/patch 🟢)
 ```
 
 **Decisões arquiteturais acordadas** (user-requirements 2026-08-09):
@@ -77,7 +79,7 @@ Frontend Web ──HTTPS──► API FastAPI (Python)
 | Tesseract | OCR grade 2025 | Opcional batch 🟡 | CLI |
 | SMTP | — | E-mail doadores 🔴 | SMTP/API |
 | Skill calendario-provas | Fonte regras | Catálogo BD espelhando skill | — |
-| Provedor LLM / copiloto | Skill + chat externo (Cursor/Claude Code) | `ScheduleCopilotService` + chat UI | HTTPS 🟡 |
+| Provedor LLM / copiloto | Skill + chat externo (Cursor/Claude Code) | **OpenAI API** + RAG + `ScheduleCopilotService` | HTTPS 🟢 |
 
 ---
 

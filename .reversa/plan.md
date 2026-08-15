@@ -22,9 +22,8 @@ em `user-requirements.md`.
 cedem tempo — ação manual do coordenador após calendário estável, não a
 cada refração — ver `user-requirements.md`.
 
-**Atualização 2026-08-15 (3):** **copiloto de IA** pós-geração — chat analista
-(Q&A + estatísticas + sugestões), equivalente ao Cursor/Claude Code — ver
-`user-requirements.md`.
+**Atualização 2026-08-15 (4):** copiloto **OpenAI** + **RAG** (docs + xlsx) +
+**ações Python** no backend para refração colaborativa — ADR-008.
 
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
 individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.

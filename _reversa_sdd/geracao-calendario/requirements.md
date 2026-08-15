@@ -18,7 +18,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `_reversa_sdd/flowcharts/geracao-calendario.md` | Fluxo Mermaid do solver e escada de relaxamento | 🟢 |
 | `_reversa_sdd/adrs/001-apenas-proposta-3-cessao.md` | Apenas Proposta 3 é gerada e mantida | 🟢 |
 | `_reversa_sdd/architecture.md#Arquitetura legada (as-is)` | CLI monolítico openpyxl, seed fixa | 🟢 |
-| `.reversa/context/user-requirements.md#Seleção e flexibilização de regras` | Conjunto de regras configurável antes da fatoração | 🟡 |
+| `.reversa/context/user-requirements.md#Copiloto de IA` | OpenAI + RAG + ações Python | 🟡 |
+| `_reversa_sdd/adrs/008-copilot-openai-rag-python-actions.md` | ADR copiloto | 🟢 |
 
 ## 3. Personas e cenários de uso
 
@@ -48,8 +49,11 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 6. **RN-06:** Re-fatoração parcial (subconjunto de turmas / nova seed) pode ser acionada via API — inclusive pelo **copiloto** — respeitando `RuleSetSnapshot`. 🟡
    - Origem: `.reversa/context/user-requirements.md#Copiloto de IA`
    - Tipo: nova (plataforma)
-7. **RN-07:** Após fatoração e verificação, o **copiloto IA** deve responder perguntas sobre o horário gerado e documentos de base, citando evidências rastreáveis. 🟢
-   - Origem: requisito usuário 2026-08-15 (experiência Cursor/Claude)
+7. **RN-07:** Após fatoração e verificação, o **copiloto OpenAI** (RAG sobre documentos + xlsx gerado) responde perguntas e orienta refração **junto** do coordenador. 🟢
+   - Origem: requisito usuário 2026-08-15; ADR-008
+   - Tipo: nova (plataforma)
+8. **RN-08:** Alterações solicitadas ao copiloto executam **ações Python** whitelist no backend (`PythonActionBridge`), com preview e confirmação humana — sem código arbitrário. 🟢
+   - Origem: requisito usuário 2026-08-15
    - Tipo: nova (plataforma)
 
 ## 5. Requisitos Funcionais
