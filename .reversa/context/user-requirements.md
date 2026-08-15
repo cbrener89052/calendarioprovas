@@ -74,10 +74,17 @@ usar e quais podem ser flexibilizadas.
 #### Tela 1 — Regras existentes (catálogo da skill)
 
 - Listar as regras já descritas na skill / no domínio do sistema.
+- **Default na 1ª execução:** após apresentar a tela ao usuário, todas as
+  regras vêm **marcadas como aplicar**; o coordenador desmarca o que não
+  quiser usar nesta rodada.
 - Para cada regra, o usuário marca:
   - **Aplicar** — entra no conjunto desta rodada.
   - **Pode flexibilizar** — o solver/checklist pode relaxar esta regra
     (na ordem de afrouxamento documentada na skill, quando aplicável).
+- Regras **inegociáveis** (ex.: presença do professor, simulados fixos)
+  aparecem **na mesma tela**, junto com as demais — o sistema pergunta
+  explicitamente sobre elas; por padrão ficam aplicadas e **sem** opção de
+  flexibilizar (bloqueadas), salvo decisão explícita futura do produto.
 - Regras não marcadas como "aplicar" ficam **fora** desta rodada.
 
 #### Tela 2 — Regras novas (opcional)
@@ -104,16 +111,13 @@ permitir **revisar e ajustar** o conjunto de regras:
 - incluir regras novas;
 - confirmar se mantém o perfil de regras ou altera para esta entrega.
 
-*(O usuário mencionou "faturar o horário" — interpretado como **fechar**
-o horário; confirmar terminologia.)*
+### Terminologia confirmada (2026-08-15)
 
-### Terminologia a confirmar com o usuário
-
-| Termo usado | Interpretação provisória |
+| Termo | Significado |
 |---|---|
 | **Fatoração** | Geração automática do horário (solver / proposta) |
 | **Refração** | Refinamento ou reajuste do horário já gerado |
-| **Fechar horário** | Aprovar a versão final para entrega / produção |
+| **Fechar horário** | Aprovar a versão final para entrega / produção (ex.: publicar na `main`) |
 
 ### Implicações para specs e arquitetura
 
@@ -125,13 +129,12 @@ o horário; confirmar terminologia.)*
 - **Verificador** deve distinguir **falha** (regra aplicada e violada)
   de **aviso** (regra flexibilizada e relaxada), alinhado ao que a skill
   já exige para cessão.
-- **Regras inegociáveis** (ex.: presença do professor na aplicação,
-  datas fixas de simulados) não devem aparecer como flexibilizáveis
-  no UI — ou devem estar bloqueadas por padrão.
+- Regras inegociáveis entram na **Tela 1** com flexibilização bloqueada
+  por padrão (ver fluxo acima).
 
 ### Pendências
 
-- [ ] Confirmar significado exato de *refração* vs *fatoração*
-- [ ] Confirmar se "fechar horário" = publicar na `main` / entregar à escola
+- [x] Confirmar significado exato de *refração* vs *fatoração*
+- [x] Confirmar se "fechar horário" = publicar na `main` / entregar à escola
+- [x] Definir defaults na 1ª execução (todas as regras ativas após pergunta)
 - [ ] Definir se perfil de regras é por coordenador, por semestre ou ambos
-- [ ] Definir defaults na 1ª execução (todas as regras da skill ativas?)

@@ -31,19 +31,19 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Decisão de organização das specs 🗂️
 
-> Entre o Scout e o Arqueólogo, o Reversa pergunta como você quer organizar as specs (por módulo, caso de uso, endpoint, híbrida, por features ou customizada). A escolha fica persistida em `.reversa/config.toml` na seção `[specs]` e não será reperguntada em execuções futuras. Para reapresentar o menu, remova manualmente a seção.
+> **Decidido em 2026-08-15:** organização **por features** (`granularity = feature`), persistido em `.reversa/config.toml`.
 
 ## Fase 2: Escavação 🏗️
 
 > O Reversa preenche esta seção com os módulos reais após o Scout concluir o reconhecimento.
 
-- [ ] **Arqueólogo** — Análise do módulo `geracao-calendario`
-- [ ] **Arqueólogo** — Análise do módulo `verificacao-calendario`
-- [ ] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
-- [ ] **Arqueólogo** — Análise do módulo `extracao-grade`
-- [ ] **Arqueólogo** — Análise do módulo `analise-historica`
-- [ ] **Arqueólogo** — Análise do módulo `regras-negocio`
-- [ ] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
+- [x] **Arqueólogo** — Análise do módulo `geracao-calendario`
+- [x] **Arqueólogo** — Análise do módulo `verificacao-calendario`
+- [x] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
+- [x] **Arqueólogo** — Análise do módulo `extracao-grade`
+- [x] **Arqueólogo** — Análise do módulo `analise-historica`
+- [x] **Arqueólogo** — Análise do módulo `regras-negocio`
+- [x] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
 
 ## Fase 3: Interpretação 🧠
 

@@ -8,15 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "reconhecimento",
-  "completed": [],
-  "pending": [
-    "reconhecimento",
-    "escavacao",
-    "interpretacao",
-    "geracao",
-    "revisao"
-  ],
+  "phase": "interpretacao",
+  "completed": ["reconhecimento", "escavacao"],
+  "pending": ["interpretacao", "geracao", "revisao"],
   "checkpoints": {
     "scout": {
       "completed_at": "2026-08-09T03:00:00Z",
@@ -24,6 +18,31 @@
         "_reversa_sdd/inventory.md",
         "_reversa_sdd/dependencies.md",
         ".reversa/context/surface.json"
+      ]
+    },
+    "archaeologist": {
+      "completed_at": "2026-08-15T19:05:00Z",
+      "modules_analyzed": [
+        "geracao-calendario",
+        "verificacao-calendario",
+        "exportacao-relatorios",
+        "extracao-grade",
+        "analise-historica",
+        "regras-negocio",
+        "plataforma-multi-coordenador"
+      ],
+      "modules_pending": [],
+      "files": [
+        "_reversa_sdd/code-analysis.md",
+        "_reversa_sdd/data-dictionary.md",
+        ".reversa/context/modules.json",
+        "_reversa_sdd/flowcharts/geracao-calendario.md",
+        "_reversa_sdd/flowcharts/verificacao-calendario.md",
+        "_reversa_sdd/flowcharts/exportacao-relatorios.md",
+        "_reversa_sdd/flowcharts/extracao-grade.md",
+        "_reversa_sdd/flowcharts/analise-historica.md",
+        "_reversa_sdd/flowcharts/regras-negocio.md",
+        "_reversa_sdd/flowcharts/plataforma-multi-coordenador.md"
       ]
     }
   },
