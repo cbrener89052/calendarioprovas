@@ -14,6 +14,10 @@ simulados, siglas) e saídas (calendários, relatórios) **por coordenador**.
 
 Detalhes em `.reversa/context/user-requirements.md`.
 
+**Atualização 2026-08-15:** fluxo de **seleção de regras** antes da
+fatoração/refração do horário e revisão antes de fechar — ver mesma seção
+em `user-requirements.md`.
+
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
 individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 

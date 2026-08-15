@@ -51,3 +51,87 @@ precisa existir um **banco de dados** para armazenar:
 - Mesma aplicação empacotada em **Docker Compose**: API Python + Postgres + (opcional) frontend
 - Na nuvem: serviços gerenciados (ex.: Vercel/Railway/Fly + Neon Postgres + S3)
 - On-prem: `docker compose up` em servidor local da escola, sem dependência de internet para operação diária
+
+---
+
+## Seleção e flexibilização de regras antes de gerar/refinar o horário
+
+> Registrado em 2026-08-15 por Brener, durante retomada do `/reversa`.
+
+### Contexto
+
+Hoje as regras de montagem do calendário estão descritas na skill
+`calendario-provas` e hardcoded no gerador (`gerar_calendario.py`,
+`verificar_calendario.py`). Propostas diferentes (1, 2, 3) aplicam
+conjuntos distintos — ex.: limites de cessão só na Proposta 3.
+
+Na plataforma futura, **antes de iniciar a fatoração ou a refração do
+horário**, o coordenador deve poder escolher explicitamente quais regras
+usar e quais podem ser flexibilizadas.
+
+### Fluxo de telas desejado
+
+#### Tela 1 — Regras existentes (catálogo da skill)
+
+- Listar as regras já descritas na skill / no domínio do sistema.
+- Para cada regra, o usuário marca:
+  - **Aplicar** — entra no conjunto desta rodada.
+  - **Pode flexibilizar** — o solver/checklist pode relaxar esta regra
+    (na ordem de afrouxamento documentada na skill, quando aplicável).
+- Regras não marcadas como "aplicar" ficam **fora** desta rodada.
+
+#### Tela 2 — Regras novas (opcional)
+
+- Perguntar: *"Deseja estabelecer alguma regra adicional?"*
+- Para **cada** regra nova informada, em seguida perguntar:
+  - **Fixa** — persiste no perfil do coordenador / instituição para
+    rodadas futuras.
+  - **Somente nesta fatoração/refração** — vale só para a sessão atual.
+
+#### Durante fatoração e refração
+
+- O solver e o verificador usam **exatamente** o conjunto de regras
+  definido nas telas 1 e 2.
+- Relaxamentos automáticos respeitam apenas regras marcadas como
+  "pode flexibilizar".
+
+#### Gate antes de fechar o horário
+
+Antes de **fechar** (aprovar / publicar) o calendário, o sistema deve
+permitir **revisar e ajustar** o conjunto de regras:
+
+- marcar ou desmarcar regras existentes;
+- incluir regras novas;
+- confirmar se mantém o perfil de regras ou altera para esta entrega.
+
+*(O usuário mencionou "faturar o horário" — interpretado como **fechar**
+o horário; confirmar terminologia.)*
+
+### Terminologia a confirmar com o usuário
+
+| Termo usado | Interpretação provisória |
+|---|---|
+| **Fatoração** | Geração automática do horário (solver / proposta) |
+| **Refração** | Refinamento ou reajuste do horário já gerado |
+| **Fechar horário** | Aprovar a versão final para entrega / produção |
+
+### Implicações para specs e arquitetura
+
+- **Catálogo de regras** versionado (origem: skill + regras custom do
+  coordenador), com metadados: id, descrição, prioridade, ordem de
+  relaxamento, se é institucional ou por sessão.
+- **Perfil de regras por rodada** persistido (PostgreSQL) ligado ao
+  calendário / proposta gerada — rastreabilidade do que foi aplicado.
+- **Verificador** deve distinguir **falha** (regra aplicada e violada)
+  de **aviso** (regra flexibilizada e relaxada), alinhado ao que a skill
+  já exige para cessão.
+- **Regras inegociáveis** (ex.: presença do professor na aplicação,
+  datas fixas de simulados) não devem aparecer como flexibilizáveis
+  no UI — ou devem estar bloqueadas por padrão.
+
+### Pendências
+
+- [ ] Confirmar significado exato de *refração* vs *fatoração*
+- [ ] Confirmar se "fechar horário" = publicar na `main` / entregar à escola
+- [ ] Definir se perfil de regras é por coordenador, por semestre ou ambos
+- [ ] Definir defaults na 1ª execução (todas as regras da skill ativas?)
