@@ -45,8 +45,11 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 5. **RN-05:** Saída inclui planilha `Proposta_3_<semestre>.xlsx` e relatório markdown de trocas de tempo. 🟢
    - Origem no legado: `_reversa_sdd/code-analysis.md#Módulo: geracao-calendario`
    - Tipo: confirmada
-6. **RN-06:** Re-fatoração parcial (subconjunto de turmas / nova seed) pode ser acionada via API — inclusive por agente de refração — respeitando `RuleSetSnapshot`. 🟡
-   - Origem: `.reversa/context/user-requirements.md#Agente de refração conectado via API`
+6. **RN-06:** Re-fatoração parcial (subconjunto de turmas / nova seed) pode ser acionada via API — inclusive pelo **copiloto** — respeitando `RuleSetSnapshot`. 🟡
+   - Origem: `.reversa/context/user-requirements.md#Copiloto de IA`
+   - Tipo: nova (plataforma)
+7. **RN-07:** Após fatoração e verificação, o **copiloto IA** deve responder perguntas sobre o horário gerado e documentos de base, citando evidências rastreáveis. 🟢
+   - Origem: requisito usuário 2026-08-15 (experiência Cursor/Claude)
    - Tipo: nova (plataforma)
 
 ## 5. Requisitos Funcionais
@@ -65,7 +68,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | RF-10 | Respeitar `FORCAR_DATA` e bloqueios de feriado/semana | Must | Datas bloqueadas não recebem provas móveis | 🟢 |
 | RF-11 | Integrar perfil de regras da sessão (plataforma) | Should | API recebe `RuleSetSnapshot` antes de invocar solver | 🟡 |
 | RF-12 | Registrar turmas que falharam após esgotar relaxamentos | Must | Lista `falharam` retornada/consumida pela UI | 🟢 |
-| RF-13 | Expor re-fatoração parcial via API (turmas subset, seed) | Should | Endpoint invocável pelo agente de refração | 🟡 |
+| RF-13 | Expor re-fatoração parcial via API (turmas subset, seed) | Should | Endpoint invocável pelo copiloto | 🟡 |
+| RF-14 | Disponibilizar snapshot do calendário gerado para contexto do copiloto | Must | API retorna alocações + metadados pós-`escrever` | 🟡 |
 
 ## 6. Requisitos Não Funcionais
 

@@ -11,12 +11,15 @@ flowchart TD
     T1 --> T2[Tela 2: regras novas?]
     T2 --> E{Fixa ou sessão?}
     E --> FAT[Fatoração automática solver]
+    FAT --> VER0[Verificador + estatísticas]
+    VER0 --> COPILOT[Chat Copiloto IA]
+    COPILOT --> QA[Perguntas sobre horário gerado]
+    COPILOT --> VIEWS[Visões e documentos de base]
     FAT --> REF[Refração manual opcional]
-    REF --> AGENT[Assistente agente via API]
-    AGENT --> VIEWS[Visões analíticas conflitos]
-    VIEWS --> PROP[Propostas estruturadas]
+    REF --> COPILOT
+    QA --> PROP[Propostas de alteração opcionais]
     PROP --> REF
-    REF --> VER[Verificador checklist]
+    REF --> VER[Re-verificação]
     VER --> GATE[Revisar regras antes de fechar]
     GATE --> FECHAR[Fechar horário / publicar]
     FECHAR --> EMAIL[Enviar e-mails doadores — manual]

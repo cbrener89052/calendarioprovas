@@ -141,105 +141,150 @@ permitir **revisar e ajustar** o conjunto de regras:
 
 ---
 
-## Agente de refração conectado via API
+## Copiloto de IA — agente analista do horário
 
-> Registrado em 2026-08-15 por Brener, durante fase de Geração do `/reversa`.
+> Registrado em 2026-08-15 por Brener.  
+> **Atualizado 2026-08-15:** papel de **copiloto analista** pós-geração
+> (experiência equivalente ao uso da skill no Cursor / Claude Code).
 
 ### Contexto
 
-Além da **fatoração** automática (solver) e da **refração manual** (edição
-direta do calendário), o coordenador frequentemente precisa **diagnosticar e
-resolver conflitos** envolvendo tempos, cessões, turmas irmãs e regras
-violadas. Hoje isso é feito com planilha + verificador + apoio externo
-(skill/agente de IA fora da plataforma).
+Hoje o coordenador monta o calendário com scripts locais e apoio de um
+**agente de IA externo** (Cursor, Claude Code) que lê a skill
+`calendario-provas`, os **documentos de base** enviados (grade, modelo,
+simulados, siglas, referências) e o **horário gerado**, respondendo
+perguntas, cruzando estatísticas e sugerindo ajustes.
 
-Na plataforma futura, deve existir a **possibilidade** de conectar um
-**agente de IA via API** para apoiar a refração — não substituindo o solver
-nem o verificador, mas operando sobre o **mesmo estado** do calendário e
-sobre os **problemas detectados**, com **visões analíticas** que facilitem
-a resolução.
+Na plataforma futura, esse papel deve existir **embutido**: após a
+**análise das entradas** e a **geração do horário** (fatoração), o
+coordenador acessa um **chat copiloto** conectado via API a um agente
+de IA que:
+
+- **responde perguntas** sobre o calendário produzido;
+- **analisa** documentos de base **e** saídas geradas (planilha, checklist
+  do verificador, relatório de trocas, visões estatísticas);
+- **sugere alterações** com base em inteligência e estatísticas — como
+  analista, não como substituto do coordenador;
+- apoia a **refração** quando o coordenador pede mudanças concretas.
+
+O agente **não substitui** solver, verificador nem fechamento do horário.
+
+### Quando o copiloto fica disponível
+
+| Momento | Disponível? | Capacidades |
+|---|---|---|
+| Antes de subir entradas mínimas | Não | — |
+| Entradas carregadas, sem proposta | Opcional 🟡 | Perguntas sobre grade/modelo/regras |
+| **Após fatoração (PropostaGerada)** | **Sim — Must** | Q&A, estatísticas, explicações |
+| **Após verificação** | **Sim — Must** | Explicar PROBLEMA/AVISO, priorizar correções |
+| **Durante refração (EmRefracao)** | **Sim — Must** | Q&A + propostas de alteração |
+| Após fechar horário | Should | Consulta read-only + comparativos 🟡 |
 
 ### Comportamento desejado
 
-1. **Conexão via API** — a plataforma expõe endpoints estáveis (REST ou
-   equivalente) para um agente externo ou interno consumir:
-   - estado atual do calendário / proposta em refração;
-   - conjunto de regras ativo (`RuleSetSnapshot`);
-   - saída do verificador (`PROBLEMA` / `AVISO` por item);
-   - metadados de cessões e alocações relevantes.
-2. **Visões para resolução de problemas** — o agente (e/ou a UI que o
-   hospeda) deve poder solicitar **visões** agregadas do calendário, por
-   exemplo:
-   - conflitos por **turma** / **semana** / **dia**;
-   - sobrecarga de **avaliações por semana**;
-   - **cessões** por professor doador ou solicitante;
-   - **coordenação entre turmas irmãs** (professor comum, Fil/Soc);
-   - violações por **regra de domínio** (id R-P1, C4, R-G1, etc.);
-   - slots **candidatos** para mover uma prova sem quebrar regras rígidas.
-3. **Escopo: refração** — o agente atua principalmente no estado
-   `EmRefracao` e em rodadas de **re-fatoração parcial** (re-solver
-   subconjunto de turmas ou re-seed), não no envio de e-mail nem no
-   fechamento/publicação sem confirmação humana.
-4. **Propostas, não mutações silenciosas** — por padrão o agente **propõe**
-   ações estruturadas (ex.: mover prova, trocar doador, marcar regra
-   flexível, pedir nova fatoração com seed X); o **coordenador confirma**
-   antes de persistir. Autonomia total 🔴 a definir.
-5. **Mesmo contrato de regras** — solver, verificador e agente usam o
-   **mesmo** `RuleSetSnapshot` da rodada; o agente não pode flexibilizar
-   regra marcada como inegociável.
-6. **Rastreabilidade** — cada sessão de agente registra: `calendario_id`,
-   `agent_session_id`, propostas, aceites/rejeições, `coordenador_id`,
-   timestamp — auditoria equivalente à edição manual.
+#### 1. Modo analista (perguntas e respostas) — Must
+
+O coordenador faz perguntas em linguagem natural; o agente responde com
+base em **evidências rastreáveis** (cita turma/semana/regra/arquivo):
+
+- distribuição de provas por turma, semana, professor;
+- cessões e doadores; carga semanal; distâncias entre provas;
+- comparação entre turmas irmãs; simulados e datas fixas;
+- o que o **verificador** apontou e **por quê**;
+- cruzamento com **documentos de base** (ex.: grade vs alocação gerada).
+
+Respostas devem distinguir 🟢 fato extraído dos dados vs 🟡 inferência.
+
+#### 2. Modo copiloto de alteração — Should
+
+Quando o coordenador pede mudanças ("mova Biologia da semana 9 para 10",
+"reduza cessões do professor X"), o agente:
+
+- usa **visões analíticas** e estatísticas do estado atual;
+- devolve **propostas estruturadas** (diff preview), não mutação silenciosa;
+- o coordenador **confirma** antes de persistir;
+- dispara **re-verificação** automática após aceite.
+
+#### 3. Contexto obrigatório da sessão — Must
+
+Cada sessão de chat recebe contexto montado pela plataforma:
+
+| Fonte | Exemplos |
+|---|---|
+| Documentos de base (blob) | grade horária, modelo xlsx, simulados, siglas, `estado_2sem_*.md` |
+| Saídas geradas | `Proposta_3`, relatório trocas, exportações derivadas |
+| Metadados | `RuleSetSnapshot`, seed, semestre, coordenador |
+| Verificação | checklist 0–11, PROBLEMA/AVISO |
+| Catálogo de regras | ids + descrição (skill espelhada no BD) |
+| Estatísticas / visões | agregações JSON (cessões, conflitos, semanas críticas) |
+
+Equivalente funcional ao workspace que o coordenador monta hoje no
+**Cursor** ou **Claude Code** com a skill e os arquivos do repositório.
+
+#### 4. Conexão via API — Must
+
+- Chat no **frontend** chama API da plataforma (não expor chave LLM no browser).
+- API orquestra contexto, estatísticas, provedor LLM e propostas.
+- Contrato **OpenAPI** para integração alternativa (ferramenta externa).
+
+#### 5. Mesmo contrato de regras — Must
+
+Solver, verificador e copiloto compartilham `RuleSetSnapshot`; regras
+inegociáveis não podem ser flexibilizadas pelo agente.
+
+#### 6. Rastreabilidade — Must
+
+Registrar: `calendario_id`, `copilot_session_id`, mensagens, fontes
+citadas, propostas, aceites/rejeições, `coordenador_id`, timestamps.
 
 ### Fluxo provisório na plataforma
 
 ```
-PropostaGerada / EmRefracao
-  → Verificador lista PROBLEMA/AVISO
-  → Coordenador abre "Assistente de refração" (chat ou painel)
-  → Frontend chama API da plataforma
-  → Plataforma agrega visões + contexto
-  → Agente (via API) analisa e devolve propostas estruturadas
-  → Coordenador revisa preview (grid + diff)
-  → Aceite → persiste alocação / dispara re-verificação
-  → Repete até Verificado ou Fechado
+Entradas carregadas → Fatoração → PropostaGerada
+  → Verificador (checklist + estatísticas)
+  → Coordenador abre Chat Copiloto
+  → Perguntas: "por que 10C2 falhou item 10b?", "quantas cessões MFo?"
+  → Agente responde citando planilha + verificador + grade
+  → (Opcional) Pedido de alteração → proposta estruturada → preview
+  → Aceite → EmRefracao → re-verificação
+  → Repete até Verificado → Fechar horário (humano)
 ```
 
 ### Implicações arquiteturais
 
-- **`RefractionAgentGateway`** (ou nome equivalente) na API FastAPI:
-  orquestra contexto, visões, chamada ao provedor de agente e aplicação
-  de propostas aceitas.
-- **Endpoints de visão** (`GET .../views/{tipo}`) retornando JSON
-  normalizado — independentes do LLM, úteis também para UI humana.
-- **Endpoints de sessão de agente** (`POST .../agent/sessions`,
-  `POST .../agent/sessions/{id}/messages`, `POST .../agent/proposals/{id}/apply`).
-- **Integração LLM** desacoplada: chave/API do provedor configurável por
-  deploy (nuvem vs on-prem); fallback **desligado** se agente indisponível
-  (refração manual continua).
-- **OpenAPI** documentando contrato agente ↔ plataforma (feature
-  `plataforma-multi-coordenador` + global `openapi/`).
-- Skill `calendario-provas` permanece **fonte semântica** das regras;
-  o agente recebe resumo/id de regras do catálogo, não texto livre
-  dessincronizado.
+- **`ScheduleCopilotService`** — orquestra chat, contexto, LLM, propostas
+  (evolução do nome provisório `RefractionAgentGateway`).
+- **`CalendarViewsService`** — visões/estatísticas JSON reutilizáveis pela UI
+  e pelo agente.
+- **`DocumentContextService`** — indexação/resumo dos blobs de entrada e
+  saída para grounding do agente (RAG ou leitura estruturada 🟡).
+- Endpoints de visão: `GET .../views/{tipo}`.
+- Endpoints de copiloto: `POST .../copilot/sessions`,
+  `POST .../copilot/sessions/{id}/messages` (pergunta ou instrução),
+  `GET/POST .../copilot/proposals/{id}` (apply/reject).
+- **UI:** painel `ScheduleCopilotChat` + `ProblemViewsPanel` no frontend.
+- Provedor LLM configurável por deploy; **fallback:** chat indisponível,
+  refração manual e verificador seguem funcionando.
 
 ### Relação com outros requisitos
 
 | Mecanismo | Papel |
 |---|---|
-| Fatoração (solver) | Geração / regeneração automática global ou parcial |
-| Refração manual | Edição direta célula a célula (grid) |
-| **Agente via API** | Diagnóstico + propostas guiadas por visões e checklist |
-| Verificador | Árbitro objetivo pós-proposta (humana ou agente) |
+| Fatoração (solver) | Gera horário automaticamente |
+| Verificador | Objetiva falhas; alimenta respostas do copiloto |
+| Refração manual | Edição direta no grid |
+| **Copiloto IA** | Analista + Q&A + sugestões com estatísticas |
 | Fechar horário | Sempre ação humana explícita |
 
 ### Pendências
 
-- [ ] Agente **interno** (módulo Python) vs **externo** (OpenAI/Anthropic/etc.)
-- [ ] Interface: chat embutido no frontend vs apenas API para ferramenta externa
-- [ ] Lista fechada de **tipos de visão** na v1
+- [ ] Agente **interno** vs **externo** (Anthropic/OpenAI — alinhar ao Cursor/Claude)
+- [x] Interface: **chat embutido** no frontend (copiloto) + API para integrações
+- [ ] RAG vs leitura estruturada dos xlsx/pdf de base
+- [ ] Lista fechada de **tipos de visão/estatística** na v1
 - [ ] Autonomia: só sugestão vs aplicar lote com um clique
-- [ ] Política de dados enviados ao LLM (PII professores, retenção, on-prem)
+- [ ] Política de dados enviados ao LLM (PII, retenção, on-prem sem internet)
+- [ ] Copiloto read-only após fechar horário (Should)
 
 ---
 

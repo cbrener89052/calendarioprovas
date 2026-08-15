@@ -18,8 +18,12 @@ stateDiagram-v2
     RegrasConfiguradas --> PropostaGerada: fatoração (solver)
     RegrasImplicitas --> PropostaGerada: gerar_calendario.py
     
+    PropostaGerada --> Verificado: verificar_calendario OK (opcional antes refração)
+    PropostaGerada --> CopilotAtivo: chat copiloto disponível
+    CopilotAtivo --> CopilotAtivo: perguntas Q&A sobre horário
     PropostaGerada --> EmRefracao: ajustes manuais xlsx
-    PropostaGerada --> EmRefracao: assistente agente via API
+    PropostaGerada --> EmRefracao: propostas copiloto aceitas
+    CopilotAtivo --> EmRefracao: alteração via copiloto
     EmRefracao --> EmRefracao: mais edições
     EmRefracao --> EmRefracao: propostas agente aceitas
     EmRefracao --> Verificado: verificar_calendario OK
@@ -39,7 +43,8 @@ stateDiagram-v2
 |---|---|---|
 | → PropostaGerada | `python gerar_calendario.py` | 🟢 |
 | → EmRefracao | Edição células Proposta_3 xlsx | 🟢 |
-| → EmRefracao | Assistente agente (API) — propostas aceitas | 🟡 (requisito) |
+| → EmRefracao | Propostas do copiloto aceitas | 🟡 (requisito) |
+| CopilotAtivo | Após PropostaGerada — Q&A sobre horário e documentos base | 🟡 (requisito) |
 | → Verificado | `verificar_calendario.py` sem PROBLEMA | 🟢 |
 | → Fechado | Decisão humana / publicar | 🟡 |
 | → EmProducao | `promover_para_producao.bat` | 🟢 |

@@ -1,55 +1,79 @@
-# Addendum — Agente de refração via API
+# Addendum — Copiloto de IA (agente analista do horário)
 
-> 2026-08-15 | Origem: `.reversa/context/user-requirements.md#Agente de refração conectado via API`  
+> 2026-08-15 | Origem: `.reversa/context/user-requirements.md#Copiloto de IA`  
 > Confiança: 🟢 requisito usuário | 🟡 detalhes de implementação
 
 ## Resumo
 
-A plataforma deve permitir conectar um **agente de IA via API** para apoiar
-a **refração** do calendário: diagnosticar problemas de tempo/cessão/regras
-usando **visões analíticas** e devolver **propostas estruturadas** que o
-coordenador confirma antes de persistir.
+Após **análise das entradas** e **geração do horário**, a plataforma oferece
+um **chat copiloto** (via API) equivalente ao fluxo atual no **Cursor /
+Claude Code**: o agente **responde perguntas**, **analisa estatísticas** do
+calendário gerado e dos **documentos de base** enviados, e **sugere
+alterações** na refração — sempre com confirmação humana.
+
+## Papéis do copiloto
+
+| Modo | Gatilho | Saída |
+|------|---------|-------|
+| **Analista (Q&A)** | Pergunta em linguagem natural | Resposta citando dados + confiança 🟢/🟡 |
+| **Estatístico** | Pergunta ou painel de visões | Agregações (cessões, semanas, professores) |
+| **Copiloto de alteração** | Pedido de mudança | Proposta estruturada + diff preview |
 
 ## Componentes alvo
 
 | Componente | Responsabilidade |
 |---|---|
-| `RefractionAgentGateway` | Orquestra sessão, contexto, LLM, apply |
-| `CalendarViewsService` | Visões JSON (turma, semana, cessão, regra, slots) |
-| `CalendarVerifier` | Fonte de PROBLEMA/AVISO para o agente |
-| `CalendarSolver` | Re-fatoração parcial sob demanda do agente |
-| `RulesCatalogService` | RuleSetSnapshot compartilhado |
+| `ScheduleCopilotService` | Chat, contexto, LLM, propostas |
+| `DocumentContextService` | Grounding: blobs entrada + saída gerada |
+| `CalendarViewsService` | Visões/estatísticas JSON |
+| `CalendarVerifier` | PROBLEMA/AVISO para explicações |
+| `CalendarSolver` | Re-fatoração parcial sob demanda |
+| `RulesCatalogService` | RuleSetSnapshot + catálogo skill |
+
+## Contexto da sessão (Must)
+
+- Grade, modelo, simulados, siglas, referências do semestre (uploads)
+- Proposta gerada, relatório trocas, exports
+- Resultado verificador + visões estatísticas
+- RuleSetSnapshot da rodada
 
 ## Endpoints provisórios (🟡)
 
 | Método | Caminho | Propósito |
 |--------|---------|-----------|
-| GET | `/api/v1/calendars/{id}/views/{viewType}` | Visão analítica |
-| GET | `/api/v1/calendars/{id}/verification` | Checklist atual |
-| POST | `/api/v1/calendars/{id}/agent/sessions` | Inicia sessão |
-| POST | `/api/v1/calendars/{id}/agent/sessions/{sid}/messages` | Turno chat / instrução |
-| GET | `/api/v1/calendars/{id}/agent/sessions/{sid}/proposals` | Propostas pendentes |
-| POST | `/api/v1/calendars/{id}/agent/proposals/{pid}/apply` | Aplica proposta aceita |
-| POST | `/api/v1/calendars/{id}/agent/proposals/{pid}/reject` | Rejeita proposta |
+| GET | `/api/v1/calendars/{id}/views/{viewType}` | Estatística / visão |
+| GET | `/api/v1/calendars/{id}/verification` | Checklist |
+| GET | `/api/v1/calendars/{id}/context/summary` | Resumo documentos base + gerados |
+| POST | `/api/v1/calendars/{id}/copilot/sessions` | Nova sessão chat |
+| POST | `/api/v1/calendars/{id}/copilot/sessions/{sid}/messages` | Pergunta ou instrução |
+| GET | `/api/v1/calendars/{id}/copilot/sessions/{sid}/proposals` | Propostas pendentes |
+| POST | `/api/v1/calendars/{id}/copilot/proposals/{pid}/apply` | Aplica proposta |
+| POST | `/api/v1/calendars/{id}/copilot/proposals/{pid}/reject` | Rejeita proposta |
 
-## Tipos de visão sugeridos (v1 🟡)
+## UI alvo
 
-- `conflicts-by-class` — provas/regras violadas por turma
-- `conflicts-by-week` — carga semanal > limite
-- `donations-by-teacher` — cessões agrupadas por doador
-- `sibling-pairs` — coordenação 10C1/10C2 etc.
-- `rule-violations` — agrupado por id de regra (R-P1, C4…)
-- `candidate-slots` — slots livres para mover prova `{turma, disc}`
+- `ScheduleCopilotChat` — chat embutido pós-geração
+- `ProblemViewsPanel` — visões alinhadas às respostas do agente
+
+## Equivalência legado
+
+| Hoje (Cursor/Claude) | Plataforma |
+|---|---|
+| Skill `calendario-provas` | Catálogo regras + system prompt |
+| Arquivos do repo / uploads | Blob + `DocumentContextService` |
+| Perguntas no chat | `ScheduleCopilotChat` |
+| Edição manual xlsx | Grid + propostas aceitas do copiloto |
 
 ## Features Reversa impactadas
 
 - `plataforma-multi-coordenador` — **H**
-- `verificacao-calendario` — **M** (feed de problemas)
-- `geracao-calendario` — **M** (re-fatoração parcial)
-- `regras-negocio` — **M** (RuleSetSnapshot)
+- `verificacao-calendario` — **M**
+- `geracao-calendario` — **M**
+- `regras-negocio` — **M**
+- `exportacao-relatorios` — **L** (contexto derivados)
 
 ## Lacunas 🔴
 
-- Provedor LLM e deploy on-prem sem internet
-- Chat UI vs API-only
-- Autonomia do agente
+- Provedor LLM (Anthropic/OpenAI) e on-prem
+- RAG vs parse estruturado de xlsx/pdf
+- Copiloto read-only após fechar horário

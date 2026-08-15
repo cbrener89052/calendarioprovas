@@ -37,6 +37,7 @@
 | Fatoração automática | CalendarSolver | **H** | 🟢 legado CLI |
 | Refração manual | CalendarEditor, Blob | **H** | 🟢 legado xlsx |
 | Agente refração via API | RefractionAgentGateway, CalendarViewsService, Verifier | **H** | 🔴 |
+| Copiloto IA pós-geração | ScheduleCopilotService, DocumentContextService, Chat UI | **H** | 🔴 |
 | Fechar horário | CalendarLifecycle | M | 🟡 Git hoje |
 | E-mail doadores (manual) | DonorEmailService, SMTP, ENVIO_EMAIL | **H** | 🔴 |
 | Deploy híbrido Docker | Infra, Blob, SMTP config | M | 🔴 |
