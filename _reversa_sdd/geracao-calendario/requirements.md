@@ -24,7 +24,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `_reversa_sdd/adrs/010-catalogo-provas-sem-modelo-obrigatorio.md` | ADR catálogo | 🟢 |
 | `_reversa_sdd/templates/mascara-entrada-provas-spec.md` | Colunas máscara provas + aba `provas` | 🟢 |
 | `_reversa_sdd/ui/calendar-block-picker-spec.md` | Tela visual bloqueios | 🟢 |
-| `_reversa_sdd/adrs/012-bloqueios-calendario-visual.md` | ADR calendário clicável | 🟢 |
+| `_reversa_sdd/adrs/013-saida-excel-visualizacao-in-app.md` | Saída Excel + preview UI | 🟢 |
+| `_reversa_sdd/ui/calendar-preview-view-spec.md` | CalendarPreviewView | 🟢 |
 | `_reversa_sdd/adrs/011-mascaras-estruturadas-sem-ia-recalculo.md` | Recálculo sem IA | 🟢 |
 
 ## 3. Personas e cenários de uso
@@ -80,6 +81,12 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 14. **RN-14:** Re-fatoração e recálculo do horário **Must not** invocar OpenAI para parse de entradas quando `ExamCatalog` e `CalendarConstraints` estão persistidos. 🟢
    - Origem: requisito usuário 2026-08-16 (3)
    - Tipo: nova (plataforma)
+15. **RN-15:** A **saída oficial** do calendário **Must** permanecer **Excel** (`Proposta_3_<semestre>.xlsx`, layout Klausurplan); gravação via `escrever()` + download na UI. 🟢
+   - Origem: requisito usuário 2026-08-16 (5); ADR-013
+   - Tipo: confirmada (legado + plataforma)
+16. **RN-16:** Após geração, o coordenador **Must** visualizar o calendário de provas **por turma na plataforma** (`CalendarPreviewView`) **sem abrir o Excel**; conteúdo Must ser paridade com o xlsx baixável. 🟢
+   - Origem: requisito usuário 2026-08-16 (5); ADR-013
+   - Tipo: nova (plataforma)
 
 ## 5. Requisitos Funcionais
 
@@ -113,6 +120,10 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | RF-26 | Seletor série (9/10/11/12) propaga bloqueio a todas turmas da série | Must | ex.: semana 11 vetada para 10C1+10C2 | 🟢 |
 | RF-27 | Export/import xlsx bloqueios (opcional) | Could | Backup e migração legado; não fluxo principal | 🟡 |
 | RF-28 | Fatoração/recálculo sem chamada OpenAI quando constraints persistidas | Must | Pipeline determinístico ADR-011 | 🟢 |
+| RF-29 | Download Excel `Proposta_3_<semestre>.xlsx` após geração | Must | Layout Klausurplan; blob idêntico ao legado | 🟢 |
+| RF-30 | **`CalendarPreviewView`**: malha read-only por turma | Must | Paridade com aba do xlsx; sem editar nesta view | 🟢 |
+| RF-31 | Preview grade horária da turma na mesma tela (aba) | Should | Slots semanais sem abrir PDF externo | 🟡 |
+| RF-32 | Atualizar preview após refração/copiloto regravar xlsx | Must | Re-parse blob → refresh UI | 🟢 |
 
 ## 6. Requisitos Não Funcionais
 
@@ -188,6 +199,17 @@ Cenário: Registro de provas por ordem na aba provas
   Dado máscara com aba provas: Mat ordem 1 e 2 com 2 tempos cada
   Quando o upload é confirmado
   Então ExamCatalog contém duas entradas (10C1, Mat) com ordem 1 e 2 e n_tempos=2
+
+Cenário: Visualização in-app paridade com Excel
+  Dado Proposta_3 gerada e gravada
+  Quando coordenador abre CalendarPreviewView para 10C1
+  Então vê malha semanal com provas alocadas
+  E conteúdo coincide com aba 10C1 do xlsx em "Baixar Excel"
+
+Cenário: Saída Excel como artefato oficial
+  Dado calendário exibido na preview
+  Quando coordenador baixa Excel
+  Então recebe Proposta_3_<semestre>.xlsx no layout Klausurplan
 ```
 
 ## 8. Prioridade MoSCoW
@@ -217,4 +239,4 @@ Cenário: Registro de provas por ordem na aba provas
 | 2026-08-15 | Versão inicial gerada pelo Redator (Reversa) | reversa-writer |
 | 2026-08-16 | RN-10/11 e RF-15–22 — máscara padrão vs layout Klausurplan | reversa-writer |
 | 2026-08-16 | RN-12–14, RF-23–28 — aba provas, CalendarBlockPicker, recálculo sem IA | reversa-writer |
-| 2026-08-16 | RN-13/RF-24–26 — bloqueios visuais por turma/série (ADR-012) | reversa-writer |
+| 2026-08-16 | RN-15/16, RF-29–32 — saída Excel + CalendarPreviewView | reversa-writer |

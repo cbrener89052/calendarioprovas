@@ -35,7 +35,7 @@ C4Component
 
     Rel(auth, rules, "coordenador_id")
     Rel(intake, catalog, "parse Mascara_Entrada_Provas.xlsx")
-    Rel(intake, constraints, "parse Mascara_Bloqueios_Calendario.xlsx")
+    Rel(intake, constraints, "export/import xlsx backup opcional")
     Rel(ingest, catalog, "import prova anterior")
     Rel(catalog, solver, "ExamCatalog normalizado")
     Rel(constraints, solver, "CalendarConstraints")
@@ -108,7 +108,7 @@ flowchart TB
 | Skill + chat Cursor/Claude hoje | `ScheduleCopilotService` + `DocumentContextService` (novo 🟡) |
 | `commit_github.bat` | `CalendarLifecycle` + Git opcional |
 | — | `IntakeTemplateService` — máscaras provas + bloqueios 🟡 |
-| `BLOQUEIOS`/`SIMULADOS`/`FORCAR_DATA` | `CalendarConstraintsService` 🟡 |
+| — | `CalendarBlockPicker` → `CalendarConstraintsService` 🟢 |
 | `Klausurplan_2026_2SEM.xlsx` | `CalendarLayoutTemplate` — layout saída 🟢 |
 
 ## Frontend (alvo) 🟡 — componentes UI
@@ -119,7 +119,8 @@ flowchart TB
 | `IntakeTemplatePanel` | Download/upload máscara provas (opcional) 🟡 |
 | `CalendarBlockPicker` | Malha calendário — clique dia/semana por turma/série 🟢 |
 | `ExamCatalogEditor` | Grid aba `provas`: ordem · tempos · n_aulas_semanais 🟡 |
-| `CalendarEditor` | Refração manual (grid xlsx) |
+| `CalendarPreviewView` | Visualização read-only Proposta_3 por turma 🟢 |
+| `CalendarEditor` | Refração manual (grid editável) |
 | `ScheduleCopilotChat` | Chat copiloto pós-geração (Q&A + alterações) 🟡 |
 | `ProblemViewsPanel` | Estatísticas / visões alinhadas ao copiloto 🟡 |
 | `VerificationPanel` | Checklist PROBLEMA/AVISO |

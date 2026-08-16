@@ -138,7 +138,7 @@ Unifica legado `BLOQUEIOS`, `SEMANA_BLOQUEADA`, `SIMULADOS`, `FORCAR_DATA`, `FER
 | `Mascara_Entrada_Provas.xlsx` | entrada | catálogo + aba `provas` | 🟢 |
 | `Mascara_Bloqueios_Calendario.xlsx` | export opcional | backup/migração legado | 🟡 |
 | `_reversa_sdd/templates/Mascara_Bloqueios_Calendario_2026_2SEM.xlsx` | exemplo | export legado 2º sem 2026 | 🟢 |
-| `Horario desenvolvido/Proposta_3_*.xlsx` | saída | xlsx 8 abas | 🟢 |
+| `Horario desenvolvido/Proposta_3_*.xlsx` | saída **Must** | xlsx 8 abas + preview in-app | 🟢 |
 | `Horario desenvolvido/Relatorio_trocas_de_tempo.md` | saída | markdown | 🟢 |
 | `horarios turmas/*.pdf` | entrada | PDF Untis | 🟢 |
 | `siglas/siglas_profs_aux_etc.xlsx` | entrada | xlsx | 🟢 |

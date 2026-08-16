@@ -24,9 +24,13 @@
 | Método | Caminho | Entrada | Saída | Status |
 |--------|---------|---------|-------|--------|
 | GET | `/api/v1/intake/template/provas` | semestre opcional | `Mascara_Entrada_Provas.xlsx` | 200 |
-| GET | `/api/v1/intake/template/bloqueios` | semestre opcional | `Mascara_Bloqueios_Calendario.xlsx` | 200 |
 | POST | `/api/v1/intake/upload/provas` | xlsx preenchido | preview `ExamCatalog` | 200 |
-| POST | `/api/v1/intake/upload/bloqueios` | xlsx preenchido | preview `CalendarConstraints` | 200 |
+| GET | `/api/v1/calendars/{id}/constraints/grid` | `turma` ou `serie` | malha + bloqueios | 200 |
+| PUT | `/api/v1/calendars/{id}/constraints/day` | toggle dia | `CalendarConstraints` | 200 |
+| PUT | `/api/v1/calendars/{id}/constraints/week` | toggle semana | idem | 200 |
+| GET | `/api/v1/calendars/{id}/preview/grid` | `turma` | malha Proposta_3 read-only | 200 |
+| GET | `/api/v1/calendars/{id}/preview/timetable` | `turma` | grade horária read-only | 200 |
+| GET | `/api/v1/calendars/{id}/download/xlsx` | — | `Proposta_3_*.xlsx` | 200 |
 | POST | `/api/v1/calendars/{id}/factor` | `RuleSetSnapshot`, seed opcional | job id + progresso | 202 |
 | GET | `/api/v1/calendars/{id}/factor/{jobId}` | — | status, falharam, blob urls | 200 |
 
@@ -37,7 +41,10 @@ escopo turma ou série → `CalendarConstraintsService`. Spec: `_reversa_sdd/ui/
 
 **IntakeTemplateService:** máscara provas (opcional); export xlsx bloqueios (backup).
 
-**Recálculo:** fatoração Must ler entidades persistidas — sem OpenAI na ingestão (ADR-011).
+**CalendarPreviewView (UI):** malha Klausurplan read-only pós-`escrever()`; paridade
+com xlsx baixável. Spec: `_reversa_sdd/ui/calendar-preview-view-spec.md`.
+
+**CalendarViewsService:** parse blob Proposta_3 → JSON grid para preview + estatísticas copiloto.
 
 **CalendarLayoutTemplate:** `Klausurplan_2026_2SEM.xlsx` versionado — aplicado em `escrever()`; não é formulário de entrada.
 

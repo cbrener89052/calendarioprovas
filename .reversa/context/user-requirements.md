@@ -12,7 +12,7 @@ locais, usado para montar o calendário de provas da Escola Alemã Corcovado.
 O sistema será utilizado por **outros coordenadores da instituição**. Por isso,
 precisa existir um **banco de dados** para armazenar:
 
-1. **Saídas** — calendários gerados, relatórios, tabelas-resumo, tempos cedidos
+1. **Saídas** — calendários gerados (**Excel** `Proposta_3`), relatórios, tabelas-resumo, tempos cedidos — **visualizáveis na plataforma** sem abrir o arquivo (ADR-013)
 2. **Arquivos de entrada** — bases que alimentam o sistema de **cada coordenador**:
    - horário-base das turmas (PDF/planilha) — **obrigatório** para fatoração
    - **catálogo de provas** por turma: disciplina + nº de tempos (ver seção abaixo)
@@ -217,6 +217,46 @@ Grade horária (upload)
   → Layout Klausurplan institucional na saída
   → Telas 1–2 regras
   → Fatoração → Proposta_3 xlsx (sem OpenAI na ingestão)
+  → Visualização in-app (CalendarPreviewView) + download Excel
+```
+
+---
+
+## Saída Excel e visualização in-app
+
+> Registrado em 2026-08-16 por Brener. ADR-013.
+
+### Saída oficial — Excel (Must) 🟢
+
+A **saída permanece Excel**, como no legado:
+
+| Arquivo | Papel |
+|---------|-------|
+| `Proposta_3_<semestre>.xlsx` | Calendário de provas — layout Klausurplan institucional |
+| Relatório de trocas / exports | Derivados do xlsx gravado (ADR-002) |
+
+`escrever()` + blob storage; botão **Baixar Excel** na plataforma.
+
+### Visualização na tela (Must) 🟢
+
+O coordenador **Must** poder **ver o horário/calendário das turmas na
+plataforma** — **sem abrir o Excel**:
+
+| View | Conteúdo | Modo |
+|------|----------|------|
+| **`CalendarPreviewView`** | Malha Klausurplan com provas alocadas (por turma) | Read-only |
+| Aba **grade horária** 🟡 | Slots semanais de aula da turma | Read-only |
+
+- Seletor de turma (9C1 … 12C2) — equivalente às abas do xlsx.
+- Conteúdo **Must** ser paridade com o Excel baixável (mesmo parse/blob).
+- Edição manual → `CalendarEditor`; preview atualiza após refração.
+
+Spec: `_reversa_sdd/ui/calendar-preview-view-spec.md`.
+
+```
+Fatoração → grava Proposta_3.xlsx
+  → CalendarPreviewView (browser)
+  → Baixar Excel (distribuição / arquivo oficial)
 ```
 
 ### Validações (Must)
@@ -232,7 +272,8 @@ Grade horária (upload)
 - **`CalendarBlockPicker`** — UI visual bloqueios (primário; ADR-012).
 - **`CalendarConstraintsService`** — persiste cliques → solver/verificador.
 - **`IntakeTemplateService`** — máscara provas (opcional) + export bloqueios (backup).
-- ADR-010, ADR-011, ADR-012 + specs em `_reversa_sdd/ui/` e `templates/`.
+- ADR-010 … ADR-013 + specs em `_reversa_sdd/ui/` e `templates/`.
+- **`CalendarPreviewView`** + **`CalendarViewsService`** — preview read-only pós-geração.
 
 ### Pendências 🔴
 
