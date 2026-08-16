@@ -58,17 +58,26 @@ precisa existir um **banco de dados** para armazenar:
 
 ## Catálogo de provas — modelo Klausurplan opcional
 
-> Registrado em 2026-08-16 por Brener.
+> Registrado em 2026-08-16 por Brener.  
+> **Atualizado 2026-08-16 (2):** distinção **máscara de layout** (Klausurplan
+> no GitHub) vs **máscara padrão de entrada** (download preencher enviar).
 
 ### Contexto
 
-Nem sempre existirá um **modelo Klausurplan** completo (xlsx com abas/semanas)
-para o semestre corrente. Pode haver apenas um **modelo de provas anterior**,
-já descrevendo **turma (grupo)**, **disciplina** e **quantidade de tempos**
-necessários para cada prova.
+Dois tipos de xlsx **não devem ser confundidos**:
 
-A plataforma deve aceitar essa realidade e ainda permitir que o coordenador
-**monte manualmente** a lista de provas na interface.
+| Tipo | O que é | Onde está 🟢 |
+|------|---------|--------------|
+| **Máscara de layout** | Design/malha do **calendário semanal** (abas, semanas, colunas E–I) | GitHub: `Klausurplan_2026_2SEM.xlsx`, `Horario modelo/`, `provas2sem_2025/` |
+| **Máscara padrão de entrada** | Planilha **simples** para o coordenador preencher **dados de provas** | Gerada pela plataforma — *"Baixe sua planilha padrão aqui"* |
+
+O Klausurplan do 2º semestre no repositório é o **modelo de layout** usado
+para **montar/escrever** o calendário de provas — não é o formulário que o
+coordenador preenche com disciplinas a cada rodada.
+
+Nem sempre o coordenador terá um Klausurplan **do semestre corrente** já
+preenchido. O sistema deve oferecer uma **máscara institucional padronizada**
+para alimentar o catálogo de provas.
 
 ### O que continua obrigatório 🟢
 
@@ -83,31 +92,74 @@ A plataforma deve aceitar essa realidade e ainda permitir que o coordenador
 
 | Entrada | Plataforma |
 |---------|------------|
-| Modelo Klausurplan xlsx completo | **Opcional** — pode ser gerado na saída |
+| Modelo Klausurplan xlsx **preenchido** do semestre | **Opcional** — layout institucional sim; dados no catálogo |
+| Klausurplan como **layout de saída** | **Sim** — template `Klausurplan_2026_2SEM.xlsx` (GitHub) 🟢 |
+
+### Máscara padrão de entrada — download (Must) 🟢
+
+A plataforma disponibiliza arquivo tipo **`Mascara_Entrada_Provas.xlsx`**
+com link **"Baixe sua planilha padrão aqui"**. O coordenador preenche e
+reenvia. Colunas mínimas:
+
+| Coluna | Significado |
+|--------|-------------|
+| **Turma / grupo** | ex.: `10C1` |
+| **Disciplina** | ex.: Mat, LP/LIT/RED, Fil |
+| **Nº provas no semestre** | Quantidade de avaliações da disciplina (1 ou 2, …) |
+| **Nº tempos de aula/semana** | Carga semanal na grade (relevante para cessão C1) |
+| *(opcional)* **Nº tempos por prova** | Duração da aplicação (1–3); se vazio, skill infere |
+
+Especificação completa: `_reversa_sdd/templates/mascara-entrada-provas-spec.md`.
+
+Fluxo:
+
+```
+Baixar máscara → preencher offline → upload → validação → ExamCatalog
+```
+
+Alternativa equivalente: **`ExamCatalogEditor`** na UI (mesmas colunas).
+
+### Máscara de layout Klausurplan (institucional) 🟢
+
+- **Fonte viva:** `Klausurplan_2026_2SEM.xlsx` (raiz do repo GitHub).
+- Papel: estrutura visual/semanal onde `escrever()` grava a Proposta 3.
+- Mantida como **template institucional** — não exige upload por coordenador
+  se o sistema aplicar layout automaticamente na saída.
+- Referências: `Horario modelo/Klausurplan_2026_1SEM.xlsx`,
+  `provas2sem_2025/Klausurplan_ramoC_2025_2SEM.xlsx`.
 
 ### Três formas de montar o catálogo de provas (Must)
 
 O coordenador escolhe **uma ou combina** (com merge validado):
 
-#### Modo A — Importar modelo de provas anterior
+#### Modo A — Upload da máscara padrão preenchida (Must — preferencial)
 
-- Upload de xlsx (ou outro formato 🟡) de **semestre/prova anterior**.
-- Parser extrai linhas: **turma/grupo**, **disciplina**, **nº tempos**.
-- Coordenador revisa preview antes de confirmar.
+- Coordenador baixa **`Mascara_Entrada_Provas.xlsx`**, preenche disciplinas,
+  nº provas/semestre e nº tempos de aula/semana, e faz upload.
+- Parser valida e converte → `ExamCatalog`.
+- Preview antes de confirmar.
+
+#### Modo A′ — Importar xlsx de referência (semestre anterior)
+
+- Upload de planilha histórica (ex.: calendário já usado no 2º sem).
+- Parser tenta extrair catálogo; se formato = layout Klausurplan, extrair
+  só metadados de provas 🟡.
 
 #### Modo B — Tabela manual na interface (Must)
 
-Tela **`ExamCatalogEditor`** — grid editável com colunas mínimas:
+Tela **`ExamCatalogEditor`** — mesmas colunas da máscara padrão:
 
 | Coluna | Tipo | Obrigatório |
 |--------|------|-------------|
 | Turma / grupo | `10C1`, `11C2`, … | sim |
-| Disciplina | nome/código (Mat, LP/LIT/RED, …) | sim |
-| Nº tempos | 1, 2 ou 3 | sim |
-| Período | 1, 2 ou único (Fil/Soc) | não 🟡 |
-| Professor | sigla(s) | não — default da grade 🟡 |
+| Disciplina | Mat, LP/LIT/RED, … | sim |
+| Nº provas no semestre | 1 ou 2 (…) | sim |
+| Nº tempos de aula/semana | inteiro | sim |
+| Nº tempos por prova | 1, 2 ou 3 | não — default skill |
+| Período | 1, 2 ou único | não 🟡 |
+| Professor | sigla(s) | não — default grade 🟡 |
 
-Ações: adicionar linha, duplicar turma, importar CSV, validar contra grade.
+Ações: adicionar linha, duplicar turma, **baixar máscara vazia**, validar.
 
 #### Modo C — Derivar da grade (legado)
 
@@ -119,10 +171,11 @@ Ações: adicionar linha, duplicar turma, importar CSV, validar contra grade.
 
 ```
 Grade horária (upload)
-  → Catálogo de provas (import anterior OU tabela manual OU derivar grade)
+  → Catálogo: máscara padrão preenchida OU UI OU derivar grade
+  → Layout Klausurplan institucional (GitHub) aplicado na saída
   → Simulados/bloqueios (import parcial OU tela OU constantes)
   → Telas 1–2 regras
-  → Fatoração → Proposta_3 xlsx (malha gerada se não havia Klausurplan)
+  → Fatoração → Proposta_3 xlsx
 ```
 
 ### Validações (Must)
@@ -135,14 +188,15 @@ Grade horária (upload)
 
 - Entidade **`ExamCatalog`** / `catalogo_prova` no PostgreSQL.
 - `CalendarSolver` recebe catálogo normalizado, não só `montar_exames()`.
-- Template xlsx institucional vazio para `escrever()` quando não houver upload.
-- ADR-010.
+- **`IntakeTemplateService`** — gera/download `Mascara_Entrada_Provas.xlsx`, parse upload.
+- **`CalendarLayoutTemplate`** — `Klausurplan_2026_2SEM.xlsx` versionado (GitHub/blob).
+- ADR-010 + `_reversa_sdd/templates/mascara-entrada-provas-spec.md`.
 
 ### Pendências 🔴
 
-- Formato exato do "modelo de provas anterior" (colunas do xlsx legado?)
-- Merge quando coordenador usa import + edição manual
-- Simulados sem Klausurplan: tela dedicada ou import PDF `SIMULADOS/`
+- [x] Formato máscara padrão — spec em `templates/mascara-entrada-provas-spec.md` 🟡 validar com coordenação
+- Merge quando coordenador usa upload + edição manual
+- Simulados sem Klausurplan preenchido: tela dedicada ou import PDF `SIMULADOS/`
 
 ---
 

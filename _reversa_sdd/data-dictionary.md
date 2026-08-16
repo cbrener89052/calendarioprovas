@@ -84,17 +84,21 @@
 | Campo | Tipo | Obrigatório | Descrição | Confiança |
 |---|---|---|---|---|
 | `turma` | `str` | sim | Grupo/turma ex.: `10C1` | 🟢 |
-| `disciplina` | `str` | sim | Nome ou código (Mat, Fil, LP/LIT/RED) | 🟢 |
-| `n_tempos` | `int` 1–3 | sim | Tempos necessários na aplicação | 🟢 |
-| `periodo` | `int\|None` | não | 1ª/2ª prova ou única | 🟡 |
-| `professor` | `str` | não | Sigla(s); se vazio, inferir da grade | 🟡 |
-| `origem` | `enum` | sim | `import` \| `manual` \| `grade` | 🟡 |
+| `disciplina` | `str` | sim | Nome ou código | 🟢 |
+| `n_provas_semestre` | `int` | sim | Avaliações no semestre (1, 2, …) | 🟢 |
+| `n_aulas_semanais` | `int` | sim | Tempos de aula/semana na grade (cessão C1) | 🟢 |
+| `n_tempos` | `int` 1–3 | sim/não | Duração de cada prova; inferível | 🟢 |
+| `periodo` | `int\|None` | não | 1ª/2ª ou única | 🟡 |
+| `professor` | `str` | não | Sigla(s); default grade | 🟡 |
+| `origem` | `enum` | sim | `mascara` \| `manual` \| `grade` \| `import` | 🟡 |
 
-Equivalente legado: saída de `montar_exames(turma)`.
 | `escopo` | `enum` | `fixa` \| `sessao` | 🟡 |
 | `rodada_id` | `uuid` | Liga ao calendário gerado | 🟡 |
 
-**Fonte:** `.reversa/context/user-requirements.md` (2026-08-15).
+**Máscara padrão:** `_reversa_sdd/templates/mascara-entrada-provas-spec.md`  
+**Layout calendário:** `Klausurplan_2026_2SEM.xlsx` (GitHub) — não confundir.
+
+**Fonte:** `.reversa/context/user-requirements.md` (2026-08-16).
 
 ---
 
@@ -116,7 +120,8 @@ Equivalente legado: saída de `montar_exames(turma)`.
 
 | Caminho | Direção | Formato | Confiança |
 |---|---|---|---|
-| `Klausurplan_2026_2SEM.xlsx` | entrada | xlsx modelo | 🟢 |
+| `Klausurplan_2026_2SEM.xlsx` | layout institucional | malha calendário (GitHub) | 🟢 |
+| `Mascara_Entrada_Provas.xlsx` | entrada | catálogo provas (plataforma) | 🟡 |
 | `Horario desenvolvido/Proposta_3_*.xlsx` | saída | xlsx 8 abas | 🟢 |
 | `Horario desenvolvido/Relatorio_trocas_de_tempo.md` | saída | markdown | 🟢 |
 | `horarios turmas/*.pdf` | entrada | PDF Untis | 🟢 |

@@ -21,18 +21,24 @@ e cessões. O que flexibiliza é a **origem da lista de exames** que hoje
 
 ## Decisão
 
-1. Separar conceitos:
-   - **`ExamCatalog`** — lista `(turma, disciplina, n_tempos[, periodo])`
-   - **`CalendarTemplate`** — malha xlsx semanal (opcional na plataforma)
-2. **Três modos de preenchimento** do `ExamCatalog` (plataforma Must):
-   - **A — Importar** modelo/prova anterior (xlsx ou blob)
-   - **B — Editar tabela** na interface (grid editável)
-   - **C — Derivar da grade** (paridade legado `montar_exames()`)
-3. Modelo Klausurplan **completo** deixa de ser obrigatório; simulados e
-   bloqueios podem vir de import parcial, tela dedicada ou constantes 🟡.
-4. Saída continua **Proposta_3 xlsx** — se não houver template, o sistema
-   **gera** malha a partir de template institucional vazio + semestre 🟡.
-5. Solver consome `ExamCatalog` unificado, independente da origem.
+1. Separar **três** artefatos xlsx:
+   - **`ExamCatalog`** — dados `(turma, disciplina, n_provas, n_aulas_semanais, n_tempos[, periodo])`
+   - **`IntakeTemplate`** — máscara padrão download/upload (`Mascara_Entrada_Provas.xlsx`)
+   - **`CalendarLayoutTemplate`** — malha Klausurplan (`Klausurplan_2026_2SEM.xlsx` no GitHub)
+2. **Máscara padrão (Must):** plataforma gera link *"Baixe sua planilha padrão
+   aqui"*; coordenador preenche disciplinas, nº provas/disciplina e nº tempos
+   de aula/semana; upload alimenta `ExamCatalog`.
+3. **Layout Klausurplan (Must institucional):** template de **design** do
+   calendário semanal — já no repo; usado em `escrever()`, não substitui
+   máscara de entrada.
+4. Três modos de catálogo: **A** upload máscara | **B** UI | **C** derivar grade.
+5. Klausurplan preenchido do semestre **não** é entrada obrigatória.
+6. Saída **Proposta_3 xlsx** usa layout institucional Klausurplan.
+7. Solver consome `ExamCatalog` unificado.
+
+## Atualização 2026-08-16 (2)
+
+Ver `_reversa_sdd/templates/mascara-entrada-provas-spec.md`.
 
 ## Consequências
 

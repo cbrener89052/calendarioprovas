@@ -12,7 +12,9 @@ C4Component
         Component(auth, "AuthModule", "JWT/session", "Login 5 coordenadores")
         Component(rules, "RulesCatalogService", "Python", "Catálogo + perfil por rodada")
         Component(ingest, "IngestService", "Python", "Upload grade, catálogo, simulados")
-        Component(catalog, "ExamCatalogService", "Python", "Import/manual/grade → exames")
+        Component(intake, "IntakeTemplateService", "Python", "Download/upload máscara padrão")
+        Component(catalog, "ExamCatalogService", "Python", "ExamCatalog normalizado")
+        Component(layout, "CalendarLayoutTemplate", "blob", "Klausurplan institucional")
         Component(solver, "CalendarSolver", "Python", "Backtracking + Cessoes")
         Component(verify, "CalendarVerifier", "Python", "Checklist 0-11")
         Component(export, "ReportExporter", "Python", "Tabelas, cessões, trocas")
@@ -31,9 +33,11 @@ C4Component
     Rel(pseudo, bridge, "tokens → siglas reais antes exec")
 
     Rel(auth, rules, "coordenador_id")
+    Rel(intake, catalog, "parse Mascara_Entrada_Provas.xlsx")
     Rel(ingest, catalog, "import prova anterior")
     Rel(catalog, solver, "ExamCatalog normalizado")
     Rel(ingest, solver, "grade horária")
+    Rel(layout, solver, "template escrever()")
     Rel(ingest, docs, "blobs entrada")
     Rel(docs, rag, "chunk + index")
     Rel(solver, docs, "Proposta xlsx gerado")
@@ -99,13 +103,16 @@ flowchart TB
 | — | `DonorEmailService` (novo) |
 | Skill + chat Cursor/Claude hoje | `ScheduleCopilotService` + `DocumentContextService` (novo 🟡) |
 | `commit_github.bat` | `CalendarLifecycle` + Git opcional |
+| — | `IntakeTemplateService` — máscara padrão download/upload 🟡 |
+| `Klausurplan_2026_2SEM.xlsx` | `CalendarLayoutTemplate` — layout saída 🟢 |
 
 ## Frontend (alvo) 🟡 — componentes UI
 
 | Componente UI | Feature Reversa |
 |---|---|
 | `RulesSelectionWizard` | Seleção regras Tela 1–2 |
-| `ExamCatalogEditor` | Tabela turma · disciplina · n_tempos 🟡 |
+| `IntakeTemplatePanel` | *Baixe sua planilha padrão aqui* + upload preenchida 🟡 |
+| `ExamCatalogEditor` | Tabela turma · disciplina · n_provas · n_aulas_semanais 🟡 |
 | `CalendarEditor` | Refração manual (grid xlsx) |
 | `ScheduleCopilotChat` | Chat copiloto pós-geração (Q&A + alterações) 🟡 |
 | `ProblemViewsPanel` | Estatísticas / visões alinhadas ao copiloto 🟡 |

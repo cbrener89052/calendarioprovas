@@ -22,12 +22,14 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `.reversa/context/user-requirements.md#Copiloto de IA` | OpenAI + RAG + ações Python | 🟢 |
 | `.reversa/context/user-requirements.md#Catálogo de provas` | ExamCatalog sem modelo obrigatório | 🟢 |
 | `_reversa_sdd/adrs/010-catalogo-provas-sem-modelo-obrigatorio.md` | ADR catálogo | 🟢 |
+| `_reversa_sdd/templates/mascara-entrada-provas-spec.md` | Colunas máscara padrão | 🟢 |
 
 ## 3. Personas e cenários de uso
 
 | Persona | Objetivo | Cenário-chave |
 |---------|----------|---------------|
 | Coordenador (legado) | Gerar Proposta 3 para o semestre | Executa `python gerar_calendario.py` após atualizar grade e modelo xlsx |
+| Coordenador (plataforma) | Alimentar catálogo via máscara padrão | Baixa `Mascara_Entrada_Provas.xlsx`, preenche disciplinas/nº provas/nº aulas semanais, faz upload |
 | Coordenador (plataforma) | Fatorar horário com regras escolhidas | Seleciona regras nas Telas 1–2, inicia solver, revisa xlsx e relatório de trocas |
 | Sistema (batch) | Reexecutar geração após mudança de entrada | Nova rodada com mesma seed ou seed alternativa se falhar |
 
@@ -60,6 +62,12 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 9. **RN-09:** Modelo Klausurplan xlsx **não** é entrada obrigatória na plataforma; o **catálogo de provas** (turma, disciplina, n_tempos) pode vir de import anterior, tabela manual ou derivação da grade. 🟢
    - Origem: requisito usuário 2026-08-16; ADR-010
    - Tipo: nova (plataforma)
+10. **RN-10:** A plataforma oferece **máscara padrão de entrada** (`Mascara_Entrada_Provas.xlsx`) distinta do Klausurplan de layout; o coordenador preenche turma, disciplina, nº provas/semestre e nº tempos de aula/semana antes da fatoração. 🟢
+   - Origem: requisito usuário 2026-08-16 (2); ADR-010
+   - Tipo: nova (plataforma)
+11. **RN-11:** O template Klausurplan no GitHub (`Klausurplan_2026_2SEM.xlsx`) é **layout institucional de saída**; não substitui a máscara de entrada nem exige upload preenchido por coordenador. 🟢
+   - Origem: requisito usuário 2026-08-16 (2)
+   - Tipo: confirmada (plataforma)
 
 ## 5. Requisitos Funcionais
 
@@ -79,10 +87,14 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | RF-12 | Registrar turmas que falharam após esgotar relaxamentos | Must | Lista `falharam` retornada/consumida pela UI | 🟢 |
 | RF-13 | Expor re-fatoração parcial via API (turmas subset, seed) | Should | Endpoint invocável pelo copiloto | 🟡 |
 | RF-14 | Disponibilizar snapshot do calendário gerado para contexto do copiloto | Must | API retorna alocações + metadados pós-`escrever` | 🟡 |
-| RF-15 | Aceitar `ExamCatalog` via import de prova anterior | Must | Parser → preview → persistência | 🟡 |
-| RF-16 | UI `ExamCatalogEditor`: turma, disciplina, n_tempos | Must | CRUD + validação básica | 🟡 |
-| RF-17 | Alternativa `montar_exames()` derivar catálogo da grade | Should | Paridade legado modo C | 🟢 |
-| RF-18 | Gerar malha xlsx saída sem Klausurplan de entrada | Should | Template institucional vazio | 🟡 |
+| RF-15 | Gerar e disponibilizar download da máscara padrão `Mascara_Entrada_Provas.xlsx` | Must | Link *"Baixe sua planilha padrão aqui"*; aba `catalogo` com cabeçalhos + linha exemplo | 🟢 |
+| RF-16 | Parser upload máscara preenchida → `ExamCatalog` | Must | Valida colunas; preview; confirmação; origem `mascara` | 🟢 |
+| RF-17 | UI `ExamCatalogEditor` com paridade de colunas da máscara | Must | turma, disciplina, n_provas_semestre, n_aulas_semanais, n_tempos, periodo | 🟡 |
+| RF-18 | Aceitar `ExamCatalog` via import de prova anterior (modo A′) | Should | Parser layout Klausurplan → metadados provas | 🟡 |
+| RF-19 | Alternativa `montar_exames()` derivar catálogo da grade (modo C) | Should | Paridade legado | 🟢 |
+| RF-20 | Aplicar `CalendarLayoutTemplate` (`Klausurplan_2026_2SEM.xlsx`) na saída | Must | `escrever()` usa layout GitHub; independente de upload de entrada | 🟢 |
+| RF-21 | Validar catálogo × grade (turma/disciplina, LP/LIT/RED 3 tempos, Fil=1) | Must | PROBLEMA/AVISO conforme spec máscara | 🟡 |
+| RF-22 | Botão *baixar máscara vazia* também no `ExamCatalogEditor` | Should | Mesmo arquivo gerado por RF-15 | 🟡 |
 
 ## 6. Requisitos Não Funcionais
 
@@ -122,6 +134,19 @@ Cenário: Falha após esgotar relaxamentos
   Quando montar_proposta termina
   Então turmas não resolvidas constam em falharam
   E o coordenador recebe mensagem acionável (sem xlsx final inválido)
+
+Cenário: Catálogo via máscara padrão de entrada
+  Dado grade horária carregada para o semestre
+  E o coordenador baixou Mascara_Entrada_Provas.xlsx e preencheu turma, disciplina, n_provas_semestre e n_aulas_semanais
+  Quando faz upload e confirma o preview
+  Então o sistema persiste ExamCatalog com origem mascara
+  E a fatoração usa esse catálogo em vez de montar_exames() exclusivamente
+
+Cenário: Layout Klausurplan na saída sem upload de entrada
+  Dado catálogo válido e grade carregada
+  E o coordenador não enviou Klausurplan preenchido do semestre
+  Quando a fatoração conclui com sucesso
+  Então Proposta_3_<semestre>.xlsx segue o layout institucional Klausurplan_2026_2SEM.xlsx
 ```
 
 ## 8. Prioridade MoSCoW
@@ -149,3 +174,4 @@ Cenário: Falha após esgotar relaxamentos
 | Data | Alteração | Autor |
 |------|-----------|-------|
 | 2026-08-15 | Versão inicial gerada pelo Redator (Reversa) | reversa-writer |
+| 2026-08-16 | RN-10/11 e RF-15–22 — máscara padrão vs layout Klausurplan | reversa-writer |
