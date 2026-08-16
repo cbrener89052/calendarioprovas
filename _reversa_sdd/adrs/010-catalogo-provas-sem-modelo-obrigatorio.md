@@ -36,6 +36,15 @@ e cessões. O que flexibiliza é a **origem da lista de exames** que hoje
 6. Saída **Proposta_3 xlsx** usa layout institucional Klausurplan.
 7. Solver consome `ExamCatalog` unificado.
 
+## Atualização 2026-08-16 (3)
+
+ADR-011: segunda máscara (`Mascara_Bloqueios_Calendario.xlsx`) + aba `provas`
+por ordem; recálculo determinístico sem IA.
+
+Ver:
+- `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md`
+- `_reversa_sdd/adrs/011-mascaras-estruturadas-sem-ia-recalculo.md`
+
 ## Atualização 2026-08-16 (2)
 
 Ver `_reversa_sdd/templates/mascara-entrada-provas-spec.md`.

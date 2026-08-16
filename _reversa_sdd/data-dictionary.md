@@ -91,13 +91,27 @@
 | `periodo` | `int\|None` | não | 1ª/2ª ou única | 🟡 |
 | `professor` | `str` | não | Sigla(s); default grade | 🟡 |
 | `origem` | `enum` | sim | `mascara` \| `manual` \| `grade` \| `import` | 🟡 |
+| `ordem` | `int` | não | Ordem da prova (1ª, 2ª) — aba `provas` | 🟢 |
 | `escopo` | `enum` | sim | `fixa` \| `sessao` | 🟡 |
 | `rodada_id` | `uuid` | não | Liga ao calendário gerado | 🟡 |
 
-**Máscara padrão:** `_reversa_sdd/templates/mascara-entrada-provas-spec.md`  
+**Máscara provas:** `_reversa_sdd/templates/mascara-entrada-provas-spec.md`  
+**Máscara bloqueios:** `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md`  
 **Layout calendário:** `Klausurplan_2026_2SEM.xlsx` (GitHub) — não confundir.
 
 **Fonte:** `.reversa/context/user-requirements.md` (2026-08-16).
+
+### Restrições de calendário — `CalendarConstraints` (plataforma — ADR-011)
+
+| Entidade | Campos principais | Origem máscara |
+|---|---|---|
+| `Holiday` | `data`, `descricao`, `tipo`, `escopo` | aba `feriados` |
+| `BlockedWeek` | `semana`, `motivo`, `escopo` | aba `semanas_vetadas` |
+| `BlockedDay` | `semana`, `dia`, `motivo`, `turmas[]` | aba `dias_bloqueados` |
+| `FixedSimulado` | `turma`, `semana`, `dia`, `codigo`, `tempos` | aba `simulados` |
+| `ForcedExamDate` | `turma`, `disciplina`, `periodo`, `semana`, `dia` | aba `datas_forcadas` |
+
+Unifica legado `BLOQUEIOS`, `SEMANA_BLOQUEADA`, `SIMULADOS`, `FORCAR_DATA`, `FERIADOS`.
 
 ---
 
@@ -120,7 +134,8 @@
 | Caminho | Direção | Formato | Confiança |
 |---|---|---|---|
 | `Klausurplan_2026_2SEM.xlsx` | layout institucional | malha calendário (GitHub) | 🟢 |
-| `Mascara_Entrada_Provas.xlsx` | entrada | catálogo provas (plataforma) | 🟡 |
+| `Mascara_Entrada_Provas.xlsx` | entrada | catálogo + aba `provas` | 🟢 |
+| `Mascara_Bloqueios_Calendario.xlsx` | entrada | feriados, bloqueios, simulados | 🟢 |
 | `Horario desenvolvido/Proposta_3_*.xlsx` | saída | xlsx 8 abas | 🟢 |
 | `Horario desenvolvido/Relatorio_trocas_de_tempo.md` | saída | markdown | 🟢 |
 | `horarios turmas/*.pdf` | entrada | PDF Untis | 🟢 |

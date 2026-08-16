@@ -23,13 +23,18 @@
 
 | Método | Caminho | Entrada | Saída | Status |
 |--------|---------|---------|-------|--------|
-| GET | `/api/v1/intake/template` | semestre opcional | `Mascara_Entrada_Provas.xlsx` | 200 |
-| POST | `/api/v1/intake/upload` | xlsx preenchido | preview `ExamCatalog` | 200 |
+| GET | `/api/v1/intake/template/provas` | semestre opcional | `Mascara_Entrada_Provas.xlsx` | 200 |
+| GET | `/api/v1/intake/template/bloqueios` | semestre opcional | `Mascara_Bloqueios_Calendario.xlsx` | 200 |
+| POST | `/api/v1/intake/upload/provas` | xlsx preenchido | preview `ExamCatalog` | 200 |
+| POST | `/api/v1/intake/upload/bloqueios` | xlsx preenchido | preview `CalendarConstraints` | 200 |
 | POST | `/api/v1/calendars/{id}/factor` | `RuleSetSnapshot`, seed opcional | job id + progresso | 202 |
 | GET | `/api/v1/calendars/{id}/factor/{jobId}` | — | status, falharam, blob urls | 200 |
 
-**IntakeTemplateService:** gera máscara vazia (aba `catalogo`, cabeçalhos + linha exemplo);
-parse upload → validação → `ExamCatalogService`. Spec: `_reversa_sdd/templates/mascara-entrada-provas-spec.md`.
+**IntakeTemplateService:** gera máscaras vazias; parse upload provas (abas `catalogo` + `provas`) e bloqueios (5 abas). Specs em `_reversa_sdd/templates/`.
+
+**CalendarConstraintsService:** persiste feriados/bloqueios/simulados; alimenta solver e verificador (unifica `FERIADOS`/`BLOQUEIOS`).
+
+**Recálculo:** fatoração Must ler entidades persistidas — sem OpenAI na ingestão (ADR-011).
 
 **CalendarLayoutTemplate:** `Klausurplan_2026_2SEM.xlsx` versionado — aplicado em `escrever()`; não é formulário de entrada.
 

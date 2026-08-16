@@ -22,7 +22,9 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `.reversa/context/user-requirements.md#Copiloto de IA` | OpenAI + RAG + ações Python | 🟢 |
 | `.reversa/context/user-requirements.md#Catálogo de provas` | ExamCatalog sem modelo obrigatório | 🟢 |
 | `_reversa_sdd/adrs/010-catalogo-provas-sem-modelo-obrigatorio.md` | ADR catálogo | 🟢 |
-| `_reversa_sdd/templates/mascara-entrada-provas-spec.md` | Colunas máscara padrão | 🟢 |
+| `_reversa_sdd/templates/mascara-entrada-provas-spec.md` | Colunas máscara provas + aba `provas` | 🟢 |
+| `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md` | Máscara bloqueios/feriados | 🟢 |
+| `_reversa_sdd/adrs/011-mascaras-estruturadas-sem-ia-recalculo.md` | Recálculo sem IA | 🟢 |
 
 ## 3. Personas e cenários de uso
 
@@ -68,6 +70,15 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 11. **RN-11:** O template Klausurplan no GitHub (`Klausurplan_2026_2SEM.xlsx`) é **layout institucional de saída**; não substitui a máscara de entrada nem exige upload preenchido por coordenador. 🟢
    - Origem: requisito usuário 2026-08-16 (2)
    - Tipo: confirmada (plataforma)
+12. **RN-12:** Cada prova registrada no sistema **Must** ter ordem (1ª/2ª) e `n_tempos_aplicacao` explícitos — preferencialmente via aba `provas` da máscara ou grid equivalente na UI. 🟢
+   - Origem: requisito usuário 2026-08-16 (3); ADR-011
+   - Tipo: nova (plataforma)
+13. **RN-13:** Feriados, recessos, semanas vetadas, dias bloqueados e simulados fixos **Must** ser informados via **`Mascara_Bloqueios_Calendario.xlsx`** (ou UI equivalente), não via interpretação de IA a cada recálculo. 🟢
+   - Origem: requisito usuário 2026-08-16 (3); ADR-011
+   - Tipo: nova (plataforma)
+14. **RN-14:** Re-fatoração e recálculo do horário **Must not** invocar OpenAI para parse de entradas quando `ExamCatalog` e `CalendarConstraints` estão persistidos. 🟢
+   - Origem: requisito usuário 2026-08-16 (3)
+   - Tipo: nova (plataforma)
 
 ## 5. Requisitos Funcionais
 
@@ -95,6 +106,11 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | RF-20 | Aplicar `CalendarLayoutTemplate` (`Klausurplan_2026_2SEM.xlsx`) na saída | Must | `escrever()` usa layout GitHub; independente de upload de entrada | 🟢 |
 | RF-21 | Validar catálogo × grade (turma/disciplina, LP/LIT/RED 3 tempos, Fil=1) | Must | PROBLEMA/AVISO conforme spec máscara | 🟡 |
 | RF-22 | Botão *baixar máscara vazia* também no `ExamCatalogEditor` | Should | Mesmo arquivo gerado por RF-15 | 🟡 |
+| RF-23 | Aba `provas`: uma linha por prova com `ordem_prova` e `n_tempos_aplicacao` | Must | Parser → N exames em `ExamCatalog` | 🟢 |
+| RF-24 | Gerar/download `Mascara_Bloqueios_Calendario.xlsx` | Must | Abas feriados, semanas_vetadas, dias_bloqueados, simulados | 🟢 |
+| RF-25 | Parser upload bloqueios → `CalendarConstraints` | Must | Unifica gerador e verificador; preview calendário | 🟢 |
+| RF-26 | UI `CalendarConstraintsEditor` com paridade das abas da máscara | Should | CRUD + validação | 🟡 |
+| RF-27 | Fatoração/recálculo sem chamada OpenAI quando constraints persistidas | Must | Pipeline determinístico ADR-011 | 🟢 |
 
 ## 6. Requisitos Não Funcionais
 
@@ -147,6 +163,17 @@ Cenário: Layout Klausurplan na saída sem upload de entrada
   E o coordenador não enviou Klausurplan preenchido do semestre
   Quando a fatoração conclui com sucesso
   Então Proposta_3_<semestre>.xlsx segue o layout institucional Klausurplan_2026_2SEM.xlsx
+
+Cenário: Recálculo com máscaras sem consumo de IA
+  Dado ExamCatalog e CalendarConstraints persistidos de uploads válidos
+  Quando o coordenador dispara nova fatoração (seed ou regras alteradas)
+  Então o solver executa sem invocar ScheduleCopilotService na ingestão
+  E feriados/bloqueios aplicados coincidem com a máscara de bloqueios enviada
+
+Cenário: Registro de provas por ordem na aba provas
+  Dado máscara com aba provas: Mat ordem 1 e 2 com 2 tempos cada
+  Quando o upload é confirmado
+  Então ExamCatalog contém duas entradas (10C1, Mat) com ordem 1 e 2 e n_tempos=2
 ```
 
 ## 8. Prioridade MoSCoW
@@ -175,3 +202,4 @@ Cenário: Layout Klausurplan na saída sem upload de entrada
 |------|-----------|-------|
 | 2026-08-15 | Versão inicial gerada pelo Redator (Reversa) | reversa-writer |
 | 2026-08-16 | RN-10/11 e RF-15–22 — máscara padrão vs layout Klausurplan | reversa-writer |
+| 2026-08-16 | RN-12–14, RF-23–27 — aba provas, máscara bloqueios, recálculo sem IA | reversa-writer |

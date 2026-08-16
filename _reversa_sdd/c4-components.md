@@ -12,7 +12,8 @@ C4Component
         Component(auth, "AuthModule", "JWT/session", "Login 5 coordenadores")
         Component(rules, "RulesCatalogService", "Python", "Catálogo + perfil por rodada")
         Component(ingest, "IngestService", "Python", "Upload grade, catálogo, simulados")
-        Component(intake, "IntakeTemplateService", "Python", "Download/upload máscara padrão")
+        Component(intake, "IntakeTemplateService", "Python", "Máscaras provas + bloqueios")
+        Component(constraints, "CalendarConstraintsService", "Python", "Feriados, bloqueios, simulados")
         Component(catalog, "ExamCatalogService", "Python", "ExamCatalog normalizado")
         Component(layout, "CalendarLayoutTemplate", "blob", "Klausurplan institucional")
         Component(solver, "CalendarSolver", "Python", "Backtracking + Cessoes")
@@ -34,8 +35,11 @@ C4Component
 
     Rel(auth, rules, "coordenador_id")
     Rel(intake, catalog, "parse Mascara_Entrada_Provas.xlsx")
+    Rel(intake, constraints, "parse Mascara_Bloqueios_Calendario.xlsx")
     Rel(ingest, catalog, "import prova anterior")
     Rel(catalog, solver, "ExamCatalog normalizado")
+    Rel(constraints, solver, "CalendarConstraints")
+    Rel(constraints, verify, "mesma fonte feriados/bloqueios")
     Rel(ingest, solver, "grade horária")
     Rel(layout, solver, "template escrever()")
     Rel(ingest, docs, "blobs entrada")
@@ -103,7 +107,8 @@ flowchart TB
 | — | `DonorEmailService` (novo) |
 | Skill + chat Cursor/Claude hoje | `ScheduleCopilotService` + `DocumentContextService` (novo 🟡) |
 | `commit_github.bat` | `CalendarLifecycle` + Git opcional |
-| — | `IntakeTemplateService` — máscara padrão download/upload 🟡 |
+| — | `IntakeTemplateService` — máscaras provas + bloqueios 🟡 |
+| `BLOQUEIOS`/`SIMULADOS`/`FORCAR_DATA` | `CalendarConstraintsService` 🟡 |
 | `Klausurplan_2026_2SEM.xlsx` | `CalendarLayoutTemplate` — layout saída 🟢 |
 
 ## Frontend (alvo) 🟡 — componentes UI
@@ -111,8 +116,9 @@ flowchart TB
 | Componente UI | Feature Reversa |
 |---|---|
 | `RulesSelectionWizard` | Seleção regras Tela 1–2 |
-| `IntakeTemplatePanel` | *Baixe sua planilha padrão aqui* + upload preenchida 🟡 |
-| `ExamCatalogEditor` | Tabela turma · disciplina · n_provas · n_aulas_semanais 🟡 |
+| `IntakeTemplatePanel` | Download/upload máscara provas + bloqueios 🟡 |
+| `ExamCatalogEditor` | Grid aba `provas`: ordem · tempos · n_aulas_semanais 🟡 |
+| `CalendarConstraintsEditor` | Feriados, semanas vetadas, simulados 🟡 |
 | `CalendarEditor` | Refração manual (grid xlsx) |
 | `ScheduleCopilotChat` | Chat copiloto pós-geração (Q&A + alterações) 🟡 |
 | `ProblemViewsPanel` | Estatísticas / visões alinhadas ao copiloto 🟡 |
