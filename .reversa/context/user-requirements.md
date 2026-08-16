@@ -17,7 +17,7 @@ precisa existir um **banco de dados** para armazenar:
    - horário-base das turmas (PDF/planilha) — **obrigatório** para fatoração
    - **catálogo de provas** por turma: disciplina + nº de tempos (ver seção abaixo)
    - modelo de calendário xlsx (Klausurplan) — **opcional** na plataforma
-   - calendário de simulados / bloqueios (pode ser parcial ou tela dedicada)
+   - calendário de simulados / bloqueios — **tela visual** (clique no calendário por turma/série; ver ADR-012)
    - planilha de siglas de professores
    - referências e regras do semestre
 
@@ -59,18 +59,23 @@ precisa existir um **banco de dados** para armazenar:
 ## Catálogo de provas — modelo Klausurplan opcional
 
 > Registrado em 2026-08-16 por Brener.  
-> **Atualizado 2026-08-16 (3):** segunda máscara (bloqueios/feriados) + aba
-> `provas` por ordem; recálculo determinístico sem IA (ADR-011).
+> **Atualizado 2026-08-16 (4):** bloqueios/feriados via **tela visual**
+> calendário (clique dia/semana por turma e série) — Excel descartado como
+> entrada principal (ADR-012).
 
 ### Contexto
 
-Três tipos de xlsx **não devem ser confundidos**:
+Tipos de artefato **não devem ser confundidos**:
 
-| Tipo | O que é | Onde está 🟢 |
-|------|---------|--------------|
-| **Máscara de layout** | Design/malha do **calendário semanal** (abas, semanas, colunas E–I) | GitHub: `Klausurplan_2026_2SEM.xlsx`, `Horario modelo/`, `provas2sem_2025/` |
-| **Máscara padrão de provas** | Planilha **simples** — catálogo + **uma linha por prova** (ordem, tempos) | Gerada pela plataforma — *"Baixe planilha de provas"* |
-| **Máscara de bloqueios** | Feriados, recessos, semanas/dias vetados, simulados fixos | Gerada pela plataforma — *"Baixe planilha de bloqueios"* |
+| Tipo | O que é | Como o coordenador usa |
+|------|---------|------------------------|
+| **Layout Klausurplan** | Malha semanal do **calendário de saída** | Automático na Proposta 3 (GitHub) |
+| **Catálogo de provas** | O que fatorar (disciplina, ordem, tempos) | UI `ExamCatalogEditor` ou máscara xlsx provas 🟡 |
+| **Bloqueios / sem prova** | Dias e semanas vetados | **Tela visual `CalendarBlockPicker`** — clique no calendário 🟢 |
+
+Preencher **tabelas Excel** para bloqueios foi **rejeitado** pelo usuário
+(má experiência). A entrada de constraints é **100% visual** na plataforma.
+Export xlsx de bloqueios permanece **opcional** (backup/migração legado).
 
 O Klausurplan do 2º semestre no repositório é o **modelo de layout** usado
 para **montar/escrever** o calendário de provas — não é o formulário que o
@@ -87,14 +92,13 @@ para alimentar o catálogo de provas.
 | **Grade horária** | Slots, professor presente (R-P1), cessões, doadores |
 | **Catálogo de provas** | O que fatorar: turma + disciplina + `n_tempos` |
 | **Regras da rodada** | RuleSetSnapshot (Telas 1–2) |
-| **Simulados / bloqueios** | Datas fixas e dias/semanas vetadas | Máscara bloqueios **ou** UI 🟢 |
+| **Simulados / bloqueios** | Datas fixas e dias/semanas vetadas | **`CalendarBlockPicker`** (visual) 🟢 |
 
 ### Princípio: recálculo sem IA (Must) 🟢
 
-Máscaras estruturadas definem **limites e provas** antes da fatoração.
-**Recalcular** o horário (nova seed, ajuste de regras, re-upload) **Must not**
-invocar OpenAI para interpretar entradas — parser determinístico +
-`ExamCatalog` + `CalendarConstraints` alimentam o solver diretamente.
+Máscaras/UI estruturadas definem **limites e provas** antes da fatoração.
+**Recalcular** o horário **Must not** invocar OpenAI — `ExamCatalog` +
+`CalendarConstraints` (salvos na tela visual) alimentam o solver diretamente.
 
 O **copiloto** permanece opcional para refração, diagnóstico e perguntas
 **após** geração — não substitui as máscaras na ingestão (ADR-011).
@@ -128,29 +132,33 @@ Colunas mínimas da aba **`provas`** (preferencial):
 
 Especificação: `_reversa_sdd/templates/mascara-entrada-provas-spec.md`.
 
-### Máscara de bloqueios e calendário — download (Must) 🟢
+### Bloqueios e calendário — tela visual (Must) 🟢
 
-Segunda planilha **`Mascara_Bloqueios_Calendario.xlsx`**
-— *"Baixe planilha de bloqueios e feriados"*:
+**Pré-requisito:** antes da fatoração, o coordenador define onde **não pode
+haver prova** usando a tela **`CalendarBlockPicker`** — malha de calendário
+(no formato Klausurplan), **sem planilha Excel**.
 
-| Aba | Conteúdo |
-|-----|----------|
-| `feriados` | Datas de feriado/recesso (sem aula) |
-| `semanas_vetadas` | Semanas inteiras sem prova móvel |
-| `dias_bloqueados` | Dias específicos vetados para provas |
-| `simulados` | Datas fixas de simulados por turma |
-| `datas_forcadas` | Provas com data obrigatória (opcional) |
+| Interação | Efeito |
+|-----------|--------|
+| **Clicar em um dia** | Marca/desmarca “sem prova” para a turma ou série selecionada |
+| **Clicar em uma semana** | Marca/desmarca **semana inteira** sem prova |
+| **Seletor por série** | ex.: série **10** → bloqueio vale para 10C1 e 10C2 |
+| **Seletor por turma** | ex.: **11C1** → bloqueio só naquela turma |
 
-Especificação: `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md`.
+Feriados institucionais podem aparecer **pré-marcados** no grid. Simulados
+fixos usam indicador visual distinto (★) na mesma malha ou painel adjacente 🟡.
 
-Fluxo integrado:
+Fluxo:
 
 ```
-Baixar máscara provas + máscara bloqueios
-  → preencher offline
-  → upload → validação → ExamCatalog + CalendarConstraints
-  → fatoração (sem IA)
+Abrir calendário visual → escolher série ou turma → clicar dias/semanas
+  → Salvar → CalendarConstraints → fatoração (sem IA)
 ```
+
+Especificação UI: `_reversa_sdd/ui/calendar-block-picker-spec.md` (ADR-012).
+
+Export xlsx (`Mascara_Bloqueios_Calendario.xlsx`) — **opcional** (backup,
+seed legado 2SEM 2026); **não** é o fluxo principal.
 
 ### Máscara de layout Klausurplan (institucional) 🟢
 
@@ -204,9 +212,9 @@ Ações: adicionar linha, duplicar turma, **baixar máscara vazia**, validar.
 
 ```
 Grade horária (upload)
-  → Provas: máscara aba `provas` OU UI ExamCatalogEditor
-  → Bloqueios: máscara bloqueios OU UI CalendarConstraintsEditor
-  → Layout Klausurplan institucional (GitHub) aplicado na saída
+  → Provas: ExamCatalogEditor ou máscara xlsx (opcional)
+  → Bloqueios: CalendarBlockPicker (clique dia/semana por turma/série)
+  → Layout Klausurplan institucional na saída
   → Telas 1–2 regras
   → Fatoração → Proposta_3 xlsx (sem OpenAI na ingestão)
 ```
@@ -221,16 +229,16 @@ Grade horária (upload)
 
 - Entidade **`ExamCatalog`** / `catalogo_prova` no PostgreSQL.
 - `CalendarSolver` recebe catálogo normalizado, não só `montar_exames()`.
-- **`IntakeTemplateService`** — gera/download/parse **máscara provas** + **máscara bloqueios**.
-- **`CalendarConstraints`** — feriados, bloqueios, simulados (PostgreSQL).
-- **`CalendarLayoutTemplate`** — `Klausurplan_2026_2SEM.xlsx` versionado (GitHub/blob).
-- ADR-010, ADR-011 + specs em `_reversa_sdd/templates/`.
+- **`CalendarBlockPicker`** — UI visual bloqueios (primário; ADR-012).
+- **`CalendarConstraintsService`** — persiste cliques → solver/verificador.
+- **`IntakeTemplateService`** — máscara provas (opcional) + export bloqueios (backup).
+- ADR-010, ADR-011, ADR-012 + specs em `_reversa_sdd/ui/` e `templates/`.
 
 ### Pendências 🔴
 
+- [x] Bloqueios — tela visual por turma/série (ADR-012) 🟢
 - [x] Formato máscara provas — spec + aba `provas` 🟡 validar com coordenação
-- [x] Formato máscara bloqueios — spec 🟡 validar com coordenação
-- Export legado 2SEM 2026 → máscara bloqueios exemplo
+- Export xlsx bloqueios — backup legado 2SEM 2026 (opcional)
 - Merge quando coordenador usa upload + edição manual
 - Simulados sem Klausurplan preenchido: tela dedicada ou import PDF `SIMULADOS/`
 

@@ -30,9 +30,12 @@
 | POST | `/api/v1/calendars/{id}/factor` | `RuleSetSnapshot`, seed opcional | job id + progresso | 202 |
 | GET | `/api/v1/calendars/{id}/factor/{jobId}` | — | status, falharam, blob urls | 200 |
 
-**IntakeTemplateService:** gera máscaras vazias; parse upload provas (abas `catalogo` + `provas`) e bloqueios (5 abas). Specs em `_reversa_sdd/templates/`.
+**CalendarBlockPicker (UI):** malha Klausurplan interativa; clique dia/semana;
+escopo turma ou série → `CalendarConstraintsService`. Spec: `_reversa_sdd/ui/calendar-block-picker-spec.md`.
 
-**CalendarConstraintsService:** persiste feriados/bloqueios/simulados; alimenta solver e verificador (unifica `FERIADOS`/`BLOQUEIOS`).
+**CalendarConstraintsService:** persiste bloqueios; alimenta solver e verificador.
+
+**IntakeTemplateService:** máscara provas (opcional); export xlsx bloqueios (backup).
 
 **Recálculo:** fatoração Must ler entidades persistidas — sem OpenAI na ingestão (ADR-011).
 

@@ -96,7 +96,8 @@
 | `rodada_id` | `uuid` | não | Liga ao calendário gerado | 🟡 |
 
 **Máscara provas:** `_reversa_sdd/templates/mascara-entrada-provas-spec.md`  
-**Máscara bloqueios:** `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md`  
+**Máscara bloqueios (export):** `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md`  
+**UI bloqueios (primário):** `_reversa_sdd/ui/calendar-block-picker-spec.md`  
 **Layout calendário:** `Klausurplan_2026_2SEM.xlsx` (GitHub) — não confundir.
 
 **Fonte:** `.reversa/context/user-requirements.md` (2026-08-16).
@@ -135,7 +136,7 @@ Unifica legado `BLOQUEIOS`, `SEMANA_BLOQUEADA`, `SIMULADOS`, `FORCAR_DATA`, `FER
 |---|---|---|---|
 | `Klausurplan_2026_2SEM.xlsx` | layout institucional | malha calendário (GitHub) | 🟢 |
 | `Mascara_Entrada_Provas.xlsx` | entrada | catálogo + aba `provas` | 🟢 |
-| `Mascara_Bloqueios_Calendario.xlsx` | entrada | feriados, bloqueios, simulados | 🟢 |
+| `Mascara_Bloqueios_Calendario.xlsx` | export opcional | backup/migração legado | 🟡 |
 | `_reversa_sdd/templates/Mascara_Bloqueios_Calendario_2026_2SEM.xlsx` | exemplo | export legado 2º sem 2026 | 🟢 |
 | `Horario desenvolvido/Proposta_3_*.xlsx` | saída | xlsx 8 abas | 🟢 |
 | `Horario desenvolvido/Relatorio_trocas_de_tempo.md` | saída | markdown | 🟢 |

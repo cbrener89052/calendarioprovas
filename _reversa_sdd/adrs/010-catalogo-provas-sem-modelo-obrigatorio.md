@@ -36,6 +36,12 @@ e cessões. O que flexibiliza é a **origem da lista de exames** que hoje
 6. Saída **Proposta_3 xlsx** usa layout institucional Klausurplan.
 7. Solver consome `ExamCatalog` unificado.
 
+## Atualização 2026-08-16 (4)
+
+ADR-012: bloqueios via **`CalendarBlockPicker`** (visual), não Excel.
+
+Ver `_reversa_sdd/ui/calendar-block-picker-spec.md`.
+
 ## Atualização 2026-08-16 (3)
 
 ADR-011: segunda máscara (`Mascara_Bloqueios_Calendario.xlsx`) + aba `provas`

@@ -13,7 +13,7 @@ C4Component
         Component(rules, "RulesCatalogService", "Python", "Catálogo + perfil por rodada")
         Component(ingest, "IngestService", "Python", "Upload grade, catálogo, simulados")
         Component(intake, "IntakeTemplateService", "Python", "Máscaras provas + bloqueios")
-        Component(constraints, "CalendarConstraintsService", "Python", "Feriados, bloqueios, simulados")
+        Component(constraints, "CalendarConstraintsService", "Python", "Bloqueios persistidos")
         Component(catalog, "ExamCatalogService", "Python", "ExamCatalog normalizado")
         Component(layout, "CalendarLayoutTemplate", "blob", "Klausurplan institucional")
         Component(solver, "CalendarSolver", "Python", "Backtracking + Cessoes")
@@ -116,9 +116,9 @@ flowchart TB
 | Componente UI | Feature Reversa |
 |---|---|
 | `RulesSelectionWizard` | Seleção regras Tela 1–2 |
-| `IntakeTemplatePanel` | Download/upload máscara provas + bloqueios 🟡 |
+| `IntakeTemplatePanel` | Download/upload máscara provas (opcional) 🟡 |
+| `CalendarBlockPicker` | Malha calendário — clique dia/semana por turma/série 🟢 |
 | `ExamCatalogEditor` | Grid aba `provas`: ordem · tempos · n_aulas_semanais 🟡 |
-| `CalendarConstraintsEditor` | Feriados, semanas vetadas, simulados 🟡 |
 | `CalendarEditor` | Refração manual (grid xlsx) |
 | `ScheduleCopilotChat` | Chat copiloto pós-geração (Q&A + alterações) 🟡 |
 | `ProblemViewsPanel` | Estatísticas / visões alinhadas ao copiloto 🟡 |

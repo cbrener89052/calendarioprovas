@@ -23,7 +23,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `.reversa/context/user-requirements.md#Catálogo de provas` | ExamCatalog sem modelo obrigatório | 🟢 |
 | `_reversa_sdd/adrs/010-catalogo-provas-sem-modelo-obrigatorio.md` | ADR catálogo | 🟢 |
 | `_reversa_sdd/templates/mascara-entrada-provas-spec.md` | Colunas máscara provas + aba `provas` | 🟢 |
-| `_reversa_sdd/templates/mascara-bloqueios-calendario-spec.md` | Máscara bloqueios/feriados | 🟢 |
+| `_reversa_sdd/ui/calendar-block-picker-spec.md` | Tela visual bloqueios | 🟢 |
+| `_reversa_sdd/adrs/012-bloqueios-calendario-visual.md` | ADR calendário clicável | 🟢 |
 | `_reversa_sdd/adrs/011-mascaras-estruturadas-sem-ia-recalculo.md` | Recálculo sem IA | 🟢 |
 
 ## 3. Personas e cenários de uso
@@ -73,8 +74,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 12. **RN-12:** Cada prova registrada no sistema **Must** ter ordem (1ª/2ª) e `n_tempos_aplicacao` explícitos — preferencialmente via aba `provas` da máscara ou grid equivalente na UI. 🟢
    - Origem: requisito usuário 2026-08-16 (3); ADR-011
    - Tipo: nova (plataforma)
-13. **RN-13:** Feriados, recessos, semanas vetadas, dias bloqueados e simulados fixos **Must** ser informados via **`Mascara_Bloqueios_Calendario.xlsx`** (ou UI equivalente), não via interpretação de IA a cada recálculo. 🟢
-   - Origem: requisito usuário 2026-08-16 (3); ADR-011
+13. **RN-13:** Feriados, semanas vetadas, dias sem prova e simulados fixos **Must** ser definidos na tela visual **`CalendarBlockPicker`** (clique por turma e por série), persistidos em `CalendarConstraints` — **não** via planilha Excel como fluxo principal. 🟢
+   - Origem: requisito usuário 2026-08-16 (4); ADR-012
    - Tipo: nova (plataforma)
 14. **RN-14:** Re-fatoração e recálculo do horário **Must not** invocar OpenAI para parse de entradas quando `ExamCatalog` e `CalendarConstraints` estão persistidos. 🟢
    - Origem: requisito usuário 2026-08-16 (3)
@@ -107,10 +108,11 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | RF-21 | Validar catálogo × grade (turma/disciplina, LP/LIT/RED 3 tempos, Fil=1) | Must | PROBLEMA/AVISO conforme spec máscara | 🟡 |
 | RF-22 | Botão *baixar máscara vazia* também no `ExamCatalogEditor` | Should | Mesmo arquivo gerado por RF-15 | 🟡 |
 | RF-23 | Aba `provas`: uma linha por prova com `ordem_prova` e `n_tempos_aplicacao` | Must | Parser → N exames em `ExamCatalog` | 🟢 |
-| RF-24 | Gerar/download `Mascara_Bloqueios_Calendario.xlsx` | Must | Abas feriados, semanas_vetadas, dias_bloqueados, simulados | 🟢 |
-| RF-25 | Parser upload bloqueios → `CalendarConstraints` | Must | Unifica gerador e verificador; preview calendário | 🟢 |
-| RF-26 | UI `CalendarConstraintsEditor` com paridade das abas da máscara | Should | CRUD + validação | 🟡 |
-| RF-27 | Fatoração/recálculo sem chamada OpenAI quando constraints persistidas | Must | Pipeline determinístico ADR-011 | 🟢 |
+| RF-24 | Tela **`CalendarBlockPicker`**: malha calendário clicável | Must | Clique dia/semana; escopo turma ou série | 🟢 |
+| RF-25 | Persistir cliques → `CalendarConstraints`; alimentar solver e verificador | Must | Unifica `FERIADOS`/`BLOQUEIOS`; recálculo sem IA | 🟢 |
+| RF-26 | Seletor série (9/10/11/12) propaga bloqueio a todas turmas da série | Must | ex.: semana 11 vetada para 10C1+10C2 | 🟢 |
+| RF-27 | Export/import xlsx bloqueios (opcional) | Could | Backup e migração legado; não fluxo principal | 🟡 |
+| RF-28 | Fatoração/recálculo sem chamada OpenAI quando constraints persistidas | Must | Pipeline determinístico ADR-011 | 🟢 |
 
 ## 6. Requisitos Não Funcionais
 
@@ -164,11 +166,23 @@ Cenário: Layout Klausurplan na saída sem upload de entrada
   Quando a fatoração conclui com sucesso
   Então Proposta_3_<semestre>.xlsx segue o layout institucional Klausurplan_2026_2SEM.xlsx
 
-Cenário: Recálculo com máscaras sem consumo de IA
-  Dado ExamCatalog e CalendarConstraints persistidos de uploads válidos
-  Quando o coordenador dispara nova fatoração (seed ou regras alteradas)
+Cenário: Recálculo com bloqueios visuais sem consumo de IA
+  Dado CalendarConstraints persistidos de cliques na CalendarBlockPicker
+  Quando o coordenador dispara nova fatoração
   Então o solver executa sem invocar ScheduleCopilotService na ingestão
-  E feriados/bloqueios aplicados coincidem com a máscara de bloqueios enviada
+  E dias/semanas bloqueados coincidem com a seleção visual salva
+
+Cenário: Bloquear semana por série
+  Dado coordenador com série 10 selecionada na CalendarBlockPicker
+  Quando clica para vetar a semana 11
+  Então 10C1 e 10C2 recebem BlockedWeek(11)
+  E nenhuma prova móvel é alocada na semana 11 para essas turmas
+
+Cenário: Bloquear dia por turma
+  Dado turma 11C1 selecionada
+  Quando clica terça da semana 5
+  Então apenas 11C1 tem BlockedDay(5, 2)
+  E 11C2 permanece disponível nesse dia
 
 Cenário: Registro de provas por ordem na aba provas
   Dado máscara com aba provas: Mat ordem 1 e 2 com 2 tempos cada
@@ -202,4 +216,5 @@ Cenário: Registro de provas por ordem na aba provas
 |------|-----------|-------|
 | 2026-08-15 | Versão inicial gerada pelo Redator (Reversa) | reversa-writer |
 | 2026-08-16 | RN-10/11 e RF-15–22 — máscara padrão vs layout Klausurplan | reversa-writer |
-| 2026-08-16 | RN-12–14, RF-23–27 — aba provas, máscara bloqueios, recálculo sem IA | reversa-writer |
+| 2026-08-16 | RN-12–14, RF-23–28 — aba provas, CalendarBlockPicker, recálculo sem IA | reversa-writer |
+| 2026-08-16 | RN-13/RF-24–26 — bloqueios visuais por turma/série (ADR-012) | reversa-writer |

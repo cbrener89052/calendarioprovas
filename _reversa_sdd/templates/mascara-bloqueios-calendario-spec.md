@@ -1,24 +1,9 @@
-# Especificação — Máscara padrão de bloqueios e calendário letivo
+# Especificação — Export xlsx de bloqueios (secundário)
 
-> Template institucional para download/upload na plataforma  
-> Requisito usuário 2026-08-16 (3) | ADR-011  
-> Confiança: 🟢 requisito | 🟡 colunas finais sujeitas a validação com coordenação
+> **Não é entrada principal na UI** — requisito revisado 2026-08-16 (ADR-012).  
+> Entrada primária: **`CalendarBlockPicker`** — `_reversa_sdd/ui/calendar-block-picker-spec.md`
 
-## Propósito
-
-Planilha **simples** que define **limites fixos** do semestre — dias de
-recesso/feriado, semanas vetadas e dias em que **provas não podem ocorrer**
-— sem depender do Klausurplan preenchido nem de interpretação por IA a cada
-recálculo.
-
-Fluxo:
-
-1. **Baixa** — *"Baixe planilha de bloqueios e feriados"*
-2. **Preenche** offline
-3. **Upload** → `CalendarConstraints` (PostgreSQL) alimenta solver e verificador
-
-Substitui, na plataforma, constantes hardcoded do legado (`BLOQUEIOS`,
-`SEMANA_BLOQUEADA`, `SIMULADOS`, `FORCAR_DATA` parcial).
+Template para **export/import opcional**, backup e seed do legado 2SEM 2026.
 
 ## Nome do arquivo (provisório)
 
@@ -115,12 +100,16 @@ Provas com data **obrigatória** (coordenação externa).
 
 Unificação **Must** gerador + verificador (resolve lacuna `FERIADOS` vs `BLOQUEIOS`).
 
-## UI plataforma
+## UI plataforma (primário — ADR-012)
 
-- Botão **"Baixar planilha de bloqueios"** → xlsx com abas vazias + linhas exemplo do semestre anterior (se houver)
-- Botão **"Enviar bloqueios preenchidos"** → parser → preview calendário → confirmar
-- Alternativa: **`CalendarConstraintsEditor`** (mesmas colunas por aba)
-- Recálculo/fatoração **Must** ler constraints persistidas — **sem** invocar copiloto
+- Tela **`CalendarBlockPicker`**: malha calendário; clique dia/semana; filtro turma/série.
+- **Salvar** → `CalendarConstraints` → fatoração sem IA.
+
+## Export/import xlsx (opcional)
+
+- Botão **"Exportar bloqueios"** → gera este xlsx a partir de constraints salvas.
+- Botão **"Importar bloqueios"** → parser → preview → merge (migração/backup).
+- **Não** exibir como fluxo principal de preenchimento ao coordenador.
 
 ## Relação com IA (Must) 🟢
 
