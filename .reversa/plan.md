@@ -64,6 +64,10 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 ## Fase 4: Geração 📝
 
 - [ ] **Redator** — Specs SDD por componente
+  - [x] `geracao-calendario` (requirements, design, tasks)
+  - [x] `verificacao-calendario` (requirements, design, tasks)
+  - [x] `exportacao-relatorios` (requirements, design, tasks)
+  - [ ] `extracao-grade`, `analise-historica`, `regras-negocio`, `plataforma-multi-coordenador`
 - [ ] **Redator** — OpenAPI (se aplicável)
 - [ ] **Redator** — User Stories (se aplicável)
 - [ ] **Redator** — Code/Spec Matrix
@@ -89,7 +93,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Próximo passo
 
-**Em andamento (2026-08-15):** Redator — specs SDD por feature. Unit `geracao-calendario` concluída; pendentes: `verificacao-calendario`, `exportacao-relatorios`, `extracao-grade`, `analise-historica`, `regras-negocio`, `plataforma-multi-coordenador` + globais (OpenAPI, user-stories, code-spec-matrix).
+**Em andamento (2026-08-16):** Redator — 3/7 units concluídas (`geracao`, `verificacao`, `exportacao`).
 
 Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
 
