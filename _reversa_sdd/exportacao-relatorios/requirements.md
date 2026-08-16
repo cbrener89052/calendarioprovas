@@ -27,6 +27,7 @@ plataforma, alimenta preview de **e-mail aos doadores** (ADR-007).
 
 | Persona | Objetivo | Cenário-chave |
 |---------|----------|---------------|
+| Coordenador | Ver calendário sem abrir Excel | `CalendarPreviewView` (ADR-013) — mesmo blob Proposta_3 |
 | Coordenador | Publicar tabelas para escola/professores | Roda 4 exportadores após editar xlsx |
 | Coordenador | Revisar cessões antes de e-mail | Abre relatório trocas (.md/.xlsx) |
 | Sistema (plataforma) | Gerar blobs derivados | `ReportExporter` pós-verificação OK |
