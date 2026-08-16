@@ -133,3 +133,13 @@ Unificação **Must** gerador + verificador (resolve lacuna `FERIADOS` vs `BLOQU
 
 Objetivo do requisito: **limites já definidos nas máscaras** evitam consumo
 de tokens OpenAI a cada recálculo de horário.
+
+## Exemplo preenchido (2º sem 2026) 🟢
+
+| Arquivo | Origem |
+|---------|--------|
+| `Mascara_Bloqueios_Calendario_2026_2SEM.xlsx` | Exportado de `gerar_calendario.py` + `verificar_calendario.py` |
+| `gerar_mascara_bloqueios_exemplo.py` | Script regenerável na mesma pasta |
+
+Conteúdo espelha o legado: 3 feriados, semana 11 vetada, 14 linhas de
+simulados, 1 data forçada (Inglês 10C2). Aba `_meta` oculta com `SEMANA1`.
