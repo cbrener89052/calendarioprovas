@@ -37,7 +37,7 @@
 | Fatoração automática | CalendarSolver | **H** | 🟢 legado CLI |
 | Refração manual | CalendarEditor, Blob | **H** | 🟢 legado xlsx |
 | Copiloto OpenAI + RAG | ScheduleCopilotService, RagIndexService, PythonActionBridge, Chat UI | **H** | 🔴 ADR-008 |
-| Pseudonimização professores | ProfessorPseudonymService | **H** | 🔴 ADR-009 |
+| Catálogo provas flexível | ExamCatalogService, ExamCatalogEditor | **H** | 🔴 ADR-010 |
 | Fechar horário | CalendarLifecycle | M | 🟡 Git hoje |
 | E-mail doadores (manual) | DonorEmailService, SMTP, ENVIO_EMAIL | **H** | 🔴 |
 | Deploy híbrido Docker | Infra, Blob, SMTP config | M | 🔴 |

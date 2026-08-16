@@ -11,7 +11,8 @@ C4Component
     Container_Boundary(api, "API Backend") {
         Component(auth, "AuthModule", "JWT/session", "Login 5 coordenadores")
         Component(rules, "RulesCatalogService", "Python", "Catálogo + perfil por rodada")
-        Component(ingest, "IngestService", "Python", "Upload grade/modelo/simulados")
+        Component(ingest, "IngestService", "Python", "Upload grade, catálogo, simulados")
+        Component(catalog, "ExamCatalogService", "Python", "Import/manual/grade → exames")
         Component(solver, "CalendarSolver", "Python", "Backtracking + Cessoes")
         Component(verify, "CalendarVerifier", "Python", "Checklist 0-11")
         Component(export, "ReportExporter", "Python", "Tabelas, cessões, trocas")
@@ -30,7 +31,9 @@ C4Component
     Rel(pseudo, bridge, "tokens → siglas reais antes exec")
 
     Rel(auth, rules, "coordenador_id")
-    Rel(ingest, solver, "grade + modelo")
+    Rel(ingest, catalog, "import prova anterior")
+    Rel(catalog, solver, "ExamCatalog normalizado")
+    Rel(ingest, solver, "grade horária")
     Rel(ingest, docs, "blobs entrada")
     Rel(docs, rag, "chunk + index")
     Rel(solver, docs, "Proposta xlsx gerado")
@@ -102,6 +105,7 @@ flowchart TB
 | Componente UI | Feature Reversa |
 |---|---|
 | `RulesSelectionWizard` | Seleção regras Tela 1–2 |
+| `ExamCatalogEditor` | Tabela turma · disciplina · n_tempos 🟡 |
 | `CalendarEditor` | Refração manual (grid xlsx) |
 | `ScheduleCopilotChat` | Chat copiloto pós-geração (Q&A + alterações) 🟡 |
 | `ProblemViewsPanel` | Estatísticas / visões alinhadas ao copiloto 🟡 |

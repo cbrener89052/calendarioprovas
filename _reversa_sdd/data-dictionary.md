@@ -78,6 +78,19 @@
 | `rule_id` | `str` | ID no catálogo | 🟡 |
 | `aplicar` | `bool` | Regra ativa na rodada | 🟡 |
 | `flexibilizar` | `bool` | Pode relaxar no solver | 🟡 |
+
+### Catálogo de provas — `ExamCatalog` (plataforma — ADR-010)
+
+| Campo | Tipo | Obrigatório | Descrição | Confiança |
+|---|---|---|---|---|
+| `turma` | `str` | sim | Grupo/turma ex.: `10C1` | 🟢 |
+| `disciplina` | `str` | sim | Nome ou código (Mat, Fil, LP/LIT/RED) | 🟢 |
+| `n_tempos` | `int` 1–3 | sim | Tempos necessários na aplicação | 🟢 |
+| `periodo` | `int\|None` | não | 1ª/2ª prova ou única | 🟡 |
+| `professor` | `str` | não | Sigla(s); se vazio, inferir da grade | 🟡 |
+| `origem` | `enum` | sim | `import` \| `manual` \| `grade` | 🟡 |
+
+Equivalente legado: saída de `montar_exames(turma)`.
 | `escopo` | `enum` | `fixa` \| `sessao` | 🟡 |
 | `rodada_id` | `uuid` | Liga ao calendário gerado | 🟡 |
 

@@ -14,9 +14,10 @@ precisa existir um **banco de dados** para armazenar:
 
 1. **Saídas** — calendários gerados, relatórios, tabelas-resumo, tempos cedidos
 2. **Arquivos de entrada** — bases que alimentam o sistema de **cada coordenador**:
-   - horário-base das turmas (PDF/planilha)
-   - modelo de calendário (xlsx)
-   - calendário de simulados
+   - horário-base das turmas (PDF/planilha) — **obrigatório** para fatoração
+   - **catálogo de provas** por turma: disciplina + nº de tempos (ver seção abaixo)
+   - modelo de calendário xlsx (Klausurplan) — **opcional** na plataforma
+   - calendário de simulados / bloqueios (pode ser parcial ou tela dedicada)
    - planilha de siglas de professores
    - referências e regras do semestre
 
@@ -52,6 +53,96 @@ precisa existir um **banco de dados** para armazenar:
 - Mesma aplicação empacotada em **Docker Compose**: API Python + Postgres + (opcional) frontend
 - Na nuvem: serviços gerenciados (ex.: Vercel/Railway/Fly + Neon Postgres + S3)
 - On-prem: `docker compose up` em servidor local da escola, sem dependência de internet para operação diária
+
+---
+
+## Catálogo de provas — modelo Klausurplan opcional
+
+> Registrado em 2026-08-16 por Brener.
+
+### Contexto
+
+Nem sempre existirá um **modelo Klausurplan** completo (xlsx com abas/semanas)
+para o semestre corrente. Pode haver apenas um **modelo de provas anterior**,
+já descrevendo **turma (grupo)**, **disciplina** e **quantidade de tempos**
+necessários para cada prova.
+
+A plataforma deve aceitar essa realidade e ainda permitir que o coordenador
+**monte manualmente** a lista de provas na interface.
+
+### O que continua obrigatório 🟢
+
+| Entrada | Motivo |
+|---------|--------|
+| **Grade horária** | Slots, professor presente (R-P1), cessões, doadores |
+| **Catálogo de provas** | O que fatorar: turma + disciplina + `n_tempos` |
+| **Regras da rodada** | RuleSetSnapshot (Telas 1–2) |
+| **Simulados / bloqueios** | Datas fixas e dias/semanas vetadas 🟡 (origem flexível) |
+
+### O que deixa de ser obrigatório 🟡
+
+| Entrada | Plataforma |
+|---------|------------|
+| Modelo Klausurplan xlsx completo | **Opcional** — pode ser gerado na saída |
+
+### Três formas de montar o catálogo de provas (Must)
+
+O coordenador escolhe **uma ou combina** (com merge validado):
+
+#### Modo A — Importar modelo de provas anterior
+
+- Upload de xlsx (ou outro formato 🟡) de **semestre/prova anterior**.
+- Parser extrai linhas: **turma/grupo**, **disciplina**, **nº tempos**.
+- Coordenador revisa preview antes de confirmar.
+
+#### Modo B — Tabela manual na interface (Must)
+
+Tela **`ExamCatalogEditor`** — grid editável com colunas mínimas:
+
+| Coluna | Tipo | Obrigatório |
+|--------|------|-------------|
+| Turma / grupo | `10C1`, `11C2`, … | sim |
+| Disciplina | nome/código (Mat, LP/LIT/RED, …) | sim |
+| Nº tempos | 1, 2 ou 3 | sim |
+| Período | 1, 2 ou único (Fil/Soc) | não 🟡 |
+| Professor | sigla(s) | não — default da grade 🟡 |
+
+Ações: adicionar linha, duplicar turma, importar CSV, validar contra grade.
+
+#### Modo C — Derivar da grade (legado)
+
+- Equivalente a `montar_exames(turma)` no `gerar_calendario.py`.
+- Útil quando não há import nem tabela manual; regras da skill definem
+  quantas provas e tempos por disciplina.
+
+### Fluxo na plataforma (atualizado)
+
+```
+Grade horária (upload)
+  → Catálogo de provas (import anterior OU tabela manual OU derivar grade)
+  → Simulados/bloqueios (import parcial OU tela OU constantes)
+  → Telas 1–2 regras
+  → Fatoração → Proposta_3 xlsx (malha gerada se não havia Klausurplan)
+```
+
+### Validações (Must)
+
+- Disciplina do catálogo deve existir na grade da turma (ou AVISO 🟡).
+- `n_tempos` coerente com disciplina (ex.: LP/LIT/RED → 3 nas séries 10–12).
+- Turmas irmãs: catálogo consistente onde coordenação exige 🟡.
+
+### Implicações
+
+- Entidade **`ExamCatalog`** / `catalogo_prova` no PostgreSQL.
+- `CalendarSolver` recebe catálogo normalizado, não só `montar_exames()`.
+- Template xlsx institucional vazio para `escrever()` quando não houver upload.
+- ADR-010.
+
+### Pendências 🔴
+
+- Formato exato do "modelo de provas anterior" (colunas do xlsx legado?)
+- Merge quando coordenador usa import + edição manual
+- Simulados sem Klausurplan: tela dedicada ou import PDF `SIMULADOS/`
 
 ---
 

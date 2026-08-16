@@ -20,7 +20,8 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | `_reversa_sdd/architecture.md#Arquitetura legada (as-is)` | CLI monolítico openpyxl, seed fixa | 🟢 |
 | `.reversa/context/user-requirements.md#Seleção e flexibilização de regras` | RuleSetSnapshot configurável | 🟡 |
 | `.reversa/context/user-requirements.md#Copiloto de IA` | OpenAI + RAG + ações Python | 🟢 |
-| `_reversa_sdd/adrs/008-copilot-openai-rag-python-actions.md` | ADR copiloto | 🟢 |
+| `.reversa/context/user-requirements.md#Catálogo de provas` | ExamCatalog sem modelo obrigatório | 🟢 |
+| `_reversa_sdd/adrs/010-catalogo-provas-sem-modelo-obrigatorio.md` | ADR catálogo | 🟢 |
 
 ## 3. Personas e cenários de uso
 
@@ -56,6 +57,9 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 8. **RN-08:** Alterações solicitadas ao copiloto executam **ações Python** whitelist no backend (`PythonActionBridge`), com preview e confirmação humana — sem código arbitrário. 🟢
    - Origem: requisito usuário 2026-08-15
    - Tipo: nova (plataforma)
+9. **RN-09:** Modelo Klausurplan xlsx **não** é entrada obrigatória na plataforma; o **catálogo de provas** (turma, disciplina, n_tempos) pode vir de import anterior, tabela manual ou derivação da grade. 🟢
+   - Origem: requisito usuário 2026-08-16; ADR-010
+   - Tipo: nova (plataforma)
 
 ## 5. Requisitos Funcionais
 
@@ -75,6 +79,10 @@ A feature **geracao-calendario** produz automaticamente a Proposta 3 do calendá
 | RF-12 | Registrar turmas que falharam após esgotar relaxamentos | Must | Lista `falharam` retornada/consumida pela UI | 🟢 |
 | RF-13 | Expor re-fatoração parcial via API (turmas subset, seed) | Should | Endpoint invocável pelo copiloto | 🟡 |
 | RF-14 | Disponibilizar snapshot do calendário gerado para contexto do copiloto | Must | API retorna alocações + metadados pós-`escrever` | 🟡 |
+| RF-15 | Aceitar `ExamCatalog` via import de prova anterior | Must | Parser → preview → persistência | 🟡 |
+| RF-16 | UI `ExamCatalogEditor`: turma, disciplina, n_tempos | Must | CRUD + validação básica | 🟡 |
+| RF-17 | Alternativa `montar_exames()` derivar catálogo da grade | Should | Paridade legado modo C | 🟢 |
+| RF-18 | Gerar malha xlsx saída sem Klausurplan de entrada | Should | Template institucional vazio | 🟡 |
 
 ## 6. Requisitos Não Funcionais
 
