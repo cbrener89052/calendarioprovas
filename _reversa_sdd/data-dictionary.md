@@ -91,9 +91,8 @@
 | `periodo` | `int\|None` | não | 1ª/2ª ou única | 🟡 |
 | `professor` | `str` | não | Sigla(s); default grade | 🟡 |
 | `origem` | `enum` | sim | `mascara` \| `manual` \| `grade` \| `import` | 🟡 |
-
-| `escopo` | `enum` | `fixa` \| `sessao` | 🟡 |
-| `rodada_id` | `uuid` | Liga ao calendário gerado | 🟡 |
+| `escopo` | `enum` | sim | `fixa` \| `sessao` | 🟡 |
+| `rodada_id` | `uuid` | não | Liga ao calendário gerado | 🟡 |
 
 **Máscara padrão:** `_reversa_sdd/templates/mascara-entrada-provas-spec.md`  
 **Layout calendário:** `Klausurplan_2026_2SEM.xlsx` (GitHub) — não confundir.
