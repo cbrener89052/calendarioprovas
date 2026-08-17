@@ -1308,6 +1308,28 @@ AVISO leve: Artes cedeu 3 (meta 2) nas duas turmas — tradeoff aceito.
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com a mudança.
 
+## 12C1/12C2: LP/LIT/RED movida de 09/10 para 06/10 (08/2026)
+
+Usuário pediu para avaliar mover LP/LIT/RED de 09/10 para 07/10.
+**07/10 (quarta) rejeitado**: bloco de 3 tempos (1º ao 3º) inválido em
+12C1 — o 2º tempo é Sociologia, que só tem 1 aula semanal e não pode
+doar. Busca exaustiva de todos os blocos de 3 tempos válidos na
+semana 10 (vazia, sem risco de teto semanal) encontrou:
+- Quinta 1º-3º (doadores Artes+Física, manhã) — recomendada
+  inicialmente.
+- **Terça 9º-11º** (doadores Apoio+História) — válida, mas no período
+  da tarde.
+
+Usuário perguntou sobre a opção de terça 9º-11º e, depois de
+confirmada a viabilidade, escolheu essa.
+
+**Aplicado**: LP/LIT/RED (12C1/12C2) movida de semana 10 sexta (09/10)
+para semana 10 **terça (06/10)**, tempos 9º-11º.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA (com o AVISO esperado
+de "tempos 7-11", já que a prova ficou no período da tarde por escolha
+do usuário). Os 5 relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
