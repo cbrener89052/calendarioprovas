@@ -1330,6 +1330,17 @@ para semana 10 **terça (06/10)**, tempos 9º-11º.
 de "tempos 7-11", já que a prova ficou no período da tarde por escolha
 do usuário). Os 5 relatórios regenerados com a mudança.
 
+## 12C1/12C2: LP/LIT/RED revertida de volta para 09/10 (08/2026)
+
+Depois de aplicada a mudança para terça 06/10 (seção anterior), usuário
+pediu para reverter: "mantenha a prova de LP como estava antes nas
+turmas 12c no dia 09/10". Revertida para a posição original: semana 10
+**sexta (09/10)**, tempos 1º-3º.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA (o AVISO de "tempos
+7-11" para LP/LIT/RED desapareceu, já que voltou para a manhã). Os 5
+relatórios regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
