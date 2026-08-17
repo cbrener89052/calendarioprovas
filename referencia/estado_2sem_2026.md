@@ -1341,6 +1341,32 @@ turmas 12c no dia 09/10". Revertida para a posição original: semana 10
 7-11" para LP/LIT/RED desapareceu, já que voltou para a manhã). Os 5
 relatórios regenerados.
 
+## 11C1/11C2: 3 reposicionamentos, com análise apresentada antes (08/2026)
+
+Usuário pediu 3 mudanças e explicitamente pediu para trazer a análise
+antes de aplicar. Análise apresentada e aprovada ("pode aplicar").
+
+1. **Inglês (11C1 apenas)**: semana 9 segunda (28/09) → semana 12
+   segunda (19/10), mesmo bloco 6º-7º tempos. 11C2 já tinha uma prova
+   de Inglês na mesma data (19/10), mas com professor diferente (PaH,
+   não Bea) — sem conflito, provas independentes. Distância da 1ª
+   prova melhora de 5 para 8 semanas.
+2. **Geografia (11C1+11C2)**: semana 10 quarta (07/10) → semana 5
+   segunda (31/08), tempos 2º-3º (doadores Mat+Bio). Ainda dentro do
+   período P1.
+3. **Matemática (11C1+11C2)**: semana 8 segunda (21/09) → **semana 4
+   quinta (27/08)**, tempos 1º-2º (doadores Ing+Fis). O bloco antigo
+   (segunda 2º-3º) não cabia em nenhuma das duas semanas propostas
+   pelo usuário (semana 4 segunda já tinha Inglês em 11C1; semana 6
+   segunda é feriado) — quinta-feira foi a alternativa encontrada,
+   livre nas duas turmas em ambas as semanas. Usuário deixou a escolha
+   entre semana 4 e semana 6 em aberto ("pode aplicar" sem especificar)
+   — usei semana 4 por padrão, sinalizando que pode trocar para semana
+   6 se preferir (nenhuma diferença técnica entre as duas).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
