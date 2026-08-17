@@ -1367,6 +1367,65 @@ antes de aplicar. Análise apresentada e aprovada ("pode aplicar").
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com as mudanças.
 
+## 11C1/11C2: Matemática confirmada na semana 4 (correção da análise anterior) (08/2026)
+
+Usuário pediu para mover a Matemática de semana 4 (27/08) para semana 6
+(10/09), a fim de escolher entre as duas opções deixadas em aberto no
+item anterior. **Testado e revertido**: semana 6 quinta-feira, 1º-2º
+tempos, gera **3 PROBLEMAS** — não é só o teto semanal do 11C2 que eu
+tinha sinalizado antes, o 11C1 também colide (grupo 1 repetido
+Mat+DaF, ambos no mesmo grupo de tempo naquela semana). Corrigindo a
+análise anterior, que dizia erroneamente "nenhuma diferença técnica
+entre as duas semanas" — havia, e era decisiva.
+
+Testei também uma variante movendo o Inglês do 11C2 (semana 6 sexta,
+11/09 → semana 4 sexta, 28/08, mesmo bloco 6º-7º tempos, tempo próprio
+da disciplina nos dois casos) para tentar viabilizar a semana 6: reduz
+a contagem de avaliações da semana para 3, mas **não resolve** o
+"grupo 1 repetido" — sem Inglês na semana, o par Mat+DaF continua sem
+a exceção (que exige que uma das duas seja Inglês), e o 11C1 nem tem
+Inglês naquela semana para começo de conversa. Revertido.
+
+**Decisão**: Matemática (11C1+11C2) permanece em **semana 4, quinta
+(27/08)**, tempos 1º-2º — única posição das duas testada que fecha em
+0 PROBLEMA.
+
+## 10C1/10C2: Matemática (1ª prova) movida para respeitar a 1ª segunda chamada (08/2026)
+
+**Regra nova identificada** (usuário, 08/2026): nenhuma prova pode
+ocorrer depois da 2ª chamada do período a que pertence. A 1ª segunda
+chamada do semestre é **19/09/2026** (ver "Períodos de provas" acima)
+— data que não está marcada no modelo (só a 2ª, `"2CH 10,12"` em
+13/11, está), e por isso não era checada automaticamente. Documentada
+como regra geral em `.claude/skills/calendario-provas/SKILL.md`:
+provas devem respeitar a 2ª chamada do próprio período, e se a data
+não estiver marcada no modelo, perguntar ao usuário em vez de supor.
+
+Com a regra em mãos, a 1ª ocorrência de Matemática (10C1+10C2) estava
+mal posicionada: semana 10 (08/10), dentro da janela de P2, deixando
+P1 sem nenhuma prova de Matemática antes da 1ª segunda chamada.
+
+Testadas semanas 5, 6 e 7 (pedido do usuário) para reposicionar essa
+1ª ocorrência:
+- **Semana 5**: inválida — já tem LP/LIT/RED + Inglês (grupo 1, com a
+  exceção do Inglês); acrescentar Mat criaria 3 itens do grupo 1 na
+  mesma semana.
+- **Semana 6**: inválida — já tem 3 avaliações (DaF, História, Geo,
+  teto semanal atingido) e ainda geraria par Mat+DaF do grupo 1 sem
+  Inglês.
+- **Semana 7**: válida — só tinha Física essa semana. Bloco
+  segunda-feira 1º-2º tempos (mesmo par de professores BrSa/FBri,
+  aplicação simultânea 10C1+10C2), doador DaF no 2º tempo (sem
+  conflito de véspera — a prova de DaF já ocorreu na semana 6,
+  anterior).
+
+**Aplicado**: Matemática (10C1+10C2) — semana 10 quarta (08/10) →
+**semana 7 segunda (14/09)**, tempos 1º-2º. A 2ª ocorrência (semana 15,
+10/11, antes da 2ª segunda chamada de 13/11) não foi alterada.
+Distância entre as duas ocorrências: 8 semanas (acima do piso
+desejável de 7). `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5
+relatórios regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
