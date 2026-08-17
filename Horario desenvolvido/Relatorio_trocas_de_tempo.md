@@ -162,13 +162,13 @@ aula em horários diferentes em cada turma.
 | 10C2 | Mat / BrSa/FBri | 10º tempo(s) (Ter, semana 15) | Lza | Bio | Solicitar ao prof. Lza a cessão do(s) tempo(s) 10º de Bio para a prova de Mat | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | Mat / BrSa/FBri | 11º tempo(s) (Ter, semana 15) | ALu | Hist | Solicitar ao prof. ALu a cessão do(s) tempo(s) 11º de Hist para a prova de Mat | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 11C1 | Ing / Bea | 6º tempo(s) (Seg, semana 4) | CBu-SGa-Swa | DaF | Solicitar ao prof. CBu-SGa-Swa a cessão do(s) tempo(s) 6º de DaF para a prova de Ing |  |
-| 11C1 | Mat / ClaMe/JJ | 1º, 2º tempo(s) (Qui, semana 4) | Cadu | Fis | Solicitar ao prof. Cadu a cessão do(s) tempo(s) 1º, 2º de Fis para a prova de Mat | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Geo / Mar | 2º tempo(s) (Seg, semana 5) | ClaMe | Mat | Solicitar ao prof. ClaMe a cessão do(s) tempo(s) 2º de Mat para a prova de Geo | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Hist / Ver | — | — | — | — | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | LP/LIT/RED / ACo/AMu/Raf | 9º tempo(s) (Qui, semana 5) | Bea | Ing | Solicitar ao prof. Bea a cessão do(s) tempo(s) 9º de Ing para a prova de LP/LIT/RED | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | LP/LIT/RED / ACo/AMu/Raf | 10º, 11º tempo(s) (Qui, semana 5) | - | Ed.Física | Solicitar ao prof. - a cessão do(s) tempo(s) 10º, 11º de Ed.Física para a prova de LP/LIT/RED | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Qui / CAl | 2º, 3º tempo(s) (Ter, semana 6) | Ver | Hist | Solicitar ao prof. Ver a cessão do(s) tempo(s) 2º, 3º de Hist para a prova de Qui | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | DaF / CBu-SGa-Swa | 7º tempo(s) (Qua, semana 6) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 7º de Aprof. para a prova de DaF | Grupo paralelo já combinado com 11C2 |
+| 11C1 | Mat / ClaMe/JJ | 1º, 2º tempo(s) (Qui, semana 6) | Cadu | Fis | Solicitar ao prof. Cadu a cessão do(s) tempo(s) 1º, 2º de Fis para a prova de Mat | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Bio / Ale | 2º tempo(s) (Seg, semana 7) | ClaMe | Mat | Solicitar ao prof. ClaMe a cessão do(s) tempo(s) 2º de Mat para a prova de Bio | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Bio / Ale | 3º tempo(s) (Seg, semana 7) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 3º de Geo para a prova de Bio | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | GL / CBu-Swa-SGa | 5º tempo(s) (Qua, semana 7) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 5º de Aprof. para a prova de GL | Grupo paralelo já combinado com 11C2 |
@@ -189,7 +189,6 @@ aula em horários diferentes em cada turma.
 | 11C1 | Fis / Cadu | 5º tempo(s) (Qui, semana 16) | Bea | Ing | Solicitar ao prof. Bea a cessão do(s) tempo(s) 5º de Ing para a prova de Fis | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Qui / CAl | 1º tempo(s) (Ter, semana 17) | JJ | Mat | Solicitar ao prof. JJ a cessão do(s) tempo(s) 1º de Mat para a prova de Qui | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
 | 11C1 | Qui / CAl | 2º tempo(s) (Ter, semana 17) | Ver | Hist | Solicitar ao prof. Ver a cessão do(s) tempo(s) 2º de Hist para a prova de Qui | Prova conjunta com 11C2 (professor comum, tempos coordenados) |
-| 11C2 | Mat / ClaMe/JJ | 2º tempo(s) (Qui, semana 4) | PaH | Ing | Solicitar ao prof. PaH a cessão do(s) tempo(s) 2º de Ing para a prova de Mat | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Geo / Mar | 2º tempo(s) (Seg, semana 5) | Ale | Bio | Solicitar ao prof. Ale a cessão do(s) tempo(s) 2º de Bio para a prova de Geo | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Geo / Mar | 3º tempo(s) (Seg, semana 5) | ClaMe | Mat | Solicitar ao prof. ClaMe a cessão do(s) tempo(s) 3º de Mat para a prova de Geo | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Hist / Ver | 2º tempo(s) (Ter, semana 5) | JJ | Mat | Solicitar ao prof. JJ a cessão do(s) tempo(s) 2º de Mat para a prova de Hist | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
@@ -197,6 +196,7 @@ aula em horários diferentes em cada turma.
 | 11C2 | LP/LIT/RED / ACo/AMu/Raf | 10º, 11º tempo(s) (Qui, semana 5) | - | Ed.Física | Solicitar ao prof. - a cessão do(s) tempo(s) 10º, 11º de Ed.Física para a prova de LP/LIT/RED | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Qui / CAl | 2º tempo(s) (Ter, semana 6) | JJ | Mat | Solicitar ao prof. JJ a cessão do(s) tempo(s) 2º de Mat para a prova de Qui | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | DaF / CBu-SGa-Swa | 7º tempo(s) (Qua, semana 6) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 7º de Aprof. para a prova de DaF | Grupo paralelo já combinado com 11C1 |
+| 11C2 | Mat / ClaMe/JJ | 2º tempo(s) (Qui, semana 6) | PaH | Ing | Solicitar ao prof. PaH a cessão do(s) tempo(s) 2º de Ing para a prova de Mat | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | Bio / Ale | 3º tempo(s) (Seg, semana 7) | ClaMe | Mat | Solicitar ao prof. ClaMe a cessão do(s) tempo(s) 3º de Mat para a prova de Bio | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
 | 11C2 | GL / CBu-Swa-SGa | 5º tempo(s) (Qua, semana 7) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 5º de Aprof. para a prova de GL | Grupo paralelo já combinado com 11C1 |
 | 11C2 | Fis / Cadu | 5º tempo(s) (Qui, semana 7) | AMu | Port | Solicitar ao prof. AMu a cessão do(s) tempo(s) 5º de Port para a prova de Fis | Prova conjunta com 11C1 (professor comum, tempos coordenados) |
@@ -288,9 +288,15 @@ Limites de cessão de aula que precisaram ser afrouxados para fechar o calendár
 | 10C2 | Regra 5 (teto de 11% das aulas programadas no semestre) | Port / MFo | cedeu 3 de 26 aulas (11.5%) — acima do teto de 11% |
 | 11C1 | Regra 1 (teto de cessões por disciplina no semestre) | Ed.Física / - | tem 2 aulas semanais e cedeu 4 (meta: no máximo 2) |
 | 11C1 | Regra 4 (não ceder às vésperas da própria prova) | DaF / CBu-SGa-Swa | cedeu aula na semana 12 tendo prova própria na semana 13 |
+| 11C1 | Regra 4 (não ceder às vésperas da própria prova) | Fis / Cadu | cedeu aula na semana 6 tendo prova própria na semana 7 |
+| 11C1 | Regra 4 (não ceder às vésperas da própria prova) | Fis / Cadu | cedeu aula na semana 6 tendo prova própria na semana 7 |
+| 11C1 | Regra 4 (não ceder às vésperas da própria prova) | Mat / ClaMe | cedeu aula na semana 5 tendo prova própria na semana 6 |
 | 11C1 | Regra 5 (teto de 11% das aulas programadas no semestre) | Ed.Física / - | cedeu 4 de 32 aulas (12.5%) — acima do teto de 11% |
 | 11C2 | Regra 1 (teto de cessões por disciplina no semestre) | Ed.Física / - | tem 2 aulas semanais e cedeu 4 (meta: no máximo 2) |
 | 11C2 | Regra 1 (teto de cessões por disciplina no semestre) | Mat / JJ | tem 2 aulas semanais e cedeu 4 (meta: no máximo 2) |
+| 11C2 | Regra 4 (não ceder às vésperas da própria prova) | Mat / ClaMe | cedeu aula na semana 5 tendo prova própria na semana 6 |
+| 11C2 | Regra 4 (não ceder às vésperas da própria prova) | Mat / JJ | cedeu aula na semana 5 tendo prova própria na semana 6 |
+| 11C2 | Regra 4 (não ceder às vésperas da própria prova) | Mat / JJ | cedeu aula na semana 6 tendo prova própria na semana 6 |
 | 11C2 | Regra 4 (não ceder às vésperas da própria prova) | Qui / CAl | cedeu aula na semana 5 tendo prova própria na semana 6 |
 | 11C2 | Regra 5 (teto de 11% das aulas programadas no semestre) | Ed.Física / - | cedeu 4 de 32 aulas (12.5%) — acima do teto de 11% |
 | 11C2 | Regra 5 (teto de 11% das aulas programadas no semestre) | Mat / JJ | cedeu 4 de 32 aulas (12.5%) — acima do teto de 11% |

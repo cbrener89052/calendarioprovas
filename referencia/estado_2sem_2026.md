@@ -1426,6 +1426,38 @@ Distância entre as duas ocorrências: 8 semanas (acima do piso
 desejável de 7). `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5
 relatórios regenerados com as mudanças.
 
+## 11C1/11C2: Matemática movida para semana 6 (10/09) — EXCEÇÃO explícita à regra do grupo 1 (08/2026)
+
+Usuário pediu, depois de ver a análise do item anterior ("11C1/11C2:
+Matemática confirmada na semana 4"), para aplicar mesmo assim a semana
+6, violando a regra do grupo 1 **só para este caso**: "pode aplicar
+mesmo violando a regra do grupo 1, somente para esse caso".
+
+**Aplicado**:
+1. Matemática (11C1+11C2): semana 4 quinta (27/08) → **semana 6 quinta
+   (10/09)**, tempos 1º-2º (mesmo bloco, doadores Ing/Fis).
+2. Inglês (11C2 apenas): semana 6 sexta (11/09) → **semana 4 sexta
+   (28/08)**, mesmo bloco 6º-7º tempos (tempo próprio da disciplina nos
+   dois casos) — feita junto para resolver o teto de 3 avaliações/semana
+   do 11C2 (sem essa troca, a semana 6 teria 4 avaliações no 11C2:
+   Química, DaF, Inglês, Matemática).
+
+**`verificar_calendario.py` fecha com 2 PROBLEMA(S), esperados e
+autorizados pelo usuário** — não corrigir automaticamente nem reverter:
+- `P3/11C1: semana 6 com grupo 1 repetido ['DaF', 'Mat']`
+- `P3/11C2: semana 6 com grupo 1 repetido ['DaF', 'Mat']`
+
+Motivo do PROBLEMA: a troca do Inglês resolve o teto semanal, mas não
+resolve a colisão do grupo 1 — o par que sobra na semana 6 é
+Matemática + DaF, sem Inglês, e a exceção da regra exige que uma das
+duas seja Inglês. A única forma de fechar sem PROBLEMA seria tirar o
+DaF da semana 6 (coordenado com várias outras turmas, mudança maior,
+não solicitada). Os 5 relatórios foram regenerados mesmo assim, a
+pedido do usuário — **atenção**: `Relatorio_Tempos_Cedidos_Proposta_3`,
+`Tabela_Provas_por_Turma_Proposta_3` e os demais refletem essa posição
+com o PROBLEMA ainda presente no checklist; não é um erro de geração,
+é a exceção documentada aqui.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
