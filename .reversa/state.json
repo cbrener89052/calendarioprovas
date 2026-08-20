@@ -46,15 +46,16 @@
       ]
     },
     "sources_sync": {
-      "completed_at": "2026-08-15T19:30:00Z",
-      "merged_from": "origin/main (9236b4e PR #47)",
+      "completed_at": "2026-08-20T02:45:00Z",
+      "merged_from": "origin/claude/skill-calendar-install-b2oqrs (239b703)",
       "files": [
         ".reversa/context/sources.json",
         ".reversa/context/sync-regras.md",
+        ".claude/skills/calendario-provas/SKILL.md",
         ".agents/skills/calendario-provas/SKILL.md",
-        "_reversa_sdd/addenda/skill-github-sync-2026-08-15.md"
+        "_reversa_sdd/addenda/skill-github-sync-2026-08-20.md"
       ],
-      "skill_hash_sha256": "ef25d5e824a9bb8a73fd8436d0e2a559faaf77307a94e6e9aa3b21ecfe27d30e"
+      "skill_hash_sha256": "b2431d19d95f65891df9d9cdf6fab4997c49462f170abb39b95732be021f036c"
     },
     "detective": {
       "completed_at": "2026-08-15T21:15:00Z",
