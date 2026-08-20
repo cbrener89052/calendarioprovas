@@ -128,6 +128,16 @@ Nunca comece a montar o calendário sem antes:
     semestre — é o que define até quando contar aulas programadas. E
     confirmar se a semana vetada para provas tem alguma aula normal ou é
     zero aula (padrão: zero).
+    - **Vale também para alocar ou mover qualquer prova**, não só para o
+      relatório de tempos cedidos: cada rodada de provas (P1 e P2) tem sua
+      própria data de 2ª chamada, e nenhuma prova pode cair depois da 2ª
+      chamada do período a que pertence (ver regra completa abaixo, "Prova
+      nunca depois da 2ª chamada do período correspondente"). **Se a data
+      de 2ª chamada de um período não estiver marcada no modelo** (só a
+      marcação `"2CH <séries>"` conta como marcada — não vale supor a
+      partir do fim do semestre nem de outro período), **pergunte ao
+      usuário antes de posicionar ou mover qualquer prova daquele
+      período** para aquele grupo de turmas.
 15. **Perguntar as datas das duas provas do ENEM** (sempre em domingo).
     Cada uma restringe **quais disciplinas podem ter prova na semana
     anterior** (os 6 dias corridos antes daquele domingo, ou seja,
@@ -330,6 +340,37 @@ Nunca comece a montar o calendário sem antes:
   Motivado por provas caindo na véspera da 2ª chamada dessas turmas.
   Pode ser relaxada se o horário não fechar de outra forma — ainda não
   implementada no gerador, só documentada aqui.
+- **Prova nunca depois da 2ª chamada do período correspondente** (pedido
+  do usuário, 08/2026): cada rodada de provas do semestre (P1 e P2) tem
+  sua própria data de 2ª chamada — a 2ª chamada de P1 cobre as provas da
+  1ª rodada, a de P2 cobre as da 2ª rodada. Nenhuma prova pode cair
+  **depois** da 2ª chamada do período a que ela pertence: a 1ª ocorrência
+  da disciplina (rodada P1) tem que estar marcada antes da 1ª data de 2ª
+  chamada do grupo de turmas, e a 2ª ocorrência (rodada P2) antes da 2ª
+  data de 2ª chamada do mesmo grupo — mesmo que as duas datas caiam bem
+  distantes uma da outra.
+  - É regra **geral**, sobre qualquer disciplina/prova — mais ampla que a
+    regra específica acima ("10C/12C — distância mínima do conselho de
+    classe final"), que trata só da distância até o conselho, não da 2ª
+    chamada em si. As duas podem coexistir e valem juntas quando
+    aplicável: a data-limite efetiva de uma prova é a mais restritiva
+    entre "6 dias antes do conselho" (quando a regra do conselho se
+    aplica àquele grupo) e "antes da 2ª chamada do período".
+  - **Cada grupo de turma pode ter datas de 2ª chamada diferentes por
+    período**, e nem toda escola/rodada marca as duas no modelo — às
+    vezes só a do fim do semestre está lá (marcação `"2CH <séries>"`).
+    **Nunca supor ou inferir a data da 2ª chamada de um período a partir
+    da do outro período, nem do fim do semestre**: se a data da 2ª
+    chamada relevante para o período em questão não estiver marcada no
+    modelo, **pare e pergunte ao usuário** antes de alocar ou mover
+    qualquer prova daquele período para aquele grupo de turmas (ver
+    Passo 0, item 14). Depois de confirmada, registrar a data seguindo a
+    convenção de marcação já usada nesta escola (ver "Datas de 2ª
+    chamada" em "Escrita na planilha de saída" abaixo).
+  - Ainda não implementada como checagem automática no gerador/verificador
+    — por enquanto, checar manualmente a cada prova alocada ou movida
+    contra a(s) data(s) de 2ª chamada do período/grupo, e avisar o
+    usuário se alguma já estiver posicionada depois.
 - **Semanas do ENEM — disciplina restrita por prova** (pedido do
   usuário, 08/2026): as duas provas do ENEM caem sempre num domingo. A
   "semana da data" é definida como **os 6 dias corridos imediatamente

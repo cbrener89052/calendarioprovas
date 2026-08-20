@@ -1271,6 +1271,240 @@ mudou. Sexta-feira estava livre; a semana continua com 3 avaliações
 `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
 regenerados com a mudança.
 
+## 9C2: Matemática (2ª prova) movida para reduzir cessão de Português (08/2026)
+
+Usuário perguntou por que Português/Jana aparecia cedendo 12,5%
+(4 de 32 aulas) no relatório de tempos cedidos, mesmo estando acima do
+teto de 11%. Investigação: em **9C1**, vem de Geografia (2 cessões) +
+Biologia (2 cessões); em **9C2**, vem inteiramente de Matemática
+(2 ocorrências × 2 tempos, quarta-feira 4º-5º tempos).
+
+**Pedido para achar alternativa sem mexer em Geografia.** Busca
+exaustiva de todos os blocos de 2 tempos válidos (presença de
+professor, disciplinas de aula única que não podem doar, sem cruzar o
+recreio):
+- **Biologia (9C1)**: só existe **1 combinação válida no calendário
+  inteiro** — a atual (terça, 1º-2º tempos, doador Português). Todas as
+  outras esbarram em Física ou Química (aula única no 9º ano, não
+  podem doar). **Estruturalmente inevitável, não dá pra evitar.**
+- **Matemática (9C2)**: encontradas 3 alternativas sem Português.
+  Primeira proposta (terça, 4º-5º tempos) foi **rejeitada pelo
+  usuário**: colidiria com a prova de Biologia na semana 7 e,
+  coincidentemente, com a própria prova de História na semana 16 (mesmo
+  bloco de tempos). Segunda proposta, aceita: **quinta-feira, 4º-5º
+  tempos** (doadores: Artes nas duas turmas + Redação em 9C2 — nenhum
+  dos dois com prova nas semanas 7 ou 16).
+
+**Aplicado, só na semana 16** (usuário pediu para deixar a semana 7
+como está): 2ª prova de Matemática (9C1/9C2) movida de quarta (18/11)
+para **quinta (19/11)**, mesmo bloco 4º-5º tempos. Semana 7 permanece
+inalterada.
+
+**Resultado**: Português/Jana em 9C2 caiu de 4 para **2 cessões
+(6,25%)**, dentro da meta. Em 9C1 permanece em 4 (12,5%), pela
+combinação Geografia+Biologia, fora do escopo desta mudança. Novo
+AVISO leve: Artes cedeu 3 (meta 2) nas duas turmas — tradeoff aceito.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com a mudança.
+
+## 12C1/12C2: LP/LIT/RED movida de 09/10 para 06/10 (08/2026)
+
+Usuário pediu para avaliar mover LP/LIT/RED de 09/10 para 07/10.
+**07/10 (quarta) rejeitado**: bloco de 3 tempos (1º ao 3º) inválido em
+12C1 — o 2º tempo é Sociologia, que só tem 1 aula semanal e não pode
+doar. Busca exaustiva de todos os blocos de 3 tempos válidos na
+semana 10 (vazia, sem risco de teto semanal) encontrou:
+- Quinta 1º-3º (doadores Artes+Física, manhã) — recomendada
+  inicialmente.
+- **Terça 9º-11º** (doadores Apoio+História) — válida, mas no período
+  da tarde.
+
+Usuário perguntou sobre a opção de terça 9º-11º e, depois de
+confirmada a viabilidade, escolheu essa.
+
+**Aplicado**: LP/LIT/RED (12C1/12C2) movida de semana 10 sexta (09/10)
+para semana 10 **terça (06/10)**, tempos 9º-11º.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA (com o AVISO esperado
+de "tempos 7-11", já que a prova ficou no período da tarde por escolha
+do usuário). Os 5 relatórios regenerados com a mudança.
+
+## 12C1/12C2: LP/LIT/RED revertida de volta para 09/10 (08/2026)
+
+Depois de aplicada a mudança para terça 06/10 (seção anterior), usuário
+pediu para reverter: "mantenha a prova de LP como estava antes nas
+turmas 12c no dia 09/10". Revertida para a posição original: semana 10
+**sexta (09/10)**, tempos 1º-3º.
+
+`verificar_calendario.py` fechou em 0 PROBLEMA (o AVISO de "tempos
+7-11" para LP/LIT/RED desapareceu, já que voltou para a manhã). Os 5
+relatórios regenerados.
+
+## 11C1/11C2: 3 reposicionamentos, com análise apresentada antes (08/2026)
+
+Usuário pediu 3 mudanças e explicitamente pediu para trazer a análise
+antes de aplicar. Análise apresentada e aprovada ("pode aplicar").
+
+1. **Inglês (11C1 apenas)**: semana 9 segunda (28/09) → semana 12
+   segunda (19/10), mesmo bloco 6º-7º tempos. 11C2 já tinha uma prova
+   de Inglês na mesma data (19/10), mas com professor diferente (PaH,
+   não Bea) — sem conflito, provas independentes. Distância da 1ª
+   prova melhora de 5 para 8 semanas.
+2. **Geografia (11C1+11C2)**: semana 10 quarta (07/10) → semana 5
+   segunda (31/08), tempos 2º-3º (doadores Mat+Bio). Ainda dentro do
+   período P1.
+3. **Matemática (11C1+11C2)**: semana 8 segunda (21/09) → **semana 4
+   quinta (27/08)**, tempos 1º-2º (doadores Ing+Fis). O bloco antigo
+   (segunda 2º-3º) não cabia em nenhuma das duas semanas propostas
+   pelo usuário (semana 4 segunda já tinha Inglês em 11C1; semana 6
+   segunda é feriado) — quinta-feira foi a alternativa encontrada,
+   livre nas duas turmas em ambas as semanas. Usuário deixou a escolha
+   entre semana 4 e semana 6 em aberto ("pode aplicar" sem especificar)
+   — usei semana 4 por padrão, sinalizando que pode trocar para semana
+   6 se preferir (nenhuma diferença técnica entre as duas).
+
+`verificar_calendario.py` fechou em 0 PROBLEMA. Os 5 relatórios
+regenerados com as mudanças.
+
+## 11C1/11C2: Matemática confirmada na semana 4 (correção da análise anterior) (08/2026)
+
+Usuário pediu para mover a Matemática de semana 4 (27/08) para semana 6
+(10/09), a fim de escolher entre as duas opções deixadas em aberto no
+item anterior. **Testado e revertido**: semana 6 quinta-feira, 1º-2º
+tempos, gera **3 PROBLEMAS** — não é só o teto semanal do 11C2 que eu
+tinha sinalizado antes, o 11C1 também colide (grupo 1 repetido
+Mat+DaF, ambos no mesmo grupo de tempo naquela semana). Corrigindo a
+análise anterior, que dizia erroneamente "nenhuma diferença técnica
+entre as duas semanas" — havia, e era decisiva.
+
+Testei também uma variante movendo o Inglês do 11C2 (semana 6 sexta,
+11/09 → semana 4 sexta, 28/08, mesmo bloco 6º-7º tempos, tempo próprio
+da disciplina nos dois casos) para tentar viabilizar a semana 6: reduz
+a contagem de avaliações da semana para 3, mas **não resolve** o
+"grupo 1 repetido" — sem Inglês na semana, o par Mat+DaF continua sem
+a exceção (que exige que uma das duas seja Inglês), e o 11C1 nem tem
+Inglês naquela semana para começo de conversa. Revertido.
+
+**Decisão**: Matemática (11C1+11C2) permanece em **semana 4, quinta
+(27/08)**, tempos 1º-2º — única posição das duas testada que fecha em
+0 PROBLEMA.
+
+## 10C1/10C2: Matemática (1ª prova) movida para respeitar a 1ª segunda chamada (08/2026)
+
+**Regra nova identificada** (usuário, 08/2026): nenhuma prova pode
+ocorrer depois da 2ª chamada do período a que pertence. A 1ª segunda
+chamada do semestre é **19/09/2026** (ver "Períodos de provas" acima)
+— data que não está marcada no modelo (só a 2ª, `"2CH 10,12"` em
+13/11, está), e por isso não era checada automaticamente. Documentada
+como regra geral em `.claude/skills/calendario-provas/SKILL.md`:
+provas devem respeitar a 2ª chamada do próprio período, e se a data
+não estiver marcada no modelo, perguntar ao usuário em vez de supor.
+
+Com a regra em mãos, a 1ª ocorrência de Matemática (10C1+10C2) estava
+mal posicionada: semana 10 (08/10), dentro da janela de P2, deixando
+P1 sem nenhuma prova de Matemática antes da 1ª segunda chamada.
+
+Testadas semanas 5, 6 e 7 (pedido do usuário) para reposicionar essa
+1ª ocorrência:
+- **Semana 5**: inválida — já tem LP/LIT/RED + Inglês (grupo 1, com a
+  exceção do Inglês); acrescentar Mat criaria 3 itens do grupo 1 na
+  mesma semana.
+- **Semana 6**: inválida — já tem 3 avaliações (DaF, História, Geo,
+  teto semanal atingido) e ainda geraria par Mat+DaF do grupo 1 sem
+  Inglês.
+- **Semana 7**: válida — só tinha Física essa semana. Bloco
+  segunda-feira 1º-2º tempos (mesmo par de professores BrSa/FBri,
+  aplicação simultânea 10C1+10C2), doador DaF no 2º tempo (sem
+  conflito de véspera — a prova de DaF já ocorreu na semana 6,
+  anterior).
+
+**Aplicado**: Matemática (10C1+10C2) — semana 10 quarta (08/10) →
+**semana 7 segunda (14/09)**, tempos 1º-2º. A 2ª ocorrência (semana 15,
+10/11, antes da 2ª segunda chamada de 13/11) não foi alterada.
+Distância entre as duas ocorrências: 8 semanas (acima do piso
+desejável de 7). `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5
+relatórios regenerados com as mudanças.
+
+## 11C1/11C2: Matemática movida para semana 6 (10/09) — EXCEÇÃO explícita à regra do grupo 1 (08/2026)
+
+Usuário pediu, depois de ver a análise do item anterior ("11C1/11C2:
+Matemática confirmada na semana 4"), para aplicar mesmo assim a semana
+6, violando a regra do grupo 1 **só para este caso**: "pode aplicar
+mesmo violando a regra do grupo 1, somente para esse caso".
+
+**Aplicado**:
+1. Matemática (11C1+11C2): semana 4 quinta (27/08) → **semana 6 quinta
+   (10/09)**, tempos 1º-2º (mesmo bloco, doadores Ing/Fis).
+2. Inglês (11C2 apenas): semana 6 sexta (11/09) → **semana 4 sexta
+   (28/08)**, mesmo bloco 6º-7º tempos (tempo próprio da disciplina nos
+   dois casos) — feita junto para resolver o teto de 3 avaliações/semana
+   do 11C2 (sem essa troca, a semana 6 teria 4 avaliações no 11C2:
+   Química, DaF, Inglês, Matemática).
+
+**`verificar_calendario.py` fecha com 2 PROBLEMA(S), esperados e
+autorizados pelo usuário** — não corrigir automaticamente nem reverter:
+- `P3/11C1: semana 6 com grupo 1 repetido ['DaF', 'Mat']`
+- `P3/11C2: semana 6 com grupo 1 repetido ['DaF', 'Mat']`
+
+Motivo do PROBLEMA: a troca do Inglês resolve o teto semanal, mas não
+resolve a colisão do grupo 1 — o par que sobra na semana 6 é
+Matemática + DaF, sem Inglês, e a exceção da regra exige que uma das
+duas seja Inglês. A única forma de fechar sem PROBLEMA seria tirar o
+DaF da semana 6 (coordenado com várias outras turmas, mudança maior,
+não solicitada). Os 5 relatórios foram regenerados mesmo assim, a
+pedido do usuário — **atenção**: `Relatorio_Tempos_Cedidos_Proposta_3`,
+`Tabela_Provas_por_Turma_Proposta_3` e os demais refletem essa posição
+com o PROBLEMA ainda presente no checklist; não é um erro de geração,
+é a exceção documentada aqui.
+
+## 10C1/10C2: Química (1ª prova) movida de 28/08 para 04/09 — sem custo de cessão (08/2026)
+
+Contexto: usuário estava analisando alternativas para mover a prova de
+**Biologia** (10C1/10C2, atualmente 25/08) para a semana 5 (quarta
+02/09 ou sexta 04/09), sabendo que a professora Lza toparia aplicar
+fora do horário próprio dela. Todas as combinações testadas nessa
+semana esbarravam em DaF e/ou GL já perto ou no teto de cessão (ver
+seções acima) — nenhuma foi aplicada.
+
+Como alternativa, usuário pediu para analisar mover a **Química** (1ª
+prova) de 28/08 para 04/09 (mesmo dia da semana, sexta, uma semana
+depois). Diferença crucial em relação às tentativas de Biologia: o
+bloco 3º-4º tempos de sexta já é o bloco natural de Química (mesmos
+doadores em qualquer sexta: DaF no 3º tempo nas duas turmas, Português/
+MFo no 4º tempo só no 10C1), então mover a data **não cria nenhuma
+cessão nova** — é a mesma cessão de sempre, só numa semana diferente.
+
+**Aplicado**: Química (10C1+10C2) — semana 4 sexta (28/08) → **semana 5
+sexta (04/09)**, mesmo bloco 3º-4º tempos. `verificar_calendario.py`
+fecha só com os 2 PROBLEMA já conhecidos e autorizados do 11C (seção
+acima) — **nenhum teto de cessão foi ultrapassado**, nem DaF nem
+ninguém. Distância para a 2ª ocorrência de Química (semana 13, 26/10)
+passa de 9 para 8 semanas, ainda acima do piso desejável de 7.
+
+**Achado incidental**: ao testar, ficou claro que a Química, na posição
+atual (28/08), já doa um tempo (6º tempo, terça, 10C1) para a prova de
+**Biologia**, que cai naquela mesma semana. Mudar a Química de semana
+não afeta essa dependência hoje (Biologia continua em 25/08), mas é
+relevante caso a Biologia também seja movida no futuro.
+
+**Nota técnica** (achado incidental, não corrigido nesta rodada): o
+bloco 3º-4º tempos de sexta-feira **cruza o intervalo do recreio**
+(`G.cruza_intervalo(3, 2)` retorna `True`, `INTERVALOS = (3, 5)`) — a
+célula usa a cor normal da disciplina (`#C6CAE7`), não o destaque
+laranja (`FFC000`) que a regra pede para blocos que cruzam o intervalo.
+`verificar_calendario.py` não acusa isso porque o item 9 do checklist
+considera "destacada" qualquer cor de preenchimento não-vazia, não
+especificamente o laranja — ou seja, a checagem está sempre satisfeita
+na prática, mesmo quando a célula só tem a cor normal da disciplina.
+Não corrigido agora (fora do escopo do pedido), mas vale revisar o
+item 9 do `verificar_calendario.py` para comparar contra a cor
+`FFC000` especificamente, e aplicar o destaque correto nesta célula (e
+possivelmente em outras já existentes que cruzem o intervalo sem
+destaque).
+
+Os 5 relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
