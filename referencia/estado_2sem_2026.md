@@ -1426,6 +1426,85 @@ Distância entre as duas ocorrências: 8 semanas (acima do piso
 desejável de 7). `verificar_calendario.py` fechou em 0 PROBLEMA. Os 5
 relatórios regenerados com as mudanças.
 
+## 11C1/11C2: Matemática movida para semana 6 (10/09) — EXCEÇÃO explícita à regra do grupo 1 (08/2026)
+
+Usuário pediu, depois de ver a análise do item anterior ("11C1/11C2:
+Matemática confirmada na semana 4"), para aplicar mesmo assim a semana
+6, violando a regra do grupo 1 **só para este caso**: "pode aplicar
+mesmo violando a regra do grupo 1, somente para esse caso".
+
+**Aplicado**:
+1. Matemática (11C1+11C2): semana 4 quinta (27/08) → **semana 6 quinta
+   (10/09)**, tempos 1º-2º (mesmo bloco, doadores Ing/Fis).
+2. Inglês (11C2 apenas): semana 6 sexta (11/09) → **semana 4 sexta
+   (28/08)**, mesmo bloco 6º-7º tempos (tempo próprio da disciplina nos
+   dois casos) — feita junto para resolver o teto de 3 avaliações/semana
+   do 11C2 (sem essa troca, a semana 6 teria 4 avaliações no 11C2:
+   Química, DaF, Inglês, Matemática).
+
+**`verificar_calendario.py` fecha com 2 PROBLEMA(S), esperados e
+autorizados pelo usuário** — não corrigir automaticamente nem reverter:
+- `P3/11C1: semana 6 com grupo 1 repetido ['DaF', 'Mat']`
+- `P3/11C2: semana 6 com grupo 1 repetido ['DaF', 'Mat']`
+
+Motivo do PROBLEMA: a troca do Inglês resolve o teto semanal, mas não
+resolve a colisão do grupo 1 — o par que sobra na semana 6 é
+Matemática + DaF, sem Inglês, e a exceção da regra exige que uma das
+duas seja Inglês. A única forma de fechar sem PROBLEMA seria tirar o
+DaF da semana 6 (coordenado com várias outras turmas, mudança maior,
+não solicitada). Os 5 relatórios foram regenerados mesmo assim, a
+pedido do usuário — **atenção**: `Relatorio_Tempos_Cedidos_Proposta_3`,
+`Tabela_Provas_por_Turma_Proposta_3` e os demais refletem essa posição
+com o PROBLEMA ainda presente no checklist; não é um erro de geração,
+é a exceção documentada aqui.
+
+## 10C1/10C2: Química (1ª prova) movida de 28/08 para 04/09 — sem custo de cessão (08/2026)
+
+Contexto: usuário estava analisando alternativas para mover a prova de
+**Biologia** (10C1/10C2, atualmente 25/08) para a semana 5 (quarta
+02/09 ou sexta 04/09), sabendo que a professora Lza toparia aplicar
+fora do horário próprio dela. Todas as combinações testadas nessa
+semana esbarravam em DaF e/ou GL já perto ou no teto de cessão (ver
+seções acima) — nenhuma foi aplicada.
+
+Como alternativa, usuário pediu para analisar mover a **Química** (1ª
+prova) de 28/08 para 04/09 (mesmo dia da semana, sexta, uma semana
+depois). Diferença crucial em relação às tentativas de Biologia: o
+bloco 3º-4º tempos de sexta já é o bloco natural de Química (mesmos
+doadores em qualquer sexta: DaF no 3º tempo nas duas turmas, Português/
+MFo no 4º tempo só no 10C1), então mover a data **não cria nenhuma
+cessão nova** — é a mesma cessão de sempre, só numa semana diferente.
+
+**Aplicado**: Química (10C1+10C2) — semana 4 sexta (28/08) → **semana 5
+sexta (04/09)**, mesmo bloco 3º-4º tempos. `verificar_calendario.py`
+fecha só com os 2 PROBLEMA já conhecidos e autorizados do 11C (seção
+acima) — **nenhum teto de cessão foi ultrapassado**, nem DaF nem
+ninguém. Distância para a 2ª ocorrência de Química (semana 13, 26/10)
+passa de 9 para 8 semanas, ainda acima do piso desejável de 7.
+
+**Achado incidental**: ao testar, ficou claro que a Química, na posição
+atual (28/08), já doa um tempo (6º tempo, terça, 10C1) para a prova de
+**Biologia**, que cai naquela mesma semana. Mudar a Química de semana
+não afeta essa dependência hoje (Biologia continua em 25/08), mas é
+relevante caso a Biologia também seja movida no futuro.
+
+**Nota técnica** (achado incidental, não corrigido nesta rodada): o
+bloco 3º-4º tempos de sexta-feira **cruza o intervalo do recreio**
+(`G.cruza_intervalo(3, 2)` retorna `True`, `INTERVALOS = (3, 5)`) — a
+célula usa a cor normal da disciplina (`#C6CAE7`), não o destaque
+laranja (`FFC000`) que a regra pede para blocos que cruzam o intervalo.
+`verificar_calendario.py` não acusa isso porque o item 9 do checklist
+considera "destacada" qualquer cor de preenchimento não-vazia, não
+especificamente o laranja — ou seja, a checagem está sempre satisfeita
+na prática, mesmo quando a célula só tem a cor normal da disciplina.
+Não corrigido agora (fora do escopo do pedido), mas vale revisar o
+item 9 do `verificar_calendario.py` para comparar contra a cor
+`FFC000` especificamente, e aplicar o destaque correto nesta célula (e
+possivelmente em outras já existentes que cruzem o intervalo sem
+destaque).
+
+Os 5 relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
