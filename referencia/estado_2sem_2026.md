@@ -1531,6 +1531,30 @@ opção viável exigir esse doador, aceitar normalmente.
 autorizados do 11C (grupo 1, seção acima) — nenhum PROBLEMA novo. Os 5
 relatórios regenerados com a mudança.
 
+## 10C1/10C2: GL (1ª prova) removida do calendário — exceção pontual, sem substituição (08/2026)
+
+Usuário pediu para retirar a 1ª prova de GL (10C1+10C2), que estava em
+**26/08 (semana 4)**, tempos 2º-3º. Perguntado se era para remover sem
+recolocar em outro lugar (já que GL tem 2 provas normalmente, 1 por
+período), confirmado: **sim, remover mesmo, sem substituição** — GL
+passa a ter só **1 prova no semestre** (a de 07/10, semana 10, mantida
+sem alteração).
+
+**Aplicado**: célula de 26/08 esvaziada nas duas turmas, nada
+recolocado. `verificar_calendario.py` acusa **2 PROBLEMA(S) novos**,
+esperados e autorizados pelo usuário:
+- `P3/10C1: GL tem 1 provas (esperado 2)`
+- `P3/10C2: GL tem 1 provas (esperado 2)`
+
+**Importante — usuário pediu explicitamente para NÃO registrar isso
+como regra geral na skill**: é uma mudança excepcional deste semestre,
+específica de GL nas turmas 10C, não um novo critério a aplicar em
+outras disciplinas/turmas. Fica documentado só aqui, como fato concreto
+desta rodada — `.claude/skills/calendario-provas/SKILL.md` não foi
+tocado por essa mudança.
+
+Os 5 relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

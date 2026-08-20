@@ -108,7 +108,6 @@ aula em horários diferentes em cada turma.
 | 9C2 | Mat / BrSa | 4º tempo(s) (Qui, semana 16) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Mat | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 9C2 | Mat / BrSa | 5º tempo(s) (Qui, semana 16) | Raf | Redação | Solicitar ao prof. Raf a cessão do(s) tempo(s) 5º de Redação para a prova de Mat | Prova conjunta com 9C1 (professor comum, tempos coordenados) |
 | 10C1 | Bio / Lza | 6º tempo(s) (Ter, semana 4) | CAl | Qui | Solicitar ao prof. CAl a cessão do(s) tempo(s) 6º de Qui para a prova de Bio | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
-| 10C1 | GL / EFr-Car-Swa | 2º tempo(s) (Qua, semana 4) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de GL | Grupo paralelo já combinado com 10C2 |
 | 10C1 | LP/LIT/RED / BPad/MFo/SMo | 1º tempo(s) (Seg, semana 5) | FBri | Mat | Solicitar ao prof. FBri a cessão do(s) tempo(s) 1º de Mat para a prova de LP/LIT/RED | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | LP/LIT/RED / BPad/MFo/SMo | 2º tempo(s) (Seg, semana 5) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de LP/LIT/RED | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C1 | Qui / CAl | 3º tempo(s) (Sex, semana 5) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 3º de DaF para a prova de Qui | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Prova conjunta com 10C2 (professor comum, tempos coordenados) |
@@ -135,7 +134,6 @@ aula em horários diferentes em cada turma.
 | 10C1 | DaF / Eth-EFr-Swa | 3º tempo(s) (Qua, semana 14) | EFr-Car-Swa | GL | Solicitar ao prof. EFr-Car-Swa a cessão do(s) tempo(s) 3º de GL para a prova de DaF | Grupo paralelo já combinado com 10C2 |
 | 10C1 | Mat / BrSa/FBri | 10º tempo(s) (Ter, semana 15) | ALu | Hist | Solicitar ao prof. ALu a cessão do(s) tempo(s) 10º de Hist para a prova de Mat | Prova conjunta com 10C2 (professor comum, tempos coordenados) |
 | 10C2 | Bio / Lza | 6º, 7º tempo(s) (Ter, semana 4) | BrSa | Mat | Solicitar ao prof. BrSa a cessão do(s) tempo(s) 6º, 7º de Mat para a prova de Bio | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
-| 10C2 | GL / EFr-Car-Swa | 2º tempo(s) (Qua, semana 4) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de GL | Grupo paralelo já combinado com 10C1 |
 | 10C2 | LP/LIT/RED / BPad/MFo/SMo | 2º tempo(s) (Seg, semana 5) | Eth-EFr-Swa | DaF | Solicitar ao prof. Eth-EFr-Swa a cessão do(s) tempo(s) 2º de DaF para a prova de LP/LIT/RED | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | LP/LIT/RED / BPad/MFo/SMo | 3º tempo(s) (Seg, semana 5) | FBri | Mat | Solicitar ao prof. FBri a cessão do(s) tempo(s) 3º de Mat para a prova de LP/LIT/RED | Prova conjunta com 10C1 (professor comum, tempos coordenados) |
 | 10C2 | Ing / Vir | 4º tempo(s) (Ter, semana 5) | - | Artes | Solicitar ao prof. - a cessão do(s) tempo(s) 4º de Artes para a prova de Ing |  |
