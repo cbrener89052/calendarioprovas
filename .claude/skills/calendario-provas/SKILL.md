@@ -401,6 +401,22 @@ Nunca comece a montar o calendário sem antes:
   assim por diante — e priorizar a redução dessas provas **antes** de
   aceitar sobreposição do grupo 1. Ao final, listar para o usuário quais
   provas ficaram à tarde e por quê.
+- **Evitar usar tempos de Química e Física como doadores** (pedido do
+  usuário, 08/2026). Não é regra absoluta, é **critério de preferência**:
+  ao escolher entre combinações de dia/tempo/doador igualmente válidas
+  nas demais regras (presença do professor, intervalo do recreio, grupo
+  1, limites de cessão), prefira a que **não** toma tempo de Química ou
+  Física para aplicar a prova de outra disciplina. Se a única opção
+  viável exigir doar de Química ou Física, aceitar normalmente — a
+  preferência não deve piorar nenhuma outra regra nem inviabilizar o
+  calendário. Vale para qualquer turma/série, não é específica de uma
+  turma. Critério de desempate, na mesma categoria de prioridade que
+  "evitar tempos 7-11" e "preferir arranjos que emprestam menos tempos
+  de terceiros" — comparar as opções e escolher a que atende ao maior
+  número desses critérios de preferência ao mesmo tempo. Ainda não
+  implementada como peso no gerador automático (`montar_exames()`), só
+  documentada aqui — por enquanto, aplicar manualmente ao avaliar
+  alternativas de reposicionamento.
 - **Disciplinas com 1 prova no semestre** (1 tempo semanal na grade, ou
   exceção de série confirmada): alocar em apenas um dos períodos.
 - **Distância entre as 2 provas da mesma disciplina/professor** no

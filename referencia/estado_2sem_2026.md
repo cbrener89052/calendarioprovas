@@ -1505,6 +1505,32 @@ destaque).
 
 Os 5 relatórios regenerados com a mudança.
 
+## 11C1/11C2: História (1ª prova) movida de volta para quarta (02/09) — critério novo de evitar Química/Física como doadoras (08/2026)
+
+Usuário pediu para verificar mover a 1ª prova de História de terça
+(01/09, aula dupla real do prof. Ver em 11C1) para quarta (02/09).
+Análise trazida antes de aplicar: quarta usa Mat/ClaMe (11C1) e
+Geo/Mar (11C2) como doadores em vez de Mat/JJ + Qui/CAl (11C2) — troca
+lateral (Mat/ClaMe passa a estourar o teto pela primeira vez no 11C1;
+Geo/Mar passa a ceder na própria semana de prova no 11C2; em
+compensação Mat/JJ deixa de estourar o teto no 11C2).
+
+**Motivo dado pelo usuário para preferir quarta mesmo assim**: evitar o
+uso da aula de Química (e, por extensão, Física) para ceder tempo a
+outras provas — não é regra absoluta, é um critério de preferência.
+**Novo critério documentado na skill** (`.claude/skills/
+calendario-provas/SKILL.md`, seção "Regras de distribuição das
+provas"): evitar usar tempos de Química e Física como doadores quando
+houver alternativa igualmente válida nas demais regras; se a única
+opção viável exigir esse doador, aceitar normalmente.
+
+**Aplicado**: 1ª prova de História (11C1+11C2) — semana 5 terça (01/09)
+→ **semana 5 quarta (02/09)**, tempos 1º-2º (doadores: Mat/ClaMe no
+11C1, Geo/Mar no 11C2 — nenhum dos dois é Química ou Física).
+`verificar_calendario.py` fecha só com os 2 PROBLEMA já conhecidos e
+autorizados do 11C (grupo 1, seção acima) — nenhum PROBLEMA novo. Os 5
+relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
