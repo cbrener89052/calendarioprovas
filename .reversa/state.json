@@ -8,15 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "reconhecimento",
-  "completed": [],
-  "pending": [
-    "reconhecimento",
-    "escavacao",
-    "interpretacao",
-    "geracao",
-    "revisao"
-  ],
+  "phase": "geracao",
+  "completed": ["reconhecimento", "escavacao", "interpretacao"],
+  "pending": ["geracao", "revisao"],
   "checkpoints": {
     "scout": {
       "completed_at": "2026-08-09T03:00:00Z",
@@ -25,7 +19,108 @@
         "_reversa_sdd/dependencies.md",
         ".reversa/context/surface.json"
       ]
+    },
+    "archaeologist": {
+      "completed_at": "2026-08-15T19:05:00Z",
+      "modules_analyzed": [
+        "geracao-calendario",
+        "verificacao-calendario",
+        "exportacao-relatorios",
+        "extracao-grade",
+        "analise-historica",
+        "regras-negocio",
+        "plataforma-multi-coordenador"
+      ],
+      "modules_pending": [],
+      "files": [
+        "_reversa_sdd/code-analysis.md",
+        "_reversa_sdd/data-dictionary.md",
+        ".reversa/context/modules.json",
+        "_reversa_sdd/flowcharts/geracao-calendario.md",
+        "_reversa_sdd/flowcharts/verificacao-calendario.md",
+        "_reversa_sdd/flowcharts/exportacao-relatorios.md",
+        "_reversa_sdd/flowcharts/extracao-grade.md",
+        "_reversa_sdd/flowcharts/analise-historica.md",
+        "_reversa_sdd/flowcharts/regras-negocio.md",
+        "_reversa_sdd/flowcharts/plataforma-multi-coordenador.md"
+      ]
+    },
+    "sources_sync": {
+      "completed_at": "2026-08-20T02:45:00Z",
+      "merged_from": "origin/claude/skill-calendar-install-b2oqrs (239b703)",
+      "files": [
+        ".reversa/context/sources.json",
+        ".reversa/context/sync-regras.md",
+        ".claude/skills/calendario-provas/SKILL.md",
+        ".agents/skills/calendario-provas/SKILL.md",
+        "_reversa_sdd/addenda/skill-github-sync-2026-08-20.md"
+      ],
+      "skill_hash_sha256": "b2431d19d95f65891df9d9cdf6fab4997c49462f170abb39b95732be021f036c"
+    },
+    "detective": {
+      "completed_at": "2026-08-15T21:15:00Z",
+      "files": [
+        "_reversa_sdd/domain.md",
+        "_reversa_sdd/state-machines.md",
+        "_reversa_sdd/permissions.md",
+        "_reversa_sdd/adrs/001-apenas-proposta-3-cessao.md",
+        "_reversa_sdd/adrs/002-relatorios-releem-planilha.md",
+        "_reversa_sdd/adrs/003-professor-presente-prioridade-1.md",
+        "_reversa_sdd/adrs/004-branches-main-producao.md",
+        "_reversa_sdd/adrs/005-skill-fonte-viva-regras.md",
+        "_reversa_sdd/adrs/006-filosofia-sociologia-excecao-coordenacao.md",
+        "_reversa_sdd/adrs/007-email-doadores-manual.md"
+      ],
+      "stats": {
+        "rules_documented": 30,
+        "adrs": 7,
+        "lacunas_red": 5
+      }
+    },
+    "architect": {
+      "completed_at": "2026-08-15T22:10:00Z",
+      "files": [
+        "_reversa_sdd/architecture.md",
+        "_reversa_sdd/c4-context.md",
+        "_reversa_sdd/c4-containers.md",
+        "_reversa_sdd/c4-components.md",
+        "_reversa_sdd/erd-complete.md",
+        "_reversa_sdd/traceability/spec-impact-matrix.md"
+      ],
+      "stats": {
+        "containers_legacy": 1,
+        "containers_target": 6,
+        "erd_entities": 18,
+        "technical_debts": 8
+      }
     }
+  },
+  "redator_progress": {
+    "plan_presented_at": "2026-08-15T22:10:00Z",
+    "units_total": 7,
+    "current_unit": "extracao-grade",
+    "completed_files": [
+      "geracao-calendario/requirements.md",
+      "geracao-calendario/design.md",
+      "geracao-calendario/tasks.md",
+      "verificacao-calendario/requirements.md",
+      "verificacao-calendario/design.md",
+      "verificacao-calendario/tasks.md",
+      "exportacao-relatorios/requirements.md",
+      "exportacao-relatorios/design.md",
+      "exportacao-relatorios/tasks.md"
+    ],
+    "pending_units": [
+      "extracao-grade",
+      "analise-historica",
+      "regras-negocio",
+      "plataforma-multi-coordenador"
+    ],
+    "pending_globals": [
+      "openapi/calendarioprovas.yaml",
+      "user-stories/ciclo-calendario.md",
+      "traceability/code-spec-matrix.md"
+    ]
   },
   "engines": [
     "claude-code",

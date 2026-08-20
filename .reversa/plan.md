@@ -14,6 +14,17 @@ simulados, siglas) e saídas (calendários, relatórios) **por coordenador**.
 
 Detalhes em `.reversa/context/user-requirements.md`.
 
+**Atualização 2026-08-15:** fluxo de **seleção de regras** antes da
+fatoração/refração do horário e revisão antes de fechar — ver mesma seção
+em `user-requirements.md`.
+
+**Atualização 2026-08-15 (2):** **envio de e-mail** aos professores que
+cedem tempo — ação manual do coordenador após calendário estável, não a
+cada refração — ver `user-requirements.md`.
+
+**Atualização 2026-08-15 (4):** copiloto **OpenAI** + **RAG** (docs + xlsx) +
+**ações Python** no backend para refração colaborativa — ADR-008.
+
 **Stack acordada (preliminar):** Python (FastAPI) + PostgreSQL + login
 individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
@@ -27,32 +38,36 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Decisão de organização das specs 🗂️
 
-> Entre o Scout e o Arqueólogo, o Reversa pergunta como você quer organizar as specs (por módulo, caso de uso, endpoint, híbrida, por features ou customizada). A escolha fica persistida em `.reversa/config.toml` na seção `[specs]` e não será reperguntada em execuções futuras. Para reapresentar o menu, remova manualmente a seção.
+> **Decidido em 2026-08-15:** organização **por features** (`granularity = feature`), persistido em `.reversa/config.toml`.
 
 ## Fase 2: Escavação 🏗️
 
 > O Reversa preenche esta seção com os módulos reais após o Scout concluir o reconhecimento.
 
-- [ ] **Arqueólogo** — Análise do módulo `geracao-calendario`
-- [ ] **Arqueólogo** — Análise do módulo `verificacao-calendario`
-- [ ] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
-- [ ] **Arqueólogo** — Análise do módulo `extracao-grade`
-- [ ] **Arqueólogo** — Análise do módulo `analise-historica`
-- [ ] **Arqueólogo** — Análise do módulo `regras-negocio`
-- [ ] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
+- [x] **Arqueólogo** — Análise do módulo `geracao-calendario`
+- [x] **Arqueólogo** — Análise do módulo `verificacao-calendario`
+- [x] **Arqueólogo** — Análise do módulo `exportacao-relatorios`
+- [x] **Arqueólogo** — Análise do módulo `extracao-grade`
+- [x] **Arqueólogo** — Análise do módulo `analise-historica`
+- [x] **Arqueólogo** — Análise do módulo `regras-negocio`
+- [x] **Arqueólogo** — Análise do módulo `plataforma-multi-coordenador` (evolução futura)
 
 ## Fase 3: Interpretação 🧠
 
-- [ ] **Detetive** — Arqueologia Git e ADRs retroativos
-- [ ] **Detetive** — Regras de negócio implícitas e máquinas de estado
-- [ ] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
-- [ ] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
-- [ ] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
-- [ ] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
+- [x] **Detetive** — Arqueologia Git e ADRs retroativos
+- [x] **Detetive** — Regras de negócio implícitas e máquinas de estado
+- [x] **Detetive** — Matriz de permissões (RBAC/ACL) — **prioridade: multi-coordenador**
+- [x] **Arquiteto** — Diagramas C4 (Contexto, Containers, Componentes)
+- [x] **Arquiteto** — ERD completo (**incluir modelo de dados multi-coordenador**)
+- [x] **Arquiteto** — Spec Impact Matrix — **legado arquivo-local → plataforma com BD**
 
 ## Fase 4: Geração 📝
 
 - [ ] **Redator** — Specs SDD por componente
+  - [x] `geracao-calendario` (requirements, design, tasks)
+  - [x] `verificacao-calendario` (requirements, design, tasks)
+  - [x] `exportacao-relatorios` (requirements, design, tasks)
+  - [ ] `extracao-grade`, `analise-historica`, `regras-negocio`, `plataforma-multi-coordenador`
 - [ ] **Redator** — OpenAPI (se aplicável)
 - [ ] **Redator** — User Stories (se aplicável)
 - [ ] **Redator** — Code/Spec Matrix
@@ -77,6 +92,8 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 ---
 
 ## Próximo passo
+
+**Em andamento (2026-08-16):** Redator — 3/7 units concluídas (`geracao`, `verificacao`, `exportacao`).
 
 Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
 

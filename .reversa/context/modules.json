@@ -1,0 +1,246 @@
+{
+  "generated_at": "2026-08-15T19:00:00Z",
+  "modules": [
+    {
+      "name": "geracao-calendario",
+      "path": ".",
+      "purpose": "Gera propostas de calendário de provas via backtracking com regras de cessão (Proposta 3)",
+      "primary_files": ["gerar_calendario.py"],
+      "functions": [
+        {
+          "name": "montar_exames",
+          "file": "gerar_calendario.py",
+          "params": ["turma: str"],
+          "returns": "list[tuple]",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "resolver",
+          "file": "gerar_calendario.py",
+          "params": ["turma: str", "seed: int", "preocupado_dia", "pre_por_semana", "excluir", "cessoes"],
+          "returns": "tuple[bool, list, int, int, int]",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "resolver_par",
+          "file": "gerar_calendario.py",
+          "params": ["a: str", "b: str", "seed: int", "cessoes: Cessoes|None"],
+          "returns": "tuple de alocações e comuns",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "montar_proposta",
+          "file": "gerar_calendario.py",
+          "params": ["seed: int", "folga", "sem_regra3", "sem_regra4", "folga_extra"],
+          "returns": "tuple[dict, set]",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "main",
+          "file": "gerar_calendario.py",
+          "params": [],
+          "returns": "None",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "Alocacao",
+          "fields": [
+            { "name": "w", "type": "int", "required": true },
+            { "name": "d", "type": "int", "required": true },
+            { "name": "t", "type": "int", "required": true },
+            { "name": "n", "type": "int", "required": true },
+            { "name": "disc", "type": "str", "required": true },
+            { "name": "prof", "type": "str", "required": true },
+            { "name": "doador", "type": "tuple|None", "required": false }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Cessoes",
+          "fields": [
+            { "name": "turma", "type": "str", "required": true },
+            { "name": "cedidas", "type": "dict", "required": true },
+            { "name": "regra3", "type": "bool", "required": true },
+            { "name": "regra4", "type": "bool", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Máximo 3 avaliações por semana por turma",
+          "location": "gerar_calendario.py:1144",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Professor presente no bloco de aplicação (prioridade 1)",
+          "location": "gerar_calendario.py:1368",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Limites de cessão regras 1-5 (Proposta 3)",
+          "location": "gerar_calendario.py:850",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["openpyxl"],
+      "algorithms": ["backtracking MRV", "escada de relaxamento", "coordenação pares irmãos"],
+      "complexity": "high"
+    },
+    {
+      "name": "verificacao-calendario",
+      "path": ".",
+      "purpose": "Checklist automático relendo planilhas xlsx geradas",
+      "primary_files": ["verificar_calendario.py"],
+      "functions": [
+        {
+          "name": "main",
+          "file": "verificar_calendario.py",
+          "params": [],
+          "returns": "None",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [],
+      "business_rules": [
+        {
+          "description": "COORDENACAO_EXCECAO: Fil/Soc não exigem coincidência entre irmãs",
+          "location": "verificar_calendario.py:44",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "FERIADOS deve estar sincronizado com BLOQUEIOS do gerador",
+          "location": "verificar_calendario.py:16",
+          "confidence": "inferred"
+        }
+      ],
+      "dependencies": ["geracao-calendario", "openpyxl"],
+      "algorithms": ["checklist sequencial 0-11"],
+      "complexity": "medium"
+    },
+    {
+      "name": "exportacao-relatorios",
+      "path": ".",
+      "purpose": "Exporta relatórios derivados relendo planilha final (Proposta 3)",
+      "primary_files": [
+        "exportar_tabelas_turma.py",
+        "exportar_tempos_cedidos.py",
+        "exportar_relatorio_trocas.py",
+        "exportar_provas_por_professor.py",
+        "exportar_regras_pdf.py"
+      ],
+      "functions": [
+        {
+          "name": "exportar",
+          "file": "exportar_tabelas_turma.py",
+          "params": ["proposta: int", "siglas: dict"],
+          "returns": "None",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [],
+      "business_rules": [],
+      "dependencies": ["geracao-calendario", "openpyxl", "fpdf"],
+      "algorithms": ["parse células xlsx", "agregação por turma/professor"],
+      "complexity": "medium"
+    },
+    {
+      "name": "extracao-grade",
+      "path": ".",
+      "purpose": "Extrai grades horárias de PDFs (OCR 2025, texto 1º sem 2026)",
+      "primary_files": [
+        "extrair_grade_2025.py",
+        "extrair_grade_1semestre.py",
+        "limpar_grade_2025.py",
+        "esqueleto_grade_2025.py"
+      ],
+      "functions": [],
+      "entities": [
+        {
+          "name": "GradeBruta",
+          "fields": [
+            { "name": "turma", "type": "str", "required": true },
+            { "name": "celulas", "type": "dict", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [],
+      "dependencies": ["PyMuPDF", "Tesseract"],
+      "algorithms": ["OCR Tesseract", "mapeamento geométrico PDF"],
+      "complexity": "medium"
+    },
+    {
+      "name": "analise-historica",
+      "path": ".",
+      "purpose": "Análise retrospectiva de cessões e comparativo entre semestres",
+      "primary_files": [
+        "analisar_1semestre.py",
+        "analisar_2sem_2025.py",
+        "contar_2sem_2025.py",
+        "comparar_semestres.py"
+      ],
+      "functions": [],
+      "entities": [],
+      "business_rules": [],
+      "dependencies": ["extracao-grade", "exportacao-relatorios"],
+      "algorithms": ["reconstrução heurística de tempos 2025"],
+      "complexity": "medium"
+    },
+    {
+      "name": "regras-negocio",
+      "path": ".claude/skills/calendario-provas",
+      "purpose": "Documentação formal das regras de calendário e cessão",
+      "primary_files": [".claude/skills/calendario-provas/SKILL.md"],
+      "functions": [],
+      "entities": [],
+      "business_rules": [
+        {
+          "description": "Catálogo completo de regras de distribuição e cessão",
+          "location": "SKILL.md",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": [],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "plataforma-multi-coordenador",
+      "path": "(futuro)",
+      "purpose": "Plataforma web multi-usuário com BD, seleção de regras e persistência por coordenador",
+      "primary_files": [],
+      "functions": [],
+      "entities": [
+        {
+          "name": "EnvioEmailDoador",
+          "fields": [
+            { "name": "calendario_id", "type": "uuid", "required": true },
+            { "name": "cessao_id", "type": "str", "required": true },
+            { "name": "professor_doador_email", "type": "str", "required": true },
+            { "name": "enviado_em", "type": "datetime", "required": true },
+            { "name": "enviado_por", "type": "str", "required": true }
+          ],
+          "confidence": "inferred"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Tela de seleção de regras antes da fatoração; default todas ativas",
+          "location": ".reversa/context/user-requirements.md",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "E-mail aos professores doadores só por ação manual do coordenador, não a cada refração",
+          "location": ".reversa/context/user-requirements.md",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["regras-negocio"],
+      "algorithms": [],
+      "complexity": "unknown"
+    }
+  ]
+}
