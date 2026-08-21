@@ -35,7 +35,8 @@ passa pelos extractors.
 2. **RN-02:** Mapeamento hora→tempo no 1º sem (`TEMPOS` em `extrair_grade_1semestre.py`) confirmado pela escola. 🟢
 3. **RN-03:** 2025 usa `CODE_MAP` + limpeza OCR (`limpar_grade_2025.py`). 🟢
 4. **RN-04:** Grade do 2º sem 2026 **não** é extraída automaticamente hoje — `GRADE_TXT` manual. 🟢
-5. **RN-05:** Plataforma Must aceitar upload PDF Untis como entrada principal (substitui hardcode). 🟡
+5. **RN-05:** Plataforma Must aceitar upload PDF Untis (substitui hardcode). 🟢 ADR-014
+6. **RN-06:** Parser dedicado 2º sem 2026 — Should no forward; legado mantém hardcode até lá. 🟡
 
 ## 5. Requisitos Funcionais — legado 🟢
 
@@ -74,7 +75,7 @@ Cenário: Upload grade na plataforma
 
 ## 8. Lacunas
 
-- 🔴 Parser PDF 2º sem 2026 não existe — grade manual
+- 🟡 Parser PDF 2º sem 2026 — T-parser-2sem no forward (legado: `GRADE_TXT` temporário)
 - 🟡 Unificar extractors 2025/2026 num serviço
 - 🟡 Siglas professor: normalização `/` e `-` na ingestão
 

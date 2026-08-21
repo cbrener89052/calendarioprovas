@@ -13,7 +13,7 @@
 | 🔴 LACUNA | ~12 | ~9% |
 | **Total** | ~137 | 100% |
 
-**Confiança geral:** ~76% — `(62 + 29/2) ≈ 76%`
+**Confiança geral:** ~82% — após resolução L-01–L-05 com defaults 🟡 (2026-08-21)
 
 Legado Python + skill bem cobertos; plataforma alvo predominantemente 🟡.
 
@@ -33,20 +33,23 @@ Legado Python + skill bem cobertos; plataforma alvo predominantemente 🟡.
 
 ---
 
-## Lacunas críticas 🔴
+## Lacunas críticas — resolvidas 🟡 (defaults 2026-08-21)
 
-### Código vs skill
-- **R-2CH (2ª chamada por período)** — skill 1051 linhas (sync 2026-08-20); gerador/verificador não implementam
-- **ENEM / véspera 2CH** — documentado na skill; ausente no código
-- **Parser grade 2º sem 2026** — `GRADE_TXT` hardcoded; plataforma depende de upload futuro
+Ver ADR-014 e `_reversa_sdd/questions.md`. Resumo:
 
-### Plataforma
-- Auth provider e RBAC multi-coordenador não fechados
+| ID | Status | Decisão |
+|----|--------|---------|
+| L-01 R-2CH | 🟡 | Must no forward (solver + verificador) |
+| L-02 ENEM | 🟡 | Must no forward |
+| L-03 Grade 2sem | 🟡 | Upload PDF plataforma; legado hardcode temporário |
+| L-04 Auth | 🟡 | E-mail/senha + JWT + RLS |
+| L-05 fpdf | 🟡 | Could legado; HTML regras plataforma v1 |
+
+### Pendentes moderadas 🟡
+
 - DPA OpenAI + operação on-prem com API externa
-- Framework frontend não decidido
-
-### Infra
-- `exportar_regras_pdf` — dependência `fpdf` ausente no cloud
+- Framework frontend (Next.js provável)
+- FERIADOS vs BLOQUEIOS unificação
 
 ---
 
@@ -81,6 +84,7 @@ Legado Python + skill bem cobertos; plataforma alvo predominantemente 🟡.
 
 ## Próximo passo
 
-- Responder lacunas 🔴 em chat ou `/reversa-clarify`
-- `/reversa-forward` para implementação por feature
-- `/reversa-migrate` após specs estáveis
+- Brener pode **confirmar ou corrigir** defaults em `questions.md` (respostas 1b, 2a, 3b, 4a, 5b)
+- `/reversa-forward` — prioridade: R-2CH/ENEM (L-01/L-02), auth T-02 (L-04)
+- `/reversa-migrate` após primeira feature forward estável
+- `/reversa-docs` — mini-site visual da documentação (opcional)

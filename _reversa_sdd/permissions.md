@@ -26,11 +26,13 @@
 | Papel | Descrição | Confiança |
 |---|---|---|
 | **coordenador** | Monta calendário do seu escopo; fecha; envia e-mails | 🟢 |
-| **coordenador_senior** | 🔴 LACUNA — templates institucionais? | 🔴 |
-| **admin_instituicao** | Usuários, SMTP, templates e-mail, catálogo regras global | 🟡 |
-| **professor** | 🔴 LACUNA — portal read-only das próprias cessões? | 🔴 |
+| **coordenador_senior** | Templates institucionais read-only 🟡 | 🟡 |
+| **admin_instituicao** | Usuários, SMTP, templates e-mail, catálogo regras global | 🟢 ADR-014 |
+| **professor** | Fora do escopo v1 — e-mail passivo via doador | 🟡 |
 
 Quantidade acordada: **5 coordenadores** com login individual 🟢.
+
+**Auth (ADR-014, default 2026-08-21):** e-mail + senha, JWT (access + refresh), middleware FastAPI valida `coordenador_id` em toda query mutável. Templates institucionais (Klausurplan, máscaras) — read-only para todos os coordenadores; write só `admin_instituicao`.
 
 ---
 
@@ -50,7 +52,7 @@ Quantidade acordada: **5 coordenadores** com login individual 🟢.
 | Promover a produção | 🟡 | ❌ | ✅ |
 | Templates regras institucionais | read 🟡 | read 🟡 | write |
 
-🟡 Isolamento entre coordenadores: **provável** dados isolados + templates compartilhados (pendente Arquiteto).
+🟢 Isolamento entre coordenadores: dados isolados por `coordenador_id` + templates compartilhados read-only (ADR-014).
 
 ---
 

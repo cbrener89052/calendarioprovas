@@ -9,8 +9,8 @@
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
   "phase": "revisao",
-  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao"],
-  "pending": ["revisao-lacunas"],
+  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao", "revisao"],
+  "pending": [],
   "checkpoints": {
     "scout": {
       "completed_at": "2026-08-09T03:00:00Z",
@@ -107,6 +107,19 @@
       ],
       "confidence_overall_pct": 76,
       "lacunas_criticas": 5
+    },
+    "reviewer_lacunas": {
+      "completed_at": "2026-08-21T05:20:00Z",
+      "mode": "defaults_inferidos",
+      "user_response": "continuar",
+      "files": [
+        "_reversa_sdd/questions.md",
+        "_reversa_sdd/addenda/lacunas-resolvidas-defaults-2026-08-21.md",
+        "_reversa_sdd/adrs/014-decisoes-lacunas-revisao.md",
+        ".reversa/context/user-requirements.md"
+      ],
+      "lacunas_resolvidas": ["L-01", "L-02", "L-03", "L-04", "L-05"],
+      "confidence_overall_pct": 82
     }
   },
   "redator_progress": {

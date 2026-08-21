@@ -18,8 +18,8 @@ visualização/export Excel, copiloto OpenAI opcional e e-mail manual a doadores
 | Backend | Python FastAPI |
 | BD | PostgreSQL |
 | Blobs | S3 / pasta local (Docker on-prem) |
-| Auth | Login individual (5 coord.) 🟡 |
-| Frontend | Web app 🟡 |
+| Auth | E-mail + senha + JWT 🟢 ADR-014 |
+| Frontend | Next.js 🟡 |
 | IA | OpenAI API backend-only (ADR-008) |
 
 ## 3. Personas
@@ -33,7 +33,7 @@ visualização/export Excel, copiloto OpenAI opcional e e-mail manual a doadores
 
 ## 4. Regras de negócio
 
-1. **RN-01:** Isolamento de dados por coordenador (ou unidade) — a confirmar RBAC. 🟡
+1. **RN-01:** Isolamento de dados por coordenador — row-level por `coordenador_id`; templates institucionais read-only compartilhados. 🟢 ADR-014
 2. **RN-02:** Versionamento entradas/saídas por semestre/rodada. 🟢
 3. **RN-03:** Saída oficial **Excel** Proposta_3 + preview in-app. 🟢 ADR-013
 4. **RN-04:** Recálculo **sem IA** quando entradas estruturadas persistidas. 🟢 ADR-011
@@ -94,9 +94,9 @@ Cenário: Recálculo sem tokens OpenAI
 
 ## 8. Lacunas
 
-- 🔴 Auth provider específico
-- 🔴 DPA OpenAI / on-prem + OpenAI
-- 🟡 Frontend framework (Next.js provável)
+- 🟡 DPA OpenAI / on-prem + OpenAI
+- 🟡 Frontend framework (Next.js provável — confirmar na migração)
+- 🟡 SSO escola (SAML/OIDC) — v1.1+ se TI exigir
 
 ## 9. Histórico
 

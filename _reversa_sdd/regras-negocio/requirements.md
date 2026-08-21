@@ -26,8 +26,8 @@ com `sources.json`.
 2. **RN-02:** Regras inegociáveis (R-P1, simulados fixos) sempre ativas; flex bloqueada. 🟢
 3. **RN-03:** Coordenador marca **Aplicar** / **Pode flexibilizar** antes da fatoração. 🟢
 4. **RN-04:** Regras novas (Tela 2) podem ser `fixa` ou `sessao`. 🟡
-5. **RN-05:** Regra **2ª chamada por período** documentada na skill (08/2026) — 🔴 não implementada no gerador. 🟢 skill / 🔴 código
-6. **RN-06:** Regras ENEM / véspera 2CH documentadas — 🔴 não implementadas. 🟡
+5. **RN-05:** Regra **2ª chamada por período** (R-2CH) — 🟢 skill / 🟡 código (Must implementar no forward, ADR-014). 🟡
+6. **RN-06:** Regras ENEM / véspera 2CH — 🟢 skill / 🟡 código (Must implementar; véspera 9 flexível primeiro). 🟡
 7. **RN-07:** `FERIADOS` vs `BLOQUEIOS` Must unificar via `CalendarConstraints` (ADR-012). 🟡
 
 ## 4. Catálogo (amostra — skill)
@@ -39,7 +39,13 @@ com `sources.json`.
 | R-C1..C5 | Cessão Proposta 3 | não | sim (escada) |
 | R-SEM | Limite provas/semana | não | sim |
 | R-G1 | Grupo 1 | não | sim |
-| R-2CH | Prova antes 2ª chamada do período | sim 🟡 | não |
+| R-2CH | Prova antes 2ª chamada do período | sim 🟢 | não |
+
+## 5.1 Decisões ADR-014 (2026-08-21) 🟡
+
+- **R-2CH** e **ENEM** entram no `RuleSetSnapshot` como regras aplicáveis por default.
+- Datas 2CH e ENEM coletadas na rodada (UI / `CalendarBlockPicker` + campos de data).
+- Implementação código: Must no `/reversa-forward` — ver `geracao-calendario` T-12, T-13.
 
 ## 5. Requisitos Funcionais — plataforma
 
@@ -69,8 +75,8 @@ Cenário: Skill atualizada no GitHub
 
 ## 7. Lacunas
 
-- 🔴 Implementar R-2CH no gerador e verificador
-- 🔴 ENEM / véspera 2CH
+- 🟡 Implementar R-2CH no gerador e verificador (decisão ADR-014 — Must forward)
+- 🟡 ENEM / véspera 2CH (idem)
 - 🟡 Parser automático skill → catálogo BD
 
 ## 8. Histórico

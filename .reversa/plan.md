@@ -76,7 +76,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 - [x] **Revisor** — Revisão cruzada de specs
 - [x] **Revisor** — Relatório de confiança final (`confidence-report.md`, `gaps.md`)
-- [ ] **Revisor** — Resolução de lacunas com o usuário (pendente validação humana)
+- [x] **Revisor** — Resolução de lacunas com o usuário (defaults 🟡 2026-08-21)
 
 ---
 
@@ -95,7 +95,10 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 **Concluído (2026-08-21):** Redator — 7/7 units + globais (OpenAPI, user stories, matrix).
 
-**Extração Reversa concluída (2026-08-21).** Lacunas 🔴 aguardam validação com Brener.
+**Extração Reversa concluída (2026-08-21).** Lacunas L-01–L-05 resolvidas com defaults 🟡 (ADR-014).
 
-Fluxos seguintes: orquestrador do **Time de Migração** (Paradigm Advisor → Curator → Strategist → Designer → Screen Translator → Inspector). Gera as specs do sistema novo. Saída em `_reversa_sdd/migration/` e `_reversa_sdd/screens/`.
-- `/reversa-reconstructor`: gera plano bottom-up para reimplementar o software a partir das specs do legado (uma tarefa por sessão).
+Fluxos seguintes:
+- **`/reversa-forward`** — implementação por feature (prioridade: R-2CH/ENEM, auth)
+- **`/reversa-migrate`** — Time de Migração (Paradigm Advisor → … → Inspector)
+- **`/reversa-docs`** — mini-site visual (opcional)
+- **`/reversa-reconstructor`** — plano bottom-up legado

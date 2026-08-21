@@ -372,6 +372,23 @@ permitir **revisar e ajustar** o conjunto de regras:
 
 ---
 
+## Lacunas críticas — resolução (defaults 🟡 2026-08-21)
+
+> Brener respondeu `continuar` sem múltipla escolha; defaults alinhados à skill.  
+> Detalhes: `_reversa_sdd/questions.md`, ADR-014.
+
+| ID | Tema | Decisão default |
+|----|------|-----------------|
+| L-01 | R-2CH | **Must** implementar solver + verificador |
+| L-02 | ENEM / véspera 2CH | **Must**; véspera 9 = 1ª flexível |
+| L-03 | Grade 2º sem | Upload PDF plataforma Must; legado `GRADE_TXT` até parser |
+| L-04 | Auth | E-mail + senha + JWT; RLS por coordenador |
+| L-05 | fpdf | Could legado; HTML regras plataforma v1 |
+
+Corrigir a qualquer momento respondendo no chat (ex.: `1a, 2b, …`) ou editando `questions.md`.
+
+---
+
 ## Copiloto de IA — agente analista do horário
 
 > Registrado em 2026-08-15 por Brener.  

@@ -87,8 +87,18 @@
 5. T-09, TT-01 a TT-03 (paridade legado)
 6. T-10 → T-11 (plataforma)
 
-## Lacunas Pendentes (🔴)
+## Lacunas Pendentes (🟡)
 
-- Escopo de regras ENEM / véspera 2CH no solver
+- T-12, T-13: R-2CH + ENEM/véspera 2CH no solver (Must — ADR-014)
 - Unificação `FERIADOS` vs `BLOQUEIOS` antes de TT-01
 - Timeout global além de contagem de nós na API
+
+- [ ] T-12, Implementar constraints R-2CH (prova antes 2ª chamada do período)
+  - Origem: skill `calendario-provas` + ADR-014
+  - Critério de pronto: verificador item 2CH passa em golden file
+  - Confiança: 🟡
+
+- [ ] T-13, Implementar ENEM + véspera 2CH série 9
+  - Origem: skill + ADR-014
+  - Critério de pronto: semanas ENEM restritas; véspera 9 flexível na escada
+  - Confiança: 🟡

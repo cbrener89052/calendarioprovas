@@ -228,7 +228,8 @@ Cenário: Saída Excel como artefato oficial
 
 ## 10. Lacunas
 
-- 🔴 Regras ENEM e véspera 2CH descritas na skill mas não implementadas no gerador — escopo desta feature ou de `regras-negocio`?
+- 🟡 Regras ENEM e véspera 2CH — **Must implementar** nesta feature (ADR-014); escopo confirmado vs `regras-negocio` (catálogo + snapshot).
+- 🟡 R-2CH — Must implementar; datas via constraints/modelo.
 - 🟡 Sincronização `FERIADOS` vs `BLOQUEIOS` — risco de divergência gerador/verificador
 - 🟡 Política de gravação parcial quando apenas algumas turmas falham na plataforma
 

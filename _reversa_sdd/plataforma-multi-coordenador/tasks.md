@@ -3,7 +3,7 @@
 ## Fase 1 — Fundação
 
 - [ ] T-01, Scaffold FastAPI + PostgreSQL + Docker Compose
-- [ ] T-02, Auth 5 coordenadores
+- [ ] T-02, Auth 5 coordenadores (e-mail + senha, JWT, RLS por `coordenador_id` — ADR-014)
 - [ ] T-03, ERD migrações (usuário, calendário, blob)
 - [ ] T-04, CRUD calendário + estados
 
