@@ -109,17 +109,19 @@
       "lacunas_criticas": 5
     },
     "reviewer_lacunas": {
-      "completed_at": "2026-08-21T05:20:00Z",
-      "mode": "defaults_inferidos",
-      "user_response": "continuar",
+      "completed_at": "2026-08-21T05:35:00Z",
+      "mode": "confirmado_usuario",
+      "user_response": "1a, 2-custom, 3b, 4c, 5d-pendente",
       "files": [
         "_reversa_sdd/questions.md",
-        "_reversa_sdd/addenda/lacunas-resolvidas-defaults-2026-08-21.md",
-        "_reversa_sdd/adrs/014-decisoes-lacunas-revisao.md",
+        "_reversa_sdd/adrs/015-decisoes-lacunas-confirmadas-brener.md",
+        "_reversa_sdd/ui/enem-week-config-spec.md",
+        "_reversa_sdd/addenda/lacunas-confirmadas-brener-2026-08-21.md",
         ".reversa/context/user-requirements.md"
       ],
-      "lacunas_resolvidas": ["L-01", "L-02", "L-03", "L-04", "L-05"],
-      "confidence_overall_pct": 82
+      "lacunas_resolvidas": ["L-01", "L-02", "L-03", "L-04"],
+      "lacunas_pendentes": ["L-05"],
+      "confidence_overall_pct": 84
     }
   },
   "redator_progress": {
