@@ -25,7 +25,8 @@
   - Confiança: 🟡
 
 - [ ] T-06, Parser 2º sem 2026 (eliminar GRADE_TXT hardcoded)
-  - Confiança: 🔴
+  - Decisão ADR-014: Should forward; legado mantém hardcode até concluir
+  - Confiança: 🟡
 
 - [ ] T-07, Consolidar OCR 2025 (opcional)
   - Origem: `limpar_grade_2025.py`
