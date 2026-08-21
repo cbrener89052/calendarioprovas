@@ -89,16 +89,13 @@
 
 ## Lacunas Pendentes (🟡)
 
-- T-12, T-13: R-2CH + ENEM/véspera 2CH no solver (Must — ADR-014)
+- T-13: ENEM configurável (`EnemWeekConfig` → solver) — Must ADR-015
 - Unificação `FERIADOS` vs `BLOQUEIOS` antes de TT-01
 - Timeout global além de contagem de nós na API
 
-- [ ] T-12, Implementar constraints R-2CH (prova antes 2ª chamada do período)
-  - Origem: skill `calendario-provas` + ADR-014
-  - Critério de pronto: verificador item 2CH passa em golden file
-  - Confiança: 🟡
+- [ ] ~~T-12 R-2CH~~ — **Cancelado** (Won't — ADR-015)
 
-- [ ] T-13, Implementar ENEM + véspera 2CH série 9
-  - Origem: skill + ADR-014
-  - Critério de pronto: semanas ENEM restritas; véspera 9 flexível na escada
-  - Confiança: 🟡
+- [ ] T-13, Implementar constraints ENEM configuráveis
+  - Origem: ADR-015 + `ui/enem-week-config-spec.md`
+  - Critério de pronto: solver rejeita disciplina fora da lista da janela; verificador PROBLEMA
+  - Confiança: 🟢

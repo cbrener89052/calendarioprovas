@@ -1,6 +1,6 @@
 # ADR-014 — Decisões das lacunas críticas da revisão
 
-**Status:** Aceito 🟡 (defaults inferidos — aguarda confirmação Brener)  
+**Status:** Supersedido parcialmente por **ADR-015** (confirmação Brener 2026-08-21). Defaults abaixo válidos apenas onde ADR-015 não contradiz.
 **Data:** 2026-08-21  
 **Contexto:** Revisor identificou L-01–L-05 em `gaps.md`; usuário optou por continuar sem responder múltipla escolha.
 

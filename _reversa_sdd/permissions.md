@@ -1,7 +1,7 @@
 # Permissões e papéis — calendarioprovas
 
 > Gerado pelo Detetive (Reversa) em 2026-08-15  
-> Prioridade: evolução **multi-coordenador** (requisito usuário 2026-08-09)
+> **Atualizado 2026-08-21:** Auth confirmado ADR-015 (conta + PIN)
 
 ---
 
@@ -15,44 +15,41 @@
 
 **RBAC no código:** 🔴 ausente — sem autenticação, sem ACL.
 
-**Controle de acesso implícito:** 🟡 quem tem clone Git + pasta local = controle total.
-
 ---
 
-## Plataforma futura (🟡 inferido de user-requirements)
+## Plataforma futura (ADR-015 🟢)
 
-### Papéis propostos
+### Modelo de acesso
+
+1. **Login institucional** — uma conta compartilhada (credencial escola).
+2. **Seleção de PIN** — após login, coordenador informa PIN de 4–6 dígitos (5 cadastrados).
+3. **Sessão** — `coordenador_id` + nome exibido; toda ação auditada com PIN/usuário.
+4. **Isolamento** — calendários, uploads e exports filtrados por `coordenador_id` do PIN ativo.
+
+### Papéis
 
 | Papel | Descrição | Confiança |
 |---|---|---|
-| **coordenador** | Monta calendário do seu escopo; fecha; envia e-mails | 🟢 |
-| **coordenador_senior** | Templates institucionais read-only 🟡 | 🟡 |
-| **admin_instituicao** | Usuários, SMTP, templates e-mail, catálogo regras global | 🟢 ADR-014 |
-| **professor** | Fora do escopo v1 — e-mail passivo via doador | 🟡 |
+| **coordenador** | PIN individual; ciclo completo nos próprios dados | 🟢 |
+| **admin_instituicao** | Gerencia PINs, SMTP, templates | 🟢 |
+| **professor** | Fora do escopo v1 | 🟡 |
 
-Quantidade acordada: **5 coordenadores** com login individual 🟢.
-
-**Auth (ADR-014, default 2026-08-21):** e-mail + senha, JWT (access + refresh), middleware FastAPI valida `coordenador_id` em toda query mutável. Templates institucionais (Klausurplan, máscaras) — read-only para todos os coordenadores; write só `admin_instituicao`.
+Quantidade: **5 coordenadores** = **5 PINs** 🟢.
 
 ---
 
 ## Matriz de permissões — coordenador (plataforma)
 
-| Recurso / ação | coordenador (próprios dados) | outro coordenador | admin |
+| Recurso / ação | coordenador (próprio PIN) | outro PIN | admin |
 |---|---|---|---|
-| Upload grade/modelo | ✅ | ❌ 🟡 | ✅ |
+| Upload grade/modelo | ✅ | ❌ | ✅ |
+| `EnemWeekConfigPanel` | ✅ | ❌ | ✅ read |
 | Configurar regras (Tela 1–2) | ✅ | ❌ | ✅ read |
-| Fatoração (gerar proposta) | ✅ | ❌ | ✅ |
-| Refração (editar células) | ✅ | ❌ | ✅ |
-| Verificar checklist | ✅ | ❌ | ✅ |
+| Fatoração | ✅ | ❌ | ✅ |
 | Fechar calendário | ✅ | ❌ | ✅ |
-| Exportar relatórios | ✅ | ❌ | ✅ |
-| **Enviar e-mail doadores** | ✅ (manual) | ❌ | ✅ audit |
-| Ver log envios e-mail | ✅ próprios | ❌ | ✅ todos |
-| Promover a produção | 🟡 | ❌ | ✅ |
-| Templates regras institucionais | read 🟡 | read 🟡 | write |
+| Enviar e-mail doadores | ✅ | ❌ | ✅ audit |
 
-🟢 Isolamento entre coordenadores: dados isolados por `coordenador_id` + templates compartilhados read-only (ADR-014).
+🟢 Isolamento: row-level por `coordenador_id` do PIN; templates institucionais read-only compartilhados.
 
 ---
 
@@ -60,26 +57,12 @@ Quantidade acordada: **5 coordenadores** com login individual 🟢.
 
 | Ação | Quem | Pré-condição | Confiança |
 |---|---|---|---|
-| Pré-visualizar cessões + e-mails | coordenador | `calendario.status >= fechado` | 🟢 |
-| Confirmar envio em lote | coordenador | preview confirmado | 🟢 |
-| Reenviar item obsoleto | coordenador | 🔴 política | 🔴 |
-| Disparo automático pós-refração | — | **Proibido** (requisito explícito) | 🟢 |
+| Preview cessões | Coordenador (PIN ativo) | Calendário fechado | 🟢 |
+| Enviar e-mail | Coordenador (PIN ativo) | Confirmação explícita | 🟢 |
 
 ---
 
-## Dados sensíveis
+## Lacunas RBAC
 
-| Dado | Classificação | Restrição |
-|---|---|---|
-| E-mail professor | PII | Só coordenador dono do calendário + admin |
-| Grade horária | Operacional | Por coordenador 🟡 |
-| Calendário fechado | Oficial escola | Branch `producao` 🟢 |
-
----
-
-## Lacunas 🔴
-
-1. Coordenador A pode **ver** calendário de B (read-only) ou isolamento total?
-2. Existe papel **direção** que só aprova `producao`?
-3. Professor autenticado no futuro ou só e-mail unidirecional?
-4. Quem edita catálogo de regras **institucionais** vs **por coordenador**?
+- 🔴 Rotação/revogação de PIN — política a definir na forward
+- 🟡 Timeout sessão após inatividade com PIN "lembrado" no browser

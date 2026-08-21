@@ -26,9 +26,10 @@ com `sources.json`.
 2. **RN-02:** Regras inegociáveis (R-P1, simulados fixos) sempre ativas; flex bloqueada. 🟢
 3. **RN-03:** Coordenador marca **Aplicar** / **Pode flexibilizar** antes da fatoração. 🟢
 4. **RN-04:** Regras novas (Tela 2) podem ser `fixa` ou `sessao`. 🟡
-5. **RN-05:** Regra **2ª chamada por período** (R-2CH) — 🟢 skill / 🟡 código (Must implementar no forward, ADR-014). 🟡
-6. **RN-06:** Regras ENEM / véspera 2CH — 🟢 skill / 🟡 código (Must implementar; véspera 9 flexível primeiro). 🟡
-7. **RN-07:** `FERIADOS` vs `BLOQUEIOS` Must unificar via `CalendarConstraints` (ADR-012). 🟡
+5. **RN-05:** Regra **2ª chamada por período** (R-2CH) — 🟢 skill / **Won't** automatizar no produto (Brener 1a, ADR-015). Checklist manual.
+6. **RN-06:** **ENEM semanas configuráveis** — 🟢 requisito usuário; Must UI + solver (ADR-015). Spec `ui/enem-week-config-spec.md`.
+7. **RN-07:** Véspera 2CH série 9 — 🟢 skill / **Won't** automatizar v1 (alinhado L-01). 🟡
+8. **RN-08:** `FERIADOS` vs `BLOQUEIOS` Must unificar via `CalendarConstraints` (ADR-012). 🟡
 
 ## 4. Catálogo (amostra — skill)
 
@@ -39,13 +40,14 @@ com `sources.json`.
 | R-C1..C5 | Cessão Proposta 3 | não | sim (escada) |
 | R-SEM | Limite provas/semana | não | sim |
 | R-G1 | Grupo 1 | não | sim |
-| R-2CH | Prova antes 2ª chamada do período | sim 🟢 | não |
+| R-2CH | Prova antes 2ª chamada do período | sim 🟡 | não | **manual** — Won't solver |
+| R-ENEM | Semanas ENEM (disciplinas/janela) | sim 🟢 | sim 🟡 | Must — UI customizável |
 
-## 5.1 Decisões ADR-014 (2026-08-21) 🟡
+## 5.1 Decisões ADR-015 (2026-08-21) 🟢
 
-- **R-2CH** e **ENEM** entram no `RuleSetSnapshot` como regras aplicáveis por default.
-- Datas 2CH e ENEM coletadas na rodada (UI / `CalendarBlockPicker` + campos de data).
-- Implementação código: Must no `/reversa-forward` — ver `geracao-calendario` T-12, T-13.
+- **R-2CH:** Won't implementação automática; skill + verificador manual/copiloto.
+- **R-ENEM:** `EnemWeekConfigPanel` — 2 datas + multi-select disciplinas por janela de 6 dias.
+- Defaults skill pré-preenchidos; coordenador edita antes de salvar.
 
 ## 5. Requisitos Funcionais — plataforma
 
@@ -57,7 +59,8 @@ com `sources.json`.
 | RF-04 | Persistir `RuleSetSnapshot` por calendário/rodada | Must |
 | RF-05 | Solver/verificador recebem snapshot — regras desmarcadas ignoradas | Must |
 | RF-06 | Sync hash skill → alerta defasagem specs | Should |
-| RF-07 | Export PDF regras (`exportar_regras_pdf.py`) | Could |
+| RF-07 | Export PDF regras (`exportar_regras_pdf.py`) | Could 🔴 L-05 |
+| RF-08 | `EnemWeekConfigPanel` — 2 datas + disciplinas/janela | Must |
 
 ## 6. Critérios de Aceitação
 
@@ -75,8 +78,7 @@ Cenário: Skill atualizada no GitHub
 
 ## 7. Lacunas
 
-- 🟡 Implementar R-2CH no gerador e verificador (decisão ADR-014 — Must forward)
-- 🟡 ENEM / véspera 2CH (idem)
+- 🔴 L-05 export PDF regras (fpdf) — aguarda Brener (5a/5b/5c)
 - 🟡 Parser automático skill → catálogo BD
 
 ## 8. Histórico

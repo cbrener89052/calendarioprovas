@@ -228,9 +228,9 @@ Cenário: Saída Excel como artefato oficial
 
 ## 10. Lacunas
 
-- 🟡 Regras ENEM e véspera 2CH — **Must implementar** nesta feature (ADR-014); escopo confirmado vs `regras-negocio` (catálogo + snapshot).
-- 🟡 R-2CH — Must implementar; datas via constraints/modelo.
-- 🟡 Sincronização `FERIADOS` vs `BLOQUEIOS` — risco de divergência gerador/verificador
+- 🟢 ENEM — **Must** `EnemWeekConfigPanel` + constraints solver (ADR-015)
+- 🟢 R-2CH — **Won't** automatizar (ADR-015); checklist manual
+- 🟡 Sincronização `FERIADOS` vs `BLOQUEIOS`
 - 🟡 Política de gravação parcial quando apenas algumas turmas falham na plataforma
 
 ## 11. Histórico de alterações

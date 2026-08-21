@@ -33,17 +33,15 @@ Legado Python + skill bem cobertos; plataforma alvo predominantemente 🟡.
 
 ---
 
-## Lacunas críticas — resolvidas 🟡 (defaults 2026-08-21)
-
-Ver ADR-014 e `_reversa_sdd/questions.md`. Resumo:
+## Lacunas críticas — resolvidas 🟢 (Brener 2026-08-21, ADR-015)
 
 | ID | Status | Decisão |
 |----|--------|---------|
-| L-01 R-2CH | 🟡 | Must no forward (solver + verificador) |
-| L-02 ENEM | 🟡 | Must no forward |
-| L-03 Grade 2sem | 🟡 | Upload PDF plataforma; legado hardcode temporário |
-| L-04 Auth | 🟡 | E-mail/senha + JWT + RLS |
-| L-05 fpdf | 🟡 | Could legado; HTML regras plataforma v1 |
+| L-01 R-2CH | 🟢 | **Won't** automatizar — manual/skill |
+| L-02 ENEM | 🟢 | **Must** UI customizável (2 datas + disciplinas/janela) |
+| L-03 Grade 2sem | 🟢 | Upload PDF plataforma; legado hardcode |
+| L-04 Auth | 🟢 | Conta compartilhada + PIN |
+| L-05 fpdf | 🔴 | Resposta "5d" — confirmar a/b/c |
 
 ### Pendentes moderadas 🟡
 
@@ -65,10 +63,9 @@ Ver ADR-014 e `_reversa_sdd/questions.md`. Resumo:
 
 ## Recomendações
 
-1. Priorizar implementação **R-2CH** no gerador antes do forward (skill já exige)
-2. Validar **CalendarBlockPicker** e **ExamCatalogEditor** com coordenação (protótipo UX)
-3. Golden file **Proposta_3** + grade PDF para testes de parser
-4. Fechar decisão **auth** antes de `plataforma-multi-coordenador` T-02
+1. Implementar **`EnemWeekConfigPanel`** + constraints solver (L-02)
+2. Auth **conta + PIN** (L-04) antes de multi-coordenador T-02
+3. Confirmar L-05 (export PDF regras)
 
 ---
 
@@ -84,7 +81,7 @@ Ver ADR-014 e `_reversa_sdd/questions.md`. Resumo:
 
 ## Próximo passo
 
-- Brener pode **confirmar ou corrigir** defaults em `questions.md` (respostas 1b, 2a, 3b, 4a, 5b)
-- `/reversa-forward` — prioridade: R-2CH/ENEM (L-01/L-02), auth T-02 (L-04)
+- Brener confirmou **1a, 2-custom, 3b, 4c** — falta **5a/5b/5c** (informou "d")
+- `/reversa-forward` — prioridade: ENEM config (L-02), auth PIN (L-04)
 - `/reversa-migrate` após primeira feature forward estável
 - `/reversa-docs` — mini-site visual da documentação (opcional)

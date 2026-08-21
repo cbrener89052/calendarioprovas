@@ -130,9 +130,10 @@ Cenário: Copiloto explica falha
 
 ## 11. Lacunas
 
-- 🔴 `FERIADOS` vs `BLOQUEIOS` dessincronizados — verificador pode divergir do gerador
-- 🔴 Regras ENEM / véspera 2CH na skill mas não no verificador
-- 🟡 Item 10b AVISO vs PROBLEMA quando cessão foi relaxada no solver — critério fino na plataforma
+- 🔴 `FERIADOS` vs `BLOQUEIOS` dessincronizados
+- 🟢 ENEM — Must checklist automático quando `EnemWeekConfig` persistido (ADR-015)
+- 🟢 R-2CH / véspera 2CH — Won't automático; item manual skill (ADR-015)
+- 🟡 Item 10b AVISO vs PROBLEMA quando cessão relaxada
 
 ## 12. Histórico de alterações
 

@@ -18,7 +18,7 @@ visualização/export Excel, copiloto OpenAI opcional e e-mail manual a doadores
 | Backend | Python FastAPI |
 | BD | PostgreSQL |
 | Blobs | S3 / pasta local (Docker on-prem) |
-| Auth | E-mail + senha + JWT 🟢 ADR-014 |
+| Auth | Conta compartilhada + PIN por coordenador 🟢 ADR-015 |
 | Frontend | Next.js 🟡 |
 | IA | OpenAI API backend-only (ADR-008) |
 
@@ -33,7 +33,7 @@ visualização/export Excel, copiloto OpenAI opcional e e-mail manual a doadores
 
 ## 4. Regras de negócio
 
-1. **RN-01:** Isolamento de dados por coordenador — row-level por `coordenador_id`; templates institucionais read-only compartilhados. 🟢 ADR-014
+1. **RN-01:** Sessão identifica coordenador por **PIN** após login institucional compartilhado; dados isolados por `coordenador_id` derivado do PIN. 🟢 ADR-015
 2. **RN-02:** Versionamento entradas/saídas por semestre/rodada. 🟢
 3. **RN-03:** Saída oficial **Excel** Proposta_3 + preview in-app. 🟢 ADR-013
 4. **RN-04:** Recálculo **sem IA** quando entradas estruturadas persistidas. 🟢 ADR-011
@@ -56,12 +56,13 @@ visualização/export Excel, copiloto OpenAI opcional e e-mail manual a doadores
 | `VerificationPanel` | Checklist PROBLEMA/AVISO | — |
 | `DonorEmailPanel` | Preview e-mail doadores | 007 |
 | `CloseCalendarAction` | Fechar horário | — |
+| `EnemWeekConfigPanel` | 2 datas ENEM + disciplinas/janela | 015 |
 
 ## 6. Requisitos Funcionais
 
 | ID | Requisito | Must |
 |----|-----------|------|
-| RF-01 | Auth login 5 coordenadores | Must |
+| RF-01 | Auth: conta compartilhada + 5 PINs coordenador | Must |
 | RF-02 | CRUD calendário por semestre | Must |
 | RF-03 | Upload grade PDF | Must |
 | RF-04 | CalendarBlockPicker + persist constraints | Must |

@@ -12,13 +12,17 @@
 - [ ] T-04, Integrar snapshot em `CalendarSolver`
   - Origem: `geracao-calendario` 🟡
 
-- [ ] T-05, Implementar R-2CH no gerador
-  - Origem: skill sync 2026-08-20 🔴
+- [ ] ~~T-05, Implementar R-2CH no gerador~~ — **Cancelado** (Won't ADR-015)
 
-- [ ] T-06, Checklist verificador item 2CH
-  - Confiança: 🔴
+- [ ] ~~T-06, Checklist verificador item 2CH~~ — **Manual** (Won't ADR-015)
+
+- [ ] T-05b, `EnemWeekConfigPanel` + persistência + catálogo R-ENEM
+  - Origem: ADR-015 🟢
+
+- [ ] T-06b, Verificador violação ENEM (disciplina fora da janela)
+  - Confiança: 🟢
 
 - [ ] T-07, Unificar feriados (`CalendarConstraintsService`)
   - Origem: ADR-012 🟡
 
-Ordem: T-01 → T-02 → T-03 → T-04 → T-07 → T-05 → T-06
+Ordem: T-01 → T-02 → T-03 → T-04 → T-05b → T-06b → T-07

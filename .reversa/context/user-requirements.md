@@ -32,7 +32,7 @@ precisa existir um **banco de dados** para armazenar:
 ## Pendências para o usuário confirmar
 
 - [x] Cada coordenador vê **só os seus dados** ou há templates/regras compartilhadas? → **A definir no Arquiteto** (provável: dados isolados por coordenador + templates institucionais compartilhados)
-- [x] Haverá **login** (conta por coordenador) ou acesso interno da rede? → **Login individual** (5 coordenadores)
+- [x] Haverá **login** (conta por coordenador) ou acesso interno da rede? → **Conta compartilhada + PIN por coordenador** (5 PINs, ADR-015)
 - [x] O sistema roda **na nuvem** ou **servidor da escola**? → **Nuvem como padrão**, com capacidade de rodar **localmente em servidor/on-prem** quando necessário (deploy híbrido)
 - [x] Os scripts Python atuais viram **API/backend** ou reescrita completa? → **Manter Python** (evolução do código existente)
 
@@ -42,7 +42,7 @@ precisa existir um **banco de dados** para armazenar:
 |---|---|
 | Deploy | Nuvem + opção **self-hosted/local** (Docker) |
 | Backend | **Python** (FastAPI) — reaproveitar lógica de `gerar_calendario.py` etc. |
-| Usuários | **5 coordenadores**, login individual |
+| Usuários | **5 coordenadores** — conta institucional compartilhada + **PIN individual** por coordenador (ADR-015) |
 | Banco | **PostgreSQL** (metadados, regras, versionamento) |
 | Arquivos | Storage de blobs (S3 na nuvem / pasta local no deploy on-prem) |
 | Frontend | A definir na fase de design (provável web app — Next.js ou similar) |
@@ -372,20 +372,29 @@ permitir **revisar e ajustar** o conjunto de regras:
 
 ---
 
-## Lacunas críticas — resolução (defaults 🟡 2026-08-21)
+## Lacunas críticas — resolução confirmada 🟢 (2026-08-21)
 
-> Brener respondeu `continuar` sem múltipla escolha; defaults alinhados à skill.  
-> Detalhes: `_reversa_sdd/questions.md`, ADR-014.
+> Respostas Brener: `1a, 2-custom, 3b, 4c, 5d(pendente)` — ADR-015.
 
-| ID | Tema | Decisão default |
-|----|------|-----------------|
-| L-01 | R-2CH | **Must** implementar solver + verificador |
-| L-02 | ENEM / véspera 2CH | **Must**; véspera 9 = 1ª flexível |
-| L-03 | Grade 2º sem | Upload PDF plataforma Must; legado `GRADE_TXT` até parser |
-| L-04 | Auth | E-mail + senha + JWT; RLS por coordenador |
-| L-05 | fpdf | Could legado; HTML regras plataforma v1 |
+| ID | Tema | Decisão confirmada |
+|----|------|-------------------|
+| L-01 | R-2CH | **Won't** no solver — checklist manual/skill |
+| L-02 | ENEM | **Must** — 2 datas + disciplinas permitidas/janela (customizável); spec `ui/enem-week-config-spec.md` |
+| L-03 | Grade 2º sem | Upload PDF plataforma Must; legado `GRADE_TXT` |
+| L-04 | Auth | Conta compartilhada + PIN por coordenador |
+| L-05 | fpdf | 🔴 pendente — resposta "d" sem opção correspondente |
 
-Corrigir a qualquer momento respondendo no chat (ex.: `1a, 2b, …`) ou editando `questions.md`.
+### ENEM — requisito detalhado 🟢
+
+Antes da fatoração, o sistema Must:
+
+1. Perguntar **duas datas** do ENEM (domingos).
+2. Para **cada** data, exibir a janela de **6 dias anteriores** (seg–sáb).
+3. Permitir ao coordenador **marcar quais disciplinas/provas podem ocorrer** naquela janela.
+4. Oferecer **sugestão padrão** derivada da skill (editável).
+5. Persistir em `EnemWeekConfig` e aplicar no solver + verificador.
+
+Componente: **`EnemWeekConfigPanel`**. Ver `_reversa_sdd/ui/enem-week-config-spec.md`.
 
 ---
 
