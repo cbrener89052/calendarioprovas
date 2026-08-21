@@ -63,20 +63,20 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Fase 4: Geração 📝
 
-- [ ] **Redator** — Specs SDD por componente
+- [x] **Redator** — Specs SDD por componente
   - [x] `geracao-calendario` (requirements, design, tasks)
   - [x] `verificacao-calendario` (requirements, design, tasks)
   - [x] `exportacao-relatorios` (requirements, design, tasks)
-  - [ ] `extracao-grade`, `analise-historica`, `regras-negocio`, `plataforma-multi-coordenador`
-- [ ] **Redator** — OpenAPI (se aplicável)
-- [ ] **Redator** — User Stories (se aplicável)
-- [ ] **Redator** — Code/Spec Matrix
+  - [x] `extracao-grade`, `analise-historica`, `regras-negocio`, `plataforma-multi-coordenador`
+- [x] **Redator** — OpenAPI (se aplicável)
+- [x] **Redator** — User Stories (se aplicável)
+- [x] **Redator** — Code/Spec Matrix
 
 ## Fase 5: Revisão ✅
 
-- [ ] **Revisor** — Revisão cruzada de specs
-- [ ] **Revisor** — Resolução de lacunas com o usuário
-- [ ] **Revisor** — Relatório de confiança final
+- [x] **Revisor** — Revisão cruzada de specs
+- [x] **Revisor** — Relatório de confiança final (`confidence-report.md`, `gaps.md`)
+- [ ] **Revisor** — Resolução de lacunas com o usuário (pendente validação humana)
 
 ---
 
@@ -93,9 +93,9 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 ## Próximo passo
 
-**Em andamento (2026-08-16):** Redator — 3/7 units concluídas (`geracao`, `verificacao`, `exportacao`).
+**Concluído (2026-08-21):** Redator — 7/7 units + globais (OpenAPI, user stories, matrix).
 
-Após o Time de Descoberta concluir e o `_reversa_sdd/` estar populado, você pode disparar um dos fluxos seguintes:
+**Extração Reversa concluída (2026-08-21).** Lacunas 🔴 aguardam validação com Brener.
 
-- `/reversa-migrate`: orquestrador do **Time de Migração** (Paradigm Advisor → Curator → Strategist → Designer → Screen Translator → Inspector). Gera as specs do sistema novo. Saída em `_reversa_sdd/migration/` e `_reversa_sdd/screens/`.
+Fluxos seguintes: orquestrador do **Time de Migração** (Paradigm Advisor → Curator → Strategist → Designer → Screen Translator → Inspector). Gera as specs do sistema novo. Saída em `_reversa_sdd/migration/` e `_reversa_sdd/screens/`.
 - `/reversa-reconstructor`: gera plano bottom-up para reimplementar o software a partir das specs do legado (uma tarefa por sessão).

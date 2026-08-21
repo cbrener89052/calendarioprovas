@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: calendarioprovas API
+  version: 0.1.0-draft
+  description: |
+    API alvo multi-coordenador (FastAPI).
+    Gerado pelo Redator Reversa — rascunho; expandir na fase forward.
+
+servers:
+  - url: /api/v1
+
+tags:
+  - name: calendars
+  - name: grade
+  - name: constraints
+  - name: catalog
+  - name: rules
+  - name: factor
+  - name: preview
+  - name: exports
+  - name: copilot
+
+paths:
+  /calendars:
+    post:
+      tags: [calendars]
+      summary: Criar calendário/rodada
+    get:
+      tags: [calendars]
+      summary: Listar calendários do coordenador
+
+  /calendars/{id}/grade/upload:
+    post:
+      tags: [grade]
+      summary: Upload PDF/planilha grade
+
+  /calendars/{id}/grade/preview:
+    get:
+      tags: [grade]
+      summary: Preview grade por turma
+
+  /calendars/{id}/constraints/grid:
+    get:
+      tags: [constraints]
+      summary: Malha bloqueios (CalendarBlockPicker)
+
+  /calendars/{id}/constraints/day:
+    put:
+      tags: [constraints]
+      summary: Toggle dia bloqueado
+
+  /calendars/{id}/constraints/week:
+    put:
+      tags: [constraints]
+      summary: Toggle semana vetada
+
+  /calendars/{id}/catalog:
+    get:
+      tags: [catalog]
+      summary: ExamCatalog
+    put:
+      tags: [catalog]
+      summary: Atualizar catálogo
+
+  /intake/template/provas:
+    get:
+      tags: [catalog]
+      summary: Download máscara provas (opcional)
+
+  /calendars/{id}/rules/snapshot:
+    get:
+      tags: [rules]
+      summary: RuleSetSnapshot atual
+    put:
+      tags: [rules]
+      summary: Salvar seleção Telas 1–2
+
+  /calendars/{id}/factor:
+    post:
+      tags: [factor]
+      summary: Iniciar fatoração (202 async)
+
+  /calendars/{id}/factor/{jobId}:
+    get:
+      tags: [factor]
+      summary: Status job fatoração
+
+  /calendars/{id}/preview/grid:
+    get:
+      tags: [preview]
+      summary: CalendarPreviewView — malha Proposta_3
+
+  /calendars/{id}/preview/timetable:
+    get:
+      tags: [preview]
+      summary: Grade horária read-only
+
+  /calendars/{id}/download/xlsx:
+    get:
+      tags: [preview]
+      summary: Download Proposta_3.xlsx
+
+  /calendars/{id}/verify:
+    post:
+      tags: [calendars]
+      summary: Executar verificador
+
+  /calendars/{id}/exports:
+    post:
+      tags: [exports]
+      summary: Gerar relatórios derivados
+
+  /calendars/{id}/exports/{type}:
+    get:
+      tags: [exports]
+      summary: Download export por tipo
+
+  /calendars/{id}/copilot/chat:
+    post:
+      tags: [copilot]
+      summary: Mensagem copiloto (OpenAI + RAG)
+
+components:
+  schemas:
+    RuleSetSnapshot:
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            type: object
+            properties:
+              rule_id: { type: string }
+              aplicar: { type: boolean }
+              flexibilizar: { type: boolean }
+    ExamCatalogEntry:
+      type: object
+      properties:
+        turma: { type: string }
+        disciplina: { type: string }
+        ordem: { type: integer }
+        n_tempos: { type: integer }
+        n_aulas_semanais: { type: integer }

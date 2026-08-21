@@ -8,9 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "geracao",
-  "completed": ["reconhecimento", "escavacao", "interpretacao"],
-  "pending": ["geracao", "revisao"],
+  "phase": "revisao",
+  "completed": ["reconhecimento", "escavacao", "interpretacao", "geracao"],
+  "pending": ["revisao-lacunas"],
   "checkpoints": {
     "scout": {
       "completed_at": "2026-08-09T03:00:00Z",
@@ -93,12 +93,27 @@
         "erd_entities": 18,
         "technical_debts": 8
       }
+    },
+    "writer": {
+      "completed_at": "2026-08-21T03:30:00Z",
+      "units": 7,
+      "globals": ["openapi/calendarioprovas.yaml", "user-stories/ciclo-calendario.md", "traceability/code-spec-matrix.md"]
+    },
+    "reviewer": {
+      "completed_at": "2026-08-21T03:35:00Z",
+      "files": [
+        "_reversa_sdd/confidence-report.md",
+        "_reversa_sdd/gaps.md"
+      ],
+      "confidence_overall_pct": 76,
+      "lacunas_criticas": 5
     }
   },
   "redator_progress": {
     "plan_presented_at": "2026-08-15T22:10:00Z",
+    "completed_at": "2026-08-21T03:30:00Z",
     "units_total": 7,
-    "current_unit": "extracao-grade",
+    "current_unit": null,
     "completed_files": [
       "geracao-calendario/requirements.md",
       "geracao-calendario/design.md",
@@ -108,19 +123,25 @@
       "verificacao-calendario/tasks.md",
       "exportacao-relatorios/requirements.md",
       "exportacao-relatorios/design.md",
-      "exportacao-relatorios/tasks.md"
-    ],
-    "pending_units": [
-      "extracao-grade",
-      "analise-historica",
-      "regras-negocio",
-      "plataforma-multi-coordenador"
-    ],
-    "pending_globals": [
+      "exportacao-relatorios/tasks.md",
+      "extracao-grade/requirements.md",
+      "extracao-grade/design.md",
+      "extracao-grade/tasks.md",
+      "analise-historica/requirements.md",
+      "analise-historica/design.md",
+      "analise-historica/tasks.md",
+      "regras-negocio/requirements.md",
+      "regras-negocio/design.md",
+      "regras-negocio/tasks.md",
+      "plataforma-multi-coordenador/requirements.md",
+      "plataforma-multi-coordenador/design.md",
+      "plataforma-multi-coordenador/tasks.md",
       "openapi/calendarioprovas.yaml",
       "user-stories/ciclo-calendario.md",
       "traceability/code-spec-matrix.md"
-    ]
+    ],
+    "pending_units": [],
+    "pending_globals": []
   },
   "engines": [
     "claude-code",
