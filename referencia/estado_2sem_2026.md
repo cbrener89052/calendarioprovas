@@ -1555,6 +1555,34 @@ tocado por essa mudança.
 
 Os 5 relatórios regenerados com a mudança.
 
+## 11C1/11C2: Química para 15/09 e GL para semana 8, em cadeia (08/2026)
+
+Usuário pediu para levar a 1ª prova de Química (11C1+11C2) para a
+semana seguinte, dia 15/09, e identificou por conta própria que isso
+exigiria mover a GL para a semana 8 (a semana 7, destino da Química, já
+tinha 3 avaliações — Bio, GL, Fis — no teto; a Química ali estouraria
+para 4). Pedido: propor data/hora para a GL antes de aplicar.
+
+**Análise apresentada e aprovada**: única posição viável na semana 8
+sem esbarrar em outra prova (Filosofia já ocupa a quarta) é **segunda,
+4º-5º tempos** — único bloco a partir do tempo próprio da GL nesse dia
+(5º tempo é aula própria; o par 5º-6º cruzaria o intervalo). Doadores:
+Redação/ACo (11C1) e Inglês/PaH (11C2) — nenhum dos dois é Química ou
+Física (critério de preferência da skill), e nenhum tem prova própria
+perto dessa semana (sem véspera).
+
+**Aplicado**:
+1. Química (11C1+11C2): semana 6 terça (08/09) → **semana 7 terça
+   (15/09)**, mesmo bloco 2º-3º tempos.
+2. GL (11C1+11C2): semana 7 quarta (16/09) → **semana 8 segunda
+   (21/09)**, tempos 4º-5º.
+
+Distância entre as 2 ocorrências de GL: semana 15 − semana 8 = 7
+semanas, exatamente no piso desejável. `verificar_calendario.py` fecha
+só com os 4 PROBLEMA já conhecidos e autorizados (GL 10C "1 provas
+esperado 2", grupo 1 do 11C na semana 6) — **nenhum PROBLEMA novo, nem
+AVISO novo**. Os 5 relatórios regenerados com as mudanças.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
