@@ -1583,6 +1583,49 @@ só com os 4 PROBLEMA já conhecidos e autorizados (GL 10C "1 provas
 esperado 2", grupo 1 do 11C na semana 6) — **nenhum PROBLEMA novo, nem
 AVISO novo**. Os 5 relatórios regenerados com as mudanças.
 
+## 9C1/9C2: DaF volta a ter 1ª prova — 24/09 (08/2026)
+
+Usuário perguntou por que a prova de DaF que estava em 15/09 (9C) tinha
+sumido — resposta: decisão do próprio usuário em 13/08 (commit
+`c85173f`), que pediu só 1 prova de GL e DaF no semestre para essas
+turmas, em outubro. Ver seção correspondente mais acima no histórico
+(anterior a esta rodada) para o racional completo daquela decisão.
+
+Nesta rodada, usuário pediu para **reverter isso só para DaF** (GL
+continua com 1 prova só): "Traga opções de data para a prova de daf
+nas turmas 9C, são 2 tempos de aula, a data provável é 22/09, podem ser
+provas separadas das duas turmas usando os tempos de daf em cada
+turma". Confirmado via pergunta: é para **adicionar uma 1ª prova**
+(voltar a ter 2 no total), não substituir a de outubro.
+
+**Análise apresentada**: como 9C1 e 9C2 têm a grade de DaF idêntica
+(mesmos tempos próprios nas duas), o bloco de **quinta-feira, 1º-2º
+tempos, é a aula dupla real** nas duas turmas — zero tempo emprestado,
+melhor opção que a terça (22/09) sugerida inicialmente, que exigiria
+tomar 1 tempo de Português/Jana no 9C1 (já acima do teto de cessão,
+12,5%). Usuário escolheu a quinta.
+
+**Implementado no código**: `DaF` removida de `UMA_PROVA_POR_TURMA`
+(9C1/9C2) em `gerar_calendario.py` — a exceção "1 prova só" agora vale
+só para `GL` nessas turmas; DaF volta ao padrão normal de 2 ocorrências
+(1 por período).
+
+**Aplicado**: DaF (9C1+9C2) — nova 1ª prova em **semana 8, quinta-feira
+(24/09)**, tempos 1º-2º, sem nenhum doador (aula dupla real). A 2ª
+prova (semana 13, 27/10) não foi alterada.
+
+`verificar_calendario.py` fecha só com os 4 PROBLEMA já conhecidos e
+autorizados (GL 10C, grupo 1 do 11C) — nenhum PROBLEMA novo. Surgiu **1
+AVISO leve novo**: `DaF/Caro-SGa-EFr cedeu aula na semana 7 tendo prova
+própria na semana 8` (nas duas turmas) — a DaF já doava um tempo na
+terça para a prova de Biologia (semana 7); agora que a DaF tem prova
+própria logo na semana seguinte, essa cessão pré-existente vira véspera
+leve, mesmo padrão de outras exceções já aceitas no semestre.
+Distância entre as 2 provas de DaF: semana 13 − semana 8 = 5 semanas
+(acima do piso mínimo de 4, abaixo do piso desejável de 7 — aceito).
+
+Os 5 relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

@@ -217,8 +217,8 @@ SEM_PROVA_POR_TURMA = {
 UMA_PROVA_POR_TURMA = {
     "12C1": {"ing"},
     "12C2": {"ing"},
-    "9C1": {"GL", "DaF"},
-    "9C2": {"GL", "DaF"},
+    "9C1": {"GL"},
+    "9C2": {"GL"},
 }
 
 # excecoes de DOIS_TEMPOS por turma especifica: a prova usa 1 tempo em
