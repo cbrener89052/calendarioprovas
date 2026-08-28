@@ -10,6 +10,7 @@ servers:
   - url: /api/v1
 
 tags:
+  - name: auth
   - name: calendars
   - name: grade
   - name: constraints
@@ -21,6 +22,16 @@ tags:
   - name: copilot
 
 paths:
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Login conta institucional compartilhada (ADR-015)
+
+  /auth/pin:
+    post:
+      tags: [auth]
+      summary: Selecionar PIN do coordenador (5 PINs)
+
   /calendars:
     post:
       tags: [calendars]
@@ -53,6 +64,14 @@ paths:
     put:
       tags: [constraints]
       summary: Toggle semana vetada
+
+  /calendars/{id}/enem-config:
+    get:
+      tags: [constraints]
+      summary: EnemWeekConfig — 2 datas + disciplinas/janela
+    put:
+      tags: [constraints]
+      summary: Salvar configuração ENEM (ADR-015)
 
   /calendars/{id}/catalog:
     get:
@@ -141,3 +160,21 @@ components:
         ordem: { type: integer }
         n_tempos: { type: integer }
         n_aulas_semanais: { type: integer }
+    EnemWeekConfig:
+      type: object
+      required: [enem_dates, windows]
+      properties:
+        enem_dates:
+          type: array
+          minItems: 2
+          maxItems: 2
+          items: { type: string, format: date }
+        windows:
+          type: array
+          items:
+            type: object
+            properties:
+              enem_date: { type: string, format: date }
+              allowed_disciplines:
+                type: array
+                items: { type: string }

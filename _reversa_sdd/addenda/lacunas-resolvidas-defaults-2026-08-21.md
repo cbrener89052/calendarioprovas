@@ -5,9 +5,10 @@
 
 ## Vigência
 
-- **Vigente** desde 2026-08-21 até confirmação explícita do usuário ou re-extração que absorva estes deltas.
+- **Superado** pela re-extração de 2026-08-28 (ADR-015 confirmado Brener).
+- Histórico apenas — não usar defaults deste adendo.
 
-## Decisões
+## Decisões (obsoletas)
 
 | ID | Decisão default | Forward |
 |----|-----------------|---------|

@@ -1,6 +1,6 @@
 # Relatório de Confiança — calendarioprovas
 
-> Gerado pelo Revisor (Reversa) em 2026-08-21
+> Gerado pelo Revisor (Reversa) | Atualizado 2026-08-28 (ADR-015 completo)
 
 ---
 
@@ -8,80 +8,58 @@
 
 | Nível | Quantidade estimada | Percentual |
 |-------|---------------------|------------|
-| 🟢 CONFIRMADO | ~85 | ~62% |
-| 🟡 INFERIDO | ~40 | ~29% |
-| 🔴 LACUNA | ~12 | ~9% |
+| 🟢 CONFIRMADO | ~92 | ~67% |
+| 🟡 INFERIDO | ~38 | ~28% |
+| 🔴 LACUNA | ~7 | ~5% |
 | **Total** | ~137 | 100% |
 
-**Confiança geral:** ~82% — após resolução L-01–L-05 com defaults 🟡 (2026-08-21)
-
-Legado Python + skill bem cobertos; plataforma alvo predominantemente 🟡.
+**Confiança geral:** ~86% — lacunas críticas L-01–L-05 fechadas (ADR-015)
 
 ---
 
 ## Por Unit
 
-| Unit | 🟢 | 🟡 | 🔴 | Confiança |
-|------|----|----|-----|-----------|
-| `geracao-calendario/` | alto | médio | baixo | ~80% |
-| `verificacao-calendario/` | alto | médio | médio | ~75% |
-| `exportacao-relatorios/` | alto | médio | baixo | ~82% |
-| `extracao-grade/` | alto | médio | alto (parser 2sem) | ~65% |
-| `analise-historica/` | alto | alto | médio | ~70% |
-| `regras-negocio/` | alto | médio | alto (2CH/ENEM) | ~68% |
-| `plataforma-multi-coordenador/` | baixo | alto | médio | ~58% |
+| Unit | Confiança |
+|------|-----------|
+| `geracao-calendario/` | ~82% |
+| `verificacao-calendario/` | ~78% |
+| `exportacao-relatorios/` | ~85% |
+| `extracao-grade/` | ~72% |
+| `analise-historica/` | ~70% |
+| `regras-negocio/` | ~80% |
+| `plataforma-multi-coordenador/` | ~68% |
 
 ---
 
-## Lacunas críticas — resolvidas 🟢 (Brener 2026-08-21, ADR-015)
+## Lacunas críticas — todas resolvidas 🟢 (ADR-015)
 
-| ID | Status | Decisão |
-|----|--------|---------|
-| L-01 R-2CH | 🟢 | **Won't** automatizar — manual/skill |
-| L-02 ENEM | 🟢 | **Must** UI customizável (2 datas + disciplinas/janela) |
-| L-03 Grade 2sem | 🟢 | Upload PDF plataforma; legado hardcode |
-| L-04 Auth | 🟢 | Conta compartilhada + PIN |
-| L-05 fpdf | 🔴 | Resposta "5d" — confirmar a/b/c |
+| ID | Decisão |
+|----|---------|
+| L-01 R-2CH | **Won't** automatizar — manual/skill |
+| L-02 ENEM | **Must** UI customizável |
+| L-03 Grade 2sem | Upload PDF plataforma |
+| L-04 Auth | Conta + PIN |
+| L-05 fpdf | **Won't v1** — regras só plataforma (5d) |
 
-### Pendentes moderadas 🟡
+### Moderadas restantes 🟡
 
-- DPA OpenAI + operação on-prem com API externa
-- Framework frontend (Next.js provável)
-- FERIADOS vs BLOQUEIOS unificação
-
----
-
-## Inconsistências cruzadas (revisadas)
-
-| Item | Status |
-|------|--------|
-| `FERIADOS` vs `BLOQUEIOS` | 🟡 ADR-012 propõe unificação — ainda no legado |
-| Skill hash vs snapshot domain | 🟡 Re-rodar Detetive após sync skill recomendado |
-| Máscara xlsx bloqueios vs CalendarBlockPicker | 🟢 ADR-012 resolve — xlsx secundário |
+- FERIADOS vs BLOQUEIOS
+- Frontend Next.js
+- DPA OpenAI / on-prem
+- Perfil regras por coordenador vs semestre
 
 ---
 
-## Recomendações
+## Recomendações forward
 
-1. Implementar **`EnemWeekConfigPanel`** + constraints solver (L-02)
-2. Auth **conta + PIN** (L-04) antes de multi-coordenador T-02
-3. Confirmar L-05 (export PDF regras)
-
----
-
-## Histórico de Reclassificações
-
-| De | Para | Afirmação | Evidência |
-|----|------|-----------|-----------|
-| 🟡 | 🟢 | Saída Excel obrigatória | ADR-013 + user-requirements |
-| 🟡 | 🟢 | Bloqueios via UI visual | ADR-012 + user-requirements |
-| 🟢 | 🟡 | Catálogo provas só xlsx | ADR-010 + ExamCatalogEditor |
+1. `EnemWeekConfigPanel` + T-13 solver/verificador
+2. Auth conta + PIN (T-02)
+3. `GradeParserService` upload PDF (T-05 plataforma)
 
 ---
 
 ## Próximo passo
 
-- Brener confirmou **1a, 2-custom, 3b, 4c** — falta **5a/5b/5c** (informou "d")
-- `/reversa-forward` — prioridade: ENEM config (L-02), auth PIN (L-04)
-- `/reversa-migrate` após primeira feature forward estável
-- `/reversa-docs` — mini-site visual da documentação (opcional)
+- **`/reversa-forward`** — implementação por feature
+- **`/reversa-migrate`** — specs sistema novo
+- **`/reversa-docs`** — mini-site (opcional)

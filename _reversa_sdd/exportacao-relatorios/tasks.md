@@ -35,9 +35,8 @@
   - Origem: ADR-007
   - Confiança: 🟡
 
-- [ ] T-08, `exportar_regras_pdf` + dependência fpdf
-  - Confiança: 🔴
+- [ ] ~~T-08, `exportar_regras_pdf` + fpdf~~ — **Cancelado** (Won't v1 — ADR-015 5d; regras em `regras-negocio`)
 
 ## Ordem
 
-T-05 → T-01..T-04 → T-06 → T-07 → T-08
+T-05 → T-01..T-04 → T-06 → T-07

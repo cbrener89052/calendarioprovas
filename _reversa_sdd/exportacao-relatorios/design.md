@@ -10,7 +10,7 @@
 | `exportar_tempos_cedidos` | Proposta_3 xlsx | xlsx cessões agregadas | `ReportExporter.donatedTimes` |
 | `exportar_relatorio_trocas` | Proposta_3 xlsx | md + xlsx 3 abas | `ReportExporter.tradeReport` |
 | `exportar_provas_por_professor` | Proposta_3 xlsx | xlsx pivot professor | `ReportExporter.byTeacher` |
-| `exportar_regras_pdf` | markdown estático | pdf | `ReportExporter.rulesPdf` 🟡 |
+| ~~`exportar_regras_pdf`~~ | — | — | **Won't v1** — `RulesCatalogService` (ADR-015 5d) |
 
 ### API plataforma 🟡
 
@@ -36,7 +36,7 @@
 - Proposta xlsx de `geracao-calendario` 🟢
 - `verificacao-calendario` recomendado antes de fechar 🟡
 - `DonorEmailService` consome trades 🟡
-- fpdf para RF-05 🔴
+- Regras de negócio: `RulesCatalogService` + Telas 1–2 (substitui PDF) 🟢 ADR-015
 
 ## Decisões
 

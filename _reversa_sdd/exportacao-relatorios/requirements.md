@@ -49,7 +49,7 @@ plataforma, alimenta preview de **e-mail aos doadores** (ADR-007).
 | RF-02 | `exportar_tempos_cedidos.py` | `Relatorio_Tempos_Cedidos_Proposta_3.xlsx` | Must |
 | RF-03 | `exportar_relatorio_trocas.py` | `.md` + `.xlsx` (3 abas) | Must |
 | RF-04 | `exportar_provas_por_professor.py` | `Provas_por_Professor_Proposta_3.xlsx` | Must |
-| RF-05 | `exportar_regras_pdf.py` | `referencia/Regras_Negocio_*.pdf` | Could 🟡 ADR-014 |
+| RF-05 | `exportar_regras_pdf.py` | — | **Won't v1** 🟢 ADR-015 (5d) |
 
 ## 6. Requisitos Funcionais — plataforma 🟡
 
@@ -79,9 +79,9 @@ Cenário: Relatório trocas para e-mail
 
 ## 8. Lacunas
 
-- 🟡 `exportar_regras_pdf` — adicionar `fpdf` ao legado (Could); plataforma v1 HTML regras, PDF v1.1 (ADR-014)
+- 🟢 RF-05 PDF regras — **Won't v1** (ADR-015 5d); regras na plataforma (`regras-negocio`)
 - 🟡 Duplicação parse xlsx entre exportadores (DT-07)
-- 🟡 Ordem batch dos 5 scripts na plataforma (job único vs paralelo)
+- 🟡 Ordem batch dos 4 scripts ativos na plataforma (RF-01–04)
 
 ## 9. Histórico
 

@@ -93,25 +93,24 @@ Frontend Web ──HTTPS──► API FastAPI (Python)
 | DT-03 | `BLOQUEIOS` vs `FERIADOS` dessincronizados | Média | 🟢 |
 | DT-04 | Grade hardcoded vs extração PDF | Média | 🟢 |
 | DT-05 | Sem `requirements.txt` / testes | Alta | 🟢 |
-| DT-06 | Regras skill não implementadas (ENEM, véspera 2CH) | Média | 🟢 |
+| DT-06 | ENEM Must plataforma; R-2CH/véspera 2CH manual v1 | Média | 🟢 ADR-015 |
 | DT-07 | Lógica parse xlsx duplicada nos exportadores | Média | 🟢 |
 | DT-08 | RBAC ausente | Alta (bloqueia multi-coord.) | 🟢 |
 
 ---
 
-## Decisão arquitetural: isolamento multi-coordenador 🟡
-
-**Proposta do Arquiteto** (pendente validação usuário):
+## Decisão arquitetural: isolamento multi-coordenador 🟢 ADR-015
 
 | Camada | Escopo | Compartilhado? |
 |---|---|---|
-| `usuario` / `coordenador` | Login, perfil | Por pessoa |
-| `semestre_rodada` | Calendário, entradas, saídas | **Por coordenador** |
-| `regra_catalogo` | Definições de regras | **Institucional** (read) + override por rodada |
-| `professor` / siglas | Nome, e-mail | **Institucional** 🟡 (provável) |
+| `sessao` | Login institucional + PIN ativo | Conta única |
+| `coordenador` | Identidade via PIN (5) | Por PIN |
+| `semestre_rodada` | Calendário, entradas, saídas | **Por coordenador (PIN)** |
+| `regra_catalogo` | Definições de regras | **Institucional** (read) + snapshot/rodada |
+| `professor` / siglas | Nome, e-mail | **Institucional** 🟡 |
 | `template_modelo` | Layout xlsx | **Institucional** |
 
-Row-level security por `coordenador_id` em tabelas operacionais 🟡.
+Row-level security por `coordenador_id` (derivado do PIN) 🟢.
 
 ---
 

@@ -12,6 +12,34 @@
 - Upload grade Untis
 - `CalendarBlockPicker` por turma/série (ADR-012)
 - `ExamCatalogEditor` ou máscara provas (ADR-010)
+- `EnemWeekConfigPanel` — 2 datas ENEM + disciplinas/janela (ADR-015)
+
+---
+
+## US-01b — Identificar coordenador (PIN)
+
+**Como** coordenador  
+**Quero** entrar com a conta da escola e informar meu PIN  
+**Para** que meus calendários fiquem isolados dos outros coordenadores
+
+**Critérios:**
+- Login institucional compartilhado + seleção PIN (ADR-015)
+- Auditoria de ações por PIN
+- Sessão exibe nome do coordenador
+
+---
+
+## US-01c — Configurar semanas do ENEM
+
+**Como** coordenador  
+**Quero** informar as duas datas do ENEM e marcar quais disciplinas podem ter prova na semana anterior  
+**Para** customizar a restrição a cada semestre
+
+**Critérios:**
+- Sempre 2 datas (domingos)
+- Janela = 6 dias anteriores a cada data
+- Multi-select disciplinas por janela; sugestão skill editável
+- Solver e verificador respeitam config salva
 
 ---
 

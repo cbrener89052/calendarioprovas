@@ -1,13 +1,13 @@
 # Addenda — Lacunas confirmadas Brener
 
-> 2026-08-21 — Supersedes defaults de `lacunas-resolvidas-defaults-2026-08-21.md`
+> 2026-08-21 — Supersedes defaults de `lacunas-resolvidas-defaults-2026-08-21.md`  
+> **Atualizado 2026-08-28:** L-05 fechada como **5d**
 
 ## Vigência
 
 - **Vigente** desde confirmação Brener (ADR-015).
-- Adendo anterior permanece histórico.
 
-## Respostas
+## Respostas finais
 
 | # | Resposta | Efeito |
 |---|----------|--------|
@@ -15,9 +15,9 @@
 | 2 | custom | ENEM: 2 datas + disciplinas/janela customizável |
 | 3 | **b** | Upload PDF grade |
 | 4 | **c** | Conta + PIN |
-| 5 | **d** | 🔴 pendente |
+| 5 | **d** | Regras só plataforma; Won't fpdf/PDF v1 |
 
-## Artefatos novos
+## Artefatos
 
-- `_reversa_sdd/adrs/015-decisoes-lacunas-confirmadas-brener.md`
-- `_reversa_sdd/ui/enem-week-config-spec.md`
+- ADR-015, `questions.md`, `ui/enem-week-config-spec.md`
+- Specs das 7 units + openapi + user-stories + domain + architecture

@@ -76,7 +76,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 - [x] **Revisor** — Revisão cruzada de specs
 - [x] **Revisor** — Relatório de confiança final (`confidence-report.md`, `gaps.md`)
-- [x] **Revisor** — Resolução de lacunas com o usuário (defaults 🟡 2026-08-21)
+- [x] **Revisor** — Resolução de lacunas confirmada Brener (ADR-015, 2026-08-28)
 
 ---
 
@@ -95,10 +95,10 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 **Concluído (2026-08-21):** Redator — 7/7 units + globais (OpenAPI, user stories, matrix).
 
-**Extração Reversa concluída (2026-08-21).** Lacunas L-01–L-05 resolvidas com defaults 🟡 (ADR-014).
+**Extração Reversa concluída (2026-08-28).** Lacunas L-01–L-05 fechadas — ADR-015 (`1a, 2-custom, 3b, 4c, 5d`).
 
 Fluxos seguintes:
-- **`/reversa-forward`** — implementação por feature (prioridade: R-2CH/ENEM, auth)
-- **`/reversa-migrate`** — Time de Migração (Paradigm Advisor → … → Inspector)
+- **`/reversa-forward`** — prioridade: `EnemWeekConfigPanel`, auth PIN, grade upload
+- **`/reversa-migrate`** — Time de Migração
 - **`/reversa-docs`** — mini-site visual (opcional)
 - **`/reversa-reconstructor`** — plano bottom-up legado

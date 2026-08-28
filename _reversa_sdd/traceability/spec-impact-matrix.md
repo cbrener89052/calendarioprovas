@@ -52,8 +52,9 @@
 | R-P1 Professor presente | 🟢 | 🟢 item 0 | 🟢 | — |
 | C1–C5 Cessão P3 | 🟢 Cessoes | 🟢 10b | 🟢 | — |
 | R-FIL-SOC | 🟡 implícito | 🟢 COORDENACAO_EXCECAO | 🟢 | só verificador |
-| ENEM semanas | 🔴 | 🔴 | 🟢 doc | **implementar** |
-| Véspera 2CH 9C | 🔴 | 🔴 | 🟢 doc | **implementar** |
+| ENEM semanas | 🔴 legado | 🟡 forward | 🟢 doc | **Must plataforma** ADR-015 |
+| Véspera 2CH 9C | 🔴 | 🔴 | 🟢 doc | **Won't v1** manual |
+| R-2CH período | 🔴 | 🔴 | 🟢 doc | **Won't v1** manual |
 | E-mail doadores | 🔴 | — | — | **plataforma** |
 
 ---

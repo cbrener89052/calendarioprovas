@@ -25,7 +25,7 @@
   - Confiança: 🟡
 
 - [ ] T-06, Parser 2º sem 2026 (eliminar GRADE_TXT hardcoded)
-  - Decisão ADR-014: Should forward; legado mantém hardcode até concluir
+  - Decisão ADR-015: Should forward; legado mantém hardcode até concluir
   - Confiança: 🟡
 
 - [ ] T-07, Consolidar OCR 2025 (opcional)

@@ -121,6 +121,8 @@ Referência: `_reversa_sdd/flowcharts/geracao-calendario.md`.
 
 ## Riscos e Lacunas
 
-- 🔴 Divergência `FERIADOS` (datas) vs `BLOQUEIOS` (semana/dia) pode gerar calendário que falha no verificador.
-- 🟡 Extração futura da grade para BD/blob — hoje hardcode impede multi-semestre sem deploy de código.
-- 🟡 Tempo de execução não limitado por timeout global, apenas por contagem de nós.
+- 🔴 Divergência `FERIADOS` vs `BLOQUEIOS` — unificar via `CalendarConstraints` (M-01).
+- 🟢 ENEM — Must `EnemWeekConfig` na plataforma (ADR-015).
+- 🟢 R-2CH — Won't automatizar v1 (ADR-015).
+- 🟡 Grade hardcode legado até parser 2sem (L-03).
+- 🟡 Timeout global além de contagem de nós.

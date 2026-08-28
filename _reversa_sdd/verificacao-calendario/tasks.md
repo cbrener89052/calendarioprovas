@@ -88,7 +88,13 @@
 2. T-09 (feriados)
 3. T-10 → T-13 (plataforma + copiloto)
 
-## Lacunas Pendentes (🔴)
+## Lacunas Pendentes (🟡)
 
-- ENEM / véspera 2CH no checklist
+- T-14: Checklist automático ENEM quando `EnemWeekConfig` persistido (ADR-015)
 - Critério exato AVISO 10b pós-relaxamento solver
+
+- [ ] T-14, Verificador item ENEM (disciplina fora da janela configurada)
+  - Origem: ADR-015 + `ui/enem-week-config-spec.md`
+  - Confiança: 🟢
+
+- [ ] ~~Checklist R-2CH / véspera 2CH automático~~ — **Won't v1** (manual skill)

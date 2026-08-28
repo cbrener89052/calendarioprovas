@@ -104,8 +104,8 @@ Escada externa no `main()`: regra 4 → regra 3 → `folga_extra` por turma.
 | I-06 | **Feriados duplicados** em `BLOQUEIOS` e `FERIADOS` — sync manual | Bug 02/11 documentado na skill | 🟢 |
 | I-07 | **Grade 2º sem 2026 hardcoded** — não vem de PDF | `GRADE_TXT` em `gerar_calendario.py` | 🟢 |
 | I-08 | **Consolidação de semanas** é revisão humana pós-solver | Skill: não é regra do algoritmo | 🟡 |
-| I-09 | **ENEM por disciplina** documentado na skill, 🔴 não no gerador | Skill item 15; sem código | 🔴 |
-| I-10 | **Véspera 2ª chamada 9C** documentada, 🔴 não no gerador | `estado_2sem_2026.md` | 🔴 |
+| I-09 | **ENEM configurável** — Must na plataforma (`EnemWeekConfig`); 🔴 legado | ADR-015; skill item 15 | 🟡 |
+| I-10 | **Véspera 2ª chamada 9C** — Won't automatizar v1; checklist manual | ADR-015 alinhado L-01 | 🟢 |
 | I-11 | **Comunicação com doadores** hoje = relatório manual; e-mail = plataforma | user-requirements 2026-08-15 | 🟢 |
 
 ---
@@ -118,7 +118,7 @@ Declaradas em `.reversa/context/user-requirements.md`:
 |---|---|---|
 | **Seleção de regras** | Tela 1: aplicar/flexibilizar; Tela 2: regras novas fixas ou sessão | 🟢 |
 | **E-mail doadores** | Envio manual pós-fechamento; não a cada refração | 🟢 |
-| **Multi-coordenador** | 5 logins; dados por coordenador; PostgreSQL | 🟡 |
+| **Multi-coordenador** | Conta compartilhada + 5 PINs; dados por PIN; PostgreSQL | 🟢 ADR-015 |
 | **Catálogo 37 regras** | Commit `74568b4` menciona seed catálogo — 🔴 não no workspace atual | 🔴 |
 
 ---
@@ -132,10 +132,9 @@ Declaradas em `.reversa/context/user-requirements.md`:
 
 ---
 
-## Lacunas 🔴 (requer validação humana)
+## Lacunas 🟡 (moderadas)
 
 1. E-mail dos professores na planilha de siglas
-2. Implementação das semanas ENEM no solver
-3. Perfil de regras: por coordenador, semestre ou ambos
-4. Idioma oficial dos e-mails (PT/DE)
-5. Isolamento de dados entre os 5 coordenadores (templates compartilhados?)
+2. Perfil de regras: por coordenador, semestre ou ambos
+3. Idioma oficial dos e-mails (PT/DE)
+4. Export PDF regras v2+ (Could — M-08)
