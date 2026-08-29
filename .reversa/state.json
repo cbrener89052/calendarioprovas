@@ -109,9 +109,9 @@
       "lacunas_criticas": 5
     },
     "reviewer_lacunas": {
-      "completed_at": "2026-08-28T22:40:00Z",
+      "completed_at": "2026-08-29T02:25:00Z",
       "mode": "confirmado_usuario",
-      "user_response": "1a, 2-custom, 3b, 4c, 5d",
+      "user_response": "1a, 2-custom, 3b, 4c, 5c",
       "files": [
         "_reversa_sdd/questions.md",
         "_reversa_sdd/adrs/015-decisoes-lacunas-confirmadas-brener.md",

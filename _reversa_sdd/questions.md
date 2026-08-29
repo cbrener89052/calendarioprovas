@@ -4,15 +4,35 @@
 
 ---
 
+## Pergunta 1 — L-01 R-2CH ✅
+
+**Resposta:** **a** — Won't no código; checklist manual/skill.
+
+---
+
+## Pergunta 2 — L-02 ENEM ✅
+
+**Resposta:** Custom — 2 datas ENEM + marcar disciplinas permitidas por janela de 6 dias.
+
+Spec: `_reversa_sdd/ui/enem-week-config-spec.md`
+
+---
+
+## Pergunta 3 — L-03 Grade 2º sem ✅
+
+**Resposta:** **b** — Upload PDF plataforma Must; legado `GRADE_TXT` até parser.
+
+---
+
+## Pergunta 4 — L-04 Auth ✅
+
+**Resposta:** **c** — Conta compartilhada + PIN por coordenador (5 PINs).
+
+---
+
 ## Pergunta 5 — L-05 fpdf ✅
 
 **Resposta:** **c** — **Must** PDF institucional de regras na **v1 da plataforma**.
-
-| Opção | Descrição |
-|-------|-----------|
-| a | Remover RF-05 |
-| b | Could fpdf legado; HTML plataforma v1 |
-| **c** | **Must PDF plataforma v1** |
 
 Legado `exportar_regras_pdf.py` — **Won't** v1.
 
