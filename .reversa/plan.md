@@ -95,7 +95,7 @@ individual (5 coord.) + deploy nuvem com opção Docker/on-prem local.
 
 **Concluído (2026-08-21):** Redator — 7/7 units + globais (OpenAPI, user stories, matrix).
 
-**Extração Reversa concluída (2026-08-28).** Lacunas L-01–L-05 fechadas — ADR-015 (`1a, 2-custom, 3b, 4c, 5d`).
+**Extração Reversa concluída (2026-08-29).** Lacunas L-01–L-05 fechadas — ADR-015 (`1a, 2-custom, 3b, 4c, 5c`).
 
 Fluxos seguintes:
 - **`/reversa-forward`** — prioridade: `EnemWeekConfigPanel`, auth PIN, grade upload

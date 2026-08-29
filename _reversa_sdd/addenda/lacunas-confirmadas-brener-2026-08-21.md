@@ -1,7 +1,7 @@
 # Addenda — Lacunas confirmadas Brener
 
 > 2026-08-21 — Supersedes defaults de `lacunas-resolvidas-defaults-2026-08-21.md`  
-> **Atualizado 2026-08-28:** L-05 fechada como **5d**
+> **Atualizado 2026-08-29:** L-05 corrigida para **5c** (PDF Must plataforma v1)
 
 ## Vigência
 
@@ -15,7 +15,7 @@
 | 2 | custom | ENEM: 2 datas + disciplinas/janela customizável |
 | 3 | **b** | Upload PDF grade |
 | 4 | **c** | Conta + PIN |
-| 5 | **d** | Regras só plataforma; Won't fpdf/PDF v1 |
+| 5 | **c** | **Must** PDF regras plataforma v1 |
 
 ## Artefatos
 

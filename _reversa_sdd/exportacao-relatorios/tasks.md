@@ -35,8 +35,11 @@
   - Origem: ADR-007
   - Confiança: 🟡
 
-- [ ] ~~T-08, `exportar_regras_pdf` + fpdf~~ — **Cancelado** (Won't v1 — ADR-015 5d; regras em `regras-negocio`)
+- [ ] T-08, `ReportExporter.rulesPdf` — PDF regras Must plataforma v1
+  - Origem: ADR-015 5c; catálogo + RuleSetSnapshot
+  - Critério: download PDF; paridade conteúdo com referência institucional 🟡
+  - Confiança: 🟢
 
 ## Ordem
 
-T-05 → T-01..T-04 → T-06 → T-07
+T-05 → T-01..T-04 → T-06 → T-07 → T-08

@@ -137,4 +137,4 @@ Declaradas em `.reversa/context/user-requirements.md`:
 1. E-mail dos professores na planilha de siglas
 2. Perfil de regras: por coordenador, semestre ou ambos
 3. Idioma oficial dos e-mails (PT/DE)
-4. Export PDF regras v2+ (Could — M-08)
+4. Paridade layout PDF regras vs referência legado 🟡

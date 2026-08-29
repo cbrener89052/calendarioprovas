@@ -134,6 +134,11 @@ paths:
       tags: [exports]
       summary: Download export por tipo
 
+  /calendars/{id}/exports/rules/pdf:
+    get:
+      tags: [exports]
+      summary: Download PDF regras institucional (Must v1 — ADR-015 5c)
+
   /calendars/{id}/copilot/chat:
     post:
       tags: [copilot]

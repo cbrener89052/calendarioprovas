@@ -374,7 +374,7 @@ permitir **revisar e ajustar** o conjunto de regras:
 
 ## Lacunas críticas — resolução confirmada 🟢 (ADR-015)
 
-> Respostas Brener: `1a, 2-custom, 3b, 4c, 5d` — fechado 2026-08-28.
+> Respostas Brener: `1a, 2-custom, 3b, 4c, 5c` — ADR-015.
 
 | ID | Tema | Decisão confirmada |
 |----|------|-------------------|
@@ -382,7 +382,7 @@ permitir **revisar e ajustar** o conjunto de regras:
 | L-02 | ENEM | **Must** — 2 datas + disciplinas permitidas/janela (customizável); spec `ui/enem-week-config-spec.md` |
 | L-03 | Grade 2º sem | Upload PDF plataforma Must; legado `GRADE_TXT` |
 | L-04 | Auth | Conta compartilhada + PIN por coordenador |
-| L-05 | fpdf / PDF regras | **Won't v1** — regras só na plataforma (5d) |
+| L-05 | fpdf / PDF regras | **Must** PDF regras na plataforma v1 (5c) |
 
 ### ENEM — requisito detalhado 🟢
 
@@ -396,11 +396,12 @@ Antes da fatoração, o sistema Must:
 
 Componente: **`EnemWeekConfigPanel`**. Ver `_reversa_sdd/ui/enem-week-config-spec.md`.
 
-### Export PDF regras — Won't v1 🟢 (5d)
+### Export PDF regras — Must v1 🟢 (5c)
 
-- **Won't** `exportar_regras_pdf.py` / dependência `fpdf` no escopo v1.
-- Regras acessíveis via **`RulesCatalogService`** + **Telas 1–2** (`RulesSelectionWizard`).
-- Export PDF institucional — Could v2+ se coordenação solicitar.
+- **Must** download **PDF institucional de regras** na plataforma v1.
+- Conteúdo derivado de **`RulesCatalogService`** + **`RuleSetSnapshot`** da rodada.
+- Implementação: `ReportExporter.rulesPdf` (backend Python).
+- Legado `exportar_regras_pdf.py` — **Won't** v1 forward.
 
 ---
 

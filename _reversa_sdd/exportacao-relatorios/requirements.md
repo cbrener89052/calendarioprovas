@@ -49,7 +49,7 @@ plataforma, alimenta preview de **e-mail aos doadores** (ADR-007).
 | RF-02 | `exportar_tempos_cedidos.py` | `Relatorio_Tempos_Cedidos_Proposta_3.xlsx` | Must |
 | RF-03 | `exportar_relatorio_trocas.py` | `.md` + `.xlsx` (3 abas) | Must |
 | RF-04 | `exportar_provas_por_professor.py` | `Provas_por_Professor_Proposta_3.xlsx` | Must |
-| RF-05 | `exportar_regras_pdf.py` | — | **Won't v1** 🟢 ADR-015 (5d) |
+| RF-05 | Export PDF regras (plataforma) | `Regras_Negocio_<rodada>.pdf` | **Must** 🟢 ADR-015 (5c) |
 
 ## 6. Requisitos Funcionais — plataforma 🟡
 
@@ -60,6 +60,7 @@ plataforma, alimenta preview de **e-mail aos doadores** (ADR-007).
 | RF-08 | Re-export após refração (idempotente) | Must | Nova versão blob + timestamp |
 | RF-09 | `DonorEmailService` consome export trocas | Must | Preview lista cessões ADR-007 |
 | RF-10 | Registrar export em auditoria | Should | `exportado_em`, `exportado_por` |
+| RF-11 | Export PDF regras (`ReportExporter.rulesPdf`) | **Must** | PDF derivado catálogo + RuleSetSnapshot (ADR-015 5c) |
 
 ## 7. Critérios de Aceitação
 
@@ -79,9 +80,9 @@ Cenário: Relatório trocas para e-mail
 
 ## 8. Lacunas
 
-- 🟢 RF-05 PDF regras — **Won't v1** (ADR-015 5d); regras na plataforma (`regras-negocio`)
+- 🟢 RF-11 PDF regras — **Must** plataforma v1 (ADR-015 5c)
+- 🟡 Biblioteca PDF backend (fpdf / WeasyPrint / reportlab)
 - 🟡 Duplicação parse xlsx entre exportadores (DT-07)
-- 🟡 Ordem batch dos 4 scripts ativos na plataforma (RF-01–04)
 
 ## 9. Histórico
 

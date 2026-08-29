@@ -16,7 +16,7 @@ Constantes gerar_calendario.py (legado)
 
 | Componente | Papel |
 |------------|-------|
-| `RulesCatalogService` | CRUD catálogo; import skill; **substitui PDF regras** (ADR-015 5d) |
+| `RulesCatalogService` | CRUD catálogo; import skill; fonte do **PDF regras** (ADR-015 5c) |
 | `RulesSelectionWizard` | UI Telas 1–2 |
 | `EnemWeekConfigPanel` | 2 datas ENEM + disciplinas/janela (ADR-015) |
 | `RuleSetSnapshot` | JSON `{rule_id, aplicar, flexibilizar}` + `enem_week_config` |

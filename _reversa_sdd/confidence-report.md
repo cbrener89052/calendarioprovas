@@ -39,7 +39,7 @@
 | L-02 ENEM | **Must** UI customizável |
 | L-03 Grade 2sem | Upload PDF plataforma |
 | L-04 Auth | Conta + PIN |
-| L-05 fpdf | **Won't v1** — regras só plataforma (5d) |
+| L-05 fpdf | **Must** PDF regras plataforma v1 (5c) |
 
 ### Moderadas restantes 🟡
 

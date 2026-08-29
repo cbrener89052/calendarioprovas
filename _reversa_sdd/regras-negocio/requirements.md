@@ -59,7 +59,7 @@ com `sources.json`.
 | RF-04 | Persistir `RuleSetSnapshot` por calendário/rodada | Must |
 | RF-05 | Solver/verificador recebem snapshot — regras desmarcadas ignoradas | Must |
 | RF-06 | Sync hash skill → alerta defasagem specs | Should |
-| RF-07 | Export PDF regras legado | **Won't v1** — regras na plataforma (ADR-015 5d) |
+| RF-07 | Export PDF regras (plataforma) | **Must** — `ReportExporter.rulesPdf` (ADR-015 5c) |
 | RF-08 | `EnemWeekConfigPanel` — 2 datas + disciplinas/janela | Must |
 
 ## 6. Critérios de Aceitação
@@ -79,7 +79,7 @@ Cenário: Skill atualizada no GitHub
 ## 7. Lacunas
 
 - 🟡 Parser automático skill → catálogo BD
-- 🟡 Export PDF regras v2+ (Could — M-08)
+- 🟡 Biblioteca PDF backend (escolha na forward)
 
 ## 8. Histórico
 
