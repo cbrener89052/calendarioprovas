@@ -220,11 +220,11 @@ aula em horários diferentes em cada turma.
 | 12C1 | GL / CBu-EFr-Eth | 5º tempo(s) (Ter, semana 5) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 5º de Aprof. para a prova de GL | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Grupo paralelo já combinado com 12C2 |
 | 12C1 | Hist / Wag | 11º tempo(s) (Ter, semana 6) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 11º de Port para a prova de Hist | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Hist / Wag | 12º tempo(s) (Ter, semana 6) | - | Proj.Vestibular | Solicitar ao prof. - a cessão do(s) tempo(s) 12º de Proj.Vestibular para a prova de Hist | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
-| 12C1 | Mat / Bre/JJ | 4º tempo(s) (Qui, semana 6) | PaH | Ing | Solicitar ao prof. PaH a cessão do(s) tempo(s) 4º de Ing para a prova de Mat | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
-| 12C1 | Mat / Bre/JJ | 5º tempo(s) (Qui, semana 6) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 5º de Port para a prova de Mat | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | Qui / CAl/Fab | 2º tempo(s) (Sex, semana 6) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 2º de Geo para a prova de Qui | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | DaF / CBu-EFr-Eth | 5º tempo(s) (Seg, semana 7) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 5º de Geo para a prova de DaF | Grupo paralelo já combinado com 12C2 |
 | 12C1 | Bio / Ale | 3º tempo(s) (Ter, semana 7) | Cadu | Fis | Solicitar ao prof. Cadu a cessão do(s) tempo(s) 3º de Fis para a prova de Bio | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
+| 12C1 | Mat / Bre/JJ | 4º tempo(s) (Qui, semana 7) | PaH | Ing | Solicitar ao prof. PaH a cessão do(s) tempo(s) 4º de Ing para a prova de Mat | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
+| 12C1 | Mat / Bre/JJ | 5º tempo(s) (Qui, semana 7) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 5º de Port para a prova de Mat | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | GL / CBu-EFr-Eth | 10º tempo(s) (Qui, semana 9) | CBu-EFr-Eth | DaF | Solicitar ao prof. CBu-EFr-Eth a cessão do(s) tempo(s) 10º de DaF para a prova de GL | Grupo paralelo já combinado com 12C2 |
 | 12C1 | LP/LIT/RED / AMu/Deb | 2º tempo(s) (Sex, semana 10) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 2º de Geo para a prova de LP/LIT/RED | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
 | 12C1 | LP/LIT/RED / AMu/Deb | 3º tempo(s) (Sex, semana 10) | Fab | Qui | Solicitar ao prof. Fab a cessão do(s) tempo(s) 3º de Qui para a prova de LP/LIT/RED | Prova conjunta com 12C2 (professor comum, tempos coordenados) |
@@ -248,11 +248,11 @@ aula em horários diferentes em cada turma.
 | 12C2 | Geo / Mar | 5º tempo(s) (Seg, semana 5) | Isb | Ing | Solicitar ao prof. Isb a cessão do(s) tempo(s) 5º de Ing para a prova de Geo | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | GL / CBu-EFr-Eth | 5º tempo(s) (Ter, semana 5) | - | Aprof. | Solicitar ao prof. - a cessão do(s) tempo(s) 5º de Aprof. para a prova de GL | ⚠ Cruza o intervalo do recreio — nenhuma outra combinação coube; Grupo paralelo já combinado com 12C1 |
 | 12C2 | Hist / Wag | 12º tempo(s) (Ter, semana 6) | - | Proj.Vestibular | Solicitar ao prof. - a cessão do(s) tempo(s) 12º de Proj.Vestibular para a prova de Hist | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
-| 12C2 | Mat / Bre/JJ | — | — | — | — | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Qui / CAl/Fab | 2º tempo(s) (Sex, semana 6) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 2º de Port para a prova de Qui | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | Qui / CAl/Fab | 3º tempo(s) (Sex, semana 6) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 3º de Geo para a prova de Qui | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | DaF / CBu-EFr-Eth | 5º tempo(s) (Seg, semana 7) | Isb | Ing | Solicitar ao prof. Isb a cessão do(s) tempo(s) 5º de Ing para a prova de DaF | Grupo paralelo já combinado com 12C1 |
 | 12C2 | Bio / Ale | 2º tempo(s) (Ter, semana 7) | Deb | Port | Solicitar ao prof. Deb a cessão do(s) tempo(s) 2º de Port para a prova de Bio | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
+| 12C2 | Mat / Bre/JJ | — | — | — | — | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | GL / CBu-EFr-Eth | 10º tempo(s) (Qui, semana 9) | CBu-EFr-Eth | DaF | Solicitar ao prof. CBu-EFr-Eth a cessão do(s) tempo(s) 10º de DaF para a prova de GL | Grupo paralelo já combinado com 12C1 |
 | 12C2 | LP/LIT/RED / AMu/Deb | 1º tempo(s) (Sex, semana 10) | Wag | Hist | Solicitar ao prof. Wag a cessão do(s) tempo(s) 1º de Hist para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |
 | 12C2 | LP/LIT/RED / AMu/Deb | 3º tempo(s) (Sex, semana 10) | Mar | Geo | Solicitar ao prof. Mar a cessão do(s) tempo(s) 3º de Geo para a prova de LP/LIT/RED | Prova conjunta com 12C1 (professor comum, tempos coordenados) |

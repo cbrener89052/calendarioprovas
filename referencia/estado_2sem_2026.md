@@ -1626,6 +1626,30 @@ Distância entre as 2 provas de DaF: semana 13 − semana 8 = 5 semanas
 
 Os 5 relatórios regenerados com a mudança.
 
+## 12C1/12C2: Matemática (1ª prova) movida para 17/09 — exceção autorizada ao grupo 1 (08/2026)
+
+Usuário pediu para mover a 1ª prova de Matemática (12C1+12C2) para
+17/09. Análise trazida antes de aplicar: 17/09 é quinta da semana 7,
+que já tem a prova de **DaF** (14/09, segunda) — DaF também é do grupo
+1, então o par Mat+DaF sem Inglês viola a regra (mesmo padrão do caso
+da DaF do 9C, ver seção acima). Bloco em si é válido (quinta, 4º-5º
+tempos, mesmo doador de sempre — Inglês/Português no 12C1, tempo
+próprio da JJ no 12C2).
+
+Usuário confirmou: **aplicar mesmo assim, como exceção autorizada** —
+mesmo tratamento dado à Matemática do 11C na semana 6 (não vira regra
+geral, só uma exceção pontual deste caso).
+
+**Aplicado**: Matemática (12C1+12C2) — semana 6 quinta (10/09) →
+**semana 7 quinta (17/09)**, mesmo bloco 4º-5º tempos.
+`verificar_calendario.py` acusa **2 PROBLEMA(S) novos, esperados e
+autorizados**:
+- `P3/12C1: semana 7 com grupo 1 repetido ['DaF', 'Mat']`
+- `P3/12C2: semana 7 com grupo 1 repetido ['DaF', 'Mat']`
+
+2ª prova (semana 15, 10/11) inalterada. Os 5 relatórios regenerados com
+a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
