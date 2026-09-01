@@ -8,13 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "reconhecimento",
-  "completed": [],
+  "phase": "geracao",
+  "completed": ["reconhecimento", "escavacao", "interpretacao"],
   "pending": [
-    "reconhecimento",
-    "escavacao",
-    "interpretacao",
-    "geracao",
     "revisao"
   ],
   "checkpoints": {
@@ -25,7 +21,90 @@
         "_reversa_sdd/dependencies.md",
         ".reversa/context/surface.json"
       ]
+    },
+    "archaeologist": {
+      "completed_at": "2026-08-09T03:15:00Z",
+      "modules_analyzed": [
+        "geracao-calendario",
+        "verificacao-calendario",
+        "exportacao-relatorios",
+        "extracao-grade",
+        "analise-historica",
+        "regras-negocio",
+        "plataforma-multi-coordenador"
+      ],
+      "files": [
+        "_reversa_sdd/code-analysis.md",
+        "_reversa_sdd/data-dictionary.md",
+        "_reversa_sdd/flowcharts/",
+        ".reversa/context/modules.json"
+      ],
+      "specs_layout": "feature-folder"
+    },
+    "detective": {
+      "completed_at": "2026-08-09T03:30:00Z",
+      "files": [
+        "_reversa_sdd/domain.md",
+        "_reversa_sdd/state-machines.md",
+        "_reversa_sdd/permissions.md",
+        "_reversa_sdd/adrs/"
+      ],
+      "adrs_count": 6,
+      "lacunas": ["LP/LIT/RED 10 dias no código", "Admin vs coordenador", "IA no verificador"]
+    },
+    "architect": {
+      "completed_at": "2026-08-09T03:30:00Z",
+      "files": [
+        "_reversa_sdd/architecture.md",
+        "_reversa_sdd/c4-context.md",
+        "_reversa_sdd/c4-containers.md",
+        "_reversa_sdd/c4-components.md",
+        "_reversa_sdd/erd-complete.md",
+        "_reversa_sdd/traceability/spec-impact-matrix.md"
+      ]
+    },
+    "writer": {
+      "completed_at": "2026-08-09T04:00:00Z",
+      "units": 7,
+      "files_canonical": 21,
+      "files_optional": 1,
+      "globals": [
+        "_reversa_sdd/openapi/calendarioprovas.yaml",
+        "_reversa_sdd/user-stories/fluxo-calendario-semestre.md",
+        "_reversa_sdd/traceability/code-spec-matrix.md"
+      ],
+      "coverage_estimate": "95%"
     }
+  },
+  "redator_progress": {
+    "completed": [
+      "geracao-calendario/requirements.md",
+      "geracao-calendario/design.md",
+      "geracao-calendario/tasks.md",
+      "verificacao-calendario/requirements.md",
+      "verificacao-calendario/design.md",
+      "verificacao-calendario/tasks.md",
+      "exportacao-relatorios/requirements.md",
+      "exportacao-relatorios/design.md",
+      "exportacao-relatorios/tasks.md",
+      "extracao-grade/requirements.md",
+      "extracao-grade/design.md",
+      "extracao-grade/tasks.md",
+      "analise-historica/requirements.md",
+      "analise-historica/design.md",
+      "analise-historica/tasks.md",
+      "regras-negocio/requirements.md",
+      "regras-negocio/design.md",
+      "regras-negocio/tasks.md",
+      "plataforma-multi-coordenador/requirements.md",
+      "plataforma-multi-coordenador/design.md",
+      "plataforma-multi-coordenador/tasks.md",
+      "plataforma-multi-coordenador/contracts.md",
+      "openapi/calendarioprovas.yaml",
+      "user-stories/fluxo-calendario-semestre.md",
+      "traceability/code-spec-matrix.md"
+    ],
+    "total": 25
   },
   "engines": [
     "claude-code",
