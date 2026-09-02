@@ -1650,6 +1650,48 @@ autorizados**:
 2ª prova (semana 15, 10/11) inalterada. Os 5 relatórios regenerados com
 a mudança.
 
+## 11C1/11C2: História (1ª prova) movida para 08/09, à tarde — exceção autorizada (08/2026)
+
+Usuário pediu para levar a 1ª prova de História para 08/09 (terça,
+semana 6). Testadas 3 alternativas, apresentadas antes de aplicar:
+
+1. **08/09, tempos 2º-3º** (aula dupla real do 11C1): força Química
+   como doadora no 11C2 (única opção de bloco simultâneo àquele tempo)
+   — usuário recusou, não queria tocar em Química.
+2. **16/09 (semana 7), quarta, 1º-2º tempos**, com a Física realocada
+   para a semana 8 para abrir espaço: mesmos doadores limpos de sempre
+   (Mat/ClaMe, Geo/Mar), sem tocar em Química nem Física, só 1 aviso
+   leve novo. Recomendada, mas não escolhida.
+3. **08/09, tempos 10º-11º** (aula dupla real do 11C2, à tarde),
+   flexibilizando a regra de evitar tarde: 11C1 coberto por doadores
+   Redação/ACo e Física/Cadu. Análise mostrou que essa opção **cria 2
+   estouros de teto de cessão novos** (Redação e Física, ambas
+   passando de 2 para 3 cessões, acima do limite) — pior que a opção 2
+   em termos de regras relaxadas, mas mantém a data exata pedida.
+
+**Usuário escolheu a opção 3 mesmo assim**: "aplique para o dia 08.09
+nos tempos 10,11".
+
+**Aplicado**: História (11C1+11C2) — semana 5 quarta (02/09) →
+**semana 6 terça (08/09)**, tempos 10º-11º (tarde). Doadores no 11C1:
+Redação/ACo (10º tempo) e Física/Cadu (11º tempo); 11C2 usa a própria
+aula dupla real, sem doador.
+
+`verificar_calendario.py` fecha só com os 6 PROBLEMA já conhecidos e
+autorizados (GL 10C, grupo 1 do 11C semana 6, grupo 1 do 12C semana 7)
+— nenhum PROBLEMA novo. **Novos AVISOs esperados, autorizados pelo
+usuário como exceção pontual** (não viram regra na skill):
+- `Hist nos tempos 7-11 (10º e 11º tempos)` nas duas turmas — a
+  regra de evitar tarde foi conscientemente flexibilizada para esta
+  prova.
+- `Redação/ACo tem 2 aulas semanais e cedeu 3 (meta: no máximo 2)`
+  (11C1) — novo estouro de teto.
+- `Fis/Cadu tem 3 aulas semanais e cedeu 3 (meta: no máximo 2)`
+  (11C1) — novo estouro de teto, mais 1 aviso leve adicional de
+  véspera (Física cede na semana 6, tem prova própria na semana 7).
+
+Os 5 relatórios regenerados com a mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
