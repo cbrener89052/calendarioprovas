@@ -1692,6 +1692,78 @@ usuário como exceção pontual** (não viram regra na skill):
 
 Os 5 relatórios regenerados com a mudança.
 
+## 12C1/12C2: História — tentativa de mover para 09/09, achado crítico (limite das 16h40), correção final em 08/09 (08/2026)
+
+Usuário pediu para analisar mover a 1ª prova de História (12C1+12C2)
+de 08/09 (terça) para 09/09 (quarta). Análise inicial (**incompleta —
+ver correção abaixo**): mesmo bloco 11º-12º tempos nas duas datas
+(único bloco simultâneo válido em cada dia, professor comum Wag), com
+os papéis de doador invertidos entre as turmas — parecia uma melhora
+técnica limpa. Usuário aprovou e pediu para aplicar.
+
+**Ao aplicar, usuário trouxe uma regra nova, crítica, que a análise
+não tinha considerado**: "nunca considere os tempos de aula 12 em
+diante para a aplicação de provas. Somente até 16h40 podemos aplicar
+provas" — as 16h40 são o fim do 11º tempo (11º = 15h55-16h40), então
+o **12º tempo em diante nunca é elegível**, nem como tempo próprio da
+disciplina nem como doador (isso inclui o "Proj.Vestibular", que
+preenche os tempos 12-13 em várias turmas e vinha sendo tratado como
+doador válido).
+
+**Isso invalidou as duas datas testadas** (tanto a posição já existente
+em 08/09 quanto a proposta de 09/09 usavam 11º-12º tempos — o 12º
+tempo já estava sendo usado **há tempo**, sem que ninguém tivesse
+percebido). Refeita a busca considerando só tempos 1 a 11:
+- **09/09 (quarta)**: sem nenhum bloco viável de 2 tempos dentro do
+  limite — o único bloco de 11-12 tempos deixou de existir, e não há
+  outro horário comum às duas turmas que passe na checagem de presença
+  do professor (testado tempo 8-9, único outro bloco em comum, mas
+  nenhuma das turmas tem tempo próprio de História ali — reprovado na
+  regra de prioridade 1).
+- **08/09 (terça)**: bloco **10º-11º tempos** é viável — doadores
+  Aprofundamento (10º tempo, ambas as turmas) e Português/Deb (11º
+  tempo, só no 12C1; 12C2 usa tempo próprio no 11º). Sem estouro de
+  teto (Aprofundamento tinha folga; Português/Deb já vinha doando
+  antes, sem mudança de contagem).
+
+**Corrigido**: História (12C1+12C2) permanece em **08/09 (terça)**,
+agora nos tempos **10º-11º** (antes 11º-12º). `verificar_calendario.py`
+fecha só com os 6 PROBLEMA já conhecidos e autorizados — nenhum
+PROBLEMA novo, nenhum AVISO novo. Os 5 relatórios regenerados.
+
+**Varredura de todo o calendário**: essa era a **única** prova em toda
+a Proposta 3 usando tempo 12 ou depois — confirmado por script
+percorrendo as 8 turmas × 20 semanas. Não há outras correções
+pendentes desse tipo.
+
+### O que mudou no código e na skill
+
+1. **Regra rígida nova, nunca relaxa** (`.claude/skills/
+   calendario-provas/SKILL.md`): nenhuma prova pode usar tempo depois
+   das 16h40 (12º tempo em diante). Implementada em código:
+   `ULTIMO_TEMPO_ELEGIVEL = 11` e `_tempo_ilegivel(t, n)` em
+   `gerar_calendario.py`, aplicadas dentro de `bloco()` (caminho de
+   professor comum) e `slots_da_disciplina()` (caminho individual e
+   LP/LIT/RED) — um bloco que toque o 12º tempo nunca vira candidato.
+   `verificar_calendario.py` ganhou o item "9b" do checklist,
+   comparando cada prova da planilha final contra esse limite
+   (PROBLEMA se violado).
+2. **Regra nova sobre comparar todos os dias da semana** (mesma seção
+   "Tempos emprestados" da skill): usuário perguntou por que a melhora
+   de doador (Português deixando de ceder) não tinha aparecido antes,
+   e pediu para a skill garantir que isso aconteça sempre. Causa raiz:
+   mesmo padrão já documentado para a História do 11C — professor
+   comum entre turmas irmãs obriga mesmo dia/tempo nas duas, e cada
+   turma tem seu tempo próprio num dia diferente, então a escolha do
+   dia decide sozinha quem cede. O gerador aceita a primeira combinação
+   viável, sem comparar exaustivamente contra as demais, e ninguém
+   tinha pedido para reavaliar essa prova especificamente antes. A
+   partir de agora, toda reposição manual ou análise de prova já
+   existente deve comparar o conjunto de dias candidatos da semana
+   antes de aplicar ou de declarar uma posição como boa — não só
+   validar o dia pedido. (Geração automática: ainda não implementado
+   como otimização no solver, por custo computacional.)
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
