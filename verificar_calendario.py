@@ -307,6 +307,17 @@ def main():
                         f"{pre}: {disc} cruza o intervalo do recreio "
                         f"({txt.split(chr(10))[-1]}) sem destaque na célula")
 
+            # 9b. nenhuma prova depois das 16h40 (12o tempo em diante) --
+            #     regra rigida, nunca relaxa, pedido do usuario 08/2026.
+            for (_, w, d, disc, txt, t_ini, n_t, _ds) in provas:
+                if SIM_COD.match(disc) or t_ini is None or n_t is None:
+                    continue
+                if t_ini + n_t - 1 > G.ULTIMO_TEMPO_ELEGIVEL:
+                    problemas.append(
+                        f"{pre}: {disc} usa tempo depois das 16h40 "
+                        f"({txt.split(chr(10))[-1]}) -- limite e o "
+                        f"{G.ULTIMO_TEMPO_ELEGIVEL}o tempo")
+
             # 10. datas exigidas pela coordenacao (FORCAR_DATA)
             for (turma2, disc2, _per2), (w_f, d_f) in G.FORCAR_DATA.items():
                 if turma2 != turma:
