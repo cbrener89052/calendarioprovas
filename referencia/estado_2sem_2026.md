@@ -1796,6 +1796,33 @@ distinto do amarelo reservado a simulados e do laranja do intervalo):
 conhecidos e autorizados — a mudança não mexeu na grade de provas, só
 adicionou uma célula informativa fora da área de alocação.
 
+## 10C1/10C2: Geografia (1ª prova) — bloco movido de 1º-2º para 2º-3º tempos (09/2026)
+
+Usuário pediu para analisar (e depois aplicar) mover a 1ª prova de
+Geografia (10C1+10C2), semana 6 sexta (11/09), do bloco 1º-2º para
+2º-3º tempos — mesmo bloco já usado pela 2ª ocorrência (semana 10).
+Geografia só tem tempo próprio no 2º tempo da sexta (sem aula dupla)
+nas duas turmas, então a mudança só troca o doador do tempo vizinho:
+
+- **GL deixa de doar** (estava exatamente no teto de cessão, 3 de 3,
+  nas duas turmas) — ganha um pouco de folga.
+- **Alemão/DaF passa a doar** (3º tempo, nas duas turmas) — vai de 6
+  para 7 cessões, ficando **exatamente no teto** calculado por
+  percentual (11% de 68 aulas ≈ 7), sem estourar.
+- Inglês/Vir (10C2, 2º tempo) segue doando nas duas versões, sem
+  mudança.
+
+**Aplicado**: Geografia (10C1+10C2) — semana 6 sexta (11/09), bloco
+1º-2º → **2º-3º tempos**. `verificar_calendario.py` fecha só com os 6
+PROBLEMA já conhecidos e autorizados — nenhum PROBLEMA novo. **1 AVISO
+leve novo** por turma: `DaF/Eth-EFr-Swa cedeu aula na semana 6 tendo
+prova própria na semana 6` — a prova de Alemão também é nessa semana
+(terça, 09/09); doar um tempo na sexta da mesma semana conta como
+cessão na própria semana da prova, mesmo padrão de outros casos já
+aceitos no semestre. Distância entre as 2 ocorrências de Geografia
+inalterada (semanas 6 e 10). Os 5 relatórios regenerados com a
+mudança.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
