@@ -1823,6 +1823,29 @@ aceitos no semestre. Distância entre as 2 ocorrências de Geografia
 inalterada (semanas 6 e 10). Os 5 relatórios regenerados com a
 mudança.
 
+## Skill: novo "Modo turbo" para refatoração completa (09/2026)
+
+Usuário pediu um comando específico, acionado sob demanda (nunca
+automático): quando alguém pedir para **refatorar o horário todo**
+(regenerar via `montar_exames()`, não um reposicionamento manual de 1
+prova) dizendo "turbo" ou equivalente, o processo deve rodar a busca
+completa **no mínimo 3 vezes**, cada vez com uma semente diferente,
+calcular o total de cessões de cada rodada e **manter só a de menor
+total** — sempre respeitando os tetos de cessão já em vigor (a
+minimização é sobre encontrar a melhor solução válida, não sobre
+afrouxar limite). Gerar e verificar o calendário normalmente **não**
+exige rodar o turbo depois — é sempre um passo extra, opcional.
+
+**Skill atualizada** (`.claude/skills/calendario-provas/SKILL.md`,
+nova seção "Modo turbo — refatoração completa com minimização de
+cessões", logo após "Custo computacional"): documenta o gatilho
+("turbo"/"modo turbo"), o procedimento (3+ rodadas, sementes
+diferentes, nunca violar teto, manter a de menor cessão total,
+reportar a comparação ao usuário) e o custo (3 rodadas ≈ 3x o tempo de
+uma rodada normal — avisar o usuário se for demorado). Ainda não há
+script pronto para rodar isso automaticamente; por enquanto é um
+procedimento a seguir manualmente quando o modo turbo for acionado.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

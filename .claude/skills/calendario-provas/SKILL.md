@@ -708,6 +708,50 @@ eles não dependem da semana nem do estado da busca — e usar um orçamento
 de nós menor, já que uma solução viável aparece em poucos milhares de nós
 e um teto alto só faz os degraus inviáveis custarem minutos.
 
+## Modo turbo — refatoração completa com minimização de cessões
+
+Comando específico, pedido do usuário (09/2026), **não faz parte do
+fluxo normal**: só roda quando **explicitamente acionado**, dizendo
+"turbo", "modo turbo", "rode em turbo" ou equivalente, junto de um
+pedido para **refatorar o horário todo** (regenerar o calendário
+inteiro via `montar_exames()`, não um reposicionamento manual de 1
+prova). Gerar o calendário normalmente e rodar
+`verificar_calendario.py` **não** exige turbo depois — turbo é
+sempre um passo extra, opcional, sob demanda.
+
+**O que o modo turbo faz, obrigatoriamente**:
+
+1. Rodar a busca completa (`montar_exames()`) **no mínimo 3 vezes**,
+   cada rodada com uma **semente diferente** (ver "A semente da busca
+   importa" acima — é o mesmo mecanismo, só que repetido em série em
+   vez de escolher 1 semente na mão).
+2. Em cada rodada, depois de fechar em 0 PROBLEMA, **calcular o total
+   de cessões do calendário inteiro** — soma de "aulas cedidas" de
+   todas as disciplinas, em todas as turmas (mesmo cálculo do
+   relatório de tempos cedidos).
+3. **Nunca violar os tetos de cessão já em vigor** (regras 1-5 da seção
+   "Limites de cessão de aula") — minimizar é sobre encontrar, dentro
+   do espaço de soluções válidas, a que tem **menos cessões no total**,
+   não sobre afrouxar limite nenhum. "Mesmo havendo o teto" quer dizer
+   isto: o teto continua sendo respeitado à risca em toda rodada; o que
+   muda é que o turbo não para na primeira solução válida (que pode já
+   estar perto do teto em várias disciplinas) — ele continua tentando
+   até ter comparado pelo menos 3 soluções válidas entre si.
+4. Ao final das (no mínimo) 3 rodadas, **manter e entregar a rodada com
+   o menor total de cessões** — descartar as demais. Se empatar,
+   preferir a que tiver menos disciplinas perto do teto individual
+   (ex.: menos casos de "3 de 3" ou "cedeu X, meta X").
+5. **Reportar ao usuário**, ao final, uma comparação simples entre as
+   rodadas (total de cessões de cada uma, qual foi escolhida e por quê)
+   — nunca aplicar a rodada final em silêncio.
+
+**Custo**: cada rodada individual já é cara (ver "Custo computacional"
+acima) — 3 rodadas multiplicam o tempo por ~3. Avisar o usuário antes
+de começar se o tempo estimado for longo. Sementes usadas em cada
+rodada devem ser diferentes umas das outras (não repetir a mesma
+semente 3 vezes) e registradas no código/no relatório para
+reprodutibilidade.
+
 ## Leitura do arquivo-base
 
 - Disciplina abreviada, sigla do professor e sala aparecem juntas em cada
