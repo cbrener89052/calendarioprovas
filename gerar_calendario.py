@@ -396,6 +396,21 @@ GRUPO1 = {"mat", "DaF", "port", "LPLITRED", "ing"}
 # Evitar ao maximo provas nos tempos 7 a 11 (o 7o tempo comeca 12h45).
 # Nao e proibicao: algumas disciplinas so tem aula nesses horarios.
 PRIMEIRO_TEMPO_TARDE = 7         # nao podem coincidir na mesma semana
+
+# Limite RIGIDO (nunca relaxa, pedido do usuario 08/2026): provas so podem
+# ser aplicadas ate 16h40, que e o fim do 11o tempo (11o = 15h55-16h40).
+# O 12o tempo em diante (ex.: "Proj.Vestibular") NUNCA e elegivel para
+# aplicacao de prova -- nem como tempo proprio da disciplina, nem como
+# tempo emprestado de doador. Achado concreto: a Historia do 12C1/12C2
+# usava 11o-12o tempos (ja no calendario antes desta regra existir);
+# corrigida para 10o-11o ao implementar esta regra.
+ULTIMO_TEMPO_ELEGIVEL = 11
+
+
+def _tempo_ilegivel(t, n):
+    """True se o bloco [t, t+n-1] tocar em algum tempo depois das 16h40
+    (12o tempo em diante). Regra rigida, nunca relaxa."""
+    return (t + n - 1) > ULTIMO_TEMPO_ELEGIVEL
 DOIS_TEMPOS = {"mat", "DaF", "GL", "port", "ing", "pred", "his", "geo", "bio", "fis", "qui"}
 UM_TEMPO = {"fil", "soc"}                       # 1 tempo, 1 prova no semestre
 # nas turmas 9C: 1 tempo, 1 prova no semestre inteiro -- Biologia SAIU
@@ -744,6 +759,8 @@ def slots_da_disciplina(turma, disc, n_tempos):
             doadores = [x for x in trio if x[0] not in COMBINA_PORT]
             if any(x[0] in veto for x in doadores):
                 continue                      # disciplina de 1 tempo nao doa
+            if _tempo_ilegivel(t, 3):
+                continue                      # depois das 16h40, nunca elegivel
             cand.append((cruza_intervalo(t, 3), _tarde(t, 3), -proprios, d, t,
                          tuple(doadores)))
         cand.sort()
@@ -756,10 +773,12 @@ def slots_da_disciplina(turma, disc, n_tempos):
             out.append((d, t, None))
             continue
         prox = grade.get((d, t + 1))
-        if prox is not None and (prox[0] == disc or prox[0] not in veto):
+        if prox is not None and (prox[0] == disc or prox[0] not in veto) \
+           and not _tempo_ilegivel(t, n_tempos):
             out.append((d, t, None if prox[0] == disc else prox))
         ant = grade.get((d, t - 1))
-        if ant is not None and ant[0] != disc and ant[0] not in veto:
+        if ant is not None and ant[0] != disc and ant[0] not in veto \
+           and not _tempo_ilegivel(t - 1, n_tempos):
             out.append((d, t - 1, ant))
     # remove duplicatas e poe os horarios sem cruzar intervalo e da manha
     # na frente
@@ -1415,7 +1434,11 @@ def bloco(turma, e_propria, d, t, n, veto):
     """Tempos [t, t+n-1] do dia d na turma: lista de n itens, cada um None
     (tempo proprio da disciplina) ou (disc, prof) de quem doa aquele
     tempo. None (o retorno inteiro) se algum tempo nao existir na grade
-    (dia sem aula ou almoco) ou for de disciplina que nao pode doar."""
+    (dia sem aula ou almoco) ou for de disciplina que nao pode doar.
+    Tambem None se o bloco tocar em tempo depois das 16h40 (regra rigida,
+    nunca relaxa -- ver ULTIMO_TEMPO_ELEGIVEL)."""
+    if _tempo_ilegivel(t, n):
+        return None
     out = []
     for k in range(n):
         cell = GRADES[turma].get((d, t + k))

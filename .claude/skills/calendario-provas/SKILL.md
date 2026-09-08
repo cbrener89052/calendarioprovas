@@ -149,6 +149,17 @@ Nunca comece a montar o calendário sem antes:
       **Matemática, Física, Química e Biologia**.
     - Nenhuma outra disciplina pode ter prova nessas duas semanas
       (respectivamente). Ver regra completa abaixo.
+16. **Inglês precisa de dias adicionais para prova oral** (pedido do
+    usuário, 09/2026). A prova de Inglês que entra no calendário normal
+    (junto com as demais disciplinas) é só a **escrita**. A **prova
+    oral** de Inglês precisa de dia(s) à parte, que **não são decididos
+    pelo gerador nem pelo assistente** — quem define são os próprios
+    professores de Inglês. Não inferir nem sugerir datas de prova oral
+    sozinho. Sempre que gerar ou entregar um calendário, incluir uma
+    **observação visível na planilha de saída** (ver "Escrita na
+    planilha de saída" abaixo) avisando que as datas de prova oral de
+    Inglês ainda precisam ser sinalizadas pela equipe de Inglês —
+    nunca deixar isso implícito ou só documentado à parte.
 
 ## Regras de distribuição das provas
 
@@ -393,6 +404,26 @@ Nunca comece a montar o calendário sem antes:
     seletivo por disciplina nas duas janelas de 6 dias: ao alocar
     qualquer prova nessas semanas, checar se a disciplina está na lista
     permitida daquela janela antes de aceitar a data.
+- **Limite rígido de horário: nenhuma prova depois das 16h40** (pedido do
+  usuário, 08/2026). As 16h40 são o fim do 11º tempo (11º = 15h55-16h40) —
+  isso significa que o **12º tempo em diante nunca é elegível para
+  aplicação de prova**, nem como tempo próprio da disciplina, nem como
+  tempo emprestado de doador (ex.: "Proj.Vestibular", que costuma ocupar
+  os tempos 12-13 em algumas turmas, não é opção de doador). **Esta regra
+  nunca relaxa** — é checada antes de qualquer critério de preferência,
+  na mesma prioridade da presença do professor e do intervalo do recreio.
+  **Implementado**: `ULTIMO_TEMPO_ELEGIVEL = 11` e `_tempo_ilegivel(t, n)`
+  em `gerar_calendario.py`, aplicados dentro de `bloco()` (caminho de
+  professor comum) e `slots_da_disciplina()` (caminho individual e
+  LP/LIT/RED) — qualquer bloco que toque o 12º tempo é descartado antes
+  de virar candidato. `verificar_calendario.py` também checa isso
+  diretamente na planilha final (item "9b" do checklist, PROBLEMA se
+  violado, nunca aviso). Achado concreto desta rodada: a História de
+  12C1/12C2 já usava 11º-12º tempos havia tempo, sem que ninguém tivesse
+  percebido — corrigida para 10º-11º ao implementar esta regra (ver
+  `referencia/estado_2sem_2026.md`); ao configurar uma escola nova,
+  reconferir o horário real de cada tempo antes de assumir que 11 é o
+  limite — aqui é 11 porque o 11º tempo termina exatamente às 16h40.
 - **Evitar os tempos 7 a 11** (a partir das 12h45). Trate como preferência
   forte, não proibição: há disciplinas cujo único horário na grade é à
   tarde (ex.: Biologia numa turma que só tem Bio no 7º, 7º e 11º tempos;
@@ -506,6 +537,46 @@ Nunca comece a montar o calendário sem antes:
   - Preferir os arranjos que emprestam menos tempos de terceiros.
   - Evitar tomar um tempo que também seja parte do tempo duplo da
     disciplina doadora.
+  - **Comparar TODOS os dias da semana válidos antes de aceitar um
+    bloco, nunca parar no primeiro que passa no checklist** (pedido do
+    usuário, 08/2026, depois de duas vezes seguidas encontrar uma opção
+    melhor só porque alguém pediu para reavaliar uma prova já alocada e
+    aprovada — História do 11C e do 12C, ambas com professor comum
+    entre turmas irmãs). O motivo raiz: quando a disciplina tem
+    professor comum entre turmas irmãs, a coordenação obriga o mesmo
+    dia e tempo nas duas turmas — e como cada turma tem seu tempo
+    próprio da disciplina num dia diferente da semana (ou até um tempo
+    diferente no mesmo dia), a **escolha do dia determina sozinha qual
+    turma vai ceder e qual usa aula própria**. Isso vale tanto para
+    provas com professor comum quanto, com menor impacto, para provas
+    individuais por turma — mas é nas de professor comum que o efeito é
+    maior, porque ali a turma "perdedora" do dia sempre precisa de
+    doador.
+    - **Sempre**, ao alocar ou revisar a posição de qualquer prova —
+      não só quando o usuário pede para comparar — enumerar os blocos
+      válidos em **todos os dias da semana daquele período** (não só o
+      primeiro dia viável encontrado) e escolher o que resulta em
+      **menos cessão nova e menor pressão sobre tetos já apertados**,
+      usando as regras de desempate já definidas acima (menos tempos de
+      terceiros, evitar tarde, evitar Química/Física como doadoras)
+      como critério de escolha entre as opções — nessa ordem de
+      prioridade.
+    - Isso vale tanto na geração automática (`montar_exames()`) quanto
+      em qualquer reposicionamento manual feito depois: antes de
+      aplicar uma mudança de data, sempre gerar e comparar o conjunto
+      de dias candidatos daquela semana/período, não só validar o dia
+      que foi pedido.
+    - **Ainda não implementado como otimização automática no
+      `montar_exames()`** — o solver aceita a primeira solução viável
+      dentro do orçamento de nós (ver "Custo computacional" abaixo:
+      essas regras já são caras, comparar exaustivamente todo bloco
+      contra todo dia multiplicaria o custo). Por enquanto, ao gerar do
+      zero, o gerador continua aceitando a primeira opção viável.
+      **Mas em toda reposição manual e em toda análise de posição já
+      existente, a comparação completa entre dias é obrigatória**,
+      feita por quem está operando (hoje, o assistente), antes de
+      declarar uma posição como "a melhor" ou aplicar qualquer mudança
+      de data.
   - **Quando a mesma disciplina/professor tiver mais de uma prova de
     tempos duplos no semestre** (ex.: 1 por período) e o tempo próprio dela
     na grade daquela turma for sempre o mesmo tempo fixo, **prefira
@@ -636,6 +707,50 @@ pré-computar uma única vez os blocos (dia, tempo) válidos de cada prova —
 eles não dependem da semana nem do estado da busca — e usar um orçamento
 de nós menor, já que uma solução viável aparece em poucos milhares de nós
 e um teto alto só faz os degraus inviáveis custarem minutos.
+
+## Modo turbo — refatoração completa com minimização de cessões
+
+Comando específico, pedido do usuário (09/2026), **não faz parte do
+fluxo normal**: só roda quando **explicitamente acionado**, dizendo
+"turbo", "modo turbo", "rode em turbo" ou equivalente, junto de um
+pedido para **refatorar o horário todo** (regenerar o calendário
+inteiro via `montar_exames()`, não um reposicionamento manual de 1
+prova). Gerar o calendário normalmente e rodar
+`verificar_calendario.py` **não** exige turbo depois — turbo é
+sempre um passo extra, opcional, sob demanda.
+
+**O que o modo turbo faz, obrigatoriamente**:
+
+1. Rodar a busca completa (`montar_exames()`) **no mínimo 3 vezes**,
+   cada rodada com uma **semente diferente** (ver "A semente da busca
+   importa" acima — é o mesmo mecanismo, só que repetido em série em
+   vez de escolher 1 semente na mão).
+2. Em cada rodada, depois de fechar em 0 PROBLEMA, **calcular o total
+   de cessões do calendário inteiro** — soma de "aulas cedidas" de
+   todas as disciplinas, em todas as turmas (mesmo cálculo do
+   relatório de tempos cedidos).
+3. **Nunca violar os tetos de cessão já em vigor** (regras 1-5 da seção
+   "Limites de cessão de aula") — minimizar é sobre encontrar, dentro
+   do espaço de soluções válidas, a que tem **menos cessões no total**,
+   não sobre afrouxar limite nenhum. "Mesmo havendo o teto" quer dizer
+   isto: o teto continua sendo respeitado à risca em toda rodada; o que
+   muda é que o turbo não para na primeira solução válida (que pode já
+   estar perto do teto em várias disciplinas) — ele continua tentando
+   até ter comparado pelo menos 3 soluções válidas entre si.
+4. Ao final das (no mínimo) 3 rodadas, **manter e entregar a rodada com
+   o menor total de cessões** — descartar as demais. Se empatar,
+   preferir a que tiver menos disciplinas perto do teto individual
+   (ex.: menos casos de "3 de 3" ou "cedeu X, meta X").
+5. **Reportar ao usuário**, ao final, uma comparação simples entre as
+   rodadas (total de cessões de cada uma, qual foi escolhida e por quê)
+   — nunca aplicar a rodada final em silêncio.
+
+**Custo**: cada rodada individual já é cara (ver "Custo computacional"
+acima) — 3 rodadas multiplicam o tempo por ~3. Avisar o usuário antes
+de começar se o tempo estimado for longo. Sementes usadas em cada
+rodada devem ser diferentes umas das outras (não repetir a mesma
+semente 3 vezes) e registradas no código/no relatório para
+reprodutibilidade.
 
 ## Leitura do arquivo-base
 
