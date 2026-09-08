@@ -1764,6 +1764,38 @@ pendentes desse tipo.
    validar o dia pedido. (Geração automática: ainda não implementado
    como otimização no solver, por custo computacional.)
 
+## Inglês: observação sobre prova oral adicionada ao calendário e à skill (09/2026)
+
+Usuário pediu para registrar que a disciplina de Inglês precisa de
+dias adicionais, à parte, para aplicação de **prova oral** (a prova
+de Inglês que já está no calendário normal é só a escrita) — e que
+essas datas **não são decididas pelo gerador nem pelo assistente**,
+quem define é a própria equipe de Inglês. Pediu também que saia uma
+observação visível na planilha para a equipe de Inglês sinalizar essas
+datas.
+
+**Skill atualizada** (`.claude/skills/calendario-provas/SKILL.md`):
+novo item 16 no Passo 0 — perguntas obrigatórias — documentando que a
+prova de Inglês do calendário é só a escrita, que a oral precisa de
+dia(s) à parte definidos pela equipe de Inglês (nunca inferir ou
+sugerir essas datas), e que toda entrega de calendário deve incluir
+essa observação na planilha de saída.
+
+**Aplicado na Proposta 3**: encontrada a área de "DATAS IMPORTANTES"
+já existente no canto direito de cada aba de turma (colunas L/M, ao
+lado da grade — mesma área que já lista AR, lançamento de notas,
+provas da PUC etc.). Adicionada uma linha nova (L38/M38) nas **8
+turmas**, com destaque de cor (preenchimento azul-claro, `#DCE6F1`,
+distinto do amarelo reservado a simulados e do laranja do intervalo):
+
+> **PENDENTE** | Inglês — Prova oral: precisa de dia(s) à parte da
+> prova escrita já no calendário; a equipe de Inglês deve sinalizar as
+> datas de aplicação
+
+`verificar_calendario.py` continua fechando só com os 6 PROBLEMA já
+conhecidos e autorizados — a mudança não mexeu na grade de provas, só
+adicionou uma célula informativa fora da área de alocação.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).

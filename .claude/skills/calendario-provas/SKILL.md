@@ -149,6 +149,17 @@ Nunca comece a montar o calendário sem antes:
       **Matemática, Física, Química e Biologia**.
     - Nenhuma outra disciplina pode ter prova nessas duas semanas
       (respectivamente). Ver regra completa abaixo.
+16. **Inglês precisa de dias adicionais para prova oral** (pedido do
+    usuário, 09/2026). A prova de Inglês que entra no calendário normal
+    (junto com as demais disciplinas) é só a **escrita**. A **prova
+    oral** de Inglês precisa de dia(s) à parte, que **não são decididos
+    pelo gerador nem pelo assistente** — quem define são os próprios
+    professores de Inglês. Não inferir nem sugerir datas de prova oral
+    sozinho. Sempre que gerar ou entregar um calendário, incluir uma
+    **observação visível na planilha de saída** (ver "Escrita na
+    planilha de saída" abaixo) avisando que as datas de prova oral de
+    Inglês ainda precisam ser sinalizadas pela equipe de Inglês —
+    nunca deixar isso implícito ou só documentado à parte.
 
 ## Regras de distribuição das provas
 
