@@ -1,0 +1,380 @@
+{
+  "generated_at": "2026-08-09T03:15:00Z",
+  "modules": [
+    {
+      "name": "geracao-calendario",
+      "path": "gerar_calendario.py",
+      "purpose": "Gerar calendário de provas via backtracking, escrever xlsx e relatório de trocas",
+      "primary_files": ["gerar_calendario.py"],
+      "functions": [
+        {
+          "name": "main",
+          "file": "gerar_calendario.py",
+          "params": [],
+          "returns": "void",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "montar_proposta",
+          "file": "gerar_calendario.py",
+          "params": ["seed", "folga", "sem_regra3", "sem_regra4"],
+          "returns": "(alocacoes, falharam)",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "resolver",
+          "file": "gerar_calendario.py",
+          "params": ["turma", "seed"],
+          "returns": "(ok, res, g1, tarde, cruzadas)",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Cessoes",
+          "file": "gerar_calendario.py",
+          "params": ["turma", "folga"],
+          "returns": "class",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "Grade",
+          "fields": [
+            { "name": "turma", "type": "string", "required": true },
+            { "name": "dia", "type": "int", "required": true },
+            { "name": "tempo", "type": "int", "required": true },
+            { "name": "disciplina", "type": "string", "required": true },
+            { "name": "professor", "type": "string", "required": true }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Alocacao",
+          "fields": [
+            { "name": "semana", "type": "int", "required": true },
+            { "name": "dia", "type": "int", "required": true },
+            { "name": "tempo", "type": "int", "required": true },
+            { "name": "disciplina", "type": "string", "required": true },
+            { "name": "n_tempos", "type": "int", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Máximo 3 avaliações por semana por turma",
+          "location": "gerar_calendario.py:_tentar",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Backtracking com limites de cessão (Proposta 3)",
+          "location": "gerar_calendario.py:Cessoes",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Regra 4 refinada: afrouxamento só libera cessão depois da prova, nunca antes",
+          "location": ".claude/skills/calendario-provas/SKILL.md#limites-de-cessão-de-aula",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Seção Regras relaxadas obrigatória no relatório de trocas",
+          "location": "gerar_calendario.py:detectar_regras_relaxadas",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "LP/LIT/RED: ≥10 dias corridos antes da semana vetada de conselho (PR #14)",
+          "location": ".claude/skills/calendario-provas/SKILL.md",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "LP/LIT/RED 10 dias: NÃO implementado no gerador/verificador ainda",
+          "location": "gerar_calendario.py",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["openpyxl"],
+      "algorithms": ["backtracking", "constraint satisfaction", "seeded random shuffle"],
+      "complexity": "high"
+    },
+    {
+      "name": "verificacao-calendario",
+      "path": "verificar_calendario.py",
+      "purpose": "Validar planilhas xlsx geradas contra checklist de regras de negócio",
+      "primary_files": ["verificar_calendario.py"],
+      "functions": [
+        {
+          "name": "main",
+          "file": "verificar_calendario.py",
+          "params": [],
+          "returns": "void",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "data_da",
+          "file": "verificar_calendario.py",
+          "params": ["ws", "w", "d"],
+          "returns": "datetime.date",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "ProblemaValidacao",
+          "fields": [
+            { "name": "turma", "type": "string", "required": true },
+            { "name": "regra", "type": "string", "required": true },
+            { "name": "mensagem", "type": "string", "required": true },
+            { "name": "severidade", "type": "string", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "11+ checks automáticos espelhando skill calendario-provas",
+          "location": "verificar_calendario.py:main",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Checklist ~30 itens espelhando skill; regra 4 relaxada = aviso",
+          "location": "verificar_calendario.py:main",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Cessão antes/no dia da prova = falha mesmo com regra 4 relaxada",
+          "location": ".claude/skills/calendario-provas/SKILL.md",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["openpyxl", "gerar_calendario"],
+      "algorithms": ["cell parsing", "rule validation"],
+      "complexity": "medium"
+    },
+    {
+      "name": "exportacao-relatorios",
+      "path": "exportar_tabelas_turma.py",
+      "purpose": "Exportar tabela-resumo por turma e relatório de tempos cedidos em Excel",
+      "primary_files": [
+        "exportar_tabelas_turma.py",
+        "exportar_tempos_cedidos.py"
+      ],
+      "functions": [
+        {
+          "name": "carregar_siglas",
+          "file": "exportar_tabelas_turma.py",
+          "params": [],
+          "returns": "dict[str, str]",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "exportar",
+          "file": "exportar_tabelas_turma.py",
+          "params": ["proposta", "siglas"],
+          "returns": "str",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cedencias_por_turma",
+          "file": "exportar_tempos_cedidos.py",
+          "params": ["caminho", "turma"],
+          "returns": "Counter",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "LinhaTabelaProvas",
+          "fields": [
+            { "name": "disciplina", "type": "string", "required": true },
+            { "name": "professores", "type": "string", "required": true },
+            { "name": "quando", "type": "string", "required": true },
+            { "name": "n_tempos", "type": "int", "required": false }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "LinhaCessao",
+          "fields": [
+            { "name": "disciplina", "type": "string", "required": true },
+            { "name": "aulas_semanais", "type": "int", "required": true },
+            { "name": "aulas_programadas", "type": "int", "required": true },
+            { "name": "aulas_cedidas", "type": "int", "required": true },
+            { "name": "percentual", "type": "float", "required": false }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Cessão = tempo de prova que pertence a outra disciplina na grade",
+          "location": "exportar_tempos_cedidos.py:cedencias_por_turma",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["openpyxl", "gerar_calendario", "exportar_tabelas_turma"],
+      "algorithms": ["grade cross-reference", "percentage calculation"],
+      "complexity": "medium"
+    },
+    {
+      "name": "extracao-grade",
+      "path": "extrair_grade_2025.py",
+      "purpose": "Extrair grade horária de PDFs Untis para dict Python (OCR ou texto nativo)",
+      "primary_files": [
+        "extrair_grade_2025.py",
+        "extrair_grade_1semestre.py",
+        "esqueleto_grade_2025.py"
+      ],
+      "functions": [
+        {
+          "name": "celula_da",
+          "file": "extrair_grade_2025.py",
+          "params": ["x", "y"],
+          "returns": "(dia, tempo) | None",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "extrair_turma",
+          "file": "extrair_grade_1semestre.py",
+          "params": ["ws"],
+          "returns": "(grade, avisos)",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "CelulaGrade",
+          "fields": [
+            { "name": "turma", "type": "string", "required": true },
+            { "name": "dia", "type": "int", "required": true },
+            { "name": "tempo", "type": "int", "required": true },
+            { "name": "disciplina", "type": "string", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [],
+      "dependencies": ["pymupdf", "tesseract"],
+      "algorithms": ["OCR", "geometric cell mapping", "hour-to-period mapping"],
+      "complexity": "high"
+    },
+    {
+      "name": "analise-historica",
+      "path": "analisar_1semestre.py",
+      "purpose": "Analisar calendários passados e comparar cessões entre semestres",
+      "primary_files": [
+        "analisar_1semestre.py",
+        "analisar_2sem_2025.py",
+        "comparar_semestres.py"
+      ],
+      "functions": [
+        {
+          "name": "tempos_do_texto",
+          "file": "analisar_1semestre.py",
+          "params": ["txt"],
+          "returns": "list[int]",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "main",
+          "file": "comparar_semestres.py",
+          "params": [],
+          "returns": "void",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "ComparativoCessao",
+          "fields": [
+            { "name": "turma", "type": "string", "required": true },
+            { "name": "disciplina", "type": "string", "required": true },
+            { "name": "pct_1sem", "type": "float", "required": true },
+            { "name": "pct_p3", "type": "float", "required": true },
+            { "name": "variacao_pp", "type": "float", "required": true }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Comparar percentual, não contagem absoluta (semestres de tamanhos diferentes)",
+          "location": "comparar_semestres.py:main",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["openpyxl"],
+      "algorithms": ["tolerant text parsing", "historical benchmark"],
+      "complexity": "medium"
+    },
+    {
+      "name": "regras-negocio",
+      "path": "exportar_regras_pdf.py",
+      "purpose": "Documentar regras de negócio em PDF a partir da skill calendario-provas",
+      "primary_files": [
+        "exportar_regras_pdf.py",
+        ".claude/skills/calendario-provas/SKILL.md"
+      ],
+      "functions": [
+        {
+          "name": "build_pdf",
+          "file": "exportar_regras_pdf.py",
+          "params": [],
+          "returns": "void",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [],
+      "business_rules": [
+        {
+          "description": "SKILL.md é fonte viva; PDF é resumo estático",
+          "location": ".claude/skills/calendario-provas/SKILL.md",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["fpdf"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "plataforma-multi-coordenador",
+      "path": ".reversa/context/user-requirements.md",
+      "purpose": "Evolução futura: plataforma web multi-usuário com PostgreSQL e FastAPI",
+      "primary_files": [".reversa/context/user-requirements.md"],
+      "functions": [],
+      "entities": [
+        {
+          "name": "Coordenador",
+          "fields": [
+            { "name": "id", "type": "uuid", "required": true },
+            { "name": "email", "type": "string", "required": true }
+          ],
+          "confidence": "inferred"
+        },
+        {
+          "name": "CalendarioGerado",
+          "fields": [
+            { "name": "id", "type": "uuid", "required": true },
+            { "name": "proposta", "type": "int", "required": true },
+            { "name": "semestre_id", "type": "uuid", "required": true }
+          ],
+          "confidence": "inferred"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "5 coordenadores, login individual, dados isolados",
+          "location": ".reversa/context/user-requirements.md",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Deploy híbrido nuvem + Docker on-prem",
+          "location": ".reversa/context/user-requirements.md",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["PostgreSQL", "FastAPI", "blob storage"],
+      "algorithms": [],
+      "complexity": "high"
+    }
+  ]
+}
