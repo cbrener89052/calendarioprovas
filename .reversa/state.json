@@ -8,10 +8,9 @@
   "doc_level": "completo",
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "reconhecimento",
-  "completed": [],
+  "phase": "escavacao",
+  "completed": ["reconhecimento"],
   "pending": [
-    "reconhecimento",
     "escavacao",
     "interpretacao",
     "geracao",
@@ -25,6 +24,25 @@
         "_reversa_sdd/dependencies.md",
         ".reversa/context/surface.json"
       ]
+    },
+    "archaeologist": {
+      "completed_at": "2026-08-09T03:15:00Z",
+      "modules_analyzed": [
+        "geracao-calendario",
+        "verificacao-calendario",
+        "exportacao-relatorios",
+        "extracao-grade",
+        "analise-historica",
+        "regras-negocio",
+        "plataforma-multi-coordenador"
+      ],
+      "files": [
+        "_reversa_sdd/code-analysis.md",
+        "_reversa_sdd/data-dictionary.md",
+        "_reversa_sdd/flowcharts/",
+        ".reversa/context/modules.json"
+      ],
+      "specs_layout": "feature-folder"
     }
   },
   "engines": [
