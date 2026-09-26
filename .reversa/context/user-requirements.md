@@ -46,6 +46,53 @@ precisa existir um **banco de dados** para armazenar:
 | Arquivos | Storage de blobs (S3 na nuvem / pasta local no deploy on-prem) |
 | Frontend | A definir na fase de design (provável web app — Next.js ou similar) |
 
+## Decisões RBAC e regras (2026-08-09 — confirmado por Brener)
+
+### Segmento de atuação por coordenador
+
+Cada coordenador configura o **seu segmento de atuação** na escola, com as características do seu contexto:
+
+- Séries/turmas sob sua responsabilidade (ex.: só Ensino Médio C, ou segmento específico)
+- **GRUPOS** customizáveis (ver abaixo), calendário de simulados do segmento
+- Parâmetros locais (feriados adicionais, exceções de disciplina)
+
+### GRUPOS (customizáveis por coordenador)
+
+Substituem o conceito fixo “grupos de viagem” (ex.: 10/12 vs 9/11). Cada coordenador define **GRUPOS** com:
+
+| Campo | Descrição |
+|---|---|
+| **Nome** | Rótulo livre (ex.: “Turmas que viajam cedo”, “9º e 11º”) |
+| **Início / fim do semestre** | Janela letiva do grupo para provas |
+| **Datas de 2ª chamada** | Uma ou mais datas por grupo |
+| **Datas de conselho de classe** | Período vetado (início/fim) por grupo |
+
+Turmas são associadas a um GRUPO; limites de período, 2CH e conselho vêm do grupo, não de código hardcoded.
+
+**Isolamento:** cada coordenador vê e opera **apenas os dados do seu segmento** (tenant = coordenador + segmento).
+
+### Motor de regras configurável (futuro)
+
+Hoje as regras estão **hardcoded** em `gerar_calendario.py` e na skill. Na plataforma:
+
+| Tipo | Comportamento |
+|---|---|
+| **Regra codificada** | Implementada no solver; no menu: **ativar / desativar** por coordenador/semestre |
+| **Regra institucional (template)** | Catálogo derivado da skill; toggles no menu |
+| **Customização assistida por IA** | Adaptações que **não entram no código** — interpretadas pela IA conforme configs do coordenador (ex.: preferências textuais, exceções pontuais documentadas) |
+
+**Princípio:** o que exige lógica determinística no solver → toggle on/off de regra codificada. O que é nuance contextual → camada IA + config, sem deploy de código.
+
+### PR #14 mergeada em `main`
+
+Regra **LP/LIT/RED ≥10 dias antes do conselho** — na skill ✅; implementação no gerador/verificador 🔴 pendente.
+
+### Pendências resolvidas
+
+- [x] Isolamento por coordenador → **sim**, via segmento de atuação
+- [x] Templates compartilhados → catálogo institucional de regras + toggles
+- [ ] Admin institucional vs coordenador puro — a detalhar (provável: Brener admin inicial)
+
 ### Implicação do deploy híbrido
 
 - Mesma aplicação empacotada em **Docker Compose**: API Python + Postgres + (opcional) frontend
