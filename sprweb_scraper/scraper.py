@@ -158,14 +158,52 @@ def save_questao(conn: sqlite3.Connection, q: Questao) -> None:
 # Login e navegação
 # --------------------------------------------------------------------------
 
+def _first_visible(page: Page, candidatos, descricao: str, timeout_each: int = 3000):
+    """Tenta várias estratégias de seletor em sequência e retorna a primeira que
+    achar um elemento visível. Cada `candidato` é uma função `() -> Locator`.
+    Falha rápido em cada tentativa (timeout_each) em vez de esperar o timeout
+    padrão do Playwright (30s) em cada uma."""
+    for candidato in candidatos:
+        try:
+            loc = candidato().first
+            loc.wait_for(state="visible", timeout=timeout_each)
+            return loc
+        except PlaywrightTimeoutError:
+            continue
+    raise RuntimeError(
+        f"Não encontrei o elemento '{descricao}' com nenhum dos seletores tentados. "
+        f"Rode com --debug e --headed, e quando pausar use o Playwright Inspector "
+        f"(botão 'Pick locator') para achar o seletor certo."
+    )
+
+
 def login(page: Page, email: str, senha: str) -> None:
     log("Abrindo página de login...")
     page.goto(LOGIN_URL, wait_until="domcontentloaded")
 
-    # AJUSTE AQUI se os campos não tiverem esses rótulos exatos.
-    page.get_by_label("E-mail").fill(email)
-    page.get_by_label("Senha").fill(senha)
-    page.get_by_role("button", name="Entrar").click()
+    # AJUSTE AQUI: ordem de tentativas para achar os campos. O site pode não
+    # associar o texto "E-mail"/"Senha" como <label for=...> de verdade, então
+    # não dependemos só de get_by_label.
+    campo_email = _first_visible(page, [
+        lambda: page.get_by_label("E-mail"),
+        lambda: page.get_by_placeholder(re.compile("e-?mail", re.I)),
+        lambda: page.locator("input[type=email]"),
+        lambda: page.locator("input[type=text]"),
+    ], descricao="campo de e-mail")
+    campo_email.fill(email)
+
+    campo_senha = _first_visible(page, [
+        lambda: page.get_by_label("Senha"),
+        lambda: page.get_by_placeholder(re.compile("senha", re.I)),
+        lambda: page.locator("input[type=password]"),
+    ], descricao="campo de senha")
+    campo_senha.fill(senha)
+
+    botao_entrar = _first_visible(page, [
+        lambda: page.get_by_role("button", name="Entrar"),
+        lambda: page.get_by_text("Entrar", exact=True),
+    ], descricao="botão Entrar")
+    botao_entrar.click()
 
     # Espera a home carregar (aparece o menu "Montar prova").
     page.get_by_text("Montar prova", exact=False).first.wait_for(timeout=20000)
