@@ -1,0 +1,620 @@
+openapi: 3.1.0
+info:
+  title: Calendário de Provas API
+  description: |
+    API da plataforma multi-coordenador — Escola Alemã Corcovado.
+    Evolução do CLI Python (gerar_calendario.py) para FastAPI + PostgreSQL.
+    Confiança: 🟡 INFERIDO (ADR-005, ADR-006, user-requirements).
+  version: 0.1.0
+  contact:
+    name: Brener / Coordenação
+
+servers:
+  - url: https://api.calendarioprovas.example.com/api/v1
+    description: Nuvem (produção)
+  - url: http://localhost:8000/api/v1
+    description: Docker Compose local
+
+tags:
+  - name: auth
+  - name: segmento
+  - name: grupos
+  - name: semestres
+  - name: jobs
+  - name: regras
+  - name: calendarios
+
+paths:
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Login coordenador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Token JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Credenciais inválidas
+
+  /segmento/me:
+    get:
+      tags: [segmento]
+      security: [{ bearerAuth: [] }]
+      summary: Segmento do coordenador autenticado
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Segmento'
+    patch:
+      tags: [segmento]
+      security: [{ bearerAuth: [] }]
+      summary: Atualizar segmento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SegmentoUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Segmento'
+
+  /grupos:
+    get:
+      tags: [grupos]
+      security: [{ bearerAuth: [] }]
+      summary: Listar GRUPOS do segmento
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Grupo'
+    post:
+      tags: [grupos]
+      security: [{ bearerAuth: [] }]
+      summary: Criar GRUPO customizável
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrupoCreate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grupo'
+
+  /grupos/{grupo_id}:
+    parameters:
+      - $ref: '#/components/parameters/GrupoId'
+    get:
+      tags: [grupos]
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grupo'
+    patch:
+      tags: [grupos]
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrupoUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grupo'
+    delete:
+      tags: [grupos]
+      security: [{ bearerAuth: [] }]
+      responses:
+        '204':
+          description: Removido
+
+  /semestres:
+    get:
+      tags: [semestres]
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Semestre'
+    post:
+      tags: [semestres]
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SemestreCreate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Semestre'
+
+  /semestres/{semestre_id}/upload/{tipo}:
+    post:
+      tags: [semestres]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: semestre_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: tipo
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [grade, modelo, siglas, simulados]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArquivoEntrada'
+
+  /semestres/{semestre_id}/gerar:
+    post:
+      tags: [jobs]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: semestre_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GerarRequest'
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreated'
+
+  /jobs/{job_id}:
+    get:
+      tags: [jobs]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatus'
+
+  /semestres/{semestre_id}/regras:
+    get:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: semestre_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RegraConfig'
+
+  /semestres/{semestre_id}/regras/{codigo}:
+    patch:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: semestre_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: codigo
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegraConfigUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegraConfig'
+
+  /customizacoes-ia:
+    get:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      summary: Listar customizações IA do segmento
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomizacaoIA'
+    post:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      summary: Criar customização IA
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomizacaoIACreate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomizacaoIA'
+
+  /customizacoes-ia/{customizacao_id}:
+    delete:
+      tags: [regras]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: customizacao_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Removido
+
+  /calendarios/{calendario_id}/download:
+    get:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: calendario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Planilha xlsx
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+
+  /calendarios/{calendario_id}/verificar:
+    post:
+      tags: [calendarios]
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - name: calendario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificacaoResult'
+        '422':
+          description: Erros críticos de validação
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    GrupoId:
+      name: grupo_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          default: bearer
+
+    Segmento:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        coordenador_id:
+          type: string
+          format: uuid
+
+    SegmentoUpdate:
+      type: object
+      properties:
+        nome:
+          type: string
+
+    Grupo:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nome:
+          type: string
+        data_inicio_semestre:
+          type: string
+          format: date
+        data_fim_semestre:
+          type: string
+          format: date
+        datas_segunda_chamada:
+          type: array
+          items:
+            type: string
+            format: date
+        conselho_inicio:
+          type: string
+          format: date
+        conselho_fim:
+          type: string
+          format: date
+
+    GrupoCreate:
+      allOf:
+        - $ref: '#/components/schemas/Grupo'
+      required:
+        - nome
+        - data_inicio_semestre
+        - data_fim_semestre
+        - conselho_inicio
+        - conselho_fim
+
+    GrupoUpdate:
+      type: object
+      properties:
+        nome:
+          type: string
+        data_inicio_semestre:
+          type: string
+          format: date
+        data_fim_semestre:
+          type: string
+          format: date
+        datas_segunda_chamada:
+          type: array
+          items:
+            type: string
+            format: date
+        conselho_inicio:
+          type: string
+          format: date
+        conselho_fim:
+          type: string
+          format: date
+
+    Semestre:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        ano:
+          type: integer
+        periodo:
+          type: integer
+          description: 1 ou 2
+        segmento_id:
+          type: string
+          format: uuid
+
+    SemestreCreate:
+      type: object
+      required: [ano, periodo]
+      properties:
+        ano:
+          type: integer
+        periodo:
+          type: integer
+
+    ArquivoEntrada:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tipo:
+          type: string
+        blob_url:
+          type: string
+
+    GerarRequest:
+      type: object
+      properties:
+        proposta:
+          type: integer
+          default: 3
+        seed:
+          type: integer
+          default: 7
+
+    JobCreated:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+
+    JobStatus:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        calendario_id:
+          type: string
+          format: uuid
+          nullable: true
+        erros:
+          type: array
+          items:
+            type: string
+          nullable: true
+
+    RegraConfig:
+      type: object
+      properties:
+        codigo:
+          type: string
+        descricao:
+          type: string
+        ativo:
+          type: boolean
+        implementada_solver:
+          type: boolean
+        params:
+          type: object
+          additionalProperties: true
+
+    RegraConfigUpdate:
+      type: object
+      properties:
+        ativo:
+          type: boolean
+        params:
+          type: object
+          additionalProperties: true
+
+    VerificacaoResult:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        problemas:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemaValidacao'
+
+    ProblemaValidacao:
+      type: object
+      properties:
+        turma:
+          type: string
+        regra:
+          type: string
+        mensagem:
+          type: string
+        severidade:
+          type: string
+          enum: [erro, aviso]
+
+    CustomizacaoIA:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        texto:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    CustomizacaoIACreate:
+      type: object
+      required: [texto]
+      properties:
+        texto:
+          type: string
+          description: Preferência ou exceção interpretada pela camada IA (ADR-006)
