@@ -16,6 +16,10 @@ USO BÁSICO
 Rode primeiro com --headed --debug e --max-questions baixo (2 a 5) para validar que os
 cliques na tela estão funcionando antes de rodar uma captura grande.
 
+Por padrão, entre uma questão e outra o script espera um intervalo aleatório de 10 a
+90 segundos (--delay-min / --delay-max), para não se comportar como um robô batendo
+sempre no mesmo ritmo. Isso deixa uma captura grande bem mais lenta — é intencional.
+
 CREDENCIAIS
 -----------
 Nunca passe e-mail/senha na linha de comando (fica no histórico do shell). Use as
@@ -35,6 +39,7 @@ import argparse
 import getpass
 import json
 import os
+import random
 import re
 import sqlite3
 import sys
@@ -473,7 +478,9 @@ def rodar(args: argparse.Namespace) -> None:
                     if not avancou:
                         log("Não há próxima questão, encerrando.")
                         break
-                    time.sleep(args.delay)
+                    espera = random.uniform(args.delay_min, args.delay_max)
+                    log(f"Aguardando {espera:.1f}s antes da próxima questão...")
+                    time.sleep(espera)
 
             log(f"Concluído. Capturadas: {capturadas}. Já existentes (puladas): {puladas}.")
 
@@ -498,7 +505,8 @@ def main() -> None:
     parser.add_argument("--materia", required=True, help="Ex: Matemática, Português")
     parser.add_argument("--output", default=DEFAULT_DB_FILE, help="Caminho do arquivo SQLite de saída")
     parser.add_argument("--max-questions", type=int, default=None, help="Limite de questões a capturar nesta execução")
-    parser.add_argument("--delay", type=float, default=1.5, help="Segundos de espera entre questões")
+    parser.add_argument("--delay-min", type=float, default=10.0, help="Espera mínima (segundos) entre questões")
+    parser.add_argument("--delay-max", type=float, default=90.0, help="Espera máxima (segundos) entre questões")
     parser.add_argument("--headed", action="store_true", help="Mostra o navegador (recomendado na primeira vez)")
     parser.add_argument("--debug", action="store_true", help="Pausa no Playwright Inspector em caso de erro")
     parser.add_argument("--force-login", action="store_true", help="Ignora sessão salva e faz login de novo")
