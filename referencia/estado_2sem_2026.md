@@ -1899,6 +1899,45 @@ Testado antes em cópia isolada (`verificar_calendario.py` sem nenhum
 PROBLEMA novo, só os 2 avisos acima) e só depois aplicado no arquivo
 real. Os 5 relatórios derivados foram regenerados.
 
+## 9C1/9C2: Matemática (2ª prova) movida de 19/11 para 24/11 (09/2026)
+
+Usuário pediu para avaliar mover a prova de Matemática (2ª prova, prof.
+BrSa) de quinta 19/11 (semana 16) para a semana seguinte,
+preferencialmente antes de 26/11.
+
+**Análise**: segunda-feira não tem nenhuma aula de Matemática em
+nenhuma das duas turmas (nem 9C1 nem 9C2) — inviável por prioridade 1.
+Quarta exigiria ceder o bloco duplo inteiro de Gramática (`p`/Jana) da
+9C2 (tempo próprio de Mat lá é só 1 tempo isolado, tempo3). **Terça
+(24/11), 9º-10º tempos** ficou a melhor opção: é tempo próprio de
+BrSa em pelo menos uma das duas turmas em cada posição do bloco (9C1
+no 9º tempo, 9C2 no 10º tempo) — cessão mínima dos dois lados.
+
+**Aplicado**: Mat (2ª prova, 9C1+9C2) de semana 16 quinta (19/11, 4º-5º
+tempos) → semana 17 **terça (24/11), 9º-10º tempos**.
+
+Resultado, comparado ao estado anterior:
+- **Nenhum PROBLEMA novo** (os 6 pré-existentes, de outra origem,
+  continuam iguais).
+- **2 AVISOS a menos**: Artes cedia 3 tempos (acima da meta de 2) em
+  9C1 e 9C2 por causa do tempo emprestado que a prova de Mat tomava na
+  quinta 19/11 (bloco 4º-5º, que passava por cima de parte do
+  mus/art/artTh); tirando a prova dali, Artes volta a ceder só 2 nas
+  duas turmas.
+- A semana 17 (9C1/9C2), que ficava vazia de propósito (ver seção
+  "Redação... consolidação de semanas" acima), passa a ter 1 prova
+  numa terça — cumpre por si só a regra de a semana 17 ter pelo menos
+  1 prova até quarta-feira nas séries 9/11, sem precisar mais deixá-la
+  vazia.
+- Distância até a 1ª prova de Matemática (16/09, semana 7): sobe de 9
+  para 10 semanas, seguindo acima do piso desejável de 7.
+- 24/11 não é feriado, não cai na semana vetada, e fica bem dentro do
+  limite da 2ª chamada da série 9/11 (27/11).
+
+Testado antes em cópia isolada (`verificar_calendario.py`: nenhum
+PROBLEMA novo, 2 AVISOS a menos que antes) e só depois aplicado no
+arquivo real. Os 5 relatórios derivados foram regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
