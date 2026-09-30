@@ -1846,6 +1846,59 @@ uma rodada normal — avisar o usuário se for demorado). Ainda não há
 script pronto para rodar isso automaticamente; por enquanto é um
 procedimento a seguir manualmente quando o modo turbo for acionado.
 
+## 12C1/12C2: DaF e GL reposicionados para a semana 14 (09/2026)
+
+Usuário pediu para avaliar trocar a prova de DaF (12C) de lugar com a
+prova de português (LP/LIT/RED) que caía em 09/10, com DaF indo para
+06/10 (terça). **06/10 rejeitado na análise**: DaF (CBu/EFr/Eth) não
+tem nenhuma aula de DaF com 12C1/12C2 às terças-feiras — só segunda
+(4º tempo) e sexta (6º-7º tempos, aula dupla real, que é onde a prova
+já estava). Colocar a prova numa terça violaria a regra de prioridade
+máxima (professor citado precisa ter aula própria no bloco de
+aplicação). Reportado ao usuário, que decidiu não mexer no português e
+pediu, em vez disso: **DaF para 06/11 e GL para 05/11**.
+
+**Achado ao revisar o horário-base com mais cuidado**: DaF também tem
+aula às **quintas, 10º tempo** (além de segunda 4º e sexta 6º-7º) — não
+tinha sido notado antes. É justamente o tempo emprestado por trás do
+bloco de GL (quinta, 9º-10º tempos): GL tem aula própria só no 9º
+tempo dessas turmas, então o 10º vem cedido pelo próprio DaF, que
+também está na grade das quintas.
+
+**Aplicado**:
+- **DaF (2ª prova)**: semana 12 sexta (23/10) → semana 14 **sexta
+  (06/11)**, mesmo bloco 6º-7º tempos (aula dupla real, sem cessão
+  nova). Distância da 1ª prova (semana 7, 14/09): sobe de 5 para
+  **7 semanas** — passa a cumprir o piso desejável, não só o mínimo.
+- **GL (2ª prova)**: semana 9 quinta (01/10) → semana 14 **quinta
+  (05/11)**, mesmo bloco 9º-10º tempos (9º próprio, 10º cedido pelo
+  próprio DaF, igual já era). Distância da 1ª prova (semana 5, 01/09):
+  sobe de 4 para **9 semanas** — também passa a cumprir o piso
+  desejável.
+- Semana 14 (2-6/11) passa a ter 3 avaliações (Fil em 04/11, GL em
+  05/11, DaF em 06/11) — no teto, sem violar limite. Semana 12 fica só
+  com Hist (20/10) e Bio (22/10); semana 9 fica sem nenhuma avaliação
+  — nenhuma das duas é problema (não há mínimo de provas por semana
+  fora da regra específica da semana 17 em 9C/11C, que não se aplica à
+  12C).
+- 06/11 e 05/11 não caem em feriado nem na semana vetada (12-16/10,
+  nem perto), e ficam bem dentro do limite de 6 dias do conselho final
+  "CC 10,12" (17/11 → limite 11/11).
+
+**Novo aviso esperado** (não é falha): como DaF agora cede seu tempo de
+quinta-feira (para o GL) na **mesma semana** da própria prova de DaF
+(sexta da mesma semana 14), o checklist passou a avisar `DaF/CBu-EFr-Eth
+cedeu aula na semana 14 tendo prova própria na semana 14` em 12C1 e
+12C2 — é a regra 4 de cessão (não ceder na semana da própria prova),
+relaxada aqui porque é exatamente essa cessão que libera a semana para
+caber as duas provas juntas. Nenhum teto de cessão foi ultrapassado
+(DaF continua dentro do limite de 2 cessões/semestre para disciplina de
+3 aulas semanais).
+
+Testado antes em cópia isolada (`verificar_calendario.py` sem nenhum
+PROBLEMA novo, só os 2 avisos acima) e só depois aplicado no arquivo
+real. Os 5 relatórios derivados foram regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
