@@ -1846,6 +1846,98 @@ uma rodada normal — avisar o usuário se for demorado). Ainda não há
 script pronto para rodar isso automaticamente; por enquanto é um
 procedimento a seguir manualmente quando o modo turbo for acionado.
 
+## 12C1/12C2: DaF e GL reposicionados para a semana 14 (09/2026)
+
+Usuário pediu para avaliar trocar a prova de DaF (12C) de lugar com a
+prova de português (LP/LIT/RED) que caía em 09/10, com DaF indo para
+06/10 (terça). **06/10 rejeitado na análise**: DaF (CBu/EFr/Eth) não
+tem nenhuma aula de DaF com 12C1/12C2 às terças-feiras — só segunda
+(4º tempo) e sexta (6º-7º tempos, aula dupla real, que é onde a prova
+já estava). Colocar a prova numa terça violaria a regra de prioridade
+máxima (professor citado precisa ter aula própria no bloco de
+aplicação). Reportado ao usuário, que decidiu não mexer no português e
+pediu, em vez disso: **DaF para 06/11 e GL para 05/11**.
+
+**Achado ao revisar o horário-base com mais cuidado**: DaF também tem
+aula às **quintas, 10º tempo** (além de segunda 4º e sexta 6º-7º) — não
+tinha sido notado antes. É justamente o tempo emprestado por trás do
+bloco de GL (quinta, 9º-10º tempos): GL tem aula própria só no 9º
+tempo dessas turmas, então o 10º vem cedido pelo próprio DaF, que
+também está na grade das quintas.
+
+**Aplicado**:
+- **DaF (2ª prova)**: semana 12 sexta (23/10) → semana 14 **sexta
+  (06/11)**, mesmo bloco 6º-7º tempos (aula dupla real, sem cessão
+  nova). Distância da 1ª prova (semana 7, 14/09): sobe de 5 para
+  **7 semanas** — passa a cumprir o piso desejável, não só o mínimo.
+- **GL (2ª prova)**: semana 9 quinta (01/10) → semana 14 **quinta
+  (05/11)**, mesmo bloco 9º-10º tempos (9º próprio, 10º cedido pelo
+  próprio DaF, igual já era). Distância da 1ª prova (semana 5, 01/09):
+  sobe de 4 para **9 semanas** — também passa a cumprir o piso
+  desejável.
+- Semana 14 (2-6/11) passa a ter 3 avaliações (Fil em 04/11, GL em
+  05/11, DaF em 06/11) — no teto, sem violar limite. Semana 12 fica só
+  com Hist (20/10) e Bio (22/10); semana 9 fica sem nenhuma avaliação
+  — nenhuma das duas é problema (não há mínimo de provas por semana
+  fora da regra específica da semana 17 em 9C/11C, que não se aplica à
+  12C).
+- 06/11 e 05/11 não caem em feriado nem na semana vetada (12-16/10,
+  nem perto), e ficam bem dentro do limite de 6 dias do conselho final
+  "CC 10,12" (17/11 → limite 11/11).
+
+**Novo aviso esperado** (não é falha): como DaF agora cede seu tempo de
+quinta-feira (para o GL) na **mesma semana** da própria prova de DaF
+(sexta da mesma semana 14), o checklist passou a avisar `DaF/CBu-EFr-Eth
+cedeu aula na semana 14 tendo prova própria na semana 14` em 12C1 e
+12C2 — é a regra 4 de cessão (não ceder na semana da própria prova),
+relaxada aqui porque é exatamente essa cessão que libera a semana para
+caber as duas provas juntas. Nenhum teto de cessão foi ultrapassado
+(DaF continua dentro do limite de 2 cessões/semestre para disciplina de
+3 aulas semanais).
+
+Testado antes em cópia isolada (`verificar_calendario.py` sem nenhum
+PROBLEMA novo, só os 2 avisos acima) e só depois aplicado no arquivo
+real. Os 5 relatórios derivados foram regenerados.
+
+## 9C1/9C2: Matemática (2ª prova) movida de 19/11 para 24/11 (09/2026)
+
+Usuário pediu para avaliar mover a prova de Matemática (2ª prova, prof.
+BrSa) de quinta 19/11 (semana 16) para a semana seguinte,
+preferencialmente antes de 26/11.
+
+**Análise**: segunda-feira não tem nenhuma aula de Matemática em
+nenhuma das duas turmas (nem 9C1 nem 9C2) — inviável por prioridade 1.
+Quarta exigiria ceder o bloco duplo inteiro de Gramática (`p`/Jana) da
+9C2 (tempo próprio de Mat lá é só 1 tempo isolado, tempo3). **Terça
+(24/11), 9º-10º tempos** ficou a melhor opção: é tempo próprio de
+BrSa em pelo menos uma das duas turmas em cada posição do bloco (9C1
+no 9º tempo, 9C2 no 10º tempo) — cessão mínima dos dois lados.
+
+**Aplicado**: Mat (2ª prova, 9C1+9C2) de semana 16 quinta (19/11, 4º-5º
+tempos) → semana 17 **terça (24/11), 9º-10º tempos**.
+
+Resultado, comparado ao estado anterior:
+- **Nenhum PROBLEMA novo** (os 6 pré-existentes, de outra origem,
+  continuam iguais).
+- **2 AVISOS a menos**: Artes cedia 3 tempos (acima da meta de 2) em
+  9C1 e 9C2 por causa do tempo emprestado que a prova de Mat tomava na
+  quinta 19/11 (bloco 4º-5º, que passava por cima de parte do
+  mus/art/artTh); tirando a prova dali, Artes volta a ceder só 2 nas
+  duas turmas.
+- A semana 17 (9C1/9C2), que ficava vazia de propósito (ver seção
+  "Redação... consolidação de semanas" acima), passa a ter 1 prova
+  numa terça — cumpre por si só a regra de a semana 17 ter pelo menos
+  1 prova até quarta-feira nas séries 9/11, sem precisar mais deixá-la
+  vazia.
+- Distância até a 1ª prova de Matemática (16/09, semana 7): sobe de 9
+  para 10 semanas, seguindo acima do piso desejável de 7.
+- 24/11 não é feriado, não cai na semana vetada, e fica bem dentro do
+  limite da 2ª chamada da série 9/11 (27/11).
+
+Testado antes em cópia isolada (`verificar_calendario.py`: nenhum
+PROBLEMA novo, 2 AVISOS a menos que antes) e só depois aplicado no
+arquivo real. Os 5 relatórios derivados foram regenerados.
+
 ## Próximos passos
 
 1. Confirmar a pendência de tempos (Física/Geo/Química fora do 9º ano).
@@ -1855,3 +1947,67 @@ procedimento a seguir manualmente quando o modo turbo for acionado.
 4. Gerar as 3 propostas de calendário (3 arquivos xlsx, 8 abas cada).
 5. Gerar relatório de trocas de tempo entre professores.
 6. Rodar o checklist final da skill antes de entregar.
+
+## 10C1/10C2: Química, História e Geografia reposicionadas para liberar o Inglês de outubro (10/2026)
+
+Usuário reportou (print do horário ao vivo da escola) que aulas de
+Inglês da 10C1/10C2 estavam sendo substituídas/canceladas em outubro, e
+pediu para estudar não usar mais Inglês como doador nas provas desse
+mês.
+
+**Provas identificadas** (todas com professor comum entre 10C1/10C2 em
+tempos diferentes, exigindo em princípio aplicação simultânea):
+- Química/CAl (seg 26/10): usava o 5º tempo de Inglês/APa na 10C1.
+- História/ALu (qui 29/10): usava os 2º **e** 3º tempos de Inglês/APa
+  na 10C1 (lá o Inglês de quinta é uma aula dupla inteira).
+- Geografia/Mlo (sex 09/10): usava o 2º tempo de Inglês/Vir na 10C2.
+
+**Testado primeiro mantendo a aplicação simultânea** (mesma
+semana/dia/tempo nas duas turmas, como a regra pede por padrão): não
+existe alternativa sem o Inglês — qualquer outro par de tempos ou
+cruza o intervalo do recreio, ou cai numa disciplina de 1 aula semanal
+que não pode doar (Finanças/Mlo na 10C2), ou estoura o teto de cessão
+de outra disciplina pior do que o Inglês está hoje (Matemática
+passaria de 2 para 4 cessões; Geografia simultânea também sempre caía
+no mesmo tempo de Inglês da 10C2, não importa o vizinho escolhido).
+
+**Decisão do usuário**: autorizado deixar de aplicar essas 3 provas
+simultaneamente entre 10C1 e 10C2 (cada turma no seu próprio tempo
+forte da disciplina) e aceitar que Português passe do teto de cessão,
+para liberar o Inglês por completo. Como nenhuma das três tem mais
+nenhuma ocorrência neste semestre (cada uma já teve sua 1ª prova em
+agosto/setembro), é uma decisão pontual para o resto do período, não
+uma regra permanente.
+
+**Aplicado**:
+- **Química** (10C1): segunda 26/10 → **terça 27/10, 6º-7º tempos**
+  (6º é tempo próprio do prof. CAl nessa turma; 7º é cedido por
+  Biologia/Lza, que estava em 0% de cessão). 10C2 **não muda**:
+  continua segunda 26/10, 4º-5º tempos (tempo próprio dela + Redação
+  como doadora, como já era — nunca usou Inglês).
+- **História** (10C1): quinta 29/10 passa de 2º-3º para **6º-7º
+  tempos** (6º é tempo próprio da profa. ALu nessa turma; 7º está
+  livre na grade, **sem precisar de nenhuma cessão**). 10C2 **não
+  muda**: continua quinta 29/10, 2º-3º tempos (tempo próprio dela +
+  Português/MFo como doador, como já era).
+- **Geografia** (10C2): sexta 09/10 → **quinta 08/10, 1º-2º tempos**
+  (1º é tempo próprio do prof. Mlo nessa turma; 2º é cedido por
+  Português/MFo). 10C1 **não muda**: continua sexta 09/10, 2º-3º
+  tempos (tempo próprio dela + DaF como doador, como já era).
+
+**Resultado da verificação** (`verificar_calendario.py`):
+- **3 PROBLEMAS novos, esperados e aceitos**: "Química/História/
+  Geografia têm professor comum mas as provas não coincidem" entre
+  10C1 e 10C2 — é exatamente a consequência de aplicar em dias
+  diferentes, autorizada pelo usuário. Somam-se aos 6 problemas
+  pré-existentes (de outra origem, já documentados acima), totalizando
+  9 — nenhum dos 9 é silencioso ou não-explicado.
+- Inglês (APa na 10C1, Vir na 10C2) deixa de aparecer em qualquer
+  cessão em outubro — as 3 ocorrências que motivaram o pedido somem do
+  relatório de trocas.
+- **Português (10C2) sobe de 3 para 4 cessões no semestre (11,5% →
+  15,4%, acima do teto de 11%)** — é o custo aceito pelo usuário.
+- Bio/Lza passa a aparecer com 1 cessão (era 0) — dentro do teto.
+
+Testado antes em cópia isolada, só depois aplicado no arquivo real. Os
+5 relatórios derivados foram regenerados.
