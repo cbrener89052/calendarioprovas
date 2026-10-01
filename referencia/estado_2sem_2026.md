@@ -1947,3 +1947,67 @@ arquivo real. Os 5 relatórios derivados foram regenerados.
 4. Gerar as 3 propostas de calendário (3 arquivos xlsx, 8 abas cada).
 5. Gerar relatório de trocas de tempo entre professores.
 6. Rodar o checklist final da skill antes de entregar.
+
+## 10C1/10C2: Química, História e Geografia reposicionadas para liberar o Inglês de outubro (10/2026)
+
+Usuário reportou (print do horário ao vivo da escola) que aulas de
+Inglês da 10C1/10C2 estavam sendo substituídas/canceladas em outubro, e
+pediu para estudar não usar mais Inglês como doador nas provas desse
+mês.
+
+**Provas identificadas** (todas com professor comum entre 10C1/10C2 em
+tempos diferentes, exigindo em princípio aplicação simultânea):
+- Química/CAl (seg 26/10): usava o 5º tempo de Inglês/APa na 10C1.
+- História/ALu (qui 29/10): usava os 2º **e** 3º tempos de Inglês/APa
+  na 10C1 (lá o Inglês de quinta é uma aula dupla inteira).
+- Geografia/Mlo (sex 09/10): usava o 2º tempo de Inglês/Vir na 10C2.
+
+**Testado primeiro mantendo a aplicação simultânea** (mesma
+semana/dia/tempo nas duas turmas, como a regra pede por padrão): não
+existe alternativa sem o Inglês — qualquer outro par de tempos ou
+cruza o intervalo do recreio, ou cai numa disciplina de 1 aula semanal
+que não pode doar (Finanças/Mlo na 10C2), ou estoura o teto de cessão
+de outra disciplina pior do que o Inglês está hoje (Matemática
+passaria de 2 para 4 cessões; Geografia simultânea também sempre caía
+no mesmo tempo de Inglês da 10C2, não importa o vizinho escolhido).
+
+**Decisão do usuário**: autorizado deixar de aplicar essas 3 provas
+simultaneamente entre 10C1 e 10C2 (cada turma no seu próprio tempo
+forte da disciplina) e aceitar que Português passe do teto de cessão,
+para liberar o Inglês por completo. Como nenhuma das três tem mais
+nenhuma ocorrência neste semestre (cada uma já teve sua 1ª prova em
+agosto/setembro), é uma decisão pontual para o resto do período, não
+uma regra permanente.
+
+**Aplicado**:
+- **Química** (10C1): segunda 26/10 → **terça 27/10, 6º-7º tempos**
+  (6º é tempo próprio do prof. CAl nessa turma; 7º é cedido por
+  Biologia/Lza, que estava em 0% de cessão). 10C2 **não muda**:
+  continua segunda 26/10, 4º-5º tempos (tempo próprio dela + Redação
+  como doadora, como já era — nunca usou Inglês).
+- **História** (10C1): quinta 29/10 passa de 2º-3º para **6º-7º
+  tempos** (6º é tempo próprio da profa. ALu nessa turma; 7º está
+  livre na grade, **sem precisar de nenhuma cessão**). 10C2 **não
+  muda**: continua quinta 29/10, 2º-3º tempos (tempo próprio dela +
+  Português/MFo como doador, como já era).
+- **Geografia** (10C2): sexta 09/10 → **quinta 08/10, 1º-2º tempos**
+  (1º é tempo próprio do prof. Mlo nessa turma; 2º é cedido por
+  Português/MFo). 10C1 **não muda**: continua sexta 09/10, 2º-3º
+  tempos (tempo próprio dela + DaF como doador, como já era).
+
+**Resultado da verificação** (`verificar_calendario.py`):
+- **3 PROBLEMAS novos, esperados e aceitos**: "Química/História/
+  Geografia têm professor comum mas as provas não coincidem" entre
+  10C1 e 10C2 — é exatamente a consequência de aplicar em dias
+  diferentes, autorizada pelo usuário. Somam-se aos 6 problemas
+  pré-existentes (de outra origem, já documentados acima), totalizando
+  9 — nenhum dos 9 é silencioso ou não-explicado.
+- Inglês (APa na 10C1, Vir na 10C2) deixa de aparecer em qualquer
+  cessão em outubro — as 3 ocorrências que motivaram o pedido somem do
+  relatório de trocas.
+- **Português (10C2) sobe de 3 para 4 cessões no semestre (11,5% →
+  15,4%, acima do teto de 11%)** — é o custo aceito pelo usuário.
+- Bio/Lza passa a aparecer com 1 cessão (era 0) — dentro do teto.
+
+Testado antes em cópia isolada, só depois aplicado no arquivo real. Os
+5 relatórios derivados foram regenerados.
