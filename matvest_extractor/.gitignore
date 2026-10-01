@@ -1,0 +1,7 @@
+banco_matvest.db
+*.db
+teste_*.txt
+relatorio_*.txt
+resumo_*.txt
+figuras/
+resumos_imagens/
